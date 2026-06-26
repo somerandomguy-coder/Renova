@@ -11,9 +11,9 @@ const translations = {
   vi: {
     title: "Cổng Đăng ký ",
     titleHighlight: "Hợp tác",
-    subtitle: "Lựa chọn phân hệ phù hợp để tham gia chuỗi giá trị tuần hoàn cùng RENOVA. Hệ thống sẽ gửi email xác nhận ngay lập tức sau khi tiếp nhận thông tin.",
+    subtitle: "Lựa chọn phân hệ phù hợp để tham gia chuỗi giá trị tuần hoàn cùng RENOVA. Chúng tôi sẽ liên hệ lại ngay sau khi tiếp nhận thông tin.",
     successTitle: "Đăng ký Thành công!",
-    successDesc: "Hệ thống tự động đã gửi email phản hồi bằng hai ngôn ngữ (Anh/Việt) về hòm thư {email}. Vui lòng kiểm tra hộp thư đến của bạn.",
+    successDesc: "Cảm ơn bạn đã đăng ký thông tin hợp tác với RENOVA. Chúng tôi đã tiếp nhận thông tin và sẽ liên hệ lại qua email {email} trong thời gian sớm nhất.",
     infoReceived: "Thông tin đã tiếp nhận:",
     companyLabel: "• Doanh nghiệp: ",
     contactLabel: "• Người đại diện: ",
@@ -59,9 +59,9 @@ const translations = {
   en: {
     title: "Cooperation ",
     titleHighlight: "Register",
-    subtitle: "Select the appropriate module to participate in the circular value chain with RENOVA. A confirmation email will be sent immediately upon receiving your submission.",
+    subtitle: "Select the appropriate module to participate in the circular value chain with RENOVA. We will contact you soon after receiving your submission.",
     successTitle: "Registration Success!",
-    successDesc: "Our automated system has sent a bilingual (EN/VI) response email to your inbox at {email}. Please check your email.",
+    successDesc: "Thank you for registering your cooperation information with RENOVA. We have received your submission and will contact you via email at {email} as soon as possible.",
     infoReceived: "Received Information:",
     companyLabel: "• Company: ",
     contactLabel: "• Representative: ",
@@ -145,6 +145,19 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
     address: ""
   });
 
+  const parseErrorMessage = (detail: any): string => {
+    if (!detail) return t.failMsg;
+    if (typeof detail === "string") return detail;
+    if (Array.isArray(detail)) {
+      return detail.map((err: any) => {
+        const fieldName = err.loc ? err.loc[err.loc.length - 1] : "";
+        const msg = err.msg || "Invalid input";
+        return `${fieldName ? `${fieldName}: ` : ""}${msg}`;
+      }).join(", ");
+    }
+    return typeof detail === "object" ? JSON.stringify(detail) : String(detail);
+  };
+
   const handleEprSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -160,7 +173,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
         setSuccessData({ type: "epr", data });
       } else {
         const errDetail = await response.json();
-        throw new Error(errDetail.detail || t.failMsg);
+        throw new Error(parseErrorMessage(errDetail.detail));
       }
     } catch (err: any) {
       setError(err.message || t.connError);
@@ -184,7 +197,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
         setSuccessData({ type: "green", data });
       } else {
         const errDetail = await response.json();
-        throw new Error(errDetail.detail || t.failMsg);
+        throw new Error(parseErrorMessage(errDetail.detail));
       }
     } catch (err: any) {
       setError(err.message || t.connError);
@@ -208,7 +221,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
         setSuccessData({ type: "collector", data });
       } else {
         const errDetail = await response.json();
-        throw new Error(errDetail.detail || t.failMsg);
+        throw new Error(parseErrorMessage(errDetail.detail));
       }
     } catch (err: any) {
       setError(err.message || t.connError);
