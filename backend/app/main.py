@@ -9,6 +9,11 @@ import app.models as models
 import app.schemas as schemas
 from app.services.calculators import run_esg_calculations, run_epr_calculations
 from app.services.emails import send_bilingual_confirmation_email
+from app.services.spreadsheets import (
+    log_epr_partner_registration,
+    log_green_project_registration,
+    log_collector_registration
+)
 
 # Initialize database tables
 Base.metadata.create_all(bind=engine)
@@ -89,6 +94,21 @@ def register_epr_partner(partner: schemas.EPRPartnerCreate, db: Session = Depend
         db.commit()
         db.refresh(db_partner)
         
+        # Log to local CSV spreadsheet
+        try:
+            log_epr_partner_registration(
+                id_val=db_partner.id,
+                company_name=db_partner.company_name,
+                contact_name=db_partner.contact_name,
+                email=db_partner.email,
+                phone=db_partner.phone,
+                annual_plastic_waste=db_partner.annual_plastic_waste,
+                needs_epr_cert=db_partner.needs_epr_cert,
+                created_at=db_partner.created_at
+            )
+        except Exception as csv_err:
+            print(f"[CSV LOG ERROR] Failed to log EPR partner to CSV: {str(csv_err)}")
+        
         # Trigger email notification
         send_bilingual_confirmation_email(
             to_email=db_partner.email,
@@ -129,6 +149,21 @@ def register_green_project(project: schemas.GreenProjectCreate, db: Session = De
         db.commit()
         db.refresh(db_project)
         
+        # Log to local CSV spreadsheet
+        try:
+            log_green_project_registration(
+                id_val=db_project.id,
+                contact_name=db_project.contact_name,
+                email=db_project.email,
+                phone=db_project.phone,
+                surface_area=db_project.surface_area,
+                location=db_project.location,
+                ventilation_consult=db_project.ventilation_consult,
+                created_at=db_project.created_at
+            )
+        except Exception as csv_err:
+            print(f"[CSV LOG ERROR] Failed to log Green Project to CSV: {str(csv_err)}")
+        
         # Trigger email notification
         send_bilingual_confirmation_email(
             to_email=db_project.email,
@@ -167,6 +202,20 @@ def register_collector(collector: schemas.CollectorCreate, db: Session = Depends
         db.add(db_collector)
         db.commit()
         db.refresh(db_collector)
+        
+        # Log to local CSV spreadsheet
+        try:
+            log_collector_registration(
+                id_val=db_collector.id,
+                name=db_collector.name,
+                email=db_collector.email,
+                phone=db_collector.phone,
+                collector_type=db_collector.collector_type,
+                address=db_collector.address,
+                created_at=db_collector.created_at
+            )
+        except Exception as csv_err:
+            print(f"[CSV LOG ERROR] Failed to log Collector to CSV: {str(csv_err)}")
         
         # Trigger email notification
         send_bilingual_confirmation_email(

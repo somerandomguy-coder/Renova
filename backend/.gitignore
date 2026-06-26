@@ -8,3 +8,10 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Local registration CSVs (spreadsheets)
+*.csv
+
+# Mock emails
+mock_emails/
+
