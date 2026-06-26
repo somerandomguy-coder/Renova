@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RENOVA Circular - Vietnamese Font Comparison Playground</title>
+  
+  <!-- Google Fonts Imports supporting Vietnamese -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Original 8 fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@100..900&family=Lexend:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&display=swap&subset=vietnamese" rel="stylesheet">
+  <!-- NEW fonts batch -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Manrope:wght@200..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Quicksand:wght@300..700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap&subset=vietnamese" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #FAF8F5; /* Soft Warm Off-white */
+      --text-color: #1D1815; /* Deep Espresso Warm Charcoal */
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-border: rgba(145, 71, 36, 0.12); /* Subtle Warm Border */
+      --accent-color: #914724; /* Primary Clay Brown */
+      --accent-hover: #733316;
+      --accent-secondary: #b45309; /* Gold/Amber */
+      --muted-text: #78726d; /* Muted Slate Clay Gray */
+      --font-size: 1.8rem;
+      --font-weight: 800;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #14100e; /* Espresso Dark */
+      --text-color: #FAF8F5; /* Warm White Text */
+      --card-bg: rgba(29, 24, 21, 0.88); /* Espresso Card Bg */
+      --card-border: rgba(145, 71, 36, 0.25);
+      --muted-text: #a6a09b; /* Light Clay Muted Text */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+      padding: 2.5rem 1.5rem;
+      min-height: 100vh;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: 0 auto 3rem auto;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #914724 0%, #b45309 50%, #d97736 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: var(--muted-text);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* CONTROL PANEL */
+    .controls {
+      max-width: 1200px;
+      margin: 0 auto 2.5rem auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
+      backdrop-filter: blur(10px);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .controls {
+        grid-template-columns: 2fr 1fr 1fr;
+      }
+    }
+
+    .control-group {
+      display: flex;
+      flex-col: column;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .control-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-color);
+    }
+
+    .control-group input[type="text"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--card-border);
+      border-radius: 0.75rem;
+      background: rgba(0,0,0,0.02);
+      color: var(--text-color);
+      font-size: 1rem;
+      font-weight: 500;
+      outline: none;
+    }
+
+    .control-group input[type="text"]:focus {
+      border-color: var(--accent-color);
+      background: rgba(145, 71, 36, 0.03);
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .slider-row span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      width: 3.5rem;
+      text-align: right;
+    }
+
+    input[type="range"] {
+      flex-grow: 1;
+      accent-color: var(--accent-color);
+      cursor: pointer;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--card-border);
+      border-radius: 0.75rem;
+      background: transparent;
+      color: var(--text-color);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    button.active, button:hover {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+
+    /* GRID OF FONTS */
+    .font-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .font-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .font-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent-color);
+    }
+
+    .font-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px dashed var(--card-border);
+      padding-bottom: 1rem;
+    }
+
+    .font-name-info h2 {
+      font-size: 1.4rem;
+      font-weight: 900;
+    }
+
+    .font-name-info p {
+      font-size: 0.8rem;
+      color: var(--muted-text);
+      margin-top: 0.2rem;
+    }
+
+    .tag-vn {
+      background: rgba(145, 71, 36, 0.08);
+      color: var(--accent-color);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(145, 71, 36, 0.15);
+    }
+
+    /* PREVIEWS */
+    .preview-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .preview-header {
+      line-height: 1.25;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .preview-body {
+      font-size: 1rem;
+      line-height: 1.6;
+      font-weight: 400;
+      color: var(--text-color);
+      opacity: 0.95;
+    }
+
+    .test-cases {
+      background: rgba(0,0,0,0.02);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .test-cases-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted-text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .diacritic-grid {
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      line-height: 1.8;
+      word-break: break-all;
+    }
+
+    .code-box {
+      background: rgba(0,0,0,0.04);
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-color);
+    }
+
+    .code-box button {
+      padding: 0.2rem 0.5rem;
+      font-size: 0.7rem;
+      border-radius: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>RENOVA Circular - Typography Lab</h1>
+    <p>
+      Trình duyệt so sánh các phông chữ Google Fonts chất lượng cao hỗ trợ đầy đủ ký tự Tiếng Việt (bao gồm cả các dấu phụ phức tạp ghép đôi như <i>ế, ồ, ự</i> và chữ <i>đ</i>). Hãy xem phông chữ nào hiển thị di sản vững chắc, sắc nét và chuyên nghiệp nhất!
+    </p>
+  </header>
+
+  <div class="controls">
+    <div class="control-group">
+      <label for="custom-text">Nhập văn bản thử nghiệm của bạn</label>
+      <input type="text" id="custom-text" value="Hành trình chuyển đổi rác thải nhựa đa lớp thành gạch bông gió xanh di sản" placeholder="Nhập văn bản...">
+    </div>
+
+    <div class="control-group">
+      <label>Kích thước chữ và Độ dày</label>
+      <div class="slider-row">
+        <input type="range" id="size-slider" min="1.2" max="3.5" step="0.1" value="1.8">
+        <span id="size-value">1.8rem</span>
+      </div>
+      <div class="slider-row">
+        <input type="range" id="weight-slider" min="300" max="900" step="100" value="800">
+        <span id="weight-value">800</span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label>Giao diện & Tác vụ</label>
+      <div class="btn-row">
+        <button id="theme-toggle">Chế độ tối (Dark Mode)</button>
+        <button id="reset-btn">Mặc định</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="font-grid">
+    <!-- 1. BE VIETNAM PRO -->
+    <div class="font-card" style="font-family: 'Be Vietnam Pro', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Be Vietnam Pro</h2>
+          <p>Thiết kế bởi Tony Le, Vietnhap - Tối ưu hóa đặc biệt cho Tiếng Việt</p>
+        </div>
+        <span class="tag-vn">Đề xuất xuất sắc nhất</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Be Vietnam Pro', sans-serif;</span>
+          <button onclick="copyCSS('\'Be Vietnam Pro\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. INTER -->
+    <div class="font-card" style="font-family: 'Inter', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Inter</h2>
+          <p>Thiết kế bởi Rasmus Andersson - Tiêu chuẩn vàng giao diện công nghệ</p>
+        </div>
+        <span class="tag-vn">Cực kỳ Hiện đại & Sạch</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Inter', sans-serif;</span>
+          <button onclick="copyCSS('\'Inter\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. PLUS JAKARTA SANS -->
+    <div class="font-card" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Plus Jakarta Sans</h2>
+          <p>Thiết kế bởi Gara Type - Sang trọng, phóng khoáng, hiện đại</p>
+        </div>
+        <span class="tag-vn">Tuyệt vời cho Khối hình</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Plus Jakarta Sans', sans-serif;</span>
+          <button onclick="copyCSS('\'Plus Jakarta Sans\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. OUTFIT -->
+    <div class="font-card" style="font-family: 'Outfit', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Outfit</h2>
+          <p>Thiết kế bởi Brand New School - Hình học đối xứng cao cấp</p>
+        </div>
+        <span class="tag-vn">Dáng Bold rất Đẹp</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Outfit', sans-serif;</span>
+          <button onclick="copyCSS('\'Outfit\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. MONTSERRAT -->
+    <div class="font-card" style="font-family: 'Montserrat', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Montserrat</h2>
+          <p>Thiết kế bởi Julieta Ulanovsky - Mạnh mẽ, góc cạnh cổ điển</p>
+        </div>
+        <span class="tag-vn">Đậm nét & Vững chãi</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Montserrat', sans-serif;</span>
+          <button onclick="copyCSS('\'Montserrat\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. LEXEND -->
+    <div class="font-card" style="font-family: 'Lexend', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Lexend</h2>
+          <p>Thiết kế bởi Thomas Jockin - Khoa học tối ưu hóa tốc độ đọc</p>
+        </div>
+        <span class="tag-vn">Dễ đọc nhất</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Lexend', sans-serif;</span>
+          <button onclick="copyCSS('\'Lexend\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. SPACE GROTESK -->
+    <div class="font-card" style="font-family: 'Space Grotesk', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Space Grotesk</h2>
+          <p>Thiết kế bởi Florian Karsten - Phong cách công nghệ, R&D khác biệt</p>
+        </div>
+        <span class="tag-vn">Hơi hướng Tech/Vật lý</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Space Grotesk', sans-serif;</span>
+          <button onclick="copyCSS('\'Space Grotesk\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. PLAYFAIR DISPLAY -->
+    <div class="font-card" style="font-family: 'Playfair Display', serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Playfair Display (Serif)</h2>
+          <p>Thiết kế bởi Claus Eggers Sørensen - Dấu ấn di sản truyền thống, cổ điển</p>
+        </div>
+        <span class="tag-vn">Phong cách Heritage</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Playfair Display', serif;</span>
+          <button onclick="copyCSS('\'Playfair Display\', serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================== -->
+    <!--  NEW FONTS ADDED BELOW               -->
+    <!-- ====================================== -->
+
+    <!-- 9. NUNITO SANS -->
+    <div class="font-card" style="font-family: 'Nunito Sans', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Nunito Sans</h2>
+          <p>Thiết kế bởi Vernon Adams, Cyreal - Bo tròn mềm mại, thân thiện, chuyên nghiệp</p>
+        </div>
+        <span class="tag-vn">Thân thiện & Sạch</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Nunito Sans', sans-serif;</span>
+          <button onclick="copyCSS('\'Nunito Sans\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. MULISH -->
+    <div class="font-card" style="font-family: 'Mulish', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Mulish</h2>
+          <p>Thiết kế bởi Vernon Adams - Tối giản, thanh lịch kiểu châu Âu</p>
+        </div>
+        <span class="tag-vn">Tối giản Châu Âu</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Mulish', sans-serif;</span>
+          <button onclick="copyCSS('\'Mulish\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. MANROPE -->
+    <div class="font-card" style="font-family: 'Manrope', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Manrope</h2>
+          <p>Thiết kế bởi Mikhail Sharanda - Hình học hiện đại, cân bằng đối xứng hoàn hảo</p>
+        </div>
+        <span class="tag-vn">Hình học Cao cấp</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Manrope', sans-serif;</span>
+          <button onclick="copyCSS('\'Manrope\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. RALEWAY -->
+    <div class="font-card" style="font-family: 'Raleway', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Raleway</h2>
+          <p>Thiết kế bởi Matt McInerney, Pablo Impallari - Thanh mảnh sang trọng, thời trang</p>
+        </div>
+        <span class="tag-vn">Thời trang & Mỏng manh</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Raleway', sans-serif;</span>
+          <button onclick="copyCSS('\'Raleway\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13. SOURCE SANS 3 -->
+    <div class="font-card" style="font-family: 'Source Sans 3', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Source Sans 3</h2>
+          <p>Thiết kế bởi Paul D. Hunt (Adobe) - Font mã nguồn mở đầu tiên của Adobe, chuẩn enterprise</p>
+        </div>
+        <span class="tag-vn">Chuẩn Enterprise</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Source Sans 3', sans-serif;</span>
+          <button onclick="copyCSS('\'Source Sans 3\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14. QUICKSAND -->
+    <div class="font-card" style="font-family: 'Quicksand', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Quicksand</h2>
+          <p>Thiết kế bởi Andrew Paglinawan - Bo tròn hoàn toàn, vui tươi nhưng vẫn sạch sẽ</p>
+        </div>
+        <span class="tag-vn">Tròn trĩnh & Trẻ trung</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Quicksand', sans-serif;</span>
+          <button onclick="copyCSS('\'Quicksand\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15. DM SANS -->
+    <div class="font-card" style="font-family: 'DM Sans', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>DM Sans</h2>
+          <p>Thiết kế bởi Colophon Foundry (DeepMind) - Hình học thấp, chuyên nghiệp ứng dụng SaaS</p>
+        </div>
+        <span class="tag-vn">SaaS & Ứng dụng</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'DM Sans', sans-serif;</span>
+          <button onclick="copyCSS('\'DM Sans\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 16. BARLOW -->
+    <div class="font-card" style="font-family: 'Barlow', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Barlow</h2>
+          <p>Thiết kế bởi Jeremy Tribby - Lấy cảm hứng từ biển báo California, mạnh mẽ và rộng rãi</p>
+        </div>
+        <span class="tag-vn">Industrial & Mạnh mẽ</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Barlow', sans-serif;</span>
+          <button onclick="copyCSS('\'Barlow\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 17. NOTO SANS -->
+    <div class="font-card" style="font-family: 'Noto Sans', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Noto Sans</h2>
+          <p>Thiết kế bởi Google - Bao phủ MỌI ngôn ngữ, chuẩn quốc tế tuyệt đối</p>
+        </div>
+        <span class="tag-vn">Chuẩn quốc tế #1</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Noto Sans', sans-serif;</span>
+          <button onclick="copyCSS('\'Noto Sans\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18. JOSEFIN SANS -->
+    <div class="font-card" style="font-family: 'Josefin Sans', sans-serif;">
+      <div class="font-meta">
+        <div class="font-name-info">
+          <h2>Josefin Sans</h2>
+          <p>Thiết kế bởi Santiago Orozco - Hình học vintage Scandinavi, dáng cao thanh mảnh</p>
+        </div>
+        <span class="tag-vn">Vintage & Thanh lịch</span>
+      </div>
+      <div class="preview-section">
+        <div class="preview-header text-preview"></div>
+        <div class="preview-body">
+          Dự án RENOVA Circular ứng dụng quy trình tuần hoàn kỹ thuật số để tái chế các sản phẩm nhựa khó phân hủy thành vật liệu xây dựng cao cấp có khả năng cách nhiệt và cách âm vượt trội.
+        </div>
+        <div class="test-cases">
+          <div class="test-cases-title">Kiểm thử dấu phụ phức tạp và chữ Đ:</div>
+          <div class="diacritic-grid">Đường đi khó, không khó vì ngăn sông cách núi. Các chữ ghép dấu: ế ồ ự ả ã ạ ử ữ ỹ.</div>
+        </div>
+        <div class="code-box">
+          <span>font-family: 'Josefin Sans', sans-serif;</span>
+          <button onclick="copyCSS('\'Josefin Sans\', sans-serif')">Copy CSS</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const textInput = document.getElementById('custom-text');
+    const sizeSlider = document.getElementById('size-slider');
+    const sizeValue = document.getElementById('size-value');
+    const weightSlider = document.getElementById('weight-slider');
+    const weightValue = document.getElementById('weight-value');
+    const themeToggle = document.getElementById('theme-toggle');
+    const resetBtn = document.getElementById('reset-btn');
+    const previews = document.querySelectorAll('.text-preview');
+
+    function updatePreviews() {
+      const text = textInput.value;
+      const size = sizeSlider.value + 'rem';
+      const weight = weightSlider.value;
+
+      sizeValue.textContent = size;
+      weightValue.textContent = weight;
+
+      previews.forEach(preview => {
+        preview.textContent = text;
+        preview.style.fontSize = size;
+        preview.style.fontWeight = weight;
+      });
+    }
+
+    // Event listeners
+    textInput.addEventListener('input', updatePreviews);
+    
+    sizeSlider.addEventListener('input', () => {
+      updatePreviews();
+    });
+    
+    weightSlider.addEventListener('input', () => {
+      updatePreviews();
+    });
+
+    themeToggle.addEventListener('click', () => {
+      if (document.body.getAttribute('data-theme') === 'dark') {
+        document.body.removeAttribute('data-theme');
+        themeToggle.textContent = 'Chế độ tối (Dark Mode)';
+      } else {
+        document.body.setAttribute('data-theme', 'dark');
+        themeToggle.textContent = 'Chế độ sáng (Light Mode)';
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      textInput.value = "Hành trình chuyển đổi rác thải nhựa đa lớp thành gạch bông gió xanh di sản";
+      sizeSlider.value = 1.8;
+      weightSlider.value = 800;
+      updatePreviews();
+    });
+
+    function copyCSS(fontFamily) {
+      const cssString = `font-family: ${fontFamily};`;
+      navigator.clipboard.writeText(cssString).then(() => {
+        alert(`Đã copy: ${cssString}`);
+      }).catch(err => {
+        console.error('Không thể copy:', err);
+      });
+    }
+
+    // Initial load
+    updatePreviews();
+  </script>
+</body>
+</html>

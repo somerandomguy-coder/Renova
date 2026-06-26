@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: var(--font-be-vietnam-pro), sans-serif;
+  --font-body: var(--font-be-vietnam-pro), sans-serif;
 
   /* Theme Brand Colors (Earthy warm theme matching Logo clay) */
   --color-brand-primary: hsl(22 50% 38%);       /* Clay Brown #914724 */
