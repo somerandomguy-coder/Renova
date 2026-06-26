@@ -1,0 +1,36 @@
+Subject: RENOVA: Xác nhận Đăng ký Tư vấn Công trình Xanh / Green Project Design Consultation Confirmation
+To: arch@test.com
+============================================================
+[TIẾNG VIỆT / VIETNAMESE]
+
+        Chào Architect Test,
+        
+        Cảm ơn bạn đã đăng ký tư vấn giải pháp gạch bông gió di sản RENOVA cho công trình xanh của mình.
+        
+        Chúng tôi đã ghi nhận các thông tin sau:
+        - Diện tích bề mặt lắp đặt: 120.0 m²
+        - Địa điểm thi công: Hanoi, Vietnam
+        - Yêu cầu tư vấn thiết kế thông gió: Có
+        
+        Đội ngũ kỹ thuật của RENOVA sẽ liên hệ để gửi các phương án thiết kế thông gió thụ động và cách nhiệt phù hợp nhất với dự án của bạn.
+        
+        Trân trọng,
+        Đội ngũ RENOVA Circular.
+        
+============================================================
+[ENGLISH / TIẾNG ANH]
+
+        Dear Architect Test,
+        
+        Thank you for requesting a consultation on RENOVA's heritage breeze block solutions for your green project.
+        
+        We have recorded the following details:
+        - Surface Area for Installation: 120.0 m²
+        - Construction Location: Hanoi, Vietnam
+        - Passively ventilated design request: Yes
+        
+        RENOVA's engineering team will reach out to provide you with custom passive ventilation and thermal insulation design proposals tailored to your project.
+        
+        Best regards,
+        The RENOVA Circular Team.
+        

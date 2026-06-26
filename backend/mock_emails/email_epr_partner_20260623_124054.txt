@@ -1,0 +1,36 @@
+Subject: RENOVA: Xác nhận Đăng ký Tư vấn Đối tác EPR / EPR Partnership Consultation Confirmation
+To: test@company.com
+============================================================
+[TIẾNG VIỆT / VIETNAMESE]
+
+        Chào Test Contact,
+        
+        Cảm ơn công ty Test Company đã đăng ký tư vấn giải pháp xử lý rác thải nhựa EPR cùng RENOVA.
+        
+        Chúng tôi đã ghi nhận các thông tin sau:
+        - Tên công ty: Test Company
+        - Sản lượng rác thải nhựa phát sinh hàng năm: 1500.0 kg
+        - Nhu cầu ký kết chứng nhận EPR: Có
+        
+        Đội ngũ RENOVA sẽ liên hệ với bạn trong vòng 24-48 giờ làm việc để trao đổi về quy trình thu gom, tái chế và cấp chứng chỉ ESG/EPR điện tử.
+        
+        Trân trọng,
+        Đội ngũ RENOVA Circular.
+        
+============================================================
+[ENGLISH / TIẾNG ANH]
+
+        Dear Test Contact,
+        
+        Thank you, Test Company, for registering for the EPR plastic waste solution consultation with RENOVA.
+        
+        We have recorded the following details:
+        - Company Name: Test Company
+        - Annual Plastic Waste Generated: 1500.0 kg
+        - Need for EPR certification: Yes
+        
+        The RENOVA team will contact you within 24-48 business hours to discuss the collection, recycling process, and the issuance of your digital ESG/EPR certificate.
+        
+        Best regards,
+        The RENOVA Circular Team.
+        

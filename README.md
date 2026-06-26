@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RENOVA Circular: Digital ESG & EPR Platform
 
-## Getting Started
+**RENOVA Circular** is a digital platform designed to digitalize circular economy models, offering visual forecasts of ecological impacts and financial benefits for enterprises. The platform showcases how hard-to-recycle multi-layer plastics (MLP) and agricultural husks are processed into ecological building materials (e.g., breeze blocks) that can be offset against corporate Extended Producer Responsibility (EPR) obligations.
 
-First, run the development server:
+---
 
+## 🚀 Key Features
+
+*   **ESG Environmental Impact Calculator:** Computes CO2 reduction and equivalent trees saved based on the quantity of eco-friendly building blocks. Includes dynamic, scroll-triggered visual charts (using Recharts).
+*   **EPR Cashflow Optimization Engine:** Minimizes government-mandated EPR fees by calculating the exact discount and net cash benefit of investing in RENOVA building materials to offset packaging waste.
+*   **R&D Specifications Showcase:** Interactive library featuring material composition, compressive strength, UV certifications, and water absorption rates of different R&D generations.
+*   **Closed-Loop Stepper:** Visualizes the 4-step logistics chain—from sourcing multi-layer plastic from factories, to transport, green block fabrication, and digital ESG cert validation.
+*   **Dual Frontend Deployments:**
+    1.  **Next.js Web Application:** Fully responsive app built with Next.js 14, React, and TypeScript.
+    2.  **Standalone HTML Preview (`renova_demo.html`):** A single self-contained document using CDN libraries (Chart.js, Lucide Icons) for instant client-side testing with zero dependencies.
+
+---
+
+## 🛠️ Technology Stack
+
+*   **Core Frontend:** Next.js (App Router), React, TypeScript.
+*   **Visual Charts:** Recharts (React version) & Chart.js (HTML version).
+*   **Icons:** Lucide Icons.
+*   **Styling:** Vanilla CSS, CSS Modules, HSL color tokens, glassmorphism, and custom scroll-triggered keyframe animations.
+*   **Design System:** Sleek light/eco theme with alternating dark sections for high contrast readability.
+
+---
+
+## 💻 Local Setup & Execution
+
+### 1. Running the Next.js Web App
+Navigate to the frontend folder, install dependencies, and start the development server:
 ```bash
+cd frontend
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Open [http://localhost:3000](http://localhost:3000) in your web browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 2. Standalone HTML Preview
+Double-click `renova_demo.html` in the project root to open it directly in any web browser, or serve it locally.

@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RENOVA Circular - ESG & EPR Platform (Interactive Demo)</title>
+  <link rel="icon" type="image/png" href="frontend/public/Logo.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CDNs for Icons & Charts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+
+      /* Premium Light/Bright Warm Eco-Friendly Color Palette (Logo Earthy Clay) */
+      --bg-dark: 22 15% 97.5%;            /* Soft Warm Off-white (#FAF8F5) */
+      --bg-card: 0 0% 100%;             /* Pure White for Card Content (#ffffff) */
+      --primary: 22 50% 38%;            /* Earthy Brown / Clay Logo Color (#914724) */
+      --secondary: 35 85% 42%;          /* Gold/Amber (#b45309) */
+      --accent: 22 65% 55%;             /* Light Clay/Orange (#d97736) */
+      --text-primary: 22 30% 12%;       /* Deep Espresso Warm Charcoal (#1d1815) */
+      --text-muted: 22 12% 45%;         /* Muted Slate Clay Gray (#78726d) */
+      --border-color: 22 15% 88%;       /* Subtle warm border (#e6e1dd) */
+      
+      --shadow-glow: 0 10px 30px rgba(145, 71, 36, 0.08);
+      --shadow-glow-accent: 0 10px 30px rgba(180, 83, 9, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: hsl(var(--bg-dark));
+      color: hsl(var(--text-primary));
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading);
+      letter-spacing: -0.02em;
+      font-weight: 700;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: hsl(var(--bg-dark));
+    }
+    ::-webkit-scrollbar-thumb {
+      background: hsl(var(--border-color));
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: hsl(var(--primary));
+    }
+
+    /* Layout Utilities */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text-gold {
+      background: linear-gradient(135deg, hsl(var(--accent)) 0%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(145, 71, 36, 0.2);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    /* Animations */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes infinite-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .glow-bg {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(145, 71, 36, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(40px);
+      animation: pulse-glow 8s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    /* Partner Logo Carousel */
+    .carousel-wrapper {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+
+    .carousel-wrapper::before,
+    .carousel-wrapper::after {
+      content: "";
+      height: 100%;
+      position: absolute;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .carousel-wrapper::before {
+      left: 0;
+      top: 0;
+      background: linear-gradient(to right, hsl(var(--bg-dark)) 0%, transparent 100%);
+    }
+
+    .carousel-wrapper::after {
+      right: 0;
+      top: 0;
+      background: linear-gradient(to left, hsl(var(--bg-dark)) 0%, transparent 100%);
+    }
+
+    .logo-carousel {
+      display: flex;
+      width: max-content;
+      animation: infinite-scroll 25s linear infinite;
+    }
+
+    .logo-carousel:hover {
+      animation-play-state: paused;
+    }
+
+    .logo-item {
+      width: 250px;
+      padding: 0 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      filter: grayscale(1) opacity(0.6);
+      transition: all 0.3s ease;
+    }
+
+    .logo-item:hover {
+      filter: grayscale(0) opacity(1);
+    }
+
+    /* Header & Navigation Menu styling */
+    header {
+      background: rgba(244, 247, 245, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: hsl(var(--text-muted));
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      font-family: var(--font-heading);
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: hsl(var(--primary));
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(145, 71, 36, 0.2);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(145, 71, 36, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: hsl(var(--text-primary));
+      border: 1px solid hsl(var(--border-color));
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Sections Styling */
+    section {
+      padding: 100px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      font-size: 40px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      font-size: 18px;
+      color: hsl(var(--text-muted));
+      text-align: center;
+      margin-bottom: 60px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Stepper styles */
+    .stepper-container {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-bottom: 50px;
+    }
+
+    .stepper-line {
+      position: absolute;
+      top: 24px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: hsl(var(--border-color));
+      z-index: 1;
+    }
+
+    .stepper-line-progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)));
+      transition: width 0.4s ease;
+    }
+
+    .stepper-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      width: 120px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .stepper-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: hsl(var(--bg-card));
+      border: 2px solid hsl(var(--border-color));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: hsl(var(--text-muted));
+      transition: all 0.3s ease;
+    }
+
+    .stepper-step.active .stepper-icon {
+      border-color: hsl(var(--primary));
+      color: hsl(var(--primary));
+      box-shadow: var(--shadow-glow);
+    }
+
+    .stepper-step.completed .stepper-icon {
+      border-color: hsl(var(--primary));
+      background: hsl(var(--primary));
+      color: #fff;
+    }
+
+    .stepper-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 12px;
+      color: hsl(var(--text-muted));
+      font-family: var(--font-heading);
+    }
+
+    .stepper-step.active .stepper-label,
+    .stepper-step.completed .stepper-label {
+      color: hsl(var(--text-primary));
+    }
+
+    /* Modal styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* Forms & Tabs styling */
+    .form-tabs {
+      display: flex;
+      border-bottom: 1px solid hsl(var(--border-color));
+    }
+
+    .form-tab-btn {
+      flex: 1;
+      padding: 20px;
+      border: none;
+      background: transparent;
+      color: hsl(var(--text-muted));
+      cursor: pointer;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-family: var(--font-heading);
+      transition: all 0.3s ease;
+    }
+
+    .form-tab-btn.active {
+      background: rgba(255,255,255,0.02);
+      color: hsl(var(--primary));
+      border-bottom: 3px solid hsl(var(--primary));
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid hsl(var(--border-color));
+      background: rgba(255,255,255,0.02);
+      color: #fff;
+      outline: none;
+      font-size: 15px;
+      font-family: var(--font-body);
+      margin-top: 6px;
+    }
+
+    .team-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 32px 24px;
+    }
+
+    .team-contact-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 16px 0;
+      background: linear-gradient(0deg, rgba(9, 12, 11, 0.98) 70%, transparent 100%);
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .team-card:hover .team-contact-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive grid styles */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+      .section-title {
+        font-size: 30px;
+      }
+    }
+
+    /* --- DARK SECTION ALTERNATING SYSTEM --- */
+    .dark-section {
+      background: linear-gradient(135deg, #090c0b 0%, #111815 100%) !important;
+      color: rgba(255, 255, 255, 0.85) !important;
+    }
+
+    .dark-section h1,
+    .dark-section h2,
+    .dark-section h3,
+    .dark-section h4,
+    .dark-section h5,
+    .dark-section h6,
+    .dark-section .section-title {
+      color: #ffffff !important;
+    }
+
+    .dark-section .section-subtitle {
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    .dark-section p,
+    .dark-section span {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .dark-section .glass-card {
+      background: rgba(255, 255, 255, 0.03) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #ffffff !important;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    .dark-section .glass-card:hover {
+      border-color: rgba(16, 185, 129, 0.3) !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+      box-shadow: 0 15px 35px rgba(5, 150, 105, 0.15) !important;
+    }
+
+    .dark-section .glass-card h1,
+    .dark-section .glass-card h2,
+    .dark-section .glass-card h3,
+    .dark-section .glass-card h4,
+    .dark-section .glass-card h5,
+    .dark-section .glass-card h6 {
+      color: #ffffff !important;
+    }
+
+    .dark-section .glass-card p,
+    .dark-section .glass-card span {
+      color: rgba(255, 255, 255, 0.65) !important;
+    }
+
+    .dark-section .btn-secondary {
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .dark-section .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    /* Timeline specific overrides in dark section */
+    .dark-section .timeline-dot {
+      background: hsl(var(--bg-card)) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Stepper specific overrides in dark section */
+    .dark-section .stepper-icon {
+      background: #111815 !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    .dark-section .stepper-step.active .stepper-icon {
+      border-color: hsl(var(--primary)) !important;
+      color: hsl(var(--primary)) !important;
+    }
+
+    .dark-section .stepper-step.completed .stepper-icon {
+      border-color: hsl(var(--primary)) !important;
+      background: hsl(var(--primary)) !important;
+      color: #ffffff !important;
+    }
+
+    .dark-section .stepper-label {
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    .dark-section .stepper-step.active .stepper-label,
+    .dark-section .stepper-step.completed .stepper-label {
+      color: #ffffff !important;
+    }
+
+    .dark-section .stepper-line {
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header>
+    <div class="container nav-container">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="frontend/public/Logo.jpeg" alt="RENOVA Logo" style="height: 36px; width: auto; border-radius: 6px; object-fit: contain;">
+        <span style="font-size: 10px; font-weight: 700; color: hsl(var(--text-muted)); border: 1px solid hsl(var(--border-color)); padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">
+          Circular
+        </span>
+      </div>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#trang-chu" class="nav-link" data-translate="navAbout">Giới thiệu</a></li>
+          <li><a href="#tam-nhin-esg" class="nav-link" data-translate="navEsg">Tầm nhìn ESG</a></li>
+          <li><a href="#thu-vien-rd" class="nav-link" data-translate="navRd">R&D</a></li>
+          <li><a href="#tinh-toan" class="nav-link" data-translate="navCalc">Công cụ ESG</a></li>
+          <li><a href="#quy-trinh-epr" class="nav-link" data-translate="navEpr">Quy trình EPR</a></li>
+          <li><a href="#doi-ngu" class="nav-link" data-translate="navTeam">Về chúng tôi</a></li>
+          <li><a href="#thanh-tuu" class="nav-link" data-translate="navAwards">Bảng vàng</a></li>
+        </ul>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <!-- Language Selector Toggle -->
+        <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.03); padding: 4px 8px; border-radius: 20px; border: 1px solid hsl(var(--border-color));">
+          <button 
+            onclick="changeLang('vi')"
+            id="btn-lang-vi"
+            style="background: hsl(var(--primary)); color: #fff; border: none; border-radius: 12px; padding: 4px 8px; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.2s;"
+          >
+            VI
+          </button>
+          <button 
+            onclick="changeLang('en')"
+            id="btn-lang-en"
+            style="background: transparent; color: hsl(var(--text-muted)); border: none; border-radius: 12px; padding: 4px 8px; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.2s;"
+          >
+            EN
+          </button>
+        </div>
+
+        <a href="#dang-ky" class="btn-primary" id="headerCta" style="padding: 10px 20px; font-size: 14px;" data-translate="headerCta">
+          Hợp tác ngay
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 80px;">
+    
+    <!-- Hero Section -->
+    <section id="trang-chu" style="position: relative; overflow: hidden; min-height: 90vh; display: flex; align-items: center; padding: 80px 0;">
+      <!-- Background Looping Eco Video -->
+      <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); z-index: 0; opacity: 0.65;">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-wind-blowing-in-green-leaves-42352-large.mp4" type="video/mp4" />
+      </video>
+
+      <!-- Light Backdrop Overlay -->
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(244, 247, 245, 0.95) 0%, rgba(255, 255, 255, 0.88) 100%); z-index: 1;"></div>
+
+      <div class="container" style="position: relative; z-index: 2; width: 100%; display: flex; justify-content: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px; max-width: 800px;">
+          
+          <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 150, 105, 0.06); border: 1px solid rgba(5, 150, 105, 0.15); padding: 8px 18px; border-radius: 30px; width: fit-content;">
+            <i data-lucide="leaf" style="width: 14px; height: 14px; color: hsl(var(--primary));"></i>
+            <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; color: hsl(var(--primary)); font-family: var(--font-heading);" data-translate="heroLabel">
+              Dự án RENOVA Circular
+            </span>
+          </div>
+          
+          <h1 style="font-size: 64px; line-height: 1.1; font-weight: 900; color: hsl(var(--text-primary)); letter-spacing: -0.03em;" data-translate="heroTitle">
+            Trash to <span class="gradient-text">Heritage</span>
+          </h1>
+          
+          <p style="font-size: 20px; line-height: 1.7; color: hsl(var(--text-muted)); max-width: 680px;" data-translate="heroDesc">
+            Quy trình kinh tế tuần hoàn số hóa đột phá. Chúng tôi chuyển đổi rác thải 
+            nhựa đa lớp (MLP) "bất tử" kết hợp phế phẩm vỏ trấu nông nghiệp thành 
+            gạch bông gió di sản xanh đẳng cấp—cách âm, cách nhiệt chủ động.
+          </p>
+          
+          <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 8px;">
+            <a href="#dang-ky" class="btn-primary" data-translate="heroCtaEpr">
+              Đăng ký tư vấn EPR
+              <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>
+            </a>
+            <a href="#tinh-toan" class="btn-secondary" data-translate="heroCtaEsg">
+              Công cụ tính toán ESG
+              <i data-lucide="file-text" style="width: 18px; height: 18px;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESG Vision Card Section -->
+    <section id="tam-nhin-esg">
+      <div class="container">
+        <h2 class="section-title" data-translate="esgTitle">Định vị & Sứ mệnh <span class="gradient-text">ESG</span></h2>
+        <p class="section-subtitle" data-translate="esgSubtitle">
+          RENOVA kiến tạo giải pháp vật liệu xây dựng tuần hoàn, giải quyết triệt để 
+          các thách thức về môi trường và phát triển cộng đồng bền vững.
+        </p>
+
+        <div class="grid-3">
+          <!-- Environmental -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 20px; position: relative; overflow: hidden;">
+            <div style="position: absolute; right: -20px; bottom: -30px; font-size: 150px; font-weight: 900; color: rgba(255, 255, 255, 0.02); user-select: none; font-family: var(--font-heading);">E</div>
+            <div style="display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 14px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3);">
+              <i data-lucide="leaf" style="width: 32px; height: 32px; color: hsl(var(--primary));"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 22px; margin-bottom: 12px;" data-translate="esgETitle">Environmental (Môi trường)</h3>
+              <p style="color: hsl(var(--text-muted)); line-height: 1.6; font-size: 15px;" data-translate="esgEDesc">
+                Khát vọng giải cứu dòng rác thải "bất tử" nhựa đa lớp (MLP) và tận dụng phế phẩm nông nghiệp (Vỏ trấu) làm cốt liệu nền polymer sinh thái bền bỉ.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Social -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 20px; position: relative; overflow: hidden;">
+            <div style="position: absolute; right: -20px; bottom: -30px; font-size: 150px; font-weight: 900; color: rgba(255, 255, 255, 0.02); user-select: none; font-family: var(--font-heading);">S</div>
+            <div style="display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 14px; background: rgba(13, 148, 136, 0.15); border: 1px solid rgba(13, 148, 136, 0.3);">
+              <i data-lucide="users" style="width: 32px; height: 32px; color: hsl(var(--secondary));"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 22px; margin-bottom: 12px;" data-translate="esgSTitle">Social (Xã hội)</h3>
+              <p style="color: hsl(var(--text-muted)); line-height: 1.6; font-size: 15px;" data-translate="esgSDesc">
+                Kiến tạo giải pháp làm mát thụ động cho nhà ở xã hội và các vùng nóng bức, đồng thời bảo tồn nét đẹp Á Đông nhờ bông gió di sản độc đáo.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Governance -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 20px; position: relative; overflow: hidden;">
+            <div style="position: absolute; right: -20px; bottom: -30px; font-size: 150px; font-weight: 900; color: rgba(255, 255, 255, 0.02); user-select: none; font-family: var(--font-heading);">G</div>
+            <div style="display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 14px; background: rgba(217, 119, 6, 0.15); border: 1px solid rgba(217, 119, 6, 0.3);">
+              <i data-lucide="shield-check" style="width: 32px; height: 32px; color: hsl(var(--accent));"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 22px; margin-bottom: 12px;" data-translate="esgGTitle">Governance (Quản trị)</h3>
+              <p style="color: hsl(var(--text-muted)); line-height: 1.6; font-size: 15px;" data-translate="esgGDesc">
+                Cam kết minh bạch dòng rác, dòng tiền và kiểm định chất lượng nghiêm ngặt thông qua sổ cái số hóa, hướng tới tiêu chuẩn phát thải âm carbon.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Timeline Section -->
+    <section id="hanh-trinh" class="dark-section">
+      <div class="container">
+        <h2 class="section-title" data-translate="journeyTitle">Hành trình <span class="gradient-text">RENOVA</span></h2>
+        <p class="section-subtitle" data-translate="journeySubtitle">
+          Từ nghiên cứu hạt nhựa thử nghiệm trong phòng Lab Đại học Bách Khoa đến các chứng nhận chất lượng quốc tế và sẵn sàng thương mại hóa.
+        </p>
+
+        <div style="max-width: 800px; margin: 0 auto; position: relative; padding: 20px 0;">
+          <!-- Center lines -->
+          <div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: rgba(255, 255, 255, 0.1); transform: translateX(-50%); z-index: 1;"></div>
+          <div id="timelineProgressLine" style="position: absolute; left: 50%; top: 0; height: 66.6%; width: 2px; background: linear-gradient(to bottom, hsl(var(--primary)), hsl(var(--secondary))); transform: translateX(-50%); z-index: 2; transition: height 0.8s ease;"></div>
+
+          <!-- Milestones wrapper -->
+          <div style="display: flex; flex-direction: column; gap: 64px; position: relative; z-index: 3;">
+            
+            <!-- Step 1 -->
+            <div style="display: flex; justify-content: flex-start; width: 100%; position: relative;">
+              <div onclick="selectTimelineStep(0)" class="timeline-dot" id="dot-0" style="position: absolute; left: 50%; top: 24px; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary))); border: 3px solid rgba(255,255,255,0.2); transform: translateX(-50%); display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; transition: all 0.3s ease;">
+                <i data-lucide="beaker" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div onclick="selectTimelineStep(0)" class="glass-card timeline-card" id="card-0" style="width: 42%; padding: 24px; cursor: pointer; text-align: right; transition: all 0.3s ease;">
+                <span style="font-size: 12px; color: hsl(var(--primary)); font-weight: 700;" data-translate="journeyTime1">2023 - 2024</span>
+                <h3 style="font-size: 20px; margin-top: 4px; margin-bottom: 8px;" data-translate="journeyTitle1">Nghiên cứu Lab</h3>
+                <p style="font-size: 14px; color: hsl(var(--text-muted)); line-height: 1.6;" data-translate="journeyDesc1">Tổng hợp hạt composite polymer nền kết hợp vỏ trấu gia cường.</p>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div style="display: flex; justify-content: flex-end; width: 100%; position: relative;">
+              <div onclick="selectTimelineStep(1)" class="timeline-dot" id="dot-1" style="position: absolute; left: 50%; top: 24px; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary))); border: 3px solid rgba(255,255,255,0.2); transform: translateX(-50%); display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; transition: all 0.3s ease;">
+                <i data-lucide="trophy" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div onclick="selectTimelineStep(1)" class="glass-card timeline-card" id="card-1" style="width: 42%; padding: 24px; cursor: pointer; text-align: left; transition: all 0.3s ease;">
+                <span style="font-size: 12px; color: hsl(var(--primary)); font-weight: 700;" data-translate="journeyTime2">Cuối 2024</span>
+                <h3 style="font-size: 20px; margin-top: 4px; margin-bottom: 8px;" data-translate="journeyTitle2">Đạt giải EPICS 8</h3>
+                <p style="font-size: 14px; color: hsl(var(--text-muted)); line-height: 1.6;" data-translate="journeyDesc2">Đạt giải Ba sáng kiến phục vụ cộng đồng tài trợ bởi ASU & Dow Vietnam.</p>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div style="display: flex; justify-content: flex-start; width: 100%; position: relative;">
+              <div onclick="selectTimelineStep(2)" class="timeline-dot active-dot" id="dot-2" style="position: absolute; left: 50%; top: 24px; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary))); border: 3px solid rgba(255,255,255,0.2); transform: translateX(-50%); display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);">
+                <i data-lucide="shield" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div onclick="selectTimelineStep(2)" class="glass-card timeline-card" id="card-2" style="width: 42%; padding: 24px; cursor: pointer; text-align: right; transition: all 0.3s ease; border-left: 3px solid hsl(var(--primary)); transform: scale(1.02);">
+                <span style="font-size: 12px; color: hsl(var(--primary)); font-weight: 700;" data-translate="journeyTime3">2025</span>
+                <h3 style="font-size: 20px; margin-top: 4px; margin-bottom: 8px;" data-translate="journeyTitle3">Thử nghiệm mẫu V16</h3>
+                <p style="font-size: 14px; color: hsl(var(--text-muted)); line-height: 1.6;" data-translate="journeyDesc3">Độ bền nén 6-8 MPa, độ hút nước cực thấp và khả năng chống tia UV bảo vệ hoàn hảo.</p>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div style="display: flex; justify-content: flex-end; width: 100%; position: relative;">
+              <div onclick="selectTimelineStep(3)" class="timeline-dot" id="dot-3" style="position: absolute; left: 50%; top: 24px; width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, 0.05); border: 3px solid rgba(255, 255, 255, 0.1); transform: translateX(-50%); display: flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, 0.4); cursor: pointer; transition: all 0.3s ease;">
+                <i data-lucide="rocket" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div onclick="selectTimelineStep(3)" class="glass-card timeline-card" id="card-3" style="width: 42%; padding: 24px; cursor: pointer; text-align: left; transition: all 0.3s ease; opacity: 0.6;">
+                <span style="font-size: 12px; color: hsl(var(--text-muted)); font-weight: 700;" data-translate="journeyTime4">2026 - Tương lai</span>
+                <h3 style="font-size: 20px; margin-top: 4px; margin-bottom: 8px;" data-translate="journeyTitle4">Gọi vốn thương mại hóa</h3>
+                <p style="font-size: 14px; color: hsl(var(--text-muted)); line-height: 1.6;" data-translate="journeyDesc4">Nhân rộng sản lượng công nghiệp, liên kết các doanh nghiệp đóng phí EPR và quỹ đầu tư xanh.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- R&D Showcase & Modals Section -->
+    <section id="thu-vien-rd">
+      <div class="container">
+        <h2 class="section-title" data-translate="rdTitle">Thư viện số <span class="gradient-text">Mẫu thử R&D</span></h2>
+        <p class="section-subtitle" data-translate="rdSubtitle">Khám phá thông số R&D chi tiết của từng đời mẫu thử kiểm định vật lý.</p>
+
+        <div class="grid-3">
+          <!-- Card 1 -->
+          <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            <div style="width: 100%; height: 200px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&q=80&w=600" alt="Preform" style="width: 100%; height: 100%; object-fit: cover;">
+              <span style="position: absolute; top: 16px; left: 16px; background: rgba(9, 12, 11, 0.75); border: 1px solid rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; fontSize: 12px; color: hsl(var(--primary)); fontWeight: 600;" data-translate="rdBadge1">Gen 1 (Lab)</span>
+            </div>
+            <div style="padding: 28px; display: flex; flex-direction: column; gap: 16px; flex-grow: 1;">
+              <h3 style="font-size: 20px;" data-translate="rdName1">Mẫu phôi composite nền</h3>
+              <p style="color: hsl(var(--text-muted)); font-size: 14px; line-height: 1.6; flex-grow: 1;" data-translate="rdDesc1">Phôi đúc cơ sở kết nối polyme từ hạt nhựa MLP tái chế thô kết hợp xơ vỏ trấu nghiền.</p>
+              <button onclick="openModal(0)" class="btn-secondary" style="width: 100%; justify-content: center; font-size: 14px;" data-translate="rdBtnView">Xem thông số</button>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            <div style="width: 100%; height: 200px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600" alt="V16" style="width: 100%; height: 100%; object-fit: cover;">
+              <span style="position: absolute; top: 16px; left: 16px; background: rgba(9, 12, 11, 0.75); border: 1px solid rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; fontSize: 12px; color: hsl(var(--primary)); fontWeight: 600;" data-translate="rdBadge2">Gen 2 (Thử nghiệm)</span>
+            </div>
+            <div style="padding: 28px; display: flex; flex-direction: column; gap: 16px; flex-grow: 1;">
+              <h3 style="font-size: 20px;" data-translate="rdName2">Mẫu gạch đặc V16</h3>
+              <p style="color: hsl(var(--text-muted)); font-size: 14px; line-height: 1.6; flex-grow: 1;" data-translate="rdDesc2">Dòng gạch chịu áp lực cao chuyên dụng cho xây dựng chịu lực, cách nhiệt cách âm tường vách.</p>
+              <button onclick="openModal(1)" class="btn-secondary" style="width: 100%; justify-content: center; font-size: 14px;" data-translate="rdBtnView">Xem thông số</button>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            <div style="width: 100%; height: 200px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=600" alt="Heritage" style="width: 100%; height: 100%; object-fit: cover;">
+              <span style="position: absolute; top: 16px; left: 16px; background: rgba(9, 12, 11, 0.75); border: 1px solid rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; fontSize: 12px; color: hsl(var(--primary)); fontWeight: 600;" data-translate="rdBadge3">Gen 3 (Thương mại)</span>
+            </div>
+            <div style="padding: 28px; display: flex; flex-direction: column; gap: 16px; flex-grow: 1;">
+              <h3 style="font-size: 20px;" data-translate="rdName3">Gạch bông gió Heritage</h3>
+              <p style="color: hsl(var(--text-muted)); font-size: 14px; line-height: 1.6; flex-grow: 1;" data-translate="rdDesc3">Sản phẩm gạch bông gió đục lỗ thông thoáng mang nét đẹp di sản kiến trúc Á Đông xanh mát.</p>
+              <button onclick="openModal(2)" class="btn-secondary" style="width: 100%; justify-content: center; font-size: 14px;" data-translate="rdBtnView">Xem thông số</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Matrix Section -->
+    <section id="so-sanh-vat-lieu" class="dark-section">
+      <div class="container">
+        <h2 class="section-title" data-translate="matrixTitle">Ma trận So sánh <span class="gradient-text">Vật liệu</span></h2>
+        <p class="section-subtitle" data-translate="matrixSubtitle">Đặc tính kỹ thuật cơ lý của RENOVA vượt trội so với gạch thông thường.</p>
+        
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: separate; border-spacing: 8px; min-width: 700px;">
+            <thead>
+              <tr>
+                <th style="padding: 20px; text-align: left; color: hsl(var(--text-muted)); font-size: 14px; width: 25%" data-translate="matrixHeaderProp">Đặc tính</th>
+                <th style="padding: 20px; text-align: center; border-radius: 12px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); width: 25%" data-translate="matrixHeaderRenova">Gạch RENOVA</th>
+                <th style="padding: 20px; text-align: center; width: 25%" data-translate="matrixHeaderCement">Gạch bê tông xi măng</th>
+                <th style="padding: 20px; text-align: center; width: 25%" data-translate="matrixHeaderClay">Gạch bông gió đất nung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 16px 20px; background: rgba(255,255,255,0.02); border-radius: 12px; font-weight: 600;" data-translate="matrixWeightProp">Trọng lượng</td>
+                <td style="padding: 16px; text-align: center; background: rgba(16, 185, 129, 0.08); border-radius: 12px; color: #fff; font-weight: 700;" data-translate="matrixWeightRenova">1.5 kg (Siêu nhẹ)</td>
+                <td style="padding: 16px; text-align: center; color: hsl(var(--text-muted));" data-translate="matrixWeightCement">3.2 kg (Nặng)</td>
+                <td style="padding: 16px; text-align: center; color: hsl(var(--text-muted));" data-translate="matrixWeightClay">2.8 kg (Trung bình)</td>
+              </tr>
+              <tr>
+                <td style="padding: 16px 20px; background: rgba(255,255,255,0.02); border-radius: 12px; font-weight: 600;" data-translate="matrixThermalProp">Độ cách nhiệt</td>
+                <td style="padding: 16px; text-align: center; background: rgba(16, 185, 129, 0.08); border-radius: 12px; color: #fff; font-weight: 700;" data-translate="matrixThermalRenova">Tuyệt vời (Thermal Shield)</td>
+                <td style="padding: 16px; text-align: center; color: hsl(var(--text-muted));" data-translate="matrixThermalCement">Kém (Dẫn nhiệt nhanh)</td>
+                <td style="padding: 16px; text-align: center; color: hsl(var(--text-muted));" data-translate="matrixThermalClay">Kém</td>
+              </tr>
+              <tr>
+                <td style="padding: 16px 20px; background: rgba(255,255,255,0.02); border-radius: 12px; font-weight: 600;" data-translate="matrixCarbonProp">Hồ sơ CO2</td>
+                <td style="padding: 16px; text-align: center; background: rgba(16, 185, 129, 0.08); border-radius: 12px; color: #fff; font-weight: 700;" data-translate="matrixCarbonRenova">Âm Carbon (Negative)</td>
+                <td style="padding: 16px; text-align: center; color: hsl(var(--text-muted));" data-translate="matrixCarbonCement">Dương (Thải khí lớn)</td>
+                <td style="padding: 16px; text-align: center; color: hsl(var(--text-muted));" data-translate="matrixCarbonClay">Dương rất cao (Do nung lò)</td>
+              </tr>
+              <tr>
+                <td style="padding: 16px 20px; background: rgba(255,255,255,0.02); border-radius: 12px; font-weight: 600;" data-translate="matrixUvProp">Chống UV/Rêu</td>
+                <td style="padding: 16px; text-align: center; background: rgba(16, 185, 129, 0.08); border-radius: 12px; color: #fff; font-weight: 700;" data-translate="matrixUvRenova">Chống rêu mốc, chống UV</td>
+                <td style="padding: 16px; text-align: center; color: hsl(var(--text-muted));" data-translate="matrixUvCement">Dễ rêu mốc & thấm ẩm</td>
+                <td style="padding: 16px; text-align: center; color: hsl(var(--text-muted));" data-translate="matrixUvClay">Dễ giòn gãy dưới mưa nắng</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESG & EPR Live Interactive Calculator -->
+    <section id="tinh-toan">
+      <div class="container">
+        <h2 class="section-title" data-translate="calcTitle">Bộ công cụ Tính toán <span class="gradient-text">ESG & EPR</span></h2>
+        <p class="section-subtitle" data-translate="calcSubtitle">Thực hiện tính toán tác động trực tiếp và mô hình tài chính tối ưu hóa EPR.</p>
+
+        <div style="display: flex; flex-direction: column; gap: 48px;">
+          
+          <!-- ESG Environment Live Calculator -->
+          <div class="glass-card grid-2">
+            <!-- Left side inputs -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <h3 style="font-size: 22px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 16px;" data-translate="calcEsgTitle">
+                <i data-lucide="calculator" style="color: hsl(var(--primary));"></i>
+                Dự báo tác động sinh thái
+              </h3>
+
+              <div>
+                <label style="font-size: 14px; color: hsl(var(--text-muted));" data-translate="calcEsgInputLabel">Nhập số lượng gạch dự kiến</label>
+                <input type="number" id="esgBricksInput" value="1000" min="1" class="form-input">
+              </div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                  <span style="color: hsl(var(--text-muted));" data-translate="calcEsgRatioLabel">Tỷ lệ phối trộn nguyên liệu</span>
+                  <span id="ratioLabel" style="font-weight: 700;">50% Nhựa / 50% Trấu</span>
+                </div>
+                <input type="range" id="plasticSlider" min="20" max="80" value="50" style="width: 100%; accent-color: hsl(var(--primary)); height: 6px; cursor: pointer;">
+              </div>
+
+              <!-- Output numbers -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div style="padding: 16px; border-radius: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.03);">
+                  <p style="font-size: 11px; color: hsl(var(--text-muted));" data-translate="calcEsgTreesLabel">Số cây xanh tương đương / năm</p>
+                  <p style="font-size: 28px; font-weight: 800; color: hsl(var(--primary));" id="treesOutput">107.4</p>
+                </div>
+                <div style="padding: 16px; border-radius: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.03);">
+                  <p style="font-size: 11px; color: hsl(var(--text-muted));" data-translate="calcEsgCo2Label">CO2 cắt giảm (kg)</p>
+                  <p style="font-size: 28px; font-weight: 800; color: #eab308;" id="co2Output">2362.5</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right side charts -->
+            <div style="display: flex; flex-direction: column; justify-content: center; gap: 20px;">
+              <div style="height: 240px; position: relative;">
+                <canvas id="esgChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- EPR Cashflow Live Engine -->
+          <div class="glass-card grid-2">
+            <!-- Left side inputs -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <h3 style="font-size: 22px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 16px;" data-translate="calcEprTitle">
+                <i data-lucide="trending-up" style="color: hsl(var(--primary));"></i>
+                Tối ưu hóa dòng tiền đóng phí EPR
+              </h3>
+
+              <div>
+                <label style="font-size: 14px; color: hsl(var(--text-muted));" data-translate="calcEprInputLabel">Bao bì MLP phát sinh thải ra thị trường (kg/năm)</label>
+                <input type="number" id="eprVolumeInput" value="5000" min="1" class="form-input">
+              </div>
+
+              <div>
+                <label style="font-size: 14px; color: hsl(var(--text-muted));" data-translate="calcEprPriceLabel">Giá gạch RENOVA dự kiến (VND/viên)</label>
+                <input type="number" id="eprPriceInput" value="45000" step="5000" class="form-input">
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Savings Summary Box -->
+                <div style="background: rgba(16, 185, 129, 0.08); padding: 20px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.2); text-align: center;">
+                  <p style="font-size: 13px; color: hsl(var(--text-muted)); margin-bottom: 4px;" data-translate="calcEprSavingsLabel">Dòng tiền tiết kiệm trực tiếp từ Quỹ EPR</p>
+                  <p style="font-size: 32px; font-weight: 800; color: hsl(var(--primary)); margin: 4px 0;" id="eprSavings">-30.000.000 ₫</p>
+                  <p style="font-size: 12px; color: hsl(var(--primary)); font-weight: 600;" id="eprSavingsHighlight" data-translate="calcEprSavingsHighlight">Giảm 40% nghĩa vụ đóng phí bảo vệ môi trường</p>
+                </div>
+
+                <!-- Smaller details -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 8px;">
+                  <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-size: 11px; color: hsl(var(--text-muted));" data-translate="calcEprStdLabel">Phí EPR tiêu chuẩn:</span>
+                    <span style="font-size: 13px; font-weight: 600; color: #f87171;" id="stdEprFee">75.000.000 ₫</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-size: 11px; color: hsl(var(--text-muted));" data-translate="calcEprOptLabel">Lệ phí sau tối ưu:</span>
+                    <span style="font-size: 13px; font-weight: 600; color: hsl(var(--primary));" id="optEprFee">45.000.000 ₫</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right side details -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <h4 style="font-size: 16px; color: hsl(var(--primary)); display: flex; align-items: center; gap: 6px;" data-translate="calcEprOffsetTitle">
+                <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i> Phân tích Bù trừ Mua Gạch RENOVA
+              </h4>
+
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <!-- Net Cost Highlight Box -->
+                <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(13, 148, 136, 0.12)); border: 1px solid rgba(16, 185, 129, 0.25); padding: 24px; border-radius: 12px; text-align: center;">
+                  <p style="font-size: 13px; color: hsl(var(--text-muted)); margin-bottom: 4px;" data-translate="calcEprNetCostLabel">Chi phí thực tế mua gạch sau khấu hao bù trừ EPR</p>
+                  <p style="font-size: 32px; font-weight: 800; color: hsl(var(--text-primary)); margin: 4px 0;" id="netBricksCost">225.015.000 ₫</p>
+                  <p style="font-size: 12px; color: hsl(var(--primary)); font-weight: 600;" id="netBricksCostHighlight" data-translate="calcEprNetCostHighlight">Được Quỹ EPR tài trợ hoàn lại <span id="offsetPct">25.0%</span> chi phí vật tư!</p>
+                </div>
+
+                <!-- Smaller details -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 8px;">
+                  <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-size: 11px; color: hsl(var(--text-muted));" data-translate="calcEprOffsetQtyLabel">Số gạch cần mua offset:</span>
+                    <span style="font-size: 13px; font-weight: 600;" id="bricksNeeded">6.667 viên</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-size: 11px; color: hsl(var(--text-muted));" data-translate="calcEprOriginalCostLabel">Chi phí gạch gốc:</span>
+                    <span style="font-size: 13px; font-weight: 600; text-decoration: line-through; opacity: 0.6;" id="totalBricksCost">300.015.000 ₫</span>
+                  </div>
+                </div>
+
+                <div style="padding: 12px 16px; border-radius: 8px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.02);">
+                  <p style="font-size: 12px; color: hsl(var(--text-muted)); line-height: 1.5; margin-top: 0;" data-translate="calcEprOffsetDesc">
+                    Nhờ cơ chế bù trừ nghĩa vụ nộp quỹ EPR, doanh nghiệp thu hồi lại một phần chi phí vật tư khi tái đầu tư gạch bông gió RENOVA vào xây dựng cảnh quan nhà máy hoặc văn phòng.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Stepper & Partnership process -->
+    <section id="quy-trinh-epr" class="dark-section">
+      <div class="container">
+        <h2 class="section-title" data-translate="stepperTitle">Quy trình Hợp tác <span class="gradient-text">EPR Kỹ thuật số</span></h2>
+        <p class="section-subtitle" data-translate="stepperSubtitle">Bản đồ quy trình tuần hoàn khép kín gồm 4 bước đơn giản.</p>
+
+        <div style="max-width: 900px; margin: 0 auto;" class="glass-card">
+          <div class="stepper-container">
+            <div class="stepper-line">
+              <div id="stepperLineFiller" class="stepper-line-progress" style="width: 0%;"></div>
+            </div>
+            
+            <div onclick="selectStep(0)" class="stepper-step active" id="step-0">
+              <div class="stepper-icon"><i data-lucide="factory" style="width: 20px; height: 20px;"></i></div>
+              <div class="stepper-label" data-translate="stepperStep1">1. Thu gom rác</div>
+            </div>
+            <div onclick="selectStep(1)" class="stepper-step" id="step-1">
+              <div class="stepper-icon"><i data-lucide="truck" style="width: 20px; height: 20px;"></i></div>
+              <div class="stepper-label" data-translate="stepperStep2">2. Vận chuyển</div>
+            </div>
+            <div onclick="selectStep(2)" class="stepper-step" id="step-2">
+              <div class="stepper-icon"><i data-lucide="clipboard-check" style="width: 20px; height: 20px;"></i></div>
+              <div class="stepper-label" data-translate="stepperStep3">3. Sản xuất gạch</div>
+            </div>
+            <div onclick="selectStep(3)" class="stepper-step" id="step-3">
+              <div class="stepper-icon"><i data-lucide="shield-check" style="width: 20px; height: 20px;"></i></div>
+              <div class="stepper-label" data-translate="stepperStep4">4. Cấp chứng chỉ</div>
+            </div>
+          </div>
+
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 28px; margin-top: 32px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;" id="stepperDetailsContainer">
+            <div>
+              <span id="stepStatus" style="font-size: 12px; color: hsl(var(--primary)); font-weight: 700; text-transform: uppercase;">Trạng thái: Thu gom tại nhà máy đối tác</span>
+              <h3 id="stepTitle" style="font-size: 22px; margin-top: 6px; margin-bottom: 12px;">1. Thu gom rác MLP</h3>
+              <p id="stepDescription" style="color: hsl(var(--text-muted)); font-size: 15px; line-height: 1.6;">Rác bao bì nilon đa lớp (MLP) phát sinh từ nhà xưởng được phân loại tại nguồn và nén đóng bánh tiêu chuẩn.</p>
+            </div>
+            <div>
+              <button onclick="nextStep()" class="btn-primary" id="stepperNextBtn" data-translate="stepperNext">Bước kế tiếp <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stakeholder Smart Forms -->
+    <section id="dang-ky">
+      <div class="container" style="max-width: 800px;">
+        <h2 class="section-title" data-translate="regTitle">Cổng Đăng ký <span class="gradient-text">Hợp tác</span></h2>
+        <p class="section-subtitle" data-translate="regSubtitle">Lựa chọn biểu mẫu đăng ký phù hợp để nhận hỗ trợ và tài liệu hướng dẫn.</p>
+
+        <!-- Form Success Card -->
+        <div id="formSuccessCard" class="glass-card" style="display: none; text-align: center; flex-direction: column; align-items: center; gap: 24px; padding: 48px 32px; border: 1px solid hsl(var(--primary));">
+          <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center; color: hsl(var(--primary)); border: 1px solid rgba(16, 185, 129, 0.3);" class="animate-float">
+            <i data-lucide="check-circle" style="width: 44px; height: 44px;"></i>
+          </div>
+          <div>
+            <h3 style="font-size: 24px; margin-bottom: 8px;" data-translate="regSuccessTitle">Đăng ký Thành công!</h3>
+            <p style="color: hsl(var(--text-muted)); font-size: 15px; line-height: 1.6; max-width: 500px;" data-translate="regSuccessDesc">
+              Hệ thống đã ghi nhận biểu mẫu. Một email xác nhận song ngữ (Anh/Việt) đã được gửi đến hòm thư liên hệ của bạn để xếp lịch họp tư vấn.
+            </p>
+          </div>
+          <button onclick="resetForms()" class="btn-primary" data-translate="regSuccessBtn">Gửi lại mẫu khác</button>
+        </div>
+
+        <!-- Form Cards tabs -->
+        <div id="formsContainer" class="glass-card" style="padding: 0; overflow: hidden;">
+          <div class="form-tabs">
+            <button onclick="switchTab('epr')" class="form-tab-btn active" id="tab-epr"><i data-lucide="building"></i> <span data-translate="regTabEpr">Đối tác EPR</span></button>
+            <button onclick="switchTab('green')" class="form-tab-btn" id="tab-green"><i data-lucide="home"></i> <span data-translate="regTabGreen">Công trình Xanh</span></button>
+            <button onclick="switchTab('collector')" class="form-tab-btn" id="tab-collector"><i data-lucide="users"></i> <span data-translate="regTabCollector">Vựa thu gom</span></button>
+          </div>
+
+          <div style="padding: 32px;">
+            <!-- Form 1: EPR Partner -->
+            <form id="form-epr-el" onsubmit="submitForm(event, 'epr')" style="display: flex; flex-direction: column; gap: 20px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formEprCompany">Tên công ty / Tập đoàn</label>
+                  <input required type="text" placeholder="FMCG Group" class="form-input" data-translate-placeholder="eprCompany">
+                </div>
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formEprName">Họ tên người liên hệ</label>
+                  <input required type="text" placeholder="Nguyễn Văn A" class="form-input" data-translate-placeholder="eprName">
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formEprEmail">Email liên lạc</label>
+                  <input required type="email" placeholder="partner@fmcg.com" class="form-input" id="eprEmail" data-translate-placeholder="eprEmail">
+                </div>
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formEprPhone">Số điện thoại</label>
+                  <input required type="tel" placeholder="0901234567" class="form-input" data-translate-placeholder="eprPhone">
+                </div>
+              </div>
+              <div>
+                <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formEprVolume">Sản lượng rác thải nhựa phát sinh hàng năm (kg)</label>
+                <input required type="number" value="2000" class="form-input">
+              </div>
+              <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; height: 48px; margin-top: 12px;" data-translate="formEprSubmit">Đăng ký tư vấn đối tác <i data-lucide="send" style="width: 16px; height: 16px;"></i></button>
+            </form>
+
+            <!-- Form 2: Green Project -->
+            <form id="form-green-el" onsubmit="submitForm(event, 'green')" style="display: none; flex-direction: column; gap: 20px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formGreenName">Họ tên chủ đầu tư / KTS</label>
+                  <input required type="text" placeholder="Trần Minh B" class="form-input" data-translate-placeholder="greenName">
+                </div>
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formGreenPhone">Số điện thoại</label>
+                  <input required type="tel" placeholder="0918765432" class="form-input" data-translate-placeholder="greenPhone">
+                </div>
+              </div>
+              <div>
+                <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formGreenEmail">Email liên hệ</label>
+                <input required type="email" placeholder="architect@greenstudio.vn" class="form-input" id="greenEmail" data-translate-placeholder="greenEmail">
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formGreenArea">Diện tích bề mặt cần lắp đặt (m²)</label>
+                  <input required type="number" value="50" class="form-input">
+                </div>
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formGreenLocation">Địa điểm thi công công trình</label>
+                  <input required type="text" placeholder="Quận 2, TP. Hồ Chí Minh" class="form-input" data-translate-placeholder="greenLocation">
+                </div>
+              </div>
+              <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; height: 48px; margin-top: 12px;" data-translate="formGreenSubmit">Đăng ký tư vấn thiết kế <i data-lucide="send" style="width: 16px; height: 16px;"></i></button>
+            </form>
+
+            <!-- Form 3: Collector -->
+            <form id="form-collector-el" onsubmit="submitForm(event, 'collector')" style="display: none; flex-direction: column; gap: 20px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formCollectorName">Tên vựa / Họ tên cá nhân</label>
+                  <input required type="text" placeholder="Vựa ve chai Hoàng" class="form-input" data-translate-placeholder="collectorName">
+                </div>
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formCollectorType">Hình thức thu gom</label>
+                  <select class="form-input" style="background: #111513; height: 45px;">
+                    <option value="scrap_yard" data-translate="formCollectorTypeYard">Vựa ve chai trung gian</option>
+                    <option value="individual" data-translate="formCollectorTypeInd">Cá nhân thu gom</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formCollectorEmail">Email liên lạc</label>
+                  <input required type="email" placeholder="vechai.quan5@gmail.com" class="form-input" id="collectorEmail" data-translate-placeholder="collectorEmail">
+                </div>
+                <div>
+                  <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formCollectorPhone">Số điện thoại</label>
+                  <input required type="tel" placeholder="0988776655" class="form-input" data-translate-placeholder="collectorPhone">
+                </div>
+              </div>
+              <div>
+                <label style="font-size: 13px; color: hsl(var(--text-muted));" data-translate="formCollectorAddress">Địa chỉ điểm thu gom</label>
+                <input type="text" placeholder="123 Hùng Vương, Quận 5, TP.HCM" class="form-input" data-translate-placeholder="collectorAddress">
+              </div>
+              <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; height: 48px; margin-top: 12px;" data-translate="formCollectorSubmit">Gửi đăng ký cung ứng <i data-lucide="send" style="width: 16px; height: 16px;"></i></button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Core Team section -->
+    <section id="doi-ngu" class="dark-section">
+      <div class="container">
+        <h2 class="section-title" data-translate="teamTitle">Đội ngũ Nhân lực <span class="gradient-text">Cốt lõi</span></h2>
+        <p class="section-subtitle" data-translate="teamSubtitle">Nhân sự đa ngành từ Đại học Bách Khoa TP.HCM (Môi trường - Vật liệu - Kinh tế - Truyền thông).</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;" id="teamContainer">
+          <!-- Member 1 -->
+          <div class="glass-card team-card">
+            <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 3px solid hsl(var(--border-color)); margin-bottom: 20px;">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300" alt="Huy" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h3 style="font-size: 20px; margin-bottom: 6px;">Lê Nhật Huy</h3>
+            <p style="color: hsl(var(--primary)); font-size: 13px; font-weight: 600; margin-bottom: 8px;">Project Leader & Production Manager</p>
+            <p style="color: hsl(var(--text-muted)); font-size: 12px;" data-translate-member-major="teamMajorHuy">Chuyên ngành: Kỹ thuật Môi trường</p>
+            <div class="team-contact-overlay">
+              <a href="mailto:huy.lenhat@hcmut.edu.vn" style="color: hsl(var(--text-muted));"><i data-lucide="mail"></i></a>
+              <a href="tel:0901234561" style="color: hsl(var(--text-muted));"><i data-lucide="phone"></i></a>
+              <a href="#" style="color: hsl(var(--text-muted));">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Member 2 -->
+          <div class="glass-card team-card">
+            <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 3px solid hsl(var(--border-color)); margin-bottom: 20px;">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300" alt="Vinh" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h3 style="font-size: 20px; margin-bottom: 6px;">Nguyen Tran The Vinh</h3>
+            <p style="color: hsl(var(--primary)); font-size: 13px; font-weight: 600; margin-bottom: 8px;">R&D & Material Engineering Lead</p>
+            <p style="color: hsl(var(--text-muted)); font-size: 12px;" data-translate-member-major="teamMajorVinh">Chuyên ngành: Kỹ thuật Vật liệu / Polyme</p>
+            <div class="team-contact-overlay">
+              <a href="mailto:vinh.nguyentran@hcmut.edu.vn" style="color: hsl(var(--text-muted));"><i data-lucide="mail"></i></a>
+              <a href="tel:0901234562" style="color: hsl(var(--text-muted));"><i data-lucide="phone"></i></a>
+              <a href="#" style="color: hsl(var(--text-muted));">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Member 3 -->
+          <div class="glass-card team-card">
+            <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 3px solid hsl(var(--border-color)); margin-bottom: 20px;">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300" alt="Anh" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h3 style="font-size: 20px; margin-bottom: 6px;">Nguyen Phuc Minh Anh</h3>
+            <p style="color: hsl(var(--primary)); font-size: 13px; font-weight: 600; margin-bottom: 8px;">Sustainability & EPR Compliance Lead</p>
+            <p style="color: hsl(var(--text-muted)); font-size: 12px;" data-translate-member-major="teamMajorAnh">Chuyên ngành: Quản lý Môi trường</p>
+            <div class="team-contact-overlay">
+              <a href="mailto:anh.nguyenphucminh@hcmut.edu.vn" style="color: hsl(var(--text-muted));"><i data-lucide="mail"></i></a>
+              <a href="tel:0901234563" style="color: hsl(var(--text-muted));"><i data-lucide="phone"></i></a>
+              <a href="#" style="color: hsl(var(--text-muted));">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Strategic partners and advisor board -->
+    <section id="doi-tac" style="background: rgba(255,255,255,0.01);">
+      <div class="container">
+        <h2 class="section-title" data-translate="stakeTitle">Bên liên quan & <span class="gradient-text">Hệ sinh thái</span></h2>
+        <p class="section-subtitle" data-translate="stakeSubtitle">Đồng hành nghiên cứu và bảo trợ chuỗi giá trị bởi các tổ chức uy tín.</p>
+
+        <!-- Carousel -->
+        <div style="margin-bottom: 80px;">
+          <div class="carousel-wrapper">
+            <div class="logo-carousel">
+              <div class="logo-item"><div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:16px 24px; width:220px; height:80px; display:flex; flex-direction:column; justify-content:center; align-items:center;"><strong data-translate="stakeCarHcmut">ĐHQG-HCM (HCMUT)</strong><span style="font-size:10px; color:hsl(var(--text-muted));" data-translate="stakeCarHcmutSub">Đại học Bách khoa</span></div></div>
+              <div class="logo-item"><div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:16px 24px; width:220px; height:80px; display:flex; flex-direction:column; justify-content:center; align-items:center;"><strong data-translate="stakeCarFenr">FENR - HCMUT</strong><span style="font-size:10px; color:hsl(var(--text-muted));" data-translate="stakeCarFenrSub">Khoa Môi trường</span></div></div>
+              <div class="logo-item"><div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:16px 24px; width:220px; height:80px; display:flex; flex-direction:column; justify-content:center; align-items:center;"><strong data-translate="stakeCarVwra">VWRA VIETNAM</strong><span style="font-size:10px; color:hsl(var(--text-muted));" data-translate="stakeCarVwraSub">Hiệp hội chất thải</span></div></div>
+              <div class="logo-item"><div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:16px 24px; width:220px; height:80px; display:flex; flex-direction:column; justify-content:center; align-items:center;"><strong data-translate="stakeCarDow">DOW CHEMICAL</strong><span style="font-size:10px; color:hsl(var(--text-muted));" data-translate="stakeCarDowSub">Dow Vietnam</span></div></div>
+              <!-- Loop duplicates -->
+              <div class="logo-item"><div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:16px 24px; width:220px; height:80px; display:flex; flex-direction:column; justify-content:center; align-items:center;"><strong data-translate="stakeCarHcmut">ĐHQG-HCM (HCMUT)</strong><span style="font-size:10px; color:hsl(var(--text-muted));" data-translate="stakeCarHcmutSub">Đại học Bách khoa</span></div></div>
+              <div class="logo-item"><div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:16px 24px; width:220px; height:80px; display:flex; flex-direction:column; justify-content:center; align-items:center;"><strong data-translate="stakeCarFenr">FENR - HCMUT</strong><span style="font-size:10px; color:hsl(var(--text-muted));" data-translate="stakeCarFenrSub">Khoa Môi trường</span></div></div>
+              <div class="logo-item"><div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:16px 24px; width:220px; height:80px; display:flex; flex-direction:column; justify-content:center; align-items:center;"><strong data-translate="stakeCarVwra">VWRA VIETNAM</strong><span style="font-size:10px; color:hsl(var(--text-muted));" data-translate="stakeCarVwraSub">Hiệp hội chất thải</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advisors -->
+        <div class="grid-2" style="max-width: 900px; margin: 0 auto;">
+          <div class="glass-card" style="display: flex; gap: 20px; border-left: 4px solid hsl(var(--primary));">
+            <div style="width: 80px; height: 80px; border-radius: 12px; overflow: hidden; flex-shrink: 0;">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300" alt="Hang" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div>
+              <h3 style="font-size: 18px;">Dr. Vo Thanh Hang</h3>
+              <p style="color: hsl(var(--primary)); font-size: 12px; font-weight: 600; margin-top: 2px;" data-translate="stakeAdvRole1">Cố vấn Khoa học & Lab - HCMUT</p>
+              <p style="color: hsl(var(--text-muted)); font-size: 13px; margin-top: 6px;" data-translate="stakeAdvDesc1">Định hướng các đề tài cốt liệu liên kết polymer nền sinh học.</p>
+            </div>
+          </div>
+
+          <div class="glass-card" style="display: flex; gap: 20px; border-left: 4px solid hsl(var(--primary));">
+            <div style="width: 80px; height: 80px; border-radius: 12px; overflow: hidden; flex-shrink: 0;">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300" alt="Thanh" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div>
+              <h3 style="font-size: 18px;">Ms. Duong Thi Thanh</h3>
+              <p style="color: hsl(var(--primary)); font-size: 12px; font-weight: 600; margin-top: 2px;" data-translate="stakeAdvRole2">Cố vấn R&D Vật liệu - HCMUT</p>
+              <p style="color: hsl(var(--text-muted)); font-size: 13px; margin-top: 6px;" data-translate="stakeAdvDesc2">Hỗ trợ quy trình gia công cơ lý hạt nhựa MLP và phối trấu nông nghiệp.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements & Awards Section -->
+    <section id="thanh-tuu" style="position: relative;">
+      <div class="container">
+        <h2 class="section-title" data-translate="awardsTitle">Bảng vàng <span class="gradient-text">Thành tựu & Giải thưởng</span></h2>
+        <p class="section-subtitle" data-translate="awardsSubtitle">Sự ghi nhận uy tín chất lượng từ giới chuyên môn và cộng đồng công nghệ.</p>
+
+        <div style="display: flex; gap: 32px; max-width: 600px; margin: 0 auto 50px auto;">
+          <div class="glass-card" style="flex: 1; text-align: center; border: 1px solid rgba(217, 119, 6, 0.2); box-shadow: var(--shadow-glow-accent);">
+            <h3 class="gradient-text-gold" style="font-size: 48px; font-weight: 900;" id="htmlAwardsCount">00+</h3>
+            <p style="color: hsl(var(--text-muted)); font-size: 14px; font-weight: 600;" data-translate="awardsQtyLabel">Giải thưởng Lớn</p>
+          </div>
+          <div class="glass-card" style="flex: 1; text-align: center; border: 1px solid rgba(16, 185, 129, 0.2); box-shadow: var(--shadow-glow);">
+            <h3 class="gradient-text" style="font-size: 48px; font-weight: 900;" id="htmlLabPercent">0%</h3>
+            <p style="color: hsl(var(--text-muted)); font-size: 14px; font-weight: 600;" data-translate="awardsLabLabel">Vật liệu Lab đạt chuẩn</p>
+          </div>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; justify-content: space-between; font-weight: 700;">
+              <h3 data-translate="awardsTitle1">Giải Ba cuộc thi quốc tế EPICS 8</h3>
+              <span style="color: hsl(var(--primary));" data-translate="awardsYear1">Năm 2024</span>
+            </div>
+            <p style="color: hsl(var(--text-muted)); font-size: 14px; line-height: 1.6;" data-translate="awardsDesc1">Giải thưởng quốc tế Engineering Projects in Community Service tổ chức bởi ASU tài trợ bởi Dow Vietnam chứng minh giải pháp phục vụ cộng đồng xuất sắc.</p>
+          </div>
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; justify-content: space-between; font-weight: 700;">
+              <h3 data-translate="awardsTitle2">Giải Khuyến khích VWRA 2025</h3>
+              <span style="color: hsl(var(--primary));" data-translate="awardsYear2">Năm 2025</span>
+            </div>
+            <p style="color: hsl(var(--text-muted)); font-size: 14px; line-height: 1.6;" data-translate="awardsDesc2">Hiệp hội Quản lý chất thải Việt Nam vinh danh và chứng nhận ý thức chuyển hóa rác đa lớp sinh thái của dự án RENOVA.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Spec details Pop-up Modals -->
+  <div class="modal-overlay" id="specModal">
+    <div class="glass-card" style="max-width: 500px; width: 100%; position: relative; border: 1px solid rgba(16, 185, 129, 0.2); background: rgba(9, 12, 11, 0.95); color: #ffffff;" id="modalContent">
+      <button onclick="closeModal()" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: hsl(var(--text-muted)); cursor: pointer; font-size: 20px;">×</button>
+      <h3 style="font-size: 24px; margin-bottom: 4px; color: #ffffff;" id="mTitle">Mẫu thử</h3>
+      <p style="color: hsl(var(--primary)); font-size: 13px; font-weight: 600; margin-bottom: 24px;" id="mGen">Thế hệ mẫu thử</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px;">
+            <p style="font-size: 11px; color: hsl(var(--text-muted));" data-translate="modalCompressiveLabel">Cường độ nén</p>
+            <p style="font-size: 18px; font-weight: 700;" id="mCompressive">6-8 MPa</p>
+          </div>
+          <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px;">
+            <p style="font-size: 11px; color: hsl(var(--text-muted));" data-translate="modalAbsorptionLabel">Độ hút nước</p>
+            <p style="font-size: 18px; font-weight: 700;" id="mAbsorption">&lt;2%</p>
+          </div>
+        </div>
+
+        <div style="background: rgba(16, 185, 129, 0.05); padding: 14px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.1);">
+          <p style="font-size: 11px; color: hsl(var(--text-muted));" data-translate="modalUvLabel">Kiểm định UV</p>
+          <p style="font-size: 14px; font-weight: 600;" id="mUV">Thử nghiệm chống tia UV hoàn hảo</p>
+        </div>
+
+        <div style="font-size: 13px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; color: hsl(var(--text-muted)); line-height: 1.6;">
+          <p>• <span data-translate="modalCompositionLabel">Cấp phối nguyên liệu: </span><strong style="color: #fff;" id="mComposition">50% MLP + 50% trấu</strong></p>
+          <p>• <span data-translate="modalDensityLabel">Tỷ trọng: </span><strong style="color: #fff;" id="mDensity">1.2 g/cm³</strong></p>
+        </div>
+      </div>
+      <button onclick="closeModal()" class="btn-primary" style="width: 100%; margin-top: 24px; justify-content: center;" data-translate="modalClose">Đóng lại</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background: rgba(244, 247, 245, 0.98); border-top: 1px solid hsl(var(--border-color)); padding: 60px 0 30px 0; color: hsl(var(--text-muted)); font-size: 14px;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="frontend/public/Logo.png" alt="RENOVA Logo" style="height: 32px; width: auto; border-radius: 4px; object-fit: contain;">
+        <span style="font-weight: 800; color: hsl(var(--text-primary)); font-size: 18px;">Circular</span>
+      </div>
+      <p data-translate="footerRights">© 2026 RENOVA Circular. Bảo lưu mọi quyền.</p>
+    </div>
+  </footer>
+
+  <script>
+    let currentLang = "vi";
+
+    const translations = {
+      vi: {
+        navAbout: "Giới thiệu",
+        navEsg: "Tầm nhìn ESG",
+        navRd: "R&D",
+        navCalc: "Công cụ ESG",
+        navEpr: "Quy trình EPR",
+        navTeam: "Về chúng tôi",
+        navAwards: "Bảng vàng",
+        headerCta: "Hợp tác ngay",
+        heroLabel: "Dự án RENOVA Circular",
+        heroTitle: 'Trash to <span class="gradient-text">Heritage</span>',
+        heroDesc: 'Quy trình kinh tế tuần hoàn số hóa đột phá. Chúng tôi chuyển đổi rác thải nhựa đa lớp (MLP) "bất tử" kết hợp phế phẩm vỏ trấu nông nghiệp thành gạch bông gió di sản xanh đẳng cấp—cách âm, cách nhiệt chủ động.',
+        heroCtaEpr: 'Đăng ký tư vấn EPR <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>',
+        heroCtaEsg: 'Công cụ tính toán ESG <i data-lucide="file-text" style="width: 18px; height: 18px;"></i>',
+        
+        // ESG Vision
+        esgTitle: 'Định vị & Sứ mệnh <span class="gradient-text">ESG</span>',
+        esgSubtitle: 'RENOVA kiến tạo giải pháp vật liệu xây dựng tuần hoàn, giải quyết triệt để các thách thức về môi trường và phát triển cộng đồng bền vững.',
+        esgETitle: 'Environmental (Môi trường)',
+        esgEDesc: 'Khát vọng giải cứu dòng rác thải "bất tử" nhựa đa lớp (MLP) và tận dụng phế phẩm nông nghiệp (Vỏ trấu) làm cốt liệu nền polymer sinh thái bền bỉ.',
+        esgSTitle: 'Social (Xã hội)',
+        esgSDesc: 'Kiến tạo giải pháp làm mát thụ động cho nhà ở xã hội và các vùng nóng bức, đồng thời bảo tồn nét đẹp Á Đông nhờ bông gió di sản độc đáo.',
+        esgGTitle: 'Governance (Quản trị)',
+        esgGDesc: 'Cam kết minh bạch dòng rác, dòng tiền và kiểm định chất lượng nghiêm ngặt thông qua sổ cái số hóa, hướng tới tiêu chuẩn phát thải âm carbon.',
+        
+        // Journey/Timeline
+        journeyTitle: 'Hành trình <span class="gradient-text">RENOVA</span>',
+        journeySubtitle: 'Từ nghiên cứu hạt nhựa thử nghiệm trong phòng Lab Đại học Bách Khoa đến các chứng nhận chất lượng quốc tế và sẵn sàng thương mại hóa.',
+        journeyTime1: '2023 - 2024',
+        journeyTitle1: 'Nghiên cứu Lab',
+        journeyDesc1: 'Tổng hợp hạt composite polymer nền kết hợp vỏ trấu gia cường.',
+        journeyTime2: 'Cuối 2024',
+        journeyTitle2: 'Đạt giải EPICS 8',
+        journeyDesc2: 'Đạt giải Ba sáng kiến phục vụ cộng đồng tài trợ bởi ASU & Dow Vietnam.',
+        journeyTime3: '2025',
+        journeyTitle3: 'Thử nghiệm mẫu V16',
+        journeyDesc3: 'Độ bền nén 6-8 MPa, độ hút nước cực thấp và khả năng chống tia UV bảo vệ hoàn hảo.',
+        journeyTime4: '2026 - Tương lai',
+        journeyTitle4: 'Gọi vốn thương mại hóa',
+        journeyDesc4: 'Nhân rộng sản lượng công nghiệp, liên kết các doanh nghiệp đóng phí EPR và quỹ đầu tư xanh.',
+        
+        // R&D Showcase
+        rdTitle: 'Thư viện số <span class="gradient-text">Mẫu thử R&D</span>',
+        rdSubtitle: 'Khám phá thông số R&D chi tiết của từng đời mẫu thử kiểm định vật lý.',
+        rdBadge1: 'Gen 1 (Lab)',
+        rdName1: 'Mẫu phôi composite nền',
+        rdDesc1: 'Phôi đúc cơ sở kết nối polyme từ hạt nhựa MLP tái chế thô kết hợp xơ vỏ trấu nghiền.',
+        rdBadge2: 'Gen 2 (Thử nghiệm)',
+        rdName2: 'Mẫu gạch đặc V16',
+        rdDesc2: 'Dòng gạch chịu áp lực cao chuyên dụng cho xây dựng chịu lực, cách nhiệt cách âm tường vách.',
+        rdBadge3: 'Gen 3 (Thương mại)',
+        rdName3: 'Gạch bông gió Heritage',
+        rdDesc3: 'Sản phẩm gạch bông gió đục lỗ thông thoáng mang nét đẹp di sản kiến trúc Á Đông xanh mát.',
+        rdBtnView: 'Xem thông số',
+        
+        // Comparison Matrix
+        matrixTitle: 'Ma trận So sánh <span class="gradient-text">Vật liệu</span>',
+        matrixSubtitle: 'Đặc tính kỹ thuật cơ lý của RENOVA vượt trội so với gạch thông thường.',
+        matrixHeaderProp: 'Đặc tính',
+        matrixHeaderRenova: 'Gạch RENOVA',
+        matrixHeaderCement: 'Gạch bê tông xi măng',
+        matrixHeaderClay: 'Gạch bông gió đất nung',
+        matrixWeightProp: 'Trọng lượng',
+        matrixWeightRenova: '1.5 kg (Siêu nhẹ)',
+        matrixWeightCement: '3.2 kg (Nặng)',
+        matrixWeightClay: '2.8 kg (Trung bình)',
+        matrixThermalProp: 'Độ cách nhiệt',
+        matrixThermalRenova: 'Tuyệt vời (Thermal Shield)',
+        matrixThermalCement: 'Kém (Dẫn nhiệt nhanh)',
+        matrixThermalClay: 'Kém',
+        matrixCarbonProp: 'Hồ sơ CO2',
+        matrixCarbonRenova: 'Âm Carbon (Negative)',
+        matrixCarbonCement: 'Dương (Thải khí lớn)',
+        matrixCarbonClay: 'Dương rất cao (Do nung lò)',
+        matrixUvProp: 'Chống UV/Rêu',
+        matrixUvRenova: 'Chống rêu mốc, chống UV',
+        matrixUvCement: 'Dễ rêu mốc & thấm ẩm',
+        matrixUvClay: 'Dễ giòn gãy dưới mưa nắng',
+        
+        // ESG & EPR Calculator
+        calcTitle: 'Bộ công cụ Tính toán <span class="gradient-text">ESG & EPR</span>',
+        calcSubtitle: 'Thực hiện tính toán tác động trực tiếp và mô hình tài chính tối ưu hóa EPR.',
+        
+        // ESG Section
+        calcEsgTitle: 'Dự báo tác động sinh thái',
+        calcEsgInputLabel: 'Nhập số lượng gạch dự kiến',
+        calcEsgRatioLabel: 'Tỷ lệ phối trộn nguyên liệu',
+        calcEsgTreesLabel: 'Số cây xanh tương đương / năm',
+        calcEsgCo2Label: 'CO2 cắt giảm (kg)',
+        
+        // EPR Section
+        calcEprTitle: 'Tối ưu hóa dòng tiền đóng phí EPR',
+        calcEprInputLabel: 'Bao bì MLP phát sinh thải ra thị trường (kg/năm)',
+        calcEprPriceLabel: 'Giá gạch RENOVA dự kiến (VND/viên)',
+        calcEprSavingsLabel: 'Dòng tiền tiết kiệm trực tiếp từ Quỹ EPR',
+        calcEprSavingsHighlight: 'Giảm 40% nghĩa vụ đóng phí bảo vệ môi trường',
+        calcEprLabelSavingsMinus: 'Tiết kiệm trực tiếp cho quỹ:',
+        calcEprStdLabel: 'Phí EPR tiêu chuẩn:',
+        calcEprOptLabel: 'Lệ phí sau tối ưu:',
+        calcEprOffsetTitle: 'Phân tích Bù trừ Mua Gạch RENOVA',
+        calcEprNetCostLabel: 'Chi phí thực tế mua gạch sau khấu hao bù trừ EPR',
+        calcEprNetCostHighlight: 'Được Quỹ EPR tài trợ hoàn lại <span id="offsetPct">25.0%</span> chi phí vật tư!',
+        calcEprOffsetQtyLabel: 'Số gạch cần mua offset:',
+        calcEprOriginalCostLabel: 'Chi phí gạch gốc:',
+        calcEprOffsetDesc: 'Nhờ cơ chế bù trừ nghĩa vụ nộp quỹ EPR, doanh nghiệp thu hồi lại một phần chi phí vật tư khi tái đầu tư gạch bông gió RENOVA vào xây dựng cảnh quan nhà máy hoặc văn phòng.',
+        
+        // Stepper
+        stepperTitle: 'Quy trình Hợp tác <span class="gradient-text">EPR Kỹ thuật số</span>',
+        stepperSubtitle: 'Bản đồ quy trình tuần hoàn khép kín gồm 4 bước đơn giản.',
+        stepperStep1: '1. Thu gom rác',
+        stepperStep2: '2. Vận chuyển',
+        stepperStep3: '3. Sản xuất gạch',
+        stepperStep4: '4. Cấp chứng chỉ',
+        stepperNext: 'Bước kế tiếp <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>',
+        stepperBack: 'Quay lại bước 1',
+        
+        // Registration Forms
+        regTitle: 'Cổng Đăng ký <span class="gradient-text">Hợp tác</span>',
+        regSubtitle: 'Lựa chọn biểu mẫu đăng ký phù hợp để nhận hỗ trợ và tài liệu hướng dẫn.',
+        regSuccessTitle: 'Đăng ký Thành công!',
+        regSuccessDesc: 'Hệ thống đã ghi nhận biểu mẫu. Một email xác nhận song ngữ (Anh/Việt) đã được gửi đến hòm thư liên hệ của bạn để xếp lịch họp tư vấn.',
+        regSuccessBtn: 'Gửi lại mẫu khác',
+        regTabEpr: 'Đối tác EPR',
+        regTabGreen: 'Công trình Xanh',
+        regTabCollector: 'Vựa thu gom',
+        
+        // Form fields EPR
+        formEprCompany: 'Tên công ty / Tập đoàn',
+        formEprName: 'Họ tên người liên hệ',
+        formEprEmail: 'Email liên lạc',
+        formEprPhone: 'Số điện thoại',
+        formEprVolume: 'Sản lượng rác thải nhựa phát sinh hàng năm (kg)',
+        formEprSubmit: 'Đăng ký tư vấn đối tác <i data-lucide="send" style="width: 16px; height: 16px;"></i>',
+        
+        // Form fields Green
+        formGreenName: 'Họ tên chủ đầu tư / KTS',
+        formGreenPhone: 'Số điện thoại',
+        formGreenEmail: 'Email liên hệ',
+        formGreenArea: 'Diện tích bề mặt cần lắp đặt (m²)',
+        formGreenLocation: 'Địa điểm thi công công trình',
+        formGreenSubmit: 'Đăng ký tư vấn thiết kế <i data-lucide="send" style="width: 16px; height: 16px;"></i>',
+        
+        // Form fields Collector
+        formCollectorName: 'Tên vựa / Họ tên cá nhân',
+        formCollectorType: 'Hình thức thu gom',
+        formCollectorTypeYard: 'Vựa ve chai trung gian',
+        formCollectorTypeInd: 'Cá nhân thu gom',
+        formCollectorEmail: 'Email liên lạc',
+        formCollectorPhone: 'Số điện thoại',
+        formCollectorAddress: 'Địa chỉ điểm thu gom',
+        formCollectorSubmit: 'Gửi đăng ký cung ứng <i data-lucide="send" style="width: 16px; height: 16px;"></i>',
+        
+        // Team Section
+        teamTitle: 'Đội ngũ Nhân lực <span class="gradient-text">Cốt lõi</span>',
+        teamSubtitle: 'Nhân sự đa ngành từ Đại học Bách Khoa TP.HCM (Môi trường - Vật liệu - Kinh tế - Truyền thông).',
+        teamMajorHuy: 'Chuyên ngành: Kỹ thuật Môi trường',
+        teamMajorVinh: 'Chuyên ngành: Kỹ thuật Vật liệu / Polyme',
+        teamMajorAnh: 'Chuyên ngành: Quản lý Môi trường',
+        
+        // Stakeholders / Partners
+        stakeTitle: 'Bên liên quan & <span class="gradient-text">Hệ sinh thái</span>',
+        stakeSubtitle: 'Đồng hành nghiên cứu và bảo trợ chuỗi giá trị bởi các tổ chức uy tín.',
+        stakeCarHcmut: 'ĐHQG-HCM (HCMUT)',
+        stakeCarHcmutSub: 'Đại học Bách khoa',
+        stakeCarFenr: 'FENR - HCMUT',
+        stakeCarFenrSub: 'Khoa Môi trường',
+        stakeCarVwra: 'VWRA VIETNAM',
+        stakeCarVwraSub: 'Hiệp hội chất thải',
+        stakeCarDow: 'DOW CHEMICAL',
+        stakeCarDowSub: 'Dow Vietnam',
+        
+        stakeAdvRole1: 'Cố vấn Khoa học & Lab - HCMUT',
+        stakeAdvDesc1: 'Định hướng các đề tài cốt liệu liên kết polymer nền sinh học.',
+        stakeAdvRole2: 'Cố vấn R&D Vật liệu - HCMUT',
+        stakeAdvDesc2: 'Hỗ trợ quy trình gia công cơ lý hạt nhựa MLP và phối trấu nông nghiệp.',
+        
+        // Achievements / Awards
+        awardsTitle: 'Bảng vàng <span class="gradient-text">Thành tựu & Giải thưởng</span>',
+        awardsSubtitle: 'Sự ghi nhận uy tín chất lượng từ giới chuyên môn và cộng đồng công nghệ.',
+        awardsQtyLabel: 'Giải thưởng Lớn',
+        awardsLabLabel: 'Vật liệu Lab đạt chuẩn',
+        awardsTitle1: 'Giải Ba cuộc thi quốc tế EPICS 8',
+        awardsYear1: 'Năm 2024',
+        awardsDesc1: 'Giải thưởng quốc tế Engineering Projects in Community Service tổ chức bởi ASU tài trợ bởi Dow Vietnam chứng minh giải pháp phục vụ cộng đồng xuất sắc.',
+        awardsTitle2: 'Giải Khuyến khích VWRA 2025',
+        awardsYear2: 'Năm 2025',
+        awardsDesc2: 'Hiệp hội Quản lý chất thải Việt Nam vinh danh và chứng nhận ý thức chuyển hóa rác đa lớp sinh thái của dự án RENOVA.',
+        
+        // Modal
+        modalCompressiveLabel: 'Cường độ nén',
+        modalAbsorptionLabel: 'Độ hút nước',
+        modalUvLabel: 'Kiểm định UV',
+        modalCompositionLabel: 'Cấp phối nguyên liệu: ',
+        modalDensityLabel: 'Tỷ trọng: ',
+        modalClose: 'Đóng lại',
+        
+        // Footer
+        footerRights: '© 2026 RENOVA Circular. Bảo lưu mọi quyền.',
+      },
+      en: {
+        navAbout: "About Us",
+        navEsg: "ESG Vision",
+        navRd: "R&D Showcase",
+        navCalc: "ESG Calculators",
+        navEpr: "EPR Workflow",
+        navTeam: "Core Team",
+        navAwards: "Milestones",
+        headerCta: "Partner Now",
+        heroLabel: "RENOVA Circular Project",
+        heroTitle: 'Trash to <span class="gradient-text">Heritage</span>',
+        heroDesc: 'Breakthrough digital circular economy workflow. We convert "indestructible" multi-layer plastic (MLP) waste combined with agricultural husk by-products into premium green heritage breeze blocks—offering active sound and thermal insulation.',
+        heroCtaEpr: 'EPR Advisory Sign-up <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>',
+        heroCtaEsg: 'ESG Calculator <i data-lucide="file-text" style="width: 18px; height: 18px;"></i>',
+        
+        // ESG Vision
+        esgTitle: 'ESG <span class="gradient-text">Positioning & Mission</span>',
+        esgSubtitle: 'RENOVA builds circular construction solutions, radically resolving environmental challenges and fostering sustainable community development.',
+        esgETitle: 'Environmental',
+        esgEDesc: 'A passion to upcycle "indestructible" multi-layer plastic (MLP) waste and utilize agricultural husk by-products as replacement aggregate.',
+        esgSTitle: 'Social',
+        esgSDesc: 'Providing passive cooling solutions for social housing, conserving East Asian architectural heritage via eco-friendly breeze blocks.',
+        esgGTitle: 'Governance',
+        esgGDesc: 'Committing to absolute transparency of waste and finance streams via digital ledger tracking, targeting carbon-negative emission goals.',
+        
+        // Journey/Timeline
+        journeyTitle: 'RENOVA <span class="gradient-text">Journey</span>',
+        journeySubtitle: 'From testing polymer formulas in the University of Technology lab to international quality certificates and commercial readiness.',
+        journeyTime1: '2023 - 2024',
+        journeyTitle1: 'Lab Research',
+        journeyDesc1: 'Formulating composite polymer matrix reinforced with agricultural rice husk fibers.',
+        journeyTime2: 'Late 2024',
+        journeyTitle2: 'Won EPICS 8 Award',
+        journeyDesc2: 'Won 3rd Prize in community-serving initiatives sponsored by ASU & Dow Vietnam.',
+        journeyTime3: '2025',
+        journeyTitle3: 'V16 Prototype Testing',
+        journeyDesc3: 'Compressive strength of 6-8 MPa, ultra-low water absorption, and excellent UV resistance.',
+        journeyTime4: '2026 - Future',
+        journeyTitle4: 'Commercialization & Scale-up',
+        journeyDesc4: 'Scaling up industrial production, partnering with EPR-obligated enterprises and green investment funds.',
+        
+        // R&D Showcase
+        rdTitle: 'Digital <span class="gradient-text">R&D Specimen Library</span>',
+        rdSubtitle: 'Explore detailed R&D specifications of each physical test prototype generation.',
+        rdBadge1: 'Gen 1 (Lab Stage)',
+        rdName1: 'Base Composite Preform',
+        rdDesc1: 'Basic cast matrix linking raw recycled MLP plastic with crushed rice husk fibers.',
+        rdBadge2: 'Gen 2 (Testing)',
+        rdName2: 'Solid Block V16',
+        rdDesc2: 'High-pressure solid block designed for load-bearing walls, thermal shielding, and soundproof partitions.',
+        rdBadge3: 'Gen 3 (Commercial)',
+        rdName3: 'Breeze Block Heritage',
+        rdDesc3: 'Ventilated breeze block product featuring green East Asian architectural heritage aesthetics.',
+        rdBtnView: 'View Specs',
+        
+        // Comparison Matrix
+        matrixTitle: 'Material <span class="gradient-text">Comparison Matrix</span>',
+        matrixSubtitle: "RENOVA's physical properties outperform conventional building materials.",
+        matrixHeaderProp: 'Criteria',
+        matrixHeaderRenova: 'RENOVA Block',
+        matrixHeaderCement: 'Cement Concrete Block',
+        matrixHeaderClay: 'Terracotta Breeze Block',
+        matrixWeightProp: 'Weight',
+        matrixWeightRenova: '1.5 kg (Super lightweight)',
+        matrixWeightCement: '3.2 kg (Heavy)',
+        matrixWeightClay: '2.8 kg (Medium)',
+        matrixThermalProp: 'Thermal Insulation',
+        matrixThermalRenova: 'Excellent (Thermal Shield)',
+        matrixThermalCement: 'Poor (Fast conduction)',
+        matrixThermalClay: 'Poor',
+        matrixCarbonProp: 'CO2 Footprint',
+        matrixCarbonRenova: 'Carbon Negative',
+        matrixCarbonCement: 'Carbon Positive (High emissions)',
+        matrixCarbonClay: 'Very High Carbon Positive (Kiln fired)',
+        matrixUvProp: 'UV / Mold Resistance',
+        matrixUvRenova: 'Mold & UV resistant',
+        matrixUvCement: 'Prone to mold & moisture',
+        matrixUvClay: 'Prone to weathering & cracking',
+        
+        // ESG & EPR Calculator
+        calcTitle: 'ESG & EPR <span class="gradient-text">Calculation Suite</span>',
+        calcSubtitle: 'Calculate environmental impacts and optimize your EPR financial model.',
+        
+        // ESG Section
+        calcEsgTitle: 'Ecological Impact Forecasting',
+        calcEsgInputLabel: 'Enter projected number of bricks',
+        calcEsgRatioLabel: 'Raw material mixture ratio',
+        calcEsgTreesLabel: 'Equivalent trees planted / year',
+        calcEsgCo2Label: 'CO2 emissions reduced (kg)',
+        
+        // EPR Section
+        calcEprTitle: 'EPR Cashflow Optimization Engine',
+        calcEprInputLabel: 'MLP packaging volume released to market (kg/year)',
+        calcEprPriceLabel: 'Expected RENOVA block price (VND/pc)',
+        calcEprSavingsLabel: 'Direct savings for EPR fund',
+        calcEprSavingsHighlight: 'Save 40% on environmental recycling fees',
+        calcEprLabelSavingsMinus: 'Direct savings for EPR fund:',
+        calcEprStdLabel: 'Standard EPR Fee:',
+        calcEprOptLabel: 'Optimized Fee:',
+        calcEprOffsetTitle: 'RENOVA Block Offset Analysis',
+        calcEprNetCostLabel: 'Actual net cost of blocks after EPR offset',
+        calcEprNetCostHighlight: 'Subsidized by EPR fund: <span id="offsetPct">25.0%</span> of material cost!',
+        calcEprOffsetQtyLabel: 'Blocks needed to offset:',
+        calcEprOriginalCostLabel: 'Original block cost:',
+        calcEprOffsetDesc: 'Through the EPR compliance offset mechanism, enterprises recoup a portion of material expenses when reinvesting in RENOVA breeze blocks for factory landscaping or office architecture.',
+        
+        // Stepper
+        stepperTitle: 'Digital <span class="gradient-text">EPR Partnership Workflow</span>',
+        stepperSubtitle: 'Closed-loop circular workflow map in 4 simple steps.',
+        stepperStep1: '1. Collection',
+        stepperStep2: '2. Transportation',
+        stepperStep3: '3. Production',
+        stepperStep4: '4. Certification',
+        stepperNext: 'Next Step <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>',
+        stepperBack: 'Back to Step 1',
+        
+        // Registration Forms
+        regTitle: 'Partnership <span class="gradient-text">Registration Portal</span>',
+        regSubtitle: 'Select the appropriate form to receive specialized consultation and documentation.',
+        regSuccessTitle: 'Registration Successful!',
+        regSuccessDesc: 'Your request has been recorded. A bilingual (EN/VI) confirmation email has been sent to schedule an introductory consultation.',
+        regSuccessBtn: 'Submit another response',
+        regTabEpr: 'EPR Partner',
+        regTabGreen: 'Green Project',
+        regTabCollector: 'Scrap Collector',
+        
+        // Form fields EPR
+        formEprCompany: 'Company / Corporation Name',
+        formEprName: 'Contact Person Name',
+        formEprEmail: 'Contact Email',
+        formEprPhone: 'Phone Number',
+        formEprVolume: 'Annual plastic waste volume generated (kg)',
+        formEprSubmit: 'Register for Partner Consultation <i data-lucide="send" style="width: 16px; height: 16px;"></i>',
+        
+        // Form fields Green
+        formGreenName: 'Developer / Architect Name',
+        formGreenPhone: 'Phone Number',
+        formGreenEmail: 'Contact Email',
+        formGreenArea: 'Installation surface area (sqm)',
+        formGreenLocation: 'Project Construction Site',
+        formGreenSubmit: 'Register for Design Consultation <i data-lucide="send" style="width: 16px; height: 16px;"></i>',
+        
+        // Form fields Collector
+        formCollectorName: 'Yard Name / Individual Name',
+        formCollectorType: 'Collection Type',
+        formCollectorTypeYard: 'Scrap Yard Intermediary',
+        formCollectorTypeInd: 'Individual collector',
+        formCollectorEmail: 'Contact Email',
+        formCollectorPhone: 'Phone Number',
+        formCollectorAddress: 'Collection Point Address',
+        formCollectorSubmit: 'Submit Supply Application <i data-lucide="send" style="width: 16px; height: 16px;"></i>',
+        
+        // Team Section
+        teamTitle: 'Core Team & <span class="gradient-text">Talent</span>',
+        teamSubtitle: 'Multidisciplinary team from HCMUT specializing in Environment, Materials, Economics, and Media.',
+        teamMajorHuy: 'Specialization: Environmental Engineering',
+        teamMajorVinh: 'Specialization: Materials / Polymer Engineering',
+        teamMajorAnh: 'Specialization: Environmental Management',
+        
+        // Stakeholders / Partners
+        stakeTitle: 'Stakeholders & <span class="gradient-text">Green Ecosystem</span>',
+        stakeSubtitle: 'Valued partners supporting our green R&D and circular value chain.',
+        stakeCarHcmut: 'VNU-HCM (HCMUT)',
+        stakeCarHcmutSub: 'University of Technology',
+        stakeCarFenr: 'FENR - HCMUT',
+        stakeCarFenrSub: 'Faculty of Environment',
+        stakeCarVwra: 'VWRA VIETNAM',
+        stakeCarVwraSub: 'Waste Recycling Association',
+        stakeCarDow: 'DOW CHEMICAL',
+        stakeCarDowSub: 'Dow Vietnam',
+        
+        stakeAdvRole1: 'Scientific & Lab Advisor - HCMUT',
+        stakeAdvDesc1: 'Guiding bio-based polymer matrix and green aggregate research.',
+        stakeAdvRole2: 'Materials R&D Advisor - HCMUT',
+        stakeAdvDesc2: 'Assisting MLP extrusion and agricultural husk preprocessing.',
+        
+        // Achievements / Awards
+        awardsTitle: 'Milestones & <span class="gradient-text">Key Awards</span>',
+        awardsSubtitle: 'Prestige and quality recognition from academic fields and industry experts.',
+        awardsQtyLabel: 'Major Awards',
+        awardsLabLabel: 'Standardized Lab Material',
+        awardsTitle1: '3rd Prize at International EPICS 8',
+        awardsYear1: 'Year 2024',
+        awardsDesc1: 'Engineering Projects in Community Service competition organized by ASU and sponsored by Dow Vietnam, recognizing exceptional community impact.',
+        awardsTitle2: 'VWRA 2025 Consolation Prize',
+        awardsYear2: 'Year 2025',
+        awardsDesc2: 'Vietnam Waste Recycling Association honored the RENOVA project for outstanding ecological upcycling of multi-layer plastics.',
+        
+        // Modal
+        modalCompressiveLabel: 'Compressive Strength',
+        modalAbsorptionLabel: 'Water Absorption',
+        modalUvLabel: 'UV Resistance Test',
+        modalCompositionLabel: 'Raw materials blend: ',
+        modalDensityLabel: 'Density: ',
+        modalClose: 'Close',
+        
+        // Footer
+        footerRights: '© 2026 RENOVA Circular. All rights reserved.',
+      }
+    };
+
+    const placeholderTranslations = {
+      vi: {
+        eprCompany: "FMCG Group",
+        eprName: "Nguyễn Văn A",
+        eprEmail: "partner@fmcg.com",
+        eprPhone: "0901234567",
+        greenName: "Trần Minh B",
+        greenPhone: "0918765432",
+        greenEmail: "architect@greenstudio.vn",
+        greenLocation: "Quận 2, TP. Hồ Chí Minh",
+        collectorName: "Vựa ve chai Hoàng",
+        collectorEmail: "vechai.quan5@gmail.com",
+        collectorPhone: "0988776655",
+        collectorAddress: "123 Hùng Vương, Quận 5, TP.HCM"
+      },
+      en: {
+        eprCompany: "FMCG Group",
+        eprName: "John Doe",
+        eprEmail: "partner@fmcg.com",
+        eprPhone: "0901234567",
+        greenName: "Jane Smith",
+        greenPhone: "0918765432",
+        greenEmail: "architect@greenstudio.vn",
+        greenLocation: "District 2, HCMC",
+        collectorName: "Hoang Scrap Yard",
+        collectorEmail: "vechai.quan5@gmail.com",
+        collectorPhone: "0988776655",
+        collectorAddress: "123 Hung Vuong, District 5, HCMC"
+      }
+    };
+
+    // Modal data for prototypes
+    const sampleData = {
+      vi: [
+        {
+          title: "Mẫu phôi composite nền",
+          gen: "Gen 1 (Giai đoạn Lab)",
+          compressive: "5.5 - 6.5 MPa",
+          absorption: "< 2.5%",
+          uv: "Thử nghiệm đạt chuẩn chống tia cực tím UV SGS 500 giờ",
+          composition: "50% Nhựa đa lớp (MLP) + 50% Sợi trấu xenlulo",
+          density: "1.2 g/cm³"
+        },
+        {
+          title: "Mẫu gạch đặc V16",
+          gen: "Gen 2 (Thử nghiệm chịu nén)",
+          compressive: "6.8 - 7.5 MPa",
+          absorption: "< 1.8%",
+          uv: "Chứng nhận đạt cấp kiểm định ASTM G154 chống chịu UV ngoài trời",
+          composition: "60% Nhựa MLP + 40% Vỏ trấu thô",
+          density: "1.35 g/cm³"
+        },
+        {
+          title: "Gạch bông gió Heritage",
+          gen: "Gen 3 (Thương mại di sản)",
+          compressive: "7.8 - 8.2 MPa",
+          absorption: "< 1.2%",
+          uv: "Độ bền chống tia cực tím UV bảo hành 10 năm không phai màu",
+          composition: "45% Nhựa MLP + 45% Vỏ trấu + 10% Khoáng chất tạo màu",
+          density: "1.4 g/cm³"
+        }
+      ],
+      en: [
+        {
+          title: "Base Composite Preform",
+          gen: "Gen 1 (Lab Stage)",
+          compressive: "5.5 - 6.5 MPa",
+          absorption: "< 2.5%",
+          uv: "SGS 500-hour UV resistance test certified",
+          composition: "50% Multi-layer Plastic (MLP) + 50% Rice Husk Cellulose Fibers",
+          density: "1.2 g/cm³"
+        },
+        {
+          title: "Solid Block V16",
+          gen: "Gen 2 (Compressive Testing)",
+          compressive: "6.8 - 7.5 MPa",
+          absorption: "< 1.8%",
+          uv: "ASTM G154 outdoors UV resistance grade certified",
+          composition: "60% MLP Plastic + 40% Raw Rice Husk",
+          density: "1.35 g/cm³"
+        },
+        {
+          title: "Breeze Block Heritage",
+          gen: "Gen 3 (Heritage Commercial)",
+          compressive: "7.8 - 8.2 MPa",
+          absorption: "< 1.2%",
+          uv: "UV resistance color-fade warranty for 10 years",
+          composition: "45% MLP Plastic + 45% Rice Husk + 10% Color Pigment Minerals",
+          density: "1.4 g/cm³"
+        }
+      ]
+    };
+
+    // EPR Stepper Details
+    const stepperDetails = {
+      vi: [
+        {
+          title: "1. Thu gom rác MLP",
+          status: "Thu gom tại nhà máy đối tác",
+          desc: "Rác bao bì nilon đa lớp (MLP) phát sinh từ nhà xưởng của đối tác được phân loại tại nguồn sạch và đóng bánh tiêu chuẩn chờ xe gom."
+        },
+        {
+          title: "2. Vận chuyển sinh thái",
+          status: "Vận chuyển về xưởng RENOVA",
+          desc: "Nhựa đóng kiện được cân nhận thực tế đầu cổng và vận chuyển trực tiếp đến xưởng vật liệu xanh trung tâm bằng đội xe xanh."
+        },
+        {
+          title: "3. Sản xuất gạch bông gió",
+          status: "Ép nóng & Gia công đúc khuôn",
+          desc: "Nhựa được nghiền mịn và sấy sấy phối trộn vỏ trấu cùng khoáng chất để đúc nên các tấm bông gió Heritage chịu nén chịu thời tiết cực cao."
+        },
+        {
+          title: "4. Cấp chứng chỉ ESG",
+          status: "Nghiệm thu điện tử thông suốt",
+          desc: "Đối soát dữ liệu cân đầu vào và gạch đầu ra, lập báo cáo carbon âm và cấp chứng chỉ điện tử số hóa xác thực nghĩa vụ nộp quỹ EPR."
+        }
+      ],
+      en: [
+        {
+          title: "1. MLP Waste Collection",
+          status: "Collection at partner factory",
+          desc: "Clean multi-layer plastic (MLP) packaging waste generated at the partner factory is sorted at source and compressed into standard bales."
+        },
+        {
+          title: "2. Eco-Transportation",
+          status: "Shipping to RENOVA facility",
+          desc: "Baled plastic is weighed at the entrance gate and transported directly to our green material workshop using an eco-fleet."
+        },
+        {
+          title: "3. Breeze Block Production",
+          status: "Hot-pressing & Mold casting",
+          desc: "The plastic is finely crushed, dried, and blended with agricultural husks and color pigments to cast high-pressure weather-resistant Heritage breeze blocks."
+        },
+        {
+          title: "4. ESG Certification",
+          status: "Seamless electronic audit",
+          desc: "We cross-reference input weight and output blocks, generate carbon-negative reports, and issue a digital certificate validating EPR compliance."
+        }
+      ]
+    };
+
+    // Bilingual toggler implementation
+    function changeLang(lang) {
+      currentLang = lang;
+      
+      // Update toggle buttons active style
+      const btnVi = document.getElementById("btn-lang-vi");
+      const btnEn = document.getElementById("btn-lang-en");
+      
+      if (lang === "vi") {
+        btnVi.style.background = "hsl(var(--primary))";
+        btnVi.style.color = "#fff";
+        btnEn.style.background = "transparent";
+        btnEn.style.color = "hsl(var(--text-muted))";
+      } else {
+        btnVi.style.background = "transparent";
+        btnVi.style.color = "hsl(var(--text-muted))";
+        btnEn.style.background = "hsl(var(--primary))";
+        btnEn.style.color = "#fff";
+      }
+
+      // Update regular translation nodes
+      document.querySelectorAll("[data-translate]").forEach(el => {
+        const key = el.getAttribute("data-translate");
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+
+      // Update team member specializations
+      document.querySelectorAll("[data-translate-member-major]").forEach(el => {
+        const key = el.getAttribute("data-translate-member-major");
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+
+      // Update inputs placeholders
+      document.querySelectorAll("[data-translate-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-translate-placeholder");
+        if (placeholderTranslations[lang][key]) {
+          el.placeholder = placeholderTranslations[lang][key];
+        }
+      });
+
+      // Update Chart.js labels
+      if (esgChart) {
+        esgChart.data.labels = lang === "vi" 
+          ? ['MLP Nhựa giải cứu (kg)', 'Vỏ trấu tiêu thụ (kg)', 'CO2 Cắt giảm (kg)'] 
+          : ['MLP Plastic Rescued (kg)', 'Rice Husk Consumed (kg)', 'CO2 Emissions Reduced (kg)'];
+        esgChart.update();
+      }
+
+      // Re-run calculators to format numbers correctly with active language
+      updateEsgCalc();
+      updateEprCalc();
+
+      // Update stepper dynamic text
+      if (typeof currentStep !== "undefined") {
+        document.getElementById("stepTitle").innerText = stepperDetails[lang][currentStep].title;
+        document.getElementById("stepStatus").innerText = (lang === "vi" ? "Trạng thái: " : "Status: ") + stepperDetails[lang][currentStep].status;
+        document.getElementById("stepDescription").innerText = stepperDetails[lang][currentStep].desc;
+        
+        const btn = document.getElementById("stepperNextBtn");
+        if (currentStep === 3) {
+          btn.innerHTML = lang === "vi" ? "Quay lại bước 1" : "Back to Step 1";
+        } else {
+          btn.innerHTML = (lang === "vi" ? "Bước tiếp theo" : "Next Step") + ` <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>`;
+        }
+      }
+
+      // Re-create icons for any new innerHTML elements
+      lucide.createIcons();
+    }
+
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Video Player Simulation removed since background video is active
+
+    // Timeline steps change handler
+    function selectTimelineStep(index) {
+      const dots = document.querySelectorAll(".timeline-dot");
+      const cards = document.querySelectorAll(".timeline-card");
+      const progressLine = document.getElementById("timelineProgressLine");
+      
+      progressLine.style.height = `${(index / 3) * 100}%`;
+
+      dots.forEach((dot, idx) => {
+        if (idx <= index) {
+          dot.style.background = "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)))";
+          dot.style.borderColor = "rgba(255,255,255,0.2)";
+          dot.style.color = "#fff";
+          if (idx === index) {
+            dot.style.boxShadow = "0 0 15px rgba(16, 185, 129, 0.4)";
+          } else {
+            dot.style.boxShadow = "none";
+          }
+        } else {
+          dot.style.background = "rgba(255, 255, 255, 0.05)";
+          dot.style.borderColor = "rgba(255, 255, 255, 0.1)";
+          dot.style.color = "rgba(255, 255, 255, 0.4)";
+          dot.style.boxShadow = "none";
+        }
+      });
+
+      cards.forEach((card, idx) => {
+        if (idx === index) {
+          card.style.borderLeft = "3px solid hsl(var(--primary))";
+          card.style.transform = "scale(1.02)";
+          card.style.opacity = "1";
+        } else {
+          card.style.borderLeft = "1px solid rgba(255, 255, 255, 0.05)";
+          card.style.transform = "scale(1)";
+          card.style.opacity = "0.6";
+        }
+      });
+    }
+
+    function openModal(id) {
+      const data = sampleData[currentLang][id];
+      document.getElementById("mTitle").innerText = data.title;
+      document.getElementById("mGen").innerText = data.gen;
+      document.getElementById("mCompressive").innerText = data.compressive;
+      document.getElementById("mAbsorption").innerText = data.absorption;
+      document.getElementById("mUV").innerText = data.uv;
+      document.getElementById("mComposition").innerText = data.composition;
+      document.getElementById("mDensity").innerText = data.density;
+
+      const modal = document.getElementById("specModal");
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("specModal").style.display = "none";
+    }
+
+    // Close modal by clicking outside
+    document.getElementById("specModal").addEventListener("click", function(event) {
+      if (event.target === this) {
+        closeModal();
+      }
+    });
+
+    // --- ESG calculator logic ---
+    const esgBricksInput = document.getElementById("esgBricksInput");
+    const plasticSlider = document.getElementById("plasticSlider");
+    const ratioLabel = document.getElementById("ratioLabel");
+    
+    // Setup Chart.js with initial 0 values for scroll grow animation
+    const ctx = document.getElementById('esgChart').getContext('2d');
+    let esgChartAnimated = false;
+    let esgChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['MLP Nhựa giải cứu (kg)', 'Vỏ trấu tiêu thụ (kg)', 'CO2 Cắt giảm (kg)'],
+        datasets: [{
+          data: [0, 0, 0],
+          backgroundColor: ['#914724', '#b45309', '#fbbf24'],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#9ca3af' } },
+          y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } }
+        }
+      }
+    });
+
+    function updateEsgCalc() {
+      const bricks = Math.max(0, parseFloat(esgBricksInput.value) || 0);
+      const plasticRatio = parseFloat(plasticSlider.value);
+      const huskRatio = 100 - plasticRatio;
+      
+      ratioLabel.innerText = currentLang === 'vi' 
+        ? `${plasticRatio}% Nhựa / ${huskRatio}% Trấu`
+        : `${plasticRatio}% Plastic / ${huskRatio}% Husk`;
+
+      // 1.5 kg per brick
+      const mlp = bricks * (plasticRatio / 100) * 1.5;
+      const husk = bricks * (huskRatio / 100) * 1.5;
+      const co2 = (mlp * 1.95) + (husk * 1.20);
+      const trees = co2 / 22.0;
+
+      // Update UI numbers
+      const fmtLocale = currentLang === 'vi' ? 'vi-VN' : 'en-US';
+      document.getElementById("co2Output").innerText = co2.toLocaleString(fmtLocale, { maximumFractionDigits: 1 });
+      document.getElementById("treesOutput").innerText = trees.toLocaleString(fmtLocale, { maximumFractionDigits: 1 });
+
+      // Update Chart (animate growing only when scrolled down to it)
+      esgChart.data.datasets[0].data = esgChartAnimated ? [
+        parseFloat(mlp.toFixed(1)),
+        parseFloat(husk.toFixed(1)),
+        parseFloat(co2.toFixed(1))
+      ] : [0, 0, 0];
+      esgChart.update();
+    }
+
+    esgBricksInput.addEventListener("input", updateEsgCalc);
+    plasticSlider.addEventListener("input", updateEsgCalc);
+    updateEsgCalc(); // First render
+
+    // Scroll-triggered ESG Chart columns grow animation
+    const esgChartSection = document.getElementById("tinh-toan");
+    const esgChartObserver = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting && !esgChartAnimated) {
+        esgChartAnimated = true;
+        updateEsgCalc(); // update chart data from 0 to real and trigger animation
+        esgChartObserver.unobserve(esgChartSection);
+      }
+    }, { threshold: 0.15 });
+
+    if (esgChartSection) {
+      esgChartObserver.observe(esgChartSection);
+    }
+
+
+    // --- EPR cashflow logic ---
+    const eprVolumeInput = document.getElementById("eprVolumeInput");
+    const eprPriceInput = document.getElementById("eprPriceInput");
+
+    function updateEprCalc() {
+      const vol = Math.max(0, parseFloat(eprVolumeInput.value) || 0);
+      const price = Math.max(0, parseFloat(eprPriceInput.value) || 0);
+
+      const stdFee = vol * 15000;
+      const optFee = stdFee * 0.60;
+      const savings = stdFee - optFee;
+
+      // Bricks needed (0.75kg plastic per brick)
+      const bricksNeeded = Math.ceil(vol / 0.75);
+      const totalCost = bricksNeeded * price;
+      const netCost = totalCost - stdFee;
+      const offsetPct = totalCost > 0 ? (stdFee / totalCost) * 100 : 0;
+
+      // Format VND helper
+      const fmtLocale = currentLang === 'vi' ? 'vi-VN' : 'en-US';
+      const fmt = (val) => new Intl.NumberFormat(fmtLocale, { style: 'currency', currency: 'VND' }).format(val);
+
+      document.getElementById("stdEprFee").innerText = fmt(stdFee);
+      document.getElementById("optEprFee").innerText = fmt(optFee);
+      document.getElementById("eprSavings").innerText = "-" + fmt(savings);
+      document.getElementById("bricksNeeded").innerText = bricksNeeded.toLocaleString(fmtLocale) + (currentLang === 'vi' ? " viên" : " pcs");
+      document.getElementById("totalBricksCost").innerText = fmt(totalCost);
+      document.getElementById("offsetPct").innerText = Math.min(offsetPct, 100).toFixed(1) + "%";
+      document.getElementById("netBricksCost").innerText = fmt(netCost);
+    }
+
+    eprVolumeInput.addEventListener("input", updateEprCalc);
+    eprPriceInput.addEventListener("input", updateEprCalc);
+    updateEprCalc();
+
+
+    // --- EPR Stepper ---
+    let currentStep = 0;
+
+    function selectStep(stepIdx) {
+      currentStep = stepIdx;
+      const steps = document.querySelectorAll(".stepper-step");
+      const lineFiller = document.getElementById("stepperLineFiller");
+      
+      lineFiller.style.width = `${(stepIdx / 3) * 100}%`;
+
+      steps.forEach((step, idx) => {
+        if (idx <= stepIdx) {
+          step.classList.add("completed");
+          if (idx === stepIdx) {
+            step.classList.add("active");
+          } else {
+            step.classList.remove("active");
+          }
+        } else {
+          step.classList.remove("completed", "active");
+        }
+      });
+
+      // Update text details
+      document.getElementById("stepTitle").innerText = stepperDetails[currentLang][stepIdx].title;
+      document.getElementById("stepStatus").innerText = (currentLang === "vi" ? "Trạng thái: " : "Status: ") + stepperDetails[currentLang][stepIdx].status;
+      document.getElementById("stepDescription").innerText = stepperDetails[currentLang][stepIdx].desc;
+
+      const btn = document.getElementById("stepperNextBtn");
+      if (stepIdx === 3) {
+        btn.innerHTML = currentLang === "vi" ? "Quay lại bước 1" : "Back to Step 1";
+      } else {
+        btn.innerHTML = (currentLang === "vi" ? "Bước tiếp theo" : "Next Step") + ` <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>`;
+        lucide.createIcons();
+      }
+    }
+
+    function nextStep() {
+      if (currentStep === 3) {
+        selectStep(0);
+      } else {
+        selectStep(currentStep + 1);
+      }
+    }
+
+
+    // --- Form smart tab switcher ---
+    function switchTab(tabId) {
+      // Deactivate all buttons & forms
+      document.getElementById("tab-epr").classList.remove("active");
+      document.getElementById("tab-green").classList.remove("active");
+      document.getElementById("tab-collector").classList.remove("active");
+
+      document.getElementById("form-epr-el").style.display = "none";
+      document.getElementById("form-green-el").style.display = "none";
+      document.getElementById("form-collector-el").style.display = "none";
+
+      // Activate selected
+      document.getElementById(`tab-${tabId}`).classList.add("active");
+      document.getElementById(`form-${tabId}-el`).style.display = "flex";
+    }
+
+    function submitForm(e, type) {
+      e.preventDefault();
+      document.getElementById("formsContainer").style.display = "none";
+      document.getElementById("formSuccessCard").style.display = "flex";
+    }
+
+    function resetForms() {
+      document.getElementById("formSuccessCard").style.display = "none";
+      document.getElementById("formsContainer").style.display = "block";
+      
+      // Reset input fields
+      document.getElementById("form-epr-el").reset();
+      document.getElementById("form-green-el").reset();
+      document.getElementById("form-collector-el").reset();
+    }
+
+    // --- Scroll-triggered Milestones count-up animation ---
+    const milestonesSection = document.getElementById("thanh-tuu");
+    let milestonesAnimated = false;
+
+    const milestonesObserver = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting && !milestonesAnimated) {
+        milestonesAnimated = true;
+        
+        const duration = 1500; // ms
+        const intervalTime = 30;
+        const steps = duration / intervalTime;
+        
+        let step = 0;
+        const timer = setInterval(() => {
+          step++;
+          const awardsVal = Math.min(3, Math.floor((3 / steps) * step));
+          const percentVal = Math.min(100, Math.floor((100 / steps) * step));
+          
+          document.getElementById("htmlAwardsCount").innerText = `0${awardsVal}+`;
+          document.getElementById("htmlLabPercent").innerText = `${percentVal}%`;
+          
+          if (step >= steps) {
+            clearInterval(timer);
+          }
+        }, intervalTime);
+        
+        milestonesObserver.unobserve(milestonesSection);
+      }
+    }, { threshold: 0.15 });
+
+    if (milestonesSection) {
+      milestonesObserver.observe(milestonesSection);
+    }
+  </script>
+</body>
+</html>
