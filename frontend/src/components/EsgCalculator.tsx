@@ -352,7 +352,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
             </div>
 
             {/* Graphics Column */}
-            <div className="h-full flex flex-col justify-center gap-5">
+            <div className="h-full flex flex-col justify-center gap-5 min-w-0">
               <div className="h-[220px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart key={isChartVisible ? "visible" : "hidden"} data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>

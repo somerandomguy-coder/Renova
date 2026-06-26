@@ -121,7 +121,7 @@ export default function Home() {
               </button>
             </div>
 
-            <a href="#dang-ky" className="btn-primary header-cta px-5 py-2 text-sm">
+            <a href="#dang-ky" className="btn-primary header-cta hidden lg:inline-flex px-5 py-2 text-sm">
               {nav.cta}
             </a>
 

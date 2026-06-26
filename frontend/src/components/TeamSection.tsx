@@ -188,7 +188,7 @@ export default function TeamSection({ lang }: TeamSectionProps) {
 
               {/* Hover / Click Contacts Overlay */}
               <div 
-                className="contact-overlay absolute bottom-0 left-0 w-full py-4 bg-gradient-to-t from-neutral-950 via-neutral-950/95 to-transparent flex justify-center gap-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-t border-white/5"
+                className="contact-overlay relative md:absolute bottom-0 left-0 w-full py-2 md:py-4 bg-transparent md:bg-gradient-to-t md:from-neutral-950 md:via-neutral-950/95 md:to-transparent flex justify-center gap-5 mt-4 md:mt-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 border-t border-white/10 md:border-t-0"
               >
                 <a 
                   href={`mailto:${member.email}`}
