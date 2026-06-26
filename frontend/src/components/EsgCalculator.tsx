@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from "recharts";
 import { Calculator, ArrowRight, Activity, Percent, Sparkles, TrendingUp } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface EsgCalculatorProps {
   lang: "vi" | "en";
@@ -250,13 +251,15 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
   return (
     <section id="tinh-toan" ref={sectionRef} className="relative">
       <div className="container">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 gap-12">
           
@@ -335,24 +338,26 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
               </div>
 
               {/* Calculated Outputs Numbers */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                <div className="p-4 rounded-xl bg-white/2 border border-white/3">
-                  <p className="text-xs text-brand-text-muted">{t.treesLabel}</p>
-                  <p className="text-3xl font-extrabold text-brand-primary">
-                    {formatNumber(esgResult.trees_equivalent)} <span className="text-sm font-medium text-brand-text-muted">{t.treesUnit}</span>
-                  </p>
+              <ScrollReveal animation="scale-in" duration={500} delay={100}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                  <div className="p-4 rounded-xl bg-white/2 border border-white/3">
+                    <p className="text-xs text-brand-text-muted">{t.treesLabel}</p>
+                    <p className="text-3xl font-extrabold text-brand-primary">
+                      {formatNumber(esgResult.trees_equivalent)} <span className="text-sm font-medium text-brand-text-muted">{t.treesUnit}</span>
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-white/2 border border-white/3">
+                    <p className="text-xs text-brand-text-muted">{t.co2Label}</p>
+                    <p className="text-3xl font-extrabold text-[#fbbf24]">
+                      {formatNumber(esgResult.co2_reduced_kg)} <span className="text-sm font-medium text-brand-text-muted">{t.co2Unit}</span>
+                    </p>
+                  </div>
                 </div>
-                <div className="p-4 rounded-xl bg-white/2 border border-white/3">
-                  <p className="text-xs text-brand-text-muted">{t.co2Label}</p>
-                  <p className="text-3xl font-extrabold text-[#fbbf24]">
-                    {formatNumber(esgResult.co2_reduced_kg)} <span className="text-sm font-medium text-brand-text-muted">{t.co2Unit}</span>
-                  </p>
-                </div>
-              </div>
+              </ScrollReveal>
             </div>
 
             {/* Graphics Column */}
-            <div className="h-full flex flex-col justify-center gap-5 min-w-0">
+            <ScrollReveal animation="scale-in" duration={600} delay={200} className="h-full flex flex-col justify-center gap-5 min-w-0">
               <div className="h-[220px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart key={isChartVisible ? "visible" : "hidden"} data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -396,7 +401,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                   </ResponsiveContainer>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
           </div>
 
@@ -435,36 +440,38 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                 />
               </div>
 
-              <div className="flex flex-col gap-3">
-                {/* Savings Summary Box */}
-                <div className="bg-brand-primary/8 p-5 rounded-xl border border-brand-primary/20 text-center">
-                  <p className="text-xs text-brand-text-muted mb-1">
-                    {t.eprSavingsLabel}
-                  </p>
-                  <p className="text-3xl font-extrabold text-brand-primary my-1">
-                    - {formatCurrency(eprResult.epr_savings_vnd)}
-                  </p>
-                  <p className="text-xs text-brand-primary font-semibold">
-                    {t.eprSavingsDesc}
-                  </p>
-                </div>
+              <ScrollReveal animation="scale-in" duration={500} delay={100}>
+                <div className="flex flex-col gap-3">
+                  {/* Savings Summary Box */}
+                  <div className="bg-brand-primary/8 p-5 rounded-xl border border-brand-primary/20 text-center">
+                    <p className="text-xs text-brand-text-muted mb-1">
+                      {t.eprSavingsLabel}
+                    </p>
+                    <p className="text-3xl font-extrabold text-brand-primary my-1">
+                      - {formatCurrency(eprResult.epr_savings_vnd)}
+                    </p>
+                    <p className="text-xs text-brand-primary font-semibold">
+                      {t.eprSavingsDesc}
+                    </p>
+                  </div>
 
-                {/* Smaller details */}
-                <div className="grid grid-cols-2 gap-3 px-2">
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[11px] text-brand-text-muted">{t.standardEprLabel}</span>
-                    <span className="text-sm font-semibold text-red-400">{formatCurrency(eprResult.standard_epr_fee_vnd)}</span>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[11px] text-brand-text-muted">{t.optimizedEprLabel}</span>
-                    <span className="text-sm font-semibold text-brand-primary">{formatCurrency(eprResult.optimized_epr_fee_vnd)}</span>
+                  {/* Smaller details */}
+                  <div className="grid grid-cols-2 gap-3 px-2">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-brand-text-muted">{t.standardEprLabel}</span>
+                      <span className="text-sm font-semibold text-red-400">{formatCurrency(eprResult.standard_epr_fee_vnd)}</span>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-brand-text-muted">{t.optimizedEprLabel}</span>
+                      <span className="text-sm font-semibold text-brand-primary">{formatCurrency(eprResult.optimized_epr_fee_vnd)}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
             </div>
 
             {/* Calculations Analysis Result Column */}
-            <div className="flex flex-col gap-5">
+            <ScrollReveal animation="scale-in" duration={600} delay={200} className="flex flex-col gap-5">
               <h4 className="text-base text-brand-primary flex items-center gap-2 font-heading">
                 <Sparkles size={16} /> {t.analysisTitle}
               </h4>
@@ -501,7 +508,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                   </p>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
           </div>
 

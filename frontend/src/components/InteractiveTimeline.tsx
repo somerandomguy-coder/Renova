@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Beaker, Trophy, Shield, Rocket } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface InteractiveTimelineProps {
   lang: "vi" | "en";
@@ -110,13 +111,15 @@ export default function InteractiveTimeline({ lang }: InteractiveTimelineProps) 
   return (
     <section id="hanh-trinh" className="dark-section">
       <div className="container">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         <div className="max-w-3xl mx-auto relative py-5">
           

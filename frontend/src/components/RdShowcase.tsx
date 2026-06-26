@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Info, X, ShieldCheck, Compass, Activity, Layers } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface RdShowcaseProps {
   lang: "vi" | "en";
@@ -153,13 +154,15 @@ export default function RdShowcase({ lang }: RdShowcaseProps) {
   return (
     <section id="thu-vien-rd" className="relative">
       <div className="container">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {samples.map((sample) => (

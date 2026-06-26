@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Leaf, Users, ShieldCheck } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface EsgVisionProps {
   lang: "vi" | "en";
@@ -65,13 +66,15 @@ export default function EsgVision({ lang }: EsgVisionProps) {
   return (
     <section id="tam-nhin-esg" className="relative">
       <div className="container">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {cards.map((card, index) => (

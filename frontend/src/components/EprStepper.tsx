@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Truck, Factory, ShieldCheck, ClipboardCheck, ArrowRight } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface EprStepperProps {
   lang: "vi" | "en";
@@ -104,13 +105,15 @@ export default function EprStepper({ lang }: EprStepperProps) {
   return (
     <section id="quy-trinh-epr" className="dark-section">
       <div className="container">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         <div className="glass-card max-w-4xl mx-auto">
           

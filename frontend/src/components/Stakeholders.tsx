@@ -2,6 +2,7 @@
 
 import React from "react";
 import { GraduationCap, Award, ExternalLink } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface StakeholdersProps {
   lang: "vi" | "en";
@@ -87,78 +88,84 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
   return (
     <section id="doi-tac" className="relative py-20 bg-brand-bg-dark/20">
       <div className="container">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         {/* INFINITE LOGO CAROUSEL */}
-        <div className="mb-20">
-          <p className="text-xs sm:text-sm uppercase tracking-wider text-brand-text-muted text-center font-bold mb-8">
-            {t.partnersHeader}
-          </p>
+        <ScrollReveal animation="scale-in" duration={500} delay={100}>
+          <div className="mb-20">
+            <p className="text-xs sm:text-sm uppercase tracking-wider text-brand-text-muted text-center font-bold mb-8">
+              {t.partnersHeader}
+            </p>
 
-          <div className="carousel-wrapper">
-            <div className="logo-carousel">
-              {/* Duplicate array to ensure seamless infinite looping */}
-              {[...partners, ...partners].map((partner, idx) => (
-                <div key={idx} className="logo-item">
-                  <div className="bg-brand-bg-card border border-brand-border rounded-xl py-4 px-6 flex flex-col items-center justify-center w-[220px] h-20 text-center shadow-xs">
-                    <span className="font-extrabold text-brand-text-primary text-[15px] font-heading">
-                      {partner.name}
-                    </span>
-                    <span className="text-[10px] text-brand-text-muted mt-0.5">
-                      {partner.desc}
-                    </span>
+            <div className="carousel-wrapper">
+              <div className="logo-carousel">
+                {/* Duplicate array to ensure seamless infinite looping */}
+                {[...partners, ...partners].map((partner, idx) => (
+                  <div key={idx} className="logo-item">
+                    <div className="bg-brand-bg-card border border-brand-border rounded-xl py-4 px-6 flex flex-col items-center justify-center w-[220px] h-20 text-center shadow-xs">
+                      <span className="font-extrabold text-brand-text-primary text-[15px] font-heading">
+                        {partner.name}
+                      </span>
+                      <span className="text-[10px] text-brand-text-muted mt-0.5">
+                        {partner.desc}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* ADVISORY BOARD */}
+        <ScrollReveal animation="scale-in" duration={600} delay={200}>
+          <div>
+            <p className="text-xs sm:text-sm uppercase tracking-wider text-brand-text-muted text-center font-bold mb-10">
+              {t.advisorsHeader}
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[900px] mx-auto">
+              {advisors.map((adv, idx) => (
+                <div 
+                  key={idx}
+                  className="glass-card flex flex-col sm:grid sm:grid-cols-[100px_1fr] gap-6 items-start border-l-4 border-brand-primary p-6 sm:p-8"
+                >
+                  {/* Advisor Photo */}
+                  <div className="w-[100px] h-[100px] rounded-xl overflow-hidden border-2 border-brand-border shrink-0 mx-auto sm:mx-0">
+                    <img 
+                      src={adv.avatar} 
+                      alt={adv.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex flex-col gap-2 text-center sm:text-left">
+                    <h3 className="text-xl text-brand-text-primary font-bold">{adv.name}</h3>
+                    <div className="flex items-center justify-center sm:justify-start gap-1.5 text-brand-primary">
+                      <GraduationCap size={16} />
+                      <span className="text-[13px] font-semibold font-heading">{adv.title}</span>
+                    </div>
+                    <p className="text-xs text-brand-text-muted font-semibold">
+                      {adv.institution}
+                    </p>
+                    <p className="text-sm text-brand-text-muted leading-relaxed mt-1">
+                      {adv.role}
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-
-        {/* ADVISORY BOARD */}
-        <div>
-          <p className="text-xs sm:text-sm uppercase tracking-wider text-brand-text-muted text-center font-bold mb-10">
-            {t.advisorsHeader}
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[900px] mx-auto">
-            {advisors.map((adv, idx) => (
-              <div 
-                key={idx}
-                className="glass-card flex flex-col sm:grid sm:grid-cols-[100px_1fr] gap-6 items-start border-l-4 border-brand-primary p-6 sm:p-8"
-              >
-                {/* Advisor Photo */}
-                <div className="w-[100px] h-[100px] rounded-xl overflow-hidden border-2 border-brand-border shrink-0 mx-auto sm:mx-0">
-                  <img 
-                    src={adv.avatar} 
-                    alt={adv.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* Info */}
-                <div className="flex flex-col gap-2 text-center sm:text-left">
-                  <h3 className="text-xl text-brand-text-primary font-bold">{adv.name}</h3>
-                  <div className="flex items-center justify-center sm:justify-start gap-1.5 text-brand-primary">
-                    <GraduationCap size={16} />
-                    <span className="text-[13px] font-semibold font-heading">{adv.title}</span>
-                  </div>
-                  <p className="text-xs text-brand-text-muted font-semibold">
-                    {adv.institution}
-                  </p>
-                  <p className="text-sm text-brand-text-muted leading-relaxed mt-1">
-                    {adv.role}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        </ScrollReveal>
 
       </div>
     </section>

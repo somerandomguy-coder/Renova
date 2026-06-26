@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Mail, Phone, Building, Home, Users, CheckCircle, AlertCircle, Send } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface RegistrationFormsProps {
   lang: "vi" | "en";
@@ -243,13 +244,15 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
   return (
     <section id="dang-ky" className="relative py-20">
       <div className="container max-w-3xl">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         {successData ? (
           /* SUCCESS SCREEN */

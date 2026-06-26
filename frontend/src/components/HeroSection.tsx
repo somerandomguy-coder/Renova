@@ -2,6 +2,7 @@
 
 import React from "react";
 import { FileText, CheckCircle2, Leaf, Shield, Sparkles } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface HeroSectionProps {
   lang: "vi" | "en";
@@ -47,42 +48,44 @@ export default function HeroSection({ lang }: HeroSectionProps) {
       ></div>
 
       <div className="container relative z-10 w-full flex justify-center">
-        <div className="flex flex-col items-center text-center gap-7 max-w-3xl">
-          
-          <div 
-            className="inline-flex items-center gap-2 bg-brand-primary/6 border border-brand-primary/15 px-4.5 py-2 rounded-full w-fit"
-          >
-            <Leaf size={14} className="text-brand-primary" />
-            <span 
-              className="text-[12px] uppercase tracking-widest font-bold text-brand-primary font-heading"
+        <ScrollReveal animation="fade-up" duration={800} repeat={false}>
+          <div className="flex flex-col items-center text-center gap-7 max-w-3xl">
+            
+            <div 
+              className="inline-flex items-center gap-2 bg-brand-primary/6 border border-brand-primary/15 px-4.5 py-2 rounded-full w-fit"
             >
-              {t.project}
-            </span>
+              <Leaf size={14} className="text-brand-primary" />
+              <span 
+                className="text-[12px] uppercase tracking-widest font-bold text-brand-primary font-heading"
+              >
+                {t.project}
+              </span>
+            </div>
+            
+            <h1 
+              className="text-4xl md:text-5xl lg:text-[64px] leading-[1.1] font-black text-brand-text-primary dark:text-white tracking-tight"
+            >
+              Trash to <span className="gradient-text">Heritage</span>
+            </h1>
+            
+            <p 
+              className="text-base md:text-lg lg:text-xl leading-relaxed text-brand-text-muted max-w-2xl"
+            >
+              {t.description}
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-2 w-full sm:w-auto px-4 sm:px-0">
+              <a href="#dang-ky" className="btn-primary w-full sm:w-auto justify-center">
+                {t.eprBtn}
+                <CheckCircle2 size={18} />
+              </a>
+              <a href="#tinh-toan" className="btn-secondary w-full sm:w-auto justify-center dark:text-white">
+                {t.esgBtn}
+                <FileText size={18} />
+              </a>
+            </div>
           </div>
-          
-          <h1 
-            className="text-4xl md:text-5xl lg:text-[64px] leading-[1.1] font-black text-brand-text-primary dark:text-white tracking-tight"
-          >
-            Trash to <span className="gradient-text">Heritage</span>
-          </h1>
-          
-          <p 
-            className="text-base md:text-lg lg:text-xl leading-relaxed text-brand-text-muted max-w-2xl"
-          >
-            {t.description}
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-2 w-full sm:w-auto px-4 sm:px-0">
-            <a href="#dang-ky" className="btn-primary w-full sm:w-auto justify-center">
-              {t.eprBtn}
-              <CheckCircle2 size={18} />
-            </a>
-            <a href="#tinh-toan" className="btn-secondary w-full sm:w-auto justify-center dark:text-white">
-              {t.esgBtn}
-              <FileText size={18} />
-            </a>
-          </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Mail, Phone } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 const LinkedInIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -154,13 +155,15 @@ export default function TeamSection({ lang }: TeamSectionProps) {
   return (
     <section id="doi-ngu" className="dark-section py-20">
       <div className="container">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {members.map((member, index) => (

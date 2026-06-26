@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Check, Flame, Weight, ShieldAlert, Sparkles, Scale } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface ComparisonMatrixProps {
   lang: "vi" | "en";
@@ -155,13 +156,15 @@ export default function ComparisonMatrix({ lang }: ComparisonMatrixProps) {
   return (
     <section id="so-sanh-vat-lieu" className="dark-section">
       <div className="container">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         <div className="overflow-x-auto pb-4">
           <table className="w-full border-separate border-spacing-2 min-w-[750px]">

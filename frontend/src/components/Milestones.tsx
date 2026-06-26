@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Award, ShieldAlert, CheckCircle, ExternalLink, Calendar } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface MilestonesProps {
   lang: "vi" | "en";
@@ -125,38 +126,42 @@ export default function Milestones({ lang }: MilestonesProps) {
   return (
     <section id="thanh-tuu" ref={sectionRef} className="relative py-20">
       <div className="container">
-        <h2 className="section-title">
-          {t.title}
-          <span className="gradient-text">{t.titleHighlight}</span>
-        </h2>
-        <p className="section-subtitle">
-          {t.subtitle}
-        </p>
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title">
+            {t.title}
+            <span className="gradient-text">{t.titleHighlight}</span>
+          </h2>
+          <p className="section-subtitle">
+            {t.subtitle}
+          </p>
+        </ScrollReveal>
 
         {/* METRICS COUNT-UP DISPLAY */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-[700px] mx-auto mb-16">
-          
-          <div className="glass-card flex flex-col items-center p-8 sm:p-10 text-center border border-brand-secondary/20 shadow-xs">
-            <Award size={48} className="text-brand-secondary mb-4 animate-float" />
-            <h3 className="text-5xl sm:text-6xl font-black font-heading gradient-text-gold">
-              0{awardsCount}+
-            </h3>
-            <p className="text-sm sm:text-base text-brand-text-muted font-semibold mt-1">
-              {t.awardsMetric}
-            </p>
-          </div>
+        <ScrollReveal animation="scale-in" duration={500} delay={100}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-[700px] mx-auto mb-16">
+            
+            <div className="glass-card flex flex-col items-center p-8 sm:p-10 text-center border border-brand-secondary/20 shadow-xs">
+              <Award size={48} className="text-brand-secondary mb-4 animate-float" />
+              <h3 className="text-5xl sm:text-6xl font-black font-heading gradient-text-gold">
+                0{awardsCount}+
+              </h3>
+              <p className="text-sm sm:text-base text-brand-text-muted font-semibold mt-1">
+                {t.awardsMetric}
+              </p>
+            </div>
 
-          <div className="glass-card flex flex-col items-center p-8 sm:p-10 text-center border border-brand-primary/20 shadow-xs">
-            <CheckCircle size={48} className="text-brand-primary mb-4 animate-float" />
-            <h3 className="text-5xl sm:text-6xl font-black font-heading gradient-text">
-              {labPercent}%
-            </h3>
-            <p className="text-sm sm:text-base text-brand-text-muted font-semibold mt-1">
-              {t.standardsMetric}
-            </p>
-          </div>
+            <div className="glass-card flex flex-col items-center p-8 sm:p-10 text-center border border-brand-primary/20 shadow-xs">
+              <CheckCircle size={48} className="text-brand-primary mb-4 animate-float" />
+              <h3 className="text-5xl sm:text-6xl font-black font-heading gradient-text">
+                {labPercent}%
+              </h3>
+              <p className="text-sm sm:text-base text-brand-text-muted font-semibold mt-1">
+                {t.standardsMetric}
+              </p>
+            </div>
 
-        </div>
+          </div>
+        </ScrollReveal>
 
         {/* DETAILED AWARD LIST */}
         <div className="flex flex-col gap-6 max-w-3xl mx-auto">
