@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap&subset=vietnamese" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   
   <!-- Configure Tailwind CDN with Renova Brand Colors -->
   <script>
@@ -65,6 +65,18 @@
     .accent-border {
       border-left: 4px solid #914724;
     }
+
+    /* Scroll animations style classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body class="bg-brand-bgDark text-brand-textPrimary antialiased">
@@ -81,52 +93,31 @@
           <span class="text-[10px] font-bold border border-white/20 px-2 py-0.5 rounded uppercase tracking-wider text-slate-300">Presentation</span>
         </div>
         <p class="text-slate-400 max-w-md text-sm sm:text-base">
-          <span class="lang-vi">Chuyển đổi rác thải nhựa đa lớp thành giải pháp vật liệu xây dựng sinh thái có giá trị di sản và kinh tế cao.</span>
-          <span class="lang-en hidden">Upcycling multi-layer plastic waste into ecological building material solutions with high heritage and economic value.</span>
+          Upcycling multi-layer plastic waste into ecological building material solutions with high heritage and economic value.
         </p>
       </div>
       <div class="flex gap-4">
         <div class="bg-brand-primary/20 border border-brand-primary/30 p-4 rounded-xl text-center min-w-[120px]">
-          <span class="block text-2xl font-bold text-brand-accent">254%</span>
+          <span class="block text-2xl font-bold text-brand-accent"><span class="counter" data-target="254" data-suffix="%">0%</span></span>
           <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Projected IRR</span>
         </div>
         <div class="bg-brand-secondary/20 border border-brand-secondary/30 p-4 rounded-xl text-center min-w-[120px]">
-          <span class="block text-2xl font-bold text-amber-400">
-            <span class="lang-vi">5 Tháng</span>
-            <span class="lang-en hidden">5 Months</span>
-          </span>
-          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">
-            <span class="lang-vi">Hoàn vốn</span>
-            <span class="lang-en hidden">Payback</span>
-          </span>
+          <span class="block text-2xl font-bold text-amber-400"><span class="counter" data-target="5" data-suffix=" Mo">0 Mo</span></span>
+          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Payback Period</span>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Navigation Tabs & Language Switcher -->
+  <!-- Navigation Tabs -->
   <div class="bg-white border-b border-brand-border sticky top-0 z-40 shadow-xs">
-    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-      <div class="flex gap-4 sm:gap-8">
-        <button id="tab1-btn" class="px-2 sm:px-4 py-4 font-bold border-b-3 border-brand-primary text-brand-primary focus:outline-none transition-all text-sm sm:text-base">
-          <span class="lang-vi">Báo cáo Tài chính</span>
-          <span class="lang-en hidden">Financial Dashboard</span>
-        </button>
-        <button id="tab2-btn" class="px-2 sm:px-4 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-sm sm:text-base">
-          <span class="lang-vi">Hệ sinh thái AI & SaaS</span>
-          <span class="lang-en hidden">AI & SaaS Ecosystem</span>
-        </button>
-      </div>
-      
-      <!-- Language selector toggle -->
-      <div class="flex items-center gap-1 bg-brand-bgDark p-1 rounded-full border border-brand-border">
-        <button id="lang-vi-btn" class="rounded-lg px-2.5 py-1 font-bold text-[11px] transition-all bg-brand-primary text-white">
-          VI
-        </button>
-        <button id="lang-en-btn" class="rounded-lg px-2.5 py-1 font-bold text-[11px] transition-all text-brand-textMuted hover:text-brand-textPrimary">
-          EN
-        </button>
-      </div>
+    <div class="max-w-6xl mx-auto px-6 flex justify-center sm:justify-start gap-8">
+      <button id="tab1-btn" class="px-4 py-4 font-bold border-b-3 border-brand-primary text-brand-primary focus:outline-none transition-all text-sm sm:text-base">
+        Financial Dashboard
+      </button>
+      <button id="tab2-btn" class="px-4 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-sm sm:text-base">
+        AI & SaaS Ecosystem
+      </button>
     </div>
   </div>
 
@@ -138,83 +129,52 @@
     <div id="tab1-content" class="transition-opacity duration-300">
       
       <!-- Market scale -->
-      <section class="mb-16">
+      <section class="mb-16 reveal">
         <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
-          <span class="w-2 h-6 bg-brand-primary rounded-full mr-3"></span>
-          <span class="lang-vi">Quy mô & Tiềm năng Thị trường</span>
-          <span class="lang-en hidden">Market Scale & Potential</span>
+          <span class="w-2 h-6 bg-brand-primary rounded-full mr-3"></span> Market Scale & Potential
         </h2>
-        <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">
-          <span class="lang-vi">Ngành vật liệu xây dựng Việt Nam đang trải qua bước chuyển mình xanh hóa mạnh mẽ. Với tổng thị trường gạch dự kiến đạt 11.11 tỷ USD vào năm 2029, RENOVA định hướng tiên phong chiếm lĩnh phân khúc vật liệu sinh thái không nung.</span>
-          <span class="lang-en hidden">Vietnam's building material sector is undergoing a massive green transition. With the brick industry expected to reach $11.11B by 2029, RENOVA is positioned to capture the unbaked and ecological segment through circular economy principles.</span>
-        </p>
+        <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">Vietnam's building material sector is undergoing a massive green transition. With the brick industry expected to reach $11.11B by 2029, RENOVA is positioned to capture the unbaked and ecological segment through circular economy principles.</p>
         
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-brand-border p-6">
-            <h3 class="text-base font-bold mb-4 text-brand-textPrimary">
-              <span class="lang-vi">Quy mô thị trường mục tiêu (Tỷ USD)</span>
-              <span class="lang-en hidden">Market Sizing Breakdown (Billion USD)</span>
-            </h3>
-            <div class="chart-container">
+            <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Market Sizing Breakdown (Billion USD)</h3>
+            <div class="chart-container" id="marketChartContainer">
               <canvas id="marketChart"></canvas>
             </div>
-            <p class="text-xs text-brand-textMuted mt-4 italic">
-              <span class="lang-vi">Nguồn tham khảo: Viện Kinh tế Xây dựng & Mordor Intelligence (2025).</span>
-              <span class="lang-en hidden">Source: Institute of Construction Economics & Mordor Intelligence (2025).</span>
-            </p>
+            <p class="text-xs text-brand-textMuted mt-4 italic">Source: Institute of Construction Economics & Mordor Intelligence (2025).</p>
           </div>
           
           <div class="flex flex-col gap-6">
             <div class="bg-white rounded-2xl border border-brand-border p-6 accent-border stat-card">
-              <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">TAM</span>
-              <span class="text-3xl font-black text-brand-primary mt-1">$11.11B</span>
-              <p class="text-xs text-brand-textMuted mt-2">
-                <span class="lang-vi">Tổng quy mô thị trường vật liệu xây dựng xanh đến năm 2029.</span>
-                <span class="lang-en hidden">Total green building material market size by 2029.</span>
-              </p>
+              <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">TAM (2029 Projection)</span>
+              <span class="text-3xl font-black text-brand-primary mt-1"><span class="counter" data-target="11.11" data-decimals="2" data-prefix="$" data-suffix="B">0</span></span>
+              <p class="text-xs text-brand-textMuted mt-2">Total green building material market size by 2029.</p>
             </div>
             <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card border-l-4 border-brand-secondary">
-              <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">SAM</span>
-              <span class="text-3xl font-black text-brand-secondary mt-1">35%</span>
-              <p class="text-xs text-brand-textMuted mt-2">
-                <span class="lang-vi">Thành phần vật liệu xây dựng không nung/sinh thái được định hướng phủ sóng.</span>
-                <span class="lang-en hidden">Target segment for unbaked/ecological construction materials.</span>
-              </p>
+              <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">SAM (Target Share)</span>
+              <span class="text-3xl font-black text-brand-secondary mt-1"><span class="counter" data-target="35" data-suffix="%">0%</span></span>
+              <p class="text-xs text-brand-textMuted mt-2">Target segment for unbaked/ecological construction materials.</p>
             </div>
             <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card border-l-4 border-brand-accent">
-              <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">SOM</span>
-              <span class="text-3xl font-black text-brand-accent mt-1">
-                <span class="lang-vi">120,000 Viên</span>
-                <span class="lang-en hidden">120K Bricks</span>
-              </span>
-              <p class="text-xs text-brand-textMuted mt-2">
-                <span class="lang-vi">Mục tiêu sản lượng sản xuất gạch bông gió xanh trong năm đầu hoạt động.</span>
-                <span class="lang-en hidden">Target breeze block production volume in the first year of operation.</span>
-              </p>
+              <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">SOM (Year 1 Pilot)</span>
+              <span class="text-3xl font-black text-brand-accent mt-1"><span class="counter" data-target="120000" data-suffix=" Bricks" data-use-commas="true">0</span></span>
+              <p class="text-xs text-brand-textMuted mt-2">Target breeze block production volume in the first year of operation.</p>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Unit Economics -->
-      <section class="mb-16">
+      <section class="mb-16 reveal">
         <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
-          <span class="w-2 h-6 bg-brand-secondary rounded-full mr-3"></span>
-          <span class="lang-vi">Giá trị kinh tế đơn vị & COGS</span>
-          <span class="lang-en hidden">Unit Economics & COGS</span>
+          <span class="w-2 h-6 bg-brand-secondary rounded-full mr-3"></span> Unit Economics & COGS
         </h2>
-        <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">
-          <span class="lang-vi">Quy trình sản xuất của chúng tôi loại bỏ hoàn toàn nhựa Epoxy đắt tiền, sử dụng công nghệ ép nhiệt vật liệu nhựa đa lớp (MLP) kết hợp vỏ trấu. Mô hình dòng tiền kép tạo doanh thu từ FMCG và bán sản phẩm.</span>
-          <span class="lang-en hidden">Our manufacturing process eliminates expensive Epoxy resins, replacing them with thermal-compression of MLP waste and husk by-products. This dual-revenue model earns fees from FMCG partners while selling premium green building products.</span>
-        </p>
+        <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">Our manufacturing process eliminates expensive Epoxy resins, replacing them with thermal-compression of MLP waste and husk by-products. This dual-revenue model earns fees from FMCG partners while selling premium green building products.</p>
         
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div class="bg-white rounded-2xl border border-brand-border p-6">
-            <h3 class="text-base font-bold mb-4 text-brand-textPrimary">
-              <span class="lang-vi">Định mức vật liệu (BOM) trên mỗi viên gạch</span>
-              <span class="lang-en hidden">Bill of Materials (BOM) per Brick</span>
-            </h3>
-            <div class="chart-container flex items-center justify-center">
+            <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Bill of Materials (BOM) per Brick</h3>
+            <div class="chart-container flex items-center justify-center" id="financialBomChartContainer">
               <canvas id="financialBomChart"></canvas>
             </div>
           </div>
@@ -223,37 +183,24 @@
             <div class="space-y-6">
               <div class="flex justify-between items-end border-b border-brand-border pb-3">
                 <div>
-                  <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">
-                    <span class="lang-vi">Giá thành sản xuất (COGS)</span>
-                    <span class="lang-en hidden">Total COGS</span>
-                  </span>
-                  <span class="text-2xl font-extrabold text-brand-textPrimary">16,258 VND</span>
+                  <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">Total COGS</span>
+                  <span class="text-2xl font-extrabold text-brand-textPrimary"><span class="counter" data-target="16258" data-suffix=" VND" data-use-commas="true">0</span></span>
                 </div>
-                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">
-                  <span class="lang-vi">Tỷ suất gộp 50.5%</span>
-                  <span class="lang-en hidden">50.5% Gross Margin</span>
-                </span>
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full"><span class="counter" data-target="50.5" data-decimals="1" data-suffix="%">0%</span> Gross Margin</span>
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div class="p-4 bg-brand-bgDark rounded-xl">
-                  <span class="text-[10px] text-brand-textMuted uppercase font-bold tracking-wider">
-                    <span class="lang-vi">Doanh thu bán gạch</span>
-                    <span class="lang-en hidden">Brick Revenue</span>
-                  </span>
-                  <span class="block text-lg font-black text-brand-primary mt-1">30,000 VND</span>
+                  <span class="text-[10px] text-brand-textMuted uppercase font-bold tracking-wider">Brick Revenue</span>
+                  <span class="block text-lg font-black text-brand-primary mt-1"><span class="counter" data-target="30000" data-suffix=" VND" data-use-commas="true">0</span></span>
                 </div>
                 <div class="p-4 bg-brand-bgDark rounded-xl">
-                  <span class="text-[10px] text-brand-textMuted uppercase font-bold tracking-wider">
-                    <span class="lang-vi">Phí dịch vụ EPR</span>
-                    <span class="lang-en hidden">EPR Service Fee</span>
-                  </span>
-                  <span class="block text-lg font-black text-brand-secondary mt-1">2,880 VND</span>
+                  <span class="text-[10px] text-brand-textMuted uppercase font-bold tracking-wider">EPR Service Fee</span>
+                  <span class="block text-lg font-black text-brand-secondary mt-1"><span class="counter" data-target="2880" data-suffix=" VND" data-use-commas="true">0</span></span>
                 </div>
               </div>
               <div class="p-4 bg-orange-50 rounded-xl border border-orange-100">
                 <p class="text-xs sm:text-sm text-orange-800 leading-relaxed">
-                  <span class="lang-vi"><strong>💡 Lợi thế tuần hoàn:</strong> Thành phần nhựa MLP chiếm 40% khối lượng gạch có giá nguyên liệu đầu vào bằng 0 VND, đồng thời nhận thêm phí xử lý EPR từ các doanh nghiệp FMCG liên kết.</span>
-                  <span class="lang-en hidden"><strong>💡 Circular Advantage:</strong> Raw MLP plastic (40%) has a 0 VND raw cost and generates income through EPR fees, effectively lowering the cost floor.</span>
+                  <strong>💡 Circular Advantage:</strong> Raw MLP plastic (40%) has a 0 VND raw cost and generates income through EPR fees, effectively lowering the cost floor.
                 </p>
               </div>
             </div>
@@ -262,120 +209,71 @@
       </section>
 
       <!-- Growth projection -->
-      <section class="mb-16">
-        <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
-          <span class="w-2 h-6 bg-brand-accent rounded-full mr-3"></span>
-          <span class="lang-vi">Kế hoạch Tăng trưởng 5 Năm</span>
-          <span class="lang-en hidden">5-Year Growth Projection</span>
+      <section class="mb-16 reveal">
+        <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-accent rounded-full mr-3"></span> 5-Year Growth Projection
         </h2>
         <div class="bg-white rounded-2xl border border-brand-border p-6 mb-8">
-          <p class="text-brand-textMuted mb-6 text-sm sm:text-base">
-            <span class="lang-vi">Mô hình kinh doanh mở rộng từ cung ứng phần cứng (sản xuất gạch bông gió) sang dịch vụ phần mềm số hóa (Smart-Hub AI) giúp gia tăng biên lợi nhuận ròng đáng kể, thông qua liên kết OEM.</span>
-            <span class="lang-en hidden">The transition from hardware production to a hybrid SaaS model (Smart-Hub AI) enables exponential revenue growth while maintaining a lean cost structure through OEM partnerships.</span>
-          </p>
-          <div class="chart-container" style="height: 350px;">
+          <p class="text-brand-textMuted mb-6 text-sm sm:text-base">The transition from hardware production to a hybrid SaaS model (Smart-Hub AI) enables exponential revenue growth while maintaining a lean cost structure through OEM partnerships.</p>
+          <div class="chart-container" style="height: 350px;" id="growthChartContainer">
             <canvas id="growthChart"></canvas>
           </div>
         </div>
         
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div class="bg-brand-textPrimary text-white p-4.5 rounded-xl stat-card">
-            <span class="text-[10px] uppercase text-slate-400 font-bold tracking-wider">
-              <span class="lang-vi">Doanh thu Y5</span>
-              <span class="lang-en hidden">Year 5 Revenue</span>
-            </span>
-            <span class="block text-lg sm:text-xl font-extrabold mt-1">
-              <span class="lang-vi">48.56 Tỷ VND</span>
-              <span class="lang-en hidden">48.56B VND</span>
-            </span>
+            <span class="text-[10px] uppercase text-slate-400 font-bold tracking-wider font-heading">Year 5 Revenue</span>
+            <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="48.56" data-decimals="2" data-suffix="B VND">0</span></span>
           </div>
           <div class="bg-brand-textPrimary text-white p-4.5 rounded-xl stat-card">
-            <span class="text-[10px] uppercase text-slate-400 font-bold tracking-wider">
-              <span class="lang-vi">Tiền mặt lũy kế</span>
-              <span class="lang-en hidden">Cumulative Cash</span>
-            </span>
-            <span class="block text-lg sm:text-xl font-extrabold mt-1">
-              <span class="lang-vi">46.30 Tỷ VND</span>
-              <span class="lang-en hidden">46.30B VND</span>
-            </span>
+            <span class="text-[10px] uppercase text-slate-400 font-bold tracking-wider font-heading">Cumulative Cash</span>
+            <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="46.30" data-decimals="2" data-suffix="B VND">0</span></span>
           </div>
           <div class="bg-brand-primary text-white p-4.5 rounded-xl stat-card">
-            <span class="text-[10px] uppercase text-orange-100 font-bold tracking-wider">
-              <span class="lang-vi">NPV Dự án</span>
-              <span class="lang-en hidden">Projected NPV</span>
-            </span>
-            <span class="block text-lg sm:text-xl font-extrabold mt-1">
-              <span class="lang-vi">17.65 Tỷ VND</span>
-              <span class="lang-en hidden">17.65B VND</span>
-            </span>
+            <span class="text-[10px] uppercase text-orange-100 font-bold tracking-wider font-heading">Projected NPV</span>
+            <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="17.65" data-decimals="2" data-suffix="B VND">0</span></span>
           </div>
           <div class="bg-brand-secondary text-white p-4.5 rounded-xl stat-card">
-            <span class="text-[10px] uppercase text-amber-100 font-bold tracking-wider">
-              <span class="lang-vi">Khách hàng SaaS Y5</span>
-              <span class="lang-en hidden">SaaS Clients (Y5)</span>
-            </span>
-            <span class="block text-lg sm:text-xl font-extrabold mt-1">
-              <span class="lang-vi">50 Nhãn hàng</span>
-              <span class="lang-en hidden">50 Brands</span>
-            </span>
+            <span class="text-[10px] uppercase text-amber-100 font-bold tracking-wider font-heading">SaaS Clients (Y5)</span>
+            <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="50" data-suffix=" Brands">0</span></span>
           </div>
         </div>
       </section>
 
       <!-- Business Health & Funding Ask -->
-      <section class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <section class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
         <div>
-          <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
-            <span class="w-2 h-6 bg-brand-textPrimary rounded-full mr-3"></span>
-            <span class="lang-vi">Sức khỏe & Hiệu quả Mô hình</span>
-            <span class="lang-en hidden">Business Health & Efficiency Metrics</span>
-          </h2>
+          <h3 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+            <span class="w-2 h-6 bg-brand-textPrimary rounded-full mr-3"></span> Business Health & Efficiency Metrics
+          </h3>
           <div class="bg-white rounded-2xl border border-brand-border p-6 flex flex-col justify-between h-[calc(100%-44px)]">
-            <p class="text-brand-textMuted mb-6 text-sm leading-relaxed">
-              <span class="lang-vi">Độ bền vững tài chính được kiểm chứng qua tỷ lệ Giá trị vòng đời khách hàng trên Chi phí thu hút (LTV:COCA). Tệp khách hàng FMCG trung thành đem lại giá trị doanh thu định kỳ lớn.</span>
-              <span class="lang-en hidden">The sustainability of our B2B/SaaS model is proven by the LTV:COCA ratio. High retention from FMCG brands and recurring construction orders drive massive lifetime value.</span>
-            </p>
+            <p class="text-brand-textMuted mb-6 text-sm leading-relaxed">The sustainability of our B2B/SaaS model is proven by the LTV:COCA ratio. High retention from FMCG brands and recurring construction orders drive massive lifetime value.</p>
             <div id="plotlyScatter" class="w-full h-[250px]"></div>
             <div class="mt-6 flex justify-between items-center border-t border-brand-border pt-4">
               <div class="text-center">
-                <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider">LTV</span>
-                <span class="text-base font-extrabold">
-                  <span class="lang-vi">250 Triệu</span>
-                  <span class="lang-en hidden">250M VND</span>
-                </span>
+                <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">LTV</span>
+                <span class="text-base font-extrabold"><span class="counter" data-target="250" data-suffix="M VND">0</span></span>
               </div>
               <div class="h-8 w-px bg-brand-border"></div>
               <div class="text-center">
-                <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider">COCA</span>
-                <span class="text-base font-extrabold">
-                  <span class="lang-vi">36 Triệu</span>
-                  <span class="lang-en hidden">36M VND</span>
-                </span>
+                <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">COCA</span>
+                <span class="text-base font-extrabold"><span class="counter" data-target="36" data-suffix="M VND">0</span></span>
               </div>
               <div class="h-8 w-px bg-brand-border"></div>
               <div class="text-center">
-                <span class="text-[10px] text-brand-primary block uppercase font-bold tracking-wider">
-                  <span class="lang-vi">Tỷ lệ LTV:COCA</span>
-                  <span class="lang-en hidden">LTV:COCA Ratio</span>
-                </span>
-                <span class="text-xl font-black text-brand-primary">6.9 : 1</span>
+                <span class="text-[10px] text-brand-primary block uppercase font-bold tracking-wider font-heading">LTV:COCA Ratio</span>
+                <span class="text-xl font-black text-brand-primary"><span class="counter" data-target="6.9" data-decimals="1" data-suffix=" : 1">0 : 1</span></span>
               </div>
             </div>
           </div>
         </div>
         
         <div>
-          <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
-            <span class="w-2 h-6 bg-brand-primary rounded-full mr-3"></span>
-            <span class="lang-vi">Kêu gọi đầu tư: 1 Tỷ VND</span>
-            <span class="lang-en hidden">Funding Ask: 1 Billion VND</span>
-          </h2>
+          <h3 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+            <span class="w-2 h-6 bg-brand-primary rounded-full mr-3"></span> Funding Ask: 1 Billion VND
+          </h3>
           <div class="bg-white rounded-2xl border border-brand-border p-6 flex flex-col justify-between h-[calc(100%-44px)]">
-            <p class="text-brand-textMuted mb-6 text-sm leading-relaxed">
-              <span class="lang-vi">Kêu gọi 1,000 triệu VND đổi lấy 10% cổ phần. Nguồn lực tài chính sẽ được định hướng phân bổ cân đối giữa cơ sở hạ tầng sản xuất và nghiên cứu phát triển mô hình AI.</span>
-              <span class="lang-en hidden">Seeking 1,000M VND for 10% equity. Proceeds will be split between physical production infrastructure and AI R&D for the Smart-Hub platform.</span>
-            </p>
-            <div class="chart-container">
+            <p class="text-brand-textMuted mb-6 text-sm leading-relaxed font-body">Seeking 1,000M VND for 10% equity. Proceeds will be split between physical production infrastructure and AI R&D for the Smart-Hub platform.</p>
+            <div class="chart-container" id="fundingChartContainer">
               <canvas id="fundingChart"></canvas>
             </div>
           </div>
@@ -383,55 +281,28 @@
       </section>
 
       <!-- Strategic Timeline -->
-      <section class="mb-10">
-        <h2 class="text-2xl font-extrabold mb-6">
-          <span class="lang-vi">Lộ trình triển khai chiến lược</span>
-          <span class="lang-en hidden">Strategic Timeline & Deployment</span>
-        </h2>
+      <section class="mb-10 reveal">
+        <h2 class="text-2xl font-extrabold mb-6">Strategic Timeline & Deployment</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="p-6 bg-white rounded-2xl border border-brand-border shadow-xs">
             <div class="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold mb-4 font-heading">01</div>
-            <h4 class="font-bold mb-2 text-brand-textPrimary">
-              <span class="lang-vi">Thiết lập Pilot</span>
-              <span class="lang-en hidden">Pilot Setup</span>
-            </h4>
-            <p class="text-xs text-brand-textMuted leading-relaxed">
-              <span class="lang-vi">Hoàn thiện dây chuyền ép nhiệt quy mô 2 máy và kiểm định chất lượng Quatest 3.</span>
-              <span class="lang-en hidden">Establishing the 2-machine pressing cell and Quatest 3 certification.</span>
-            </p>
+            <h4 class="font-bold mb-2 text-brand-textPrimary">Pilot Setup</h4>
+            <p class="text-xs text-brand-textMuted leading-relaxed">Establishing the 2-machine pressing cell and Quatest 3 certification.</p>
           </div>
           <div class="p-6 bg-white rounded-2xl border border-brand-border shadow-xs">
             <div class="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold mb-4 font-heading">02</div>
-            <h4 class="font-bold mb-2 text-brand-textPrimary">
-              <span class="lang-vi">Nghiên cứu AI Core</span>
-              <span class="lang-en hidden">AI Core R&D</span>
-            </h4>
-            <p class="text-xs text-brand-textMuted leading-relaxed">
-              <span class="lang-vi">Phát triển giải pháp Surrogate Model hỗ trợ mô phỏng dòng khí CFD tối ưu kiến trúc xanh.</span>
-              <span class="lang-en hidden">Developing the Surrogate Model for CFD air-flow simulations.</span>
-            </p>
+            <h4 class="font-bold mb-2 text-brand-textPrimary">AI Core R&D</h4>
+            <p class="text-xs text-brand-textMuted leading-relaxed">Developing the Surrogate Model for CFD air-flow simulations.</p>
           </div>
           <div class="p-6 bg-white rounded-2xl border border-brand-border shadow-xs">
             <div class="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold mb-4 font-heading">03</div>
-            <h4 class="font-bold mb-2 text-brand-textPrimary">
-              <span class="lang-vi">Thị trường B2B</span>
-              <span class="lang-en hidden">B2B Outreach</span>
-            </h4>
-            <p class="text-xs text-brand-textMuted leading-relaxed">
-              <span class="lang-vi">Ký kết ghi nhớ hợp tác với 10+ văn phòng kiến trúc và chạy thử nghiệm SaaS với 3 nhãn FMCG.</span>
-              <span class="lang-en hidden">Engaging 10+ major architects and 3 FMCG brands for SaaS beta.</span>
-            </p>
+            <h4 class="font-bold mb-2 text-brand-textPrimary">B2B Outreach</h4>
+            <p class="text-xs text-brand-textMuted leading-relaxed">Engaging 10+ major architects and 3 FMCG brands for SaaS beta.</p>
           </div>
           <div class="p-6 bg-white rounded-2xl border border-brand-border shadow-xs">
             <div class="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold mb-4 font-heading">04</div>
-            <h4 class="font-bold mb-2 text-brand-textPrimary">
-              <span class="lang-vi">Điểm Hòa vốn</span>
-              <span class="lang-en hidden">Break Even</span>
-            </h4>
-            <p class="text-xs text-brand-textMuted leading-relaxed">
-              <span class="lang-vi">Đạt điểm hòa vốn dòng tiền hoạt động trong vòng 6 tháng kể từ khi vận hành thương mại.</span>
-              <span class="lang-en hidden">Achieving operational profitability within 6 months of commercial ops.</span>
-            </p>
+            <h4 class="font-bold mb-2 text-brand-textPrimary">Break Even</h4>
+            <p class="text-xs text-brand-textMuted leading-relaxed">Achieving operational profitability within 6 months of commercial ops.</p>
           </div>
         </div>
       </section>
@@ -446,138 +317,61 @@
       <!-- Smart Hub Intro -->
       <section class="mb-16">
         <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
-          <span class="w-2 h-6 bg-brand-primary rounded-full mr-3"></span>
-          <span class="lang-vi">RENOVA Smart-Hub: Hệ sinh thái phần mềm & AI</span>
-          <span class="lang-en hidden">RENOVA Smart-Hub: AI & SaaS Ecosystem</span>
+          <span class="w-2 h-6 bg-brand-primary rounded-full mr-3"></span> RENOVA Smart-Hub: AI & SaaS Ecosystem
         </h2>
-        <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">
-          <span class="lang-vi">Hệ sinh thái công nghệ kép hỗ trợ đắc lực cả đơn vị thiết kế kiến trúc và các tập đoàn hàng tiêu dùng nhanh (FMCG) trong việc tối ưu hóa thông gió thụ động và tự động hóa hồ sơ pháp lý EPR.</span>
-          <span class="lang-en hidden">Double-edge software ecosystem supporting architects in passive ventilation optimization and FMCG corporations in automated EPR compliance reporting.</span>
-        </p>
+        <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">Double-edge software ecosystem supporting architects in passive ventilation optimization and FMCG corporations in automated EPR compliance reporting.</p>
         
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           <div class="bg-white p-6 rounded-2xl border border-brand-border border-l-4 border-brand-primary stat-card">
-            <h3 class="font-bold text-lg mb-2 text-brand-textPrimary">
-              <span class="lang-vi">RENOVA CFD-Flow™ (Cho Kiến trúc sư)</span>
-              <span class="lang-en hidden">RENOVA CFD-Flow™ (For Architects)</span>
-            </h3>
-            <p class="text-sm text-brand-textMuted mb-4 leading-relaxed">
-              <span class="lang-vi">Mô phỏng dòng khí thông gió động lực học chất lưu (CFD) tức thời thông qua mô hình học máy surrogate. Thiết lập báo cáo thông gió thụ động trong vòng 30 giây để đạt điểm xanh LEED/LOTUS.</span>
-              <span class="lang-en hidden">Real-time Computational Fluid Dynamics (CFD) simulation via surrogate machine learning. Generate passive ventilation reports in under 30 seconds for LEED/LOTUS points.</span>
-            </p>
+            <h3 class="font-bold text-lg mb-2 text-brand-textPrimary">RENOVA CFD-Flow™ (For Architects)</h3>
+            <p class="text-sm text-brand-textMuted mb-4 leading-relaxed font-body">Real-time Computational Fluid Dynamics (CFD) simulation via surrogate machine learning. Generate passive ventilation reports in under 30 seconds for LEED/LOTUS points.</p>
             <div class="grid grid-cols-2 gap-2 text-xs font-bold text-brand-primary">
-              <span class="bg-brand-primary/6 p-3 rounded-xl text-center">
-                <span class="lang-vi">CFD Thời gian thực</span>
-                <span class="lang-en hidden">Real-time CFD</span>
-              </span>
-              <span class="bg-brand-primary/6 p-3 rounded-xl text-center">
-                <span class="lang-vi">Hạ nhiệt độ thụ động: 2-4°C</span>
-                <span class="lang-en hidden">Temp Reduction: 2-4°C</span>
-              </span>
+              <span class="bg-brand-primary/6 p-3 rounded-xl text-center">Real-time CFD</span>
+              <span class="bg-brand-primary/6 p-3 rounded-xl text-center">Temp Reduction: 2-4°C</span>
             </div>
           </div>
           
           <div class="bg-white p-6 rounded-2xl border border-brand-border border-l-4 border-brand-secondary stat-card">
-            <h3 class="font-bold text-lg mb-2 text-brand-textPrimary">
-              <span class="lang-vi">EPR-Auditor (Cho Doanh nghiệp FMCG)</span>
-              <span class="lang-en hidden">EPR-Auditor (For FMCG Corporates)</span>
-            </h3>
-            <p class="text-sm text-brand-textMuted mb-4 leading-relaxed">
-              <span class="lang-vi">Số hóa và giám sát nguồn gốc nhựa thu gom thông qua thị giác máy tính và sổ cái blockchain (SHA-256). Đảm bảo tính minh bạch pháp lý tuyệt đối khi báo cáo với Bộ Tài nguyên & Môi trường.</span>
-              <span class="lang-en hidden">AI-based receipts digitalization and blockchain-secured (SHA-256) MLP flow tracking. Ensures absolute regulatory compliance reporting for the Ministry of Environment.</span>
-            </p>
+            <h3 class="font-bold text-lg mb-2 text-brand-textPrimary">EPR-Auditor (For FMCG Corporates)</h3>
+            <p class="text-sm text-brand-textMuted mb-4 leading-relaxed font-body">AI-based receipts digitalization and blockchain-secured (SHA-256) MLP flow tracking. Ensures absolute regulatory compliance reporting for the Ministry of Environment.</p>
             <div class="grid grid-cols-2 gap-2 text-xs font-bold text-brand-secondary">
-              <span class="bg-brand-secondary/6 p-3 rounded-xl text-center">
-                <span class="lang-vi">Sổ cái Blockchain SHA-256</span>
-                <span class="lang-en hidden">SHA-256 Blockchain Ledger</span>
-              </span>
-              <span class="bg-brand-secondary/6 p-3 rounded-xl text-center">
-                <span class="lang-vi">Báo cáo ESG tự động</span>
-                <span class="lang-en hidden">Automated ESG Data</span>
-              </span>
+              <span class="bg-brand-secondary/6 p-3 rounded-xl text-center">SHA-256 Blockchain Ledger</span>
+              <span class="bg-brand-secondary/6 p-3 rounded-xl text-center">Automated ESG Data</span>
             </div>
           </div>
         </div>
 
         <!-- Subscription Pricing -->
         <div class="bg-white rounded-2xl border border-brand-border p-8">
-          <h3 class="font-extrabold text-xl mb-6 text-brand-textPrimary text-center sm:text-left">
-            <span class="lang-vi">Mô hình Gói thuê bao dịch vụ SaaS</span>
-            <span class="lang-en hidden">Subscription Pricing Models</span>
-          </h3>
+          <h3 class="font-extrabold text-xl mb-6 text-brand-textPrimary text-center sm:text-left">Subscription Pricing Models</h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="border border-brand-border p-6 rounded-xl text-center stat-card">
-              <h4 class="font-bold uppercase text-brand-textMuted text-xs tracking-wider">
-                <span class="lang-vi">Cơ bản</span>
-                <span class="lang-en hidden">Basic</span>
-              </h4>
-              <div class="text-2xl font-black my-4 text-brand-textPrimary">
-                <span class="lang-vi">Miễn phí</span>
-                <span class="lang-en hidden">Free</span>
-              </div>
+              <h4 class="font-bold uppercase text-brand-textMuted text-xs tracking-wider">Basic</h4>
+              <div class="text-2xl font-black my-4 text-brand-textPrimary">Free</div>
               <ul class="text-xs text-brand-textMuted space-y-3 border-t border-brand-border pt-4 text-left max-w-[180px] mx-auto">
-                <li class="flex items-center gap-2">
-                  <span class="lang-vi">✓ Thư viện gạch 3D</span>
-                  <span class="lang-en hidden">✓ Material Library</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="lang-vi">✓ Mô phỏng CFD cơ bản</span>
-                  <span class="lang-en hidden">✓ Basic AI Simulation</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="lang-vi">✓ Xuất file tiêu chuẩn</span>
-                  <span class="lang-en hidden">✓ Standard Export</span>
-                </li>
+                <li class="flex items-center gap-2">✓ Material Library</li>
+                <li class="flex items-center gap-2">✓ Basic AI Simulation</li>
+                <li class="flex items-center gap-2">✓ Standard Export</li>
               </ul>
             </div>
             
             <div class="border-2 border-brand-primary p-6 rounded-xl text-center bg-brand-primary/5 stat-card">
-              <h4 class="font-bold uppercase text-brand-primary text-xs tracking-wider">
-                <span class="lang-vi">Chuyên nghiệp</span>
-                <span class="lang-en hidden">Professional</span>
-              </h4>
-              <div class="text-2xl font-black my-4 text-brand-primary">
-                <span class="lang-vi">2 Triệu VND <span class="text-xs font-semibold text-brand-textMuted">/ dự án</span></span>
-                <span class="lang-en hidden">2M VND <span class="text-xs font-semibold text-brand-textMuted">/ project</span></span>
-              </div>
+              <h4 class="font-bold uppercase text-brand-primary text-xs tracking-wider">Professional</h4>
+              <div class="text-2xl font-black my-4 text-brand-primary">2M VND <span class="text-xs font-semibold text-brand-textMuted">/ project</span></div>
               <ul class="text-xs text-brand-textMuted space-y-3 border-t border-brand-primary/20 pt-4 text-left max-w-[180px] mx-auto">
-                <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">
-                  <span class="lang-vi">✓ Mô phỏng AI CFD nâng cao</span>
-                  <span class="lang-en hidden">✓ Advanced AI CFD</span>
-                </li>
-                <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">
-                  <span class="lang-vi">✓ Bản vẽ kỹ thuật đóng dấu</span>
-                  <span class="lang-en hidden">✓ Certified Tech Docs</span>
-                </li>
-                <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">
-                  <span class="lang-vi">✓ Hỗ trợ kỹ thuật ưu tiên</span>
-                  <span class="lang-en hidden">✓ Priority Support</span>
-                </li>
+                <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">✓ Advanced AI CFD</li>
+                <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">✓ Certified Tech Docs</li>
+                <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">✓ Priority Support</li>
               </ul>
             </div>
             
             <div class="border border-brand-border p-6 rounded-xl text-center stat-card">
-              <h4 class="font-bold uppercase text-brand-textMuted text-xs tracking-wider">
-                <span class="lang-vi">Doanh nghiệp</span>
-                <span class="lang-en hidden">Corporate</span>
-              </h4>
-              <div class="text-2xl font-black my-4 text-brand-textPrimary">
-                <span class="lang-vi">50 Triệu VND <span class="text-xs font-semibold text-brand-textMuted">/ năm</span></span>
-                <span class="lang-en hidden">50M VND <span class="text-xs font-semibold text-brand-textMuted">/ year</span></span>
-              </div>
+              <h4 class="font-bold uppercase text-brand-textMuted text-xs tracking-wider">Corporate</h4>
+              <div class="text-2xl font-black my-4 text-brand-textPrimary">50M VND <span class="text-xs font-semibold text-brand-textMuted">/ year</span></div>
               <ul class="text-xs text-brand-textMuted space-y-3 border-t border-brand-border pt-4 text-left max-w-[180px] mx-auto">
-                <li class="flex items-center gap-2">
-                  <span class="lang-vi">✓ Tự động hóa thủ tục EPR</span>
-                  <span class="lang-en hidden">✓ Full EPR Automation</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="lang-vi">✓ Kết nối API ERP nội bộ</span>
-                  <span class="lang-en hidden">✓ ERP API Integration</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="lang-vi">✓ Chứng nhận Blockchain</span>
-                  <span class="lang-en hidden">✓ SHA-256 Certification</span>
-                </li>
+                <li class="flex items-center gap-2">✓ Full EPR Automation</li>
+                <li class="flex items-center gap-2">✓ ERP API Integration</li>
+                <li class="flex items-center gap-2">✓ SHA-256 Certification</li>
               </ul>
             </div>
           </div>
@@ -587,21 +381,15 @@
       <!-- SaaS Unit Economics and Revenue Trajectory -->
       <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
         <div class="bg-white rounded-2xl border border-brand-border p-6">
-          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">
-            <span class="lang-vi">Cấu trúc chi phí dịch vụ SaaS (Mỗi hợp đồng)</span>
-            <span class="lang-en hidden">SaaS Service Cost Structure (Per Contract)</span>
-          </h3>
-          <div class="chart-container flex items-center justify-center">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">SaaS Service Cost Structure (Per Contract)</h3>
+          <div class="chart-container flex items-center justify-center" id="aiBomChartContainer">
             <canvas id="aiBomChart"></canvas>
           </div>
         </div>
         
         <div class="bg-white rounded-2xl border border-brand-border p-6">
-          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">
-            <span class="lang-vi">Kế hoạch Doanh thu phần mềm SaaS (Triệu VND)</span>
-            <span class="lang-en hidden">Software SaaS Revenue Trajectory (Million VND)</span>
-          </h3>
-          <div class="chart-container">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Software SaaS Revenue Trajectory (Million VND)</h3>
+          <div class="chart-container" id="aiGrowthChartContainer">
             <canvas id="aiGrowthChart"></canvas>
           </div>
         </div>
@@ -615,16 +403,12 @@
   <footer class="bg-brand-textPrimary text-slate-500 py-12 px-6 text-center border-t border-brand-primary/10">
     <div class="max-w-6xl mx-auto">
       <p class="mb-2 text-sm">&copy; 2026 RENOVA Circular - Innovation in Circular Construction</p>
-      <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">
-        <span class="lang-vi">Tech Planter Pitch Presentation | Tài liệu lưu hành nội bộ</span>
-        <span class="lang-en hidden">Tech Planter Pitch Presentation | Confidential Internal Document</span>
-      </p>
+      <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Tech Planter Pitch Presentation | Confidential Internal Document</p>
     </div>
   </footer>
 
-  <!-- Scripts Logic for Tabs and Chart.js -->
+  <!-- Scripts Logic for Tabs, Animation & Chart.js -->
   <script>
-    let currentLang = 'vi';
     let tab1Initialized = false;
     let tab2Initialized = false;
 
@@ -634,6 +418,7 @@
     let fundingChartInstance = null;
     let aiBomChartInstance = null;
     let aiGrowthChartInstance = null;
+    let plotlyScatterInstance = false;
 
     // Helper: Wrap labels for Chart.js legends
     function wrapLabel(label) {
@@ -663,36 +448,23 @@
       }
     };
 
-    // Bilingual label definitions for charts
+    // Label definitions for charts
     const chartLabels = {
-      market: {
-        vi: [wrapLabel('Tổng thị trường khả dụng (TAM)'), wrapLabel('Thị trường mục tiêu (SAM)')],
-        en: [wrapLabel('Total Addressable Market (TAM)'), wrapLabel('Serviceable Addressable Market (SAM)')]
-      },
-      bom: {
-        vi: [wrapLabel('Hạt nhựa HDPE tái chế'), wrapLabel('Chất liên kết PE-g-MA'), wrapLabel('Phế phẩm trấu nông nghiệp'), wrapLabel('Nhựa đa lớp MLP thô')],
-        en: [wrapLabel('Recycled HDPE Plastic'), wrapLabel('PE-g-MA Coupling Agent'), wrapLabel('Agricultural Rice Husks'), wrapLabel('Multi-layer Packaging')]
-      },
-      funding: {
-        vi: [wrapLabel('Nhà xưởng & Thiết bị'), wrapLabel('Vốn lưu động'), wrapLabel('AI R&D & Pháp lý'), wrapLabel('Tiếp thị B2B')],
-        en: [wrapLabel('Pilot Production Cell'), wrapLabel('Working Capital'), wrapLabel('AI R&D & Legal'), wrapLabel('B2B Marketing')]
-      },
-      aiBom: {
-        vi: ['Hạt nhựa HDPE', 'Chất tương hợp PE-g-MA', 'Vỏ trấu nông nghiệp', 'Nhựa đa lớp MLP thô'],
-        en: ['HDPE Plastic', 'PE-g-MA Agent', 'Rice Husks', 'MLP Packaging']
-      }
+      market: [wrapLabel('Total Addressable Market (TAM)'), wrapLabel('Serviceable Addressable Market (SAM)')],
+      bom: [wrapLabel('Recycled HDPE Plastic'), wrapLabel('PE-g-MA Coupling Agent'), wrapLabel('Agricultural Rice Husks'), wrapLabel('Multi-layer Packaging')],
+      funding: [wrapLabel('Pilot Production Cell'), wrapLabel('Working Capital'), wrapLabel('AI R&D & Legal'), wrapLabel('B2B Marketing')],
+      aiBom: ['HDPE Plastic', 'PE-g-MA Agent', 'Rice Husks', 'MLP Packaging']
     };
 
-    function initTab1Charts() {
-      if (tab1Initialized) return;
-
-      // 1. Market Sizing Chart
+    // Chart Initializations (Triggered on Scroll / Tab click)
+    function initMarketChart() {
+      if (marketChartInstance) return;
       marketChartInstance = new Chart(document.getElementById('marketChart'), {
         type: 'bar',
         data: {
-          labels: chartLabels.market[currentLang],
+          labels: chartLabels.market,
           datasets: [{
-            label: currentLang === 'vi' ? 'Tỷ USD' : 'USD Billion',
+            label: 'USD Billion',
             data: [11.11, 3.89],
             backgroundColor: ['#1d1815', '#914724'],
             borderRadius: 8
@@ -704,12 +476,14 @@
           scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } } }
         }
       });
+    }
 
-      // 2. Financial BOM Chart
+    function initFinancialBomChart() {
+      if (financialBomChartInstance) return;
       financialBomChartInstance = new Chart(document.getElementById('financialBomChart'), {
         type: 'doughnut',
         data: {
-          labels: chartLabels.bom[currentLang],
+          labels: chartLabels.bom,
           datasets: [{
             data: [5400, 3750, 375, 0],
             backgroundColor: ['#914724', '#b45309', '#d97736', '#e6e1dd'],
@@ -725,15 +499,17 @@
           }
         }
       });
+    }
 
-      // 3. 5-Year Growth Chart
+    function initGrowthChart() {
+      if (growthChartInstance) return;
       growthChartInstance = new Chart(document.getElementById('growthChart'), {
         type: 'line',
         data: {
-          labels: ['Năm 1', 'Năm 2', 'Năm 3', 'Năm 4', 'Năm 5'],
+          labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
           datasets: [
             {
-              label: currentLang === 'vi' ? 'Tổng Doanh thu (Triệu VND)' : 'Total Revenue (M VND)',
+              label: 'Total Revenue (M VND)',
               data: [3945, 8140, 20350, 32256, 48560],
               borderColor: '#914724',
               backgroundColor: 'rgba(145, 71, 36, 0.08)',
@@ -742,7 +518,7 @@
               borderWidth: 3
             },
             {
-              label: currentLang === 'vi' ? 'Dòng tiền ròng (Triệu VND)' : 'Net Cash Flow (M VND)',
+              label: 'Net Cash Flow (M VND)',
               data: [1194, 3140, 8050, 13656, 20760],
               borderColor: '#b45309',
               borderDash: [5, 5],
@@ -760,8 +536,10 @@
           }
         }
       });
+    }
 
-      // 4. Plotly LTV:COCA Scatter Chart
+    function initPlotlyScatter() {
+      if (plotlyScatterInstance) return;
       const plotlyData = [{
         x: [10, 20, 30, 36, 40, 50],
         y: [50, 120, 200, 250, 300, 400],
@@ -769,26 +547,29 @@
         type: 'scatter',
         marker: { color: '#914724', size: 10 },
         line: { shape: 'spline', color: '#b45309', width: 2 },
-        name: 'Tăng trưởng giá trị'
+        name: 'Growth Value'
       }];
       const plotlyLayout = {
         margin: { t: 15, b: 35, l: 35, r: 15 },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
-        xaxis: { title: currentLang === 'vi' ? 'COCA (Triệu VND)' : 'COCA (M VND)', gridcolor: '#f3f4f6', titlefont: { size: 10, family: 'Be Vietnam Pro' }, tickfont: { family: 'Be Vietnam Pro' } },
-        yaxis: { title: currentLang === 'vi' ? 'LTV (Triệu VND)' : 'LTV (M VND)', gridcolor: '#f3f4f6', titlefont: { size: 10, family: 'Be Vietnam Pro' }, tickfont: { family: 'Be Vietnam Pro' } },
+        xaxis: { title: 'COCA (M VND)', gridcolor: '#f3f4f6', titlefont: { size: 10, family: 'Be Vietnam Pro' }, tickfont: { family: 'Be Vietnam Pro' } },
+        yaxis: { title: 'LTV (M VND)', gridcolor: '#f3f4f6', titlefont: { size: 10, family: 'Be Vietnam Pro' }, tickfont: { family: 'Be Vietnam Pro' } },
         showlegend: false
       };
       Plotly.newPlot('plotlyScatter', plotlyData, plotlyLayout, { 
         responsive: true, 
         staticPlot: true 
       });
+      plotlyScatterInstance = true;
+    }
 
-      // 5. Funding Donut Chart
+    function initFundingChart() {
+      if (fundingChartInstance) return;
       fundingChartInstance = new Chart(document.getElementById('fundingChart'), {
         type: 'doughnut',
         data: {
-          labels: chartLabels.funding[currentLang],
+          labels: chartLabels.funding,
           datasets: [{
             data: [30, 30, 20, 20],
             backgroundColor: ['#1d1815', '#914724', '#b45309', '#d97736'],
@@ -803,18 +584,14 @@
           }
         }
       });
-
-      tab1Initialized = true;
     }
 
-    function initTab2Charts() {
-      if (tab2Initialized) return;
-
-      // 1. AI & SaaS BOM Chart
+    function initAiBomChart() {
+      if (aiBomChartInstance) return;
       aiBomChartInstance = new Chart(document.getElementById('aiBomChart'), {
         type: 'doughnut',
         data: {
-          labels: chartLabels.aiBom[currentLang],
+          labels: chartLabels.aiBom,
           datasets: [{
             data: [5400, 3750, 375, 0],
             backgroundColor: ['#914724', '#b45309', '#d97736', '#e6e1dd'],
@@ -829,14 +606,16 @@
           }
         }
       });
+    }
 
-      // 2. AI & SaaS Growth Chart
+    function initAiGrowthChart() {
+      if (aiGrowthChartInstance) return;
       aiGrowthChartInstance = new Chart(document.getElementById('aiGrowthChart'), {
         type: 'line',
         data: {
-          labels: ['Năm 1', 'Năm 2', 'Năm 3', 'Năm 4', 'Năm 5'],
+          labels: ['Yr 1', 'Yr 2', 'Yr 3', 'Yr 4', 'Yr 5'],
           datasets: [{
-            label: currentLang === 'vi' ? 'Doanh thu phần mềm (Triệu VND)' : 'Software Revenue (M VND)',
+            label: 'Software Revenue (M VND)',
             data: [408, 850, 2200, 3500, 5200],
             borderColor: '#914724',
             backgroundColor: 'rgba(145, 71, 36, 0.08)',
@@ -853,73 +632,101 @@
           }
         }
       });
+    }
 
+    function initTab1Charts() {
+      if (tab1Initialized) return;
+      // Initialize observed charts on load/scroll
+      tab1Initialized = true;
+    }
+
+    function initTab2Charts() {
+      if (tab2Initialized) return;
+      // Initialize SaaS Tab charts directly since they are immediately visible on click
+      initAiBomChart();
+      initAiGrowthChart();
       tab2Initialized = true;
     }
 
-    // Bilingual toggler script logic
-    function setLanguage(lang) {
-      currentLang = lang;
-      
-      const viBtns = document.getElementById('lang-vi-btn');
-      const enBtns = document.getElementById('lang-en-btn');
-      
-      if (lang === 'vi') {
-        // Toggle text tags
-        document.querySelectorAll('.lang-vi').forEach(el => el.classList.remove('hidden'));
-        document.querySelectorAll('.lang-en').forEach(el => el.classList.add('hidden'));
-        
-        // Toggle buttons style
-        viBtns.className = "rounded-lg px-2.5 py-1 font-bold text-[11px] transition-all bg-brand-primary text-white";
-        enBtns.className = "rounded-lg px-2.5 py-1 font-bold text-[11px] transition-all text-brand-textMuted hover:text-brand-textPrimary";
-      } else {
-        // Toggle text tags
-        document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('hidden'));
-        document.querySelectorAll('.lang-vi').forEach(el => el.classList.add('hidden'));
-        
-        // Toggle buttons style
-        enBtns.className = "rounded-lg px-2.5 py-1 font-bold text-[11px] transition-all bg-brand-primary text-white";
-        viBtns.className = "rounded-lg px-2.5 py-1 font-bold text-[11px] transition-all text-brand-textMuted hover:text-brand-textPrimary";
-      }
-      
-      // Update charts labels
-      updateChartLabels(lang);
+    // Scroll reveal observer logic
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    // Numeric count-up animation logic
+    function animateValue(obj, start, end, duration, decimals, prefix, suffix, useCommas) {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic Ease Out
+        const value = start + easeProgress * (end - start);
+        let formattedValue = value.toFixed(decimals);
+        if (useCommas) {
+          formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        obj.innerHTML = prefix + formattedValue + suffix;
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
     }
 
-    function updateChartLabels(lang) {
-      if (tab1Initialized && marketChartInstance) {
-        marketChartInstance.data.labels = chartLabels.market[lang];
-        marketChartInstance.data.datasets[0].label = lang === 'vi' ? 'Tỷ USD' : 'USD Billion';
-        marketChartInstance.update();
-        
-        financialBomChartInstance.data.labels = chartLabels.bom[lang];
-        financialBomChartInstance.update();
-        
-        growthChartInstance.data.datasets[0].label = lang === 'vi' ? 'Tổng Doanh thu (Triệu VND)' : 'Total Revenue (M VND)';
-        growthChartInstance.data.datasets[1].label = lang === 'vi' ? 'Dòng tiền ròng (Triệu VND)' : 'Net Cash Flow (M VND)';
-        growthChartInstance.update();
-        
-        fundingChartInstance.data.labels = chartLabels.funding[lang];
-        fundingChartInstance.update();
-        
-        Plotly.relayout('plotlyScatter', {
-          'xaxis.title': lang === 'vi' ? 'COCA (Triệu VND)' : 'COCA (M VND)',
-          'yaxis.title': lang === 'vi' ? 'LTV (Triệu VND)' : 'LTV (M VND)'
-        });
-      }
-      
-      if (tab2Initialized && aiBomChartInstance) {
-        aiBomChartInstance.data.labels = chartLabels.aiBom[lang];
-        aiBomChartInstance.update();
-        
-        aiGrowthChartInstance.data.datasets[0].label = lang === 'vi' ? 'Doanh thu phần mềm (Triệu VND)' : 'Software Revenue (M VND)';
-        aiGrowthChartInstance.update();
-      }
-    }
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.getAttribute('data-target'));
+          const duration = parseInt(el.getAttribute('data-duration') || '1500');
+          const decimals = parseInt(el.getAttribute('data-decimals') || '0');
+          const prefix = el.getAttribute('data-prefix') || '';
+          const suffix = el.getAttribute('data-suffix') || '';
+          const useCommas = el.getAttribute('data-use-commas') === 'true';
+          
+          animateValue(el, 0, target, duration, decimals, prefix, suffix, useCommas);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1 });
 
-    // Set Up Language buttons listeners
-    document.getElementById('lang-vi-btn').addEventListener('click', () => setLanguage('vi'));
-    document.getElementById('lang-en-btn').addEventListener('click', () => setLanguage('en'));
+    // Chart scroll-trigger observer
+    const chartObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          if (id === 'marketChartContainer') initMarketChart();
+          else if (id === 'financialBomChartContainer') initFinancialBomChart();
+          else if (id === 'growthChartContainer') initGrowthChart();
+          else if (id === 'plotlyScatter') initPlotlyScatter();
+          else if (id === 'fundingChartContainer') initFundingChart();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    // Observe elements on load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Observe reveal sections
+      document.querySelectorAll('.reveal').forEach(el => {
+        revealObserver.observe(el);
+      });
+      // Observe counters
+      document.querySelectorAll('.counter').forEach(el => {
+        counterObserver.observe(el);
+      });
+      // Observe chart containers for Tab 1
+      chartObserver.observe(document.getElementById('marketChartContainer'));
+      chartObserver.observe(document.getElementById('financialBomChartContainer'));
+      chartObserver.observe(document.getElementById('growthChartContainer'));
+      chartObserver.observe(document.getElementById('plotlyScatter'));
+      chartObserver.observe(document.getElementById('fundingChartContainer'));
+    });
 
     // Tabs Switcher Logic
     const tab1Btn = document.getElementById('tab1-btn');
@@ -928,34 +735,23 @@
     const tab2Content = document.getElementById('tab2-content');
 
     tab1Btn.addEventListener('click', () => {
-      // Toggle views
       tab1Content.classList.remove('hidden');
       tab2Content.classList.add('hidden');
       
-      // Toggle button active styling
-      tab1Btn.className = "px-2 sm:px-4 py-4 font-bold border-b-3 border-brand-primary text-brand-primary focus:outline-none transition-all text-sm sm:text-base";
-      tab2Btn.className = "px-2 sm:px-4 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-sm sm:text-base";
+      tab1Btn.className = "px-4 py-4 font-bold border-b-3 border-brand-primary text-brand-primary focus:outline-none transition-all text-sm sm:text-base";
+      tab2Btn.className = "px-4 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-sm sm:text-base";
       
-      // Initialize charts if not already done
       initTab1Charts();
     });
 
     tab2Btn.addEventListener('click', () => {
-      // Toggle views
       tab2Content.classList.remove('hidden');
       tab1Content.classList.add('hidden');
       
-      // Toggle button active styling
-      tab2Btn.className = "px-2 sm:px-4 py-4 font-bold border-b-3 border-brand-primary text-brand-primary focus:outline-none transition-all text-sm sm:text-base";
-      tab1Btn.className = "px-2 sm:px-4 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-sm sm:text-base";
+      tab2Btn.className = "px-4 py-4 font-bold border-b-3 border-brand-primary text-brand-primary focus:outline-none transition-all text-sm sm:text-base";
+      tab1Btn.className = "px-4 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-sm sm:text-base";
       
-      // Initialize charts if not already done
       initTab2Charts();
-    });
-
-    // Initial Load: Show tab 1 charts
-    window.addEventListener('DOMContentLoaded', () => {
-      initTab1Charts();
     });
   </script>
 </body>
