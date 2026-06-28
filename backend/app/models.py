@@ -9,6 +9,7 @@ class EPRPartner(Base):
     company_name = Column(String, nullable=False)
     contact_name = Column(String, nullable=False)
     email = Column(String, nullable=False)
+    email_hash = Column(String, index=True, nullable=True)
     phone = Column(String, nullable=False)
     annual_plastic_waste = Column(Float, nullable=False)  # in kg
     needs_epr_cert = Column(Boolean, default=True)  # Nhu cầu lấy chứng nhận EPR
@@ -21,6 +22,7 @@ class GreenProject(Base):
     id = Column(Integer, primary_key=True, index=True)
     contact_name = Column(String, nullable=False)
     email = Column(String, nullable=False)
+    email_hash = Column(String, index=True, nullable=True)
     phone = Column(String, nullable=False)
     surface_area = Column(Float, nullable=False)  # in m2 (Diện tích bề mặt)
     location = Column(String, nullable=False)  # Địa điểm thi công
@@ -34,6 +36,7 @@ class Collector(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)  # Vựa ve chai hoặc cá nhân
     email = Column(String, nullable=False)
+    email_hash = Column(String, index=True, nullable=True)
     phone = Column(String, nullable=False)
     collector_type = Column(String, nullable=False)  # "scrap_yard" or "individual"
     address = Column(String, nullable=True)  # Địa chỉ thu gom

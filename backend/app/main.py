@@ -84,11 +84,13 @@ def calculate_epr(req: schemas.EPRCashflowRequest):
 )
 def register_epr_partner(partner: schemas.EPRPartnerCreate, db: Session = Depends(get_db)):
     try:
+        from app.services.security import encrypt_field, hash_email
         db_partner = models.EPRPartner(
-            company_name=partner.company_name,
-            contact_name=partner.contact_name,
-            email=partner.email,
-            phone=partner.phone,
+            company_name=encrypt_field(partner.company_name),
+            contact_name=encrypt_field(partner.contact_name),
+            email=encrypt_field(partner.email),
+            email_hash=hash_email(partner.email),
+            phone=encrypt_field(partner.phone),
             annual_plastic_waste=partner.annual_plastic_waste,
             needs_epr_cert=partner.needs_epr_cert
         )
@@ -96,34 +98,47 @@ def register_epr_partner(partner: schemas.EPRPartnerCreate, db: Session = Depend
         db.commit()
         db.refresh(db_partner)
         
+        # Clean decrypted dict representation for external outputs and response
+        decrypted_data = {
+            "id": db_partner.id,
+            "company_name": partner.company_name,
+            "contact_name": partner.contact_name,
+            "email": partner.email,
+            "phone": partner.phone,
+            "annual_plastic_waste": db_partner.annual_plastic_waste,
+            "needs_epr_cert": db_partner.needs_epr_cert,
+            "status": db_partner.status,
+            "created_at": db_partner.created_at
+        }
+
         # Log to local CSV spreadsheet
         try:
             log_epr_partner_registration(
-                id_val=db_partner.id,
-                company_name=db_partner.company_name,
-                contact_name=db_partner.contact_name,
-                email=db_partner.email,
-                phone=db_partner.phone,
-                annual_plastic_waste=db_partner.annual_plastic_waste,
-                needs_epr_cert=db_partner.needs_epr_cert,
-                created_at=db_partner.created_at
+                id_val=decrypted_data["id"],
+                company_name=decrypted_data["company_name"],
+                contact_name=decrypted_data["contact_name"],
+                email=decrypted_data["email"],
+                phone=decrypted_data["phone"],
+                annual_plastic_waste=decrypted_data["annual_plastic_waste"],
+                needs_epr_cert=decrypted_data["needs_epr_cert"],
+                created_at=decrypted_data["created_at"]
             )
         except Exception as csv_err:
             print(f"[CSV LOG ERROR] Failed to log EPR partner to CSV: {str(csv_err)}")
         
         # Trigger email notification
         send_bilingual_confirmation_email(
-            to_email=db_partner.email,
-            recipient_name=db_partner.contact_name,
+            to_email=decrypted_data["email"],
+            recipient_name=decrypted_data["contact_name"],
             form_type="epr_partner",
             form_data={
-                "company_name": db_partner.company_name,
-                "annual_plastic_waste": db_partner.annual_plastic_waste,
-                "needs_epr_cert": db_partner.needs_epr_cert
+                "company_name": decrypted_data["company_name"],
+                "annual_plastic_waste": decrypted_data["annual_plastic_waste"],
+                "needs_epr_cert": decrypted_data["needs_epr_cert"]
             }
         )
         
-        return db_partner
+        return decrypted_data
     except Exception as e:
         db.rollback()
         raise HTTPException(
@@ -139,46 +154,61 @@ def register_epr_partner(partner: schemas.EPRPartnerCreate, db: Session = Depend
 )
 def register_green_project(project: schemas.GreenProjectCreate, db: Session = Depends(get_db)):
     try:
+        from app.services.security import encrypt_field, hash_email
         db_project = models.GreenProject(
-            contact_name=project.contact_name,
-            email=project.email,
-            phone=project.phone,
+            contact_name=encrypt_field(project.contact_name),
+            email=encrypt_field(project.email),
+            email_hash=hash_email(project.email),
+            phone=encrypt_field(project.phone),
             surface_area=project.surface_area,
-            location=project.location,
+            location=encrypt_field(project.location),
             ventilation_consult=project.ventilation_consult
         )
         db.add(db_project)
         db.commit()
         db.refresh(db_project)
         
+        # Clean decrypted dict representation for external outputs and response
+        decrypted_data = {
+            "id": db_project.id,
+            "contact_name": project.contact_name,
+            "email": project.email,
+            "phone": project.phone,
+            "surface_area": db_project.surface_area,
+            "location": project.location,
+            "ventilation_consult": db_project.ventilation_consult,
+            "status": db_project.status,
+            "created_at": db_project.created_at
+        }
+
         # Log to local CSV spreadsheet
         try:
             log_green_project_registration(
-                id_val=db_project.id,
-                contact_name=db_project.contact_name,
-                email=db_project.email,
-                phone=db_project.phone,
-                surface_area=db_project.surface_area,
-                location=db_project.location,
-                ventilation_consult=db_project.ventilation_consult,
-                created_at=db_project.created_at
+                id_val=decrypted_data["id"],
+                contact_name=decrypted_data["contact_name"],
+                email=decrypted_data["email"],
+                phone=decrypted_data["phone"],
+                surface_area=decrypted_data["surface_area"],
+                location=decrypted_data["location"],
+                ventilation_consult=decrypted_data["ventilation_consult"],
+                created_at=decrypted_data["created_at"]
             )
         except Exception as csv_err:
             print(f"[CSV LOG ERROR] Failed to log Green Project to CSV: {str(csv_err)}")
         
         # Trigger email notification
         send_bilingual_confirmation_email(
-            to_email=db_project.email,
-            recipient_name=db_project.contact_name,
+            to_email=decrypted_data["email"],
+            recipient_name=decrypted_data["contact_name"],
             form_type="green_project",
             form_data={
-                "surface_area": db_project.surface_area,
-                "location": db_project.location,
-                "ventilation_consult": db_project.ventilation_consult
+                "surface_area": decrypted_data["surface_area"],
+                "location": decrypted_data["location"],
+                "ventilation_consult": decrypted_data["ventilation_consult"]
             }
         )
         
-        return db_project
+        return decrypted_data
     except Exception as e:
         db.rollback()
         raise HTTPException(
@@ -194,44 +224,58 @@ def register_green_project(project: schemas.GreenProjectCreate, db: Session = De
 )
 def register_collector(collector: schemas.CollectorCreate, db: Session = Depends(get_db)):
     try:
+        from app.services.security import encrypt_field, hash_email
         db_collector = models.Collector(
-            name=collector.name,
-            email=collector.email,
-            phone=collector.phone,
+            name=encrypt_field(collector.name),
+            email=encrypt_field(collector.email),
+            email_hash=hash_email(collector.email),
+            phone=encrypt_field(collector.phone),
             collector_type=collector.collector_type,
-            address=collector.address
+            address=encrypt_field(collector.address) if collector.address else None
         )
         db.add(db_collector)
         db.commit()
         db.refresh(db_collector)
         
+        # Clean decrypted dict representation for external outputs and response
+        decrypted_data = {
+            "id": db_collector.id,
+            "name": collector.name,
+            "email": collector.email,
+            "phone": collector.phone,
+            "collector_type": db_collector.collector_type,
+            "address": collector.address,
+            "status": db_collector.status,
+            "created_at": db_collector.created_at
+        }
+
         # Log to local CSV spreadsheet
         try:
             log_collector_registration(
-                id_val=db_collector.id,
-                name=db_collector.name,
-                email=db_collector.email,
-                phone=db_collector.phone,
-                collector_type=db_collector.collector_type,
-                address=db_collector.address,
-                created_at=db_collector.created_at
+                id_val=decrypted_data["id"],
+                name=decrypted_data["name"],
+                email=decrypted_data["email"],
+                phone=decrypted_data["phone"],
+                collector_type=decrypted_data["collector_type"],
+                address=decrypted_data["address"],
+                created_at=decrypted_data["created_at"]
             )
         except Exception as csv_err:
             print(f"[CSV LOG ERROR] Failed to log Collector to CSV: {str(csv_err)}")
         
         # Trigger email notification
         send_bilingual_confirmation_email(
-            to_email=db_collector.email,
-            recipient_name=db_collector.name,
+            to_email=decrypted_data["email"],
+            recipient_name=decrypted_data["name"],
             form_type="collector",
             form_data={
-                "collector_type": db_collector.collector_type,
-                "phone": db_collector.phone,
-                "address": db_collector.address
+                "collector_type": decrypted_data["collector_type"],
+                "phone": decrypted_data["phone"],
+                "address": decrypted_data["address"]
             }
         )
         
-        return db_collector
+        return decrypted_data
     except Exception as e:
         db.rollback()
         raise HTTPException(
@@ -242,6 +286,22 @@ def register_collector(collector: schemas.CollectorCreate, db: Session = Depends
 
 # --- ADMIN PANEL ENDPOINTS ---
 
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from app.services.security import verify_token, create_access_token, decrypt_field
+
+security_scheme = HTTPBearer()
+
+def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(security_scheme)):
+    token = credentials.credentials
+    payload = verify_token(token)
+    if not payload or payload.get("role") != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Mã xác thực không hợp lệ hoặc đã hết hạn / Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return payload
+
 @app.post(
     f"{settings.API_V1_STR}/admin/login",
     response_model=schemas.AdminLoginResponse,
@@ -251,7 +311,8 @@ def register_collector(collector: schemas.CollectorCreate, db: Session = Depends
 def admin_login(req: schemas.AdminLoginRequest):
     # Static secure mock credentials for the administrative portal
     if req.username == "admin" and req.password == "renovacircular2026":
-        return {"token": "mock-admin-token-2026", "username": "admin", "success": True}
+        access_token = create_access_token(data={"sub": "admin", "role": "admin"})
+        return {"token": access_token, "username": "admin", "success": True}
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Tài khoản hoặc mật khẩu không chính xác / Invalid admin credentials"
@@ -263,7 +324,7 @@ def admin_login(req: schemas.AdminLoginRequest):
     status_code=status.HTTP_200_OK,
     summary="Get unified overview KPI stats"
 )
-def get_admin_stats(db: Session = Depends(get_db)):
+def get_admin_stats(db: Session = Depends(get_db), admin_user: dict = Depends(get_current_admin)):
     # EPR stats
     epr_total = db.query(models.EPRPartner).count()
     epr_starting = db.query(models.EPRPartner).filter(models.EPRPartner.status == "Starting").count()
@@ -302,7 +363,7 @@ def get_admin_stats(db: Session = Depends(get_db)):
     status_code=status.HTTP_200_OK,
     summary="Get recent global activity feed across all tables"
 )
-def get_global_activity(db: Session = Depends(get_db)):
+def get_global_activity(db: Session = Depends(get_db), admin_user: dict = Depends(get_current_admin)):
     # Fetch recent registrations across all three models
     epr = db.query(models.EPRPartner).order_by(models.EPRPartner.created_at.desc()).limit(10).all()
     arch = db.query(models.GreenProject).order_by(models.GreenProject.created_at.desc()).limit(10).all()
@@ -313,9 +374,9 @@ def get_global_activity(db: Session = Depends(get_db)):
         feed.append({
             "id": item.id,
             "type": "epr",
-            "title": item.company_name,
-            "subtitle": f"EPR Partner: {item.contact_name} ({item.annual_plastic_waste:.0f} kg/year)",
-            "email": item.email,
+            "title": decrypt_field(item.company_name),
+            "subtitle": f"EPR Partner: {decrypt_field(item.contact_name)} ({item.annual_plastic_waste:.0f} kg/year)",
+            "email": decrypt_field(item.email),
             "status": item.status,
             "created_at": item.created_at
         })
@@ -323,9 +384,9 @@ def get_global_activity(db: Session = Depends(get_db)):
         feed.append({
             "id": item.id,
             "type": "architecture",
-            "title": f"Green Project: {item.location}",
-            "subtitle": f"Architecture Lead: {item.contact_name} ({item.surface_area:.0f} m²)",
-            "email": item.email,
+            "title": f"Green Project: {decrypt_field(item.location)}",
+            "subtitle": f"Architecture Lead: {decrypt_field(item.contact_name)} ({item.surface_area:.0f} m²)",
+            "email": decrypt_field(item.email),
             "status": item.status,
             "created_at": item.created_at
         })
@@ -334,9 +395,9 @@ def get_global_activity(db: Session = Depends(get_db)):
         feed.append({
             "id": item.id,
             "type": "collection",
-            "title": item.name,
+            "title": decrypt_field(item.name),
             "subtitle": f"Collection Registration ({type_str})",
-            "email": item.email,
+            "email": decrypt_field(item.email),
             "status": item.status,
             "created_at": item.created_at
         })
@@ -354,18 +415,37 @@ def get_global_activity(db: Session = Depends(get_db)):
 def list_epr_partners(
     search: str = None, 
     status: str = None, 
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin_user: dict = Depends(get_current_admin)
 ):
     query = db.query(models.EPRPartner)
-    if search:
-        query = query.filter(
-            (models.EPRPartner.company_name.ilike(f"%{search}%")) |
-            (models.EPRPartner.contact_name.ilike(f"%{search}%")) |
-            (models.EPRPartner.email.ilike(f"%{search}%"))
-        )
     if status:
         query = query.filter(models.EPRPartner.status == status)
-    return query.order_by(models.EPRPartner.created_at.desc()).all()
+    records = query.order_by(models.EPRPartner.created_at.desc()).all()
+    
+    decrypted = []
+    for item in records:
+        decrypted.append({
+            "id": item.id,
+            "company_name": decrypt_field(item.company_name),
+            "contact_name": decrypt_field(item.contact_name),
+            "email": decrypt_field(item.email),
+            "phone": decrypt_field(item.phone),
+            "annual_plastic_waste": item.annual_plastic_waste,
+            "needs_epr_cert": item.needs_epr_cert,
+            "status": item.status,
+            "created_at": item.created_at
+        })
+        
+    if search:
+        s = search.lower()
+        decrypted = [
+            r for r in decrypted
+            if s in r["company_name"].lower() or 
+               s in r["contact_name"].lower() or 
+               s in r["email"].lower()
+        ]
+    return decrypted
 
 @app.get(
     f"{settings.API_V1_STR}/admin/green-projects",
@@ -376,18 +456,37 @@ def list_epr_partners(
 def list_green_projects(
     search: str = None, 
     status: str = None, 
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin_user: dict = Depends(get_current_admin)
 ):
     query = db.query(models.GreenProject)
-    if search:
-        query = query.filter(
-            (models.GreenProject.contact_name.ilike(f"%{search}%")) |
-            (models.GreenProject.email.ilike(f"%{search}%")) |
-            (models.GreenProject.location.ilike(f"%{search}%"))
-        )
     if status:
         query = query.filter(models.GreenProject.status == status)
-    return query.order_by(models.GreenProject.created_at.desc()).all()
+    records = query.order_by(models.GreenProject.created_at.desc()).all()
+    
+    decrypted = []
+    for item in records:
+        decrypted.append({
+            "id": item.id,
+            "contact_name": decrypt_field(item.contact_name),
+            "email": decrypt_field(item.email),
+            "phone": decrypt_field(item.phone),
+            "surface_area": item.surface_area,
+            "location": decrypt_field(item.location),
+            "ventilation_consult": item.ventilation_consult,
+            "status": item.status,
+            "created_at": item.created_at
+        })
+        
+    if search:
+        s = search.lower()
+        decrypted = [
+            r for r in decrypted
+            if s in r["contact_name"].lower() or 
+               s in r["email"].lower() or 
+               s in r["location"].lower()
+        ]
+    return decrypted
 
 @app.get(
     f"{settings.API_V1_STR}/admin/collectors",
@@ -398,25 +497,47 @@ def list_green_projects(
 def list_collectors(
     search: str = None, 
     status: str = None, 
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin_user: dict = Depends(get_current_admin)
 ):
     query = db.query(models.Collector)
-    if search:
-        query = query.filter(
-            (models.Collector.name.ilike(f"%{search}%")) |
-            (models.Collector.email.ilike(f"%{search}%")) |
-            (models.Collector.address.ilike(f"%{search}%"))
-        )
     if status:
         query = query.filter(models.Collector.status == status)
-    return query.order_by(models.Collector.created_at.desc()).all()
+    records = query.order_by(models.Collector.created_at.desc()).all()
+    
+    decrypted = []
+    for item in records:
+        decrypted.append({
+            "id": item.id,
+            "name": decrypt_field(item.name),
+            "email": decrypt_field(item.email),
+            "phone": decrypt_field(item.phone),
+            "collector_type": item.collector_type,
+            "address": decrypt_field(item.address) if item.address else None,
+            "status": item.status,
+            "created_at": item.created_at
+        })
+        
+    if search:
+        s = search.lower()
+        decrypted = [
+            r for r in decrypted
+            if s in r["name"].lower() or 
+               s in r["email"].lower() or 
+               (r["address"] and s in r["address"].lower())
+        ]
+    return decrypted
 
 @app.put(
     f"{settings.API_V1_STR}/admin/bulk-status",
     status_code=status.HTTP_200_OK,
     summary="Bulk update statuses of selected pipeline records"
 )
-def bulk_update_status(req: schemas.BulkStatusUpdateRequest, db: Session = Depends(get_db)):
+def bulk_update_status(
+    req: schemas.BulkStatusUpdateRequest, 
+    db: Session = Depends(get_db),
+    admin_user: dict = Depends(get_current_admin)
+):
     if req.type == "epr":
         model = models.EPRPartner
     elif req.type == "architecture":
@@ -437,7 +558,11 @@ def bulk_update_status(req: schemas.BulkStatusUpdateRequest, db: Session = Depen
     status_code=status.HTTP_200_OK,
     summary="Send a custom outbound email to a partner and update status to Replied"
 )
-def admin_send_email(req: schemas.AdminSendEmailRequest, db: Session = Depends(get_db)):
+def admin_send_email(
+    req: schemas.AdminSendEmailRequest, 
+    db: Session = Depends(get_db),
+    admin_user: dict = Depends(get_current_admin)
+):
     if req.type == "epr":
         item = db.query(models.EPRPartner).filter(models.EPRPartner.id == req.id).first()
         name = item.contact_name if item else ""
@@ -453,16 +578,19 @@ def admin_send_email(req: schemas.AdminSendEmailRequest, db: Session = Depends(g
     if not item:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
 
+    email_plain = decrypt_field(item.email)
+    name_plain = decrypt_field(name)
+
     # Local Mock Email Log writing (matches existing confirmation email logger pattern)
     os.makedirs("mock_emails", exist_ok=True)
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     file_path = f"mock_emails/admin_sent_{req.type}_{req.id}_{timestamp}.txt"
     
     full_text = f"""Subject: {req.subject}
-To: {item.email}
+To: {email_plain}
 Sent Time: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ============================================================
-Dear {name},
+Dear {name_plain},
 
 {req.email_content}
 """
@@ -473,4 +601,4 @@ Dear {name},
     item.status = "Replied"
     db.commit()
     
-    return {"message": f"Email successfully sent and status updated to Replied for {item.email}"}
+    return {"message": f"Email successfully sent and status updated to Replied for {email_plain}"}

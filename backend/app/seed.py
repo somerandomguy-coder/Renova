@@ -7,6 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import engine, Base, SessionLocal
 import app.models as models
+from app.services.security import encrypt_field, hash_email
 
 def seed_database():
     print("Resetting database...")
@@ -79,6 +80,12 @@ def seed_database():
                 created_at=datetime.datetime.utcnow() - datetime.timedelta(hours=4)
             )
         ]
+        for item in epr_partners:
+            item.company_name = encrypt_field(item.company_name)
+            item.contact_name = encrypt_field(item.contact_name)
+            item.email_hash = hash_email(item.email)
+            item.email = encrypt_field(item.email)
+            item.phone = encrypt_field(item.phone)
         db.add_all(epr_partners)
 
         print("Seeding Green Projects...")
@@ -134,6 +141,12 @@ def seed_database():
                 created_at=datetime.datetime.utcnow() - datetime.timedelta(hours=12)
             )
         ]
+        for item in green_projects:
+            item.contact_name = encrypt_field(item.contact_name)
+            item.email_hash = hash_email(item.email)
+            item.email = encrypt_field(item.email)
+            item.phone = encrypt_field(item.phone)
+            item.location = encrypt_field(item.location)
         db.add_all(green_projects)
 
         print("Seeding Collectors...")
@@ -184,6 +197,13 @@ def seed_database():
                 created_at=datetime.datetime.utcnow() - datetime.timedelta(days=20)
             )
         ]
+        for item in collectors:
+            item.name = encrypt_field(item.name)
+            item.email_hash = hash_email(item.email)
+            item.email = encrypt_field(item.email)
+            item.phone = encrypt_field(item.phone)
+            if item.address:
+                item.address = encrypt_field(item.address)
         db.add_all(collectors)
         
         db.commit()

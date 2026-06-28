@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     EMAIL_FROM: str = "info@renova.vn"
     USE_MOCK_EMAIL: bool = True  # True will log email to file instead of trying to send it
 
+    # Security and Encryption Configurations
+    JWT_SECRET_KEY: str = "renova-admin-secret-key-2026-super-secure"
+    ENCRYPTION_KEY: str = "ULgXQZxIRcrPGGC4gO8he5D8Vor8G08oiWzagVp2948="
+
     class Config:
         env_file = ".env"
         case_sensitive = True

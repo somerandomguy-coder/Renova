@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from app.config import settings
 from app.database import Base, get_db
 from app.main import app
+import app.models as models
 
 # Set up test database (SQLite in memory or separate file)
 TEST_DATABASE_URL = "sqlite:///./test_renova.db"
@@ -123,7 +124,16 @@ def test_register_collector():
     assert response.status_code == 201
     data = response.json()
     assert data["id"] is not None
-    assert data["collector_type"] == "scrap_yard"
+    assert data["collector_type"] == "scrap_yard"# --- Pytest fixtures for authentication ---
+@pytest.fixture(scope="module")
+def admin_headers():
+    payload = {
+        "username": "admin",
+        "password": "renovacircular2026"
+    }
+    response = client.post("/api/v1/admin/login", json=payload)
+    token = response.json()["token"]
+    return {"Authorization": f"Bearer {token}"}
 
 # --- ADMIN PANEL TESTS ---
 
@@ -137,7 +147,8 @@ def test_admin_login():
     assert response.status_code == 200
     data = response.json()
     assert data["success"] is True
-    assert data["token"] == "mock-admin-token-2026"
+    assert isinstance(data["token"], str)
+    assert len(data["token"].split(".")) == 3
 
     # Test invalid credentials
     payload = {
@@ -147,16 +158,26 @@ def test_admin_login():
     response = client.post("/api/v1/admin/login", json=payload)
     assert response.status_code == 401
 
-def test_admin_stats():
-    response = client.get("/api/v1/admin/stats")
+def test_admin_stats(admin_headers):
+    # Unauthenticated call must fail
+    response_unauth = client.get("/api/v1/admin/stats")
+    assert response_unauth.status_code == 401
+
+    # Authenticated call must succeed
+    response = client.get("/api/v1/admin/stats", headers=admin_headers)
     assert response.status_code == 200
     data = response.json()
     assert "total_records" in data
     assert "total_pending" in data
     assert "total_success" in data
 
-def test_admin_activity():
-    response = client.get("/api/v1/admin/activity")
+def test_admin_activity(admin_headers):
+    # Unauthenticated call must fail
+    response_unauth = client.get("/api/v1/admin/activity")
+    assert response_unauth.status_code == 401
+
+    # Authenticated call must succeed
+    response = client.get("/api/v1/admin/activity", headers=admin_headers)
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
@@ -164,24 +185,28 @@ def test_admin_activity():
         assert "type" in data[0]
         assert "title" in data[0]
 
-def test_admin_lists_filtering():
-    # Test search query on epr partners
-    response = client.get("/api/v1/admin/epr-partners?search=Test")
+def test_admin_lists_filtering(admin_headers):
+    # Unauthenticated call must fail
+    response_unauth = client.get("/api/v1/admin/epr-partners?search=Test")
+    assert response_unauth.status_code == 401
+
+    # Authenticated call must succeed
+    response = client.get("/api/v1/admin/epr-partners?search=Test", headers=admin_headers)
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
 
     # Test search query on green projects
-    response = client.get("/api/v1/admin/green-projects?search=Architect")
+    response = client.get("/api/v1/admin/green-projects?search=Architect", headers=admin_headers)
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
     # Test search query on collectors
-    response = client.get("/api/v1/admin/collectors?search=Scrap")
+    response = client.get("/api/v1/admin/collectors?search=Scrap", headers=admin_headers)
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
-def test_admin_bulk_status_update():
+def test_admin_bulk_status_update(admin_headers):
     # Query an active ID first from register
     payload = {
         "company_name": "Bulk Corp",
@@ -201,16 +226,21 @@ def test_admin_bulk_status_update():
         "ids": [item_id],
         "status": "Pending"
     }
-    response = client.put("/api/v1/admin/bulk-status", json=bulk_payload)
+    # Unauth must fail
+    response_unauth = client.put("/api/v1/admin/bulk-status", json=bulk_payload)
+    assert response_unauth.status_code == 401
+
+    # Auth must succeed
+    response = client.put("/api/v1/admin/bulk-status", json=bulk_payload, headers=admin_headers)
     assert response.status_code == 200
     
     # Verify status changed in the list endpoint
-    list_res = client.get("/api/v1/admin/epr-partners")
+    list_res = client.get("/api/v1/admin/epr-partners", headers=admin_headers)
     items = list_res.json()
     updated_item = next(item for item in items if item["id"] == item_id)
     assert updated_item["status"] == "Pending"
 
-def test_admin_send_email():
+def test_admin_send_email(admin_headers):
     # Query an active ID from register
     payload = {
         "company_name": "Email Corp",
@@ -231,11 +261,16 @@ def test_admin_send_email():
         "subject": "Custom Admin Proposal",
         "email_content": "Dear Email Contact, this is a custom admin onboarding proposal."
     }
-    response = client.post("/api/v1/admin/send-email", json=email_payload)
+    # Unauth must fail
+    response_unauth = client.post("/api/v1/admin/send-email", json=email_payload)
+    assert response_unauth.status_code == 401
+
+    # Auth must succeed
+    response = client.post("/api/v1/admin/send-email", json=email_payload, headers=admin_headers)
     assert response.status_code == 200
     
     # Confirm status automatically synced to "Replied" in DB
-    list_res = client.get("/api/v1/admin/epr-partners")
+    list_res = client.get("/api/v1/admin/epr-partners", headers=admin_headers)
     items = list_res.json()
     updated_item = next(item for item in items if item["id"] == item_id)
     assert updated_item["status"] == "Replied"
@@ -244,3 +279,38 @@ def test_admin_send_email():
     import os
     assert len(os.listdir("mock_emails")) > 0
 
+def test_database_encryption_and_hashing():
+    # Fetch from test DB session directly
+    db = override_get_db().__next__()
+    try:
+        # Register a test client
+        payload = {
+            "company_name": "Crypt Shield Ltd",
+            "contact_name": "Shield Guardian",
+            "email": "shield@crypt.com",
+            "phone": "0987654321",
+            "annual_plastic_waste": 5000.0,
+            "needs_epr_cert": True
+        }
+        register_res = client.post("/api/v1/register/epr-partner", json=payload)
+        assert register_res.status_code == 201
+        partner_id = register_res.json()["id"]
+
+        # Fetch directly from SQL database (raw read)
+        db_partner = db.query(models.EPRPartner).filter(models.EPRPartner.id == partner_id).first()
+        
+        # Verify the database column does NOT contain plain text company name or email!
+        assert db_partner.company_name != "Crypt Shield Ltd"
+        assert db_partner.email != "shield@crypt.com"
+        assert db_partner.phone != "0987654321"
+
+        # Verify that email_hash is successfully computed
+        from app.services.security import hash_email
+        assert db_partner.email_hash == hash_email("shield@crypt.com")
+        
+        # Verify decryption helper recovers original value
+        from app.services.security import decrypt_field
+        assert decrypt_field(db_partner.company_name) == "Crypt Shield Ltd"
+        assert decrypt_field(db_partner.email) == "shield@crypt.com"
+    finally:
+        db.close()

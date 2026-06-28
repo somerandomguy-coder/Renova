@@ -255,20 +255,44 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
   // Load token from sessionStorage on mount
   useEffect(() => {
     const token = sessionStorage.getItem("adminToken");
-    if (token === "mock-admin-token-2026") {
+    if (token) {
       setIsAuthenticated(true);
     }
   }, []);
+
+  // A secure API fetch wrapper adding JWT Authorization headers and handling auto-logout on 401
+  const adminFetch = async (url: string, options: RequestInit = {}) => {
+    const token = sessionStorage.getItem("adminToken");
+    const headers = {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+      ...(token ? { "Authorization": `Bearer ${token}` } : {})
+    };
+    
+    try {
+      const res = await fetch(url, { ...options, headers });
+      if (res.status === 401) {
+        handleLogout();
+        setAuthError("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại");
+        return null;
+      }
+      return res;
+    } catch (err) {
+      console.error(`API Request to ${url} failed:`, err);
+      throw err;
+    }
+  };
+
   // Fetch Overview Stats and Activities
   const fetchOverviewData = async () => {
     try {
-      const statsRes = await fetch("http://localhost:8000/api/v1/admin/stats");
-      if (statsRes.ok) {
+      const statsRes = await adminFetch("http://localhost:8000/api/v1/admin/stats");
+      if (statsRes && statsRes.ok) {
         const statsData = await statsRes.json();
         setStats(statsData);
       }
-      const actRes = await fetch("http://localhost:8000/api/v1/admin/activity");
-      if (actRes.ok) {
+      const actRes = await adminFetch("http://localhost:8000/api/v1/admin/activity");
+      if (actRes && actRes.ok) {
         const actData = await actRes.json();
         setActivities(actData);
       }
@@ -280,20 +304,20 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
   // Fetch Pipeline Tables Data
   const fetchPipelineData = async () => {
     try {
-      const eprRes = await fetch("http://localhost:8000/api/v1/admin/epr-partners");
-      if (eprRes.ok) {
+      const eprRes = await adminFetch("http://localhost:8000/api/v1/admin/epr-partners");
+      if (eprRes && eprRes.ok) {
         const data = await eprRes.json();
         setEprPartners(data);
       }
       
-      const archRes = await fetch("http://localhost:8000/api/v1/admin/green-projects");
-      if (archRes.ok) {
+      const archRes = await adminFetch("http://localhost:8000/api/v1/admin/green-projects");
+      if (archRes && archRes.ok) {
         const data = await archRes.json();
         setGreenProjects(data);
       }
 
-      const collRes = await fetch("http://localhost:8000/api/v1/admin/collectors");
-      if (collRes.ok) {
+      const collRes = await adminFetch("http://localhost:8000/api/v1/admin/collectors");
+      if (collRes && collRes.ok) {
         const data = await collRes.json();
         setCollectors(data);
       }
@@ -373,9 +397,8 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
     if (activeTab === "collection") pipelineType = "collection";
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/admin/bulk-status", {
+      const res = await adminFetch("http://localhost:8000/api/v1/admin/bulk-status", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: pipelineType,
           ids: selectedIds,
@@ -383,7 +406,7 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
         })
       });
 
-      if (res.ok) {
+      if (res && res.ok) {
         fetchPipelineData();
         fetchOverviewData();
         setSelectedIds([]);
@@ -499,9 +522,8 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
     if (activeTab === "collection") pipelineType = "collection";
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/admin/send-email", {
+      const res = await adminFetch("http://localhost:8000/api/v1/admin/send-email", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: pipelineType,
           id: record.id,
@@ -510,7 +532,7 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
         })
       });
 
-      if (res.ok) {
+      if (res && res.ok) {
         setNotificationMessage(`Thư đã gửi thành công tới ${record.email}! Nhật ký chi tiết đã được lưu trong mock_emails/.`);
         
         // Advance queue or finish
