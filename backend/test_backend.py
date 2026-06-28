@@ -124,3 +124,123 @@ def test_register_collector():
     data = response.json()
     assert data["id"] is not None
     assert data["collector_type"] == "scrap_yard"
+
+# --- ADMIN PANEL TESTS ---
+
+def test_admin_login():
+    # Test valid credentials
+    payload = {
+        "username": "admin",
+        "password": "renovacircular2026"
+    }
+    response = client.post("/api/v1/admin/login", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["success"] is True
+    assert data["token"] == "mock-admin-token-2026"
+
+    # Test invalid credentials
+    payload = {
+        "username": "admin",
+        "password": "wrongpassword"
+    }
+    response = client.post("/api/v1/admin/login", json=payload)
+    assert response.status_code == 401
+
+def test_admin_stats():
+    response = client.get("/api/v1/admin/stats")
+    assert response.status_code == 200
+    data = response.json()
+    assert "total_records" in data
+    assert "total_pending" in data
+    assert "total_success" in data
+
+def test_admin_activity():
+    response = client.get("/api/v1/admin/activity")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    if len(data) > 0:
+        assert "type" in data[0]
+        assert "title" in data[0]
+
+def test_admin_lists_filtering():
+    # Test search query on epr partners
+    response = client.get("/api/v1/admin/epr-partners?search=Test")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+
+    # Test search query on green projects
+    response = client.get("/api/v1/admin/green-projects?search=Architect")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+
+    # Test search query on collectors
+    response = client.get("/api/v1/admin/collectors?search=Scrap")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+
+def test_admin_bulk_status_update():
+    # Query an active ID first from register
+    payload = {
+        "company_name": "Bulk Corp",
+        "contact_name": "Bulk Contact",
+        "email": "bulk@corp.com",
+        "phone": "0911223344",
+        "annual_plastic_waste": 1000.0,
+        "needs_epr_cert": True
+    }
+    register_res = client.post("/api/v1/register/epr-partner", json=payload)
+    assert register_res.status_code == 201
+    item_id = register_res.json()["id"]
+
+    # Perform bulk update to "Pending"
+    bulk_payload = {
+        "type": "epr",
+        "ids": [item_id],
+        "status": "Pending"
+    }
+    response = client.put("/api/v1/admin/bulk-status", json=bulk_payload)
+    assert response.status_code == 200
+    
+    # Verify status changed in the list endpoint
+    list_res = client.get("/api/v1/admin/epr-partners")
+    items = list_res.json()
+    updated_item = next(item for item in items if item["id"] == item_id)
+    assert updated_item["status"] == "Pending"
+
+def test_admin_send_email():
+    # Query an active ID from register
+    payload = {
+        "company_name": "Email Corp",
+        "contact_name": "Email Contact",
+        "email": "email@corp.com",
+        "phone": "0911223344",
+        "annual_plastic_waste": 1000.0,
+        "needs_epr_cert": True
+    }
+    register_res = client.post("/api/v1/register/epr-partner", json=payload)
+    assert register_res.status_code == 201
+    item_id = register_res.json()["id"]
+
+    # Send outbound custom email
+    email_payload = {
+        "type": "epr",
+        "id": item_id,
+        "subject": "Custom Admin Proposal",
+        "email_content": "Dear Email Contact, this is a custom admin onboarding proposal."
+    }
+    response = client.post("/api/v1/admin/send-email", json=email_payload)
+    assert response.status_code == 200
+    
+    # Confirm status automatically synced to "Replied" in DB
+    list_res = client.get("/api/v1/admin/epr-partners")
+    items = list_res.json()
+    updated_item = next(item for item in items if item["id"] == item_id)
+    assert updated_item["status"] == "Replied"
+
+    # Confirm email log is generated in mock_emails directory
+    import os
+    assert len(os.listdir("mock_emails")) > 0
+

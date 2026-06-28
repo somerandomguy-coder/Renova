@@ -12,6 +12,7 @@ class EPRPartner(Base):
     phone = Column(String, nullable=False)
     annual_plastic_waste = Column(Float, nullable=False)  # in kg
     needs_epr_cert = Column(Boolean, default=True)  # Nhu cầu lấy chứng nhận EPR
+    status = Column(String, default="Starting", nullable=False)  # "Starting", "Pending", "Replied"
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
 class GreenProject(Base):
@@ -24,6 +25,7 @@ class GreenProject(Base):
     surface_area = Column(Float, nullable=False)  # in m2 (Diện tích bề mặt)
     location = Column(String, nullable=False)  # Địa điểm thi công
     ventilation_consult = Column(Boolean, default=True)  # Mong muốn tư vấn thiết kế thông gió
+    status = Column(String, default="Starting", nullable=False)  # "Starting", "Pending", "Replied"
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
 class Collector(Base):
@@ -35,4 +37,5 @@ class Collector(Base):
     phone = Column(String, nullable=False)
     collector_type = Column(String, nullable=False)  # "scrap_yard" or "individual"
     address = Column(String, nullable=True)  # Địa chỉ thu gom
+    status = Column(String, default="Starting", nullable=False)  # "Starting", "Pending", "Replied"
     created_at = Column(DateTime, default=datetime.datetime.utcnow)

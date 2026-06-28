@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
+from typing import Optional, List, Dict
 from datetime import datetime
 
 # --- FORM SCHEMAS ---
@@ -14,6 +14,7 @@ class EPRPartnerCreate(BaseModel):
 
 class EPRPartnerResponse(EPRPartnerCreate):
     id: int
+    status: str
     created_at: datetime
 
     class Config:
@@ -30,6 +31,7 @@ class GreenProjectCreate(BaseModel):
 
 class GreenProjectResponse(GreenProjectCreate):
     id: int
+    status: str
     created_at: datetime
 
     class Config:
@@ -45,6 +47,7 @@ class CollectorCreate(BaseModel):
 
 class CollectorResponse(CollectorCreate):
     id: int
+    status: str
     created_at: datetime
 
     class Config:
@@ -80,3 +83,43 @@ class EPRCashflowResponse(BaseModel):
     total_brick_cost_vnd: float = Field(..., description="Tổng chi phí mua gạch RENOVA (VND)")
     net_cost_after_epr_offset_vnd: float = Field(..., description="Chi phí thực tế sau khi bù trừ khấu hao EPR (VND)")
     net_savings_percentage: float = Field(..., description="Phần trăm tiết kiệm được nhờ bù trừ")
+
+
+# --- ADMIN SCHEMAS ---
+
+class AdminLoginRequest(BaseModel):
+    username: str
+    password: str
+
+class AdminLoginResponse(BaseModel):
+    token: str
+    username: str
+    success: bool
+
+class BulkStatusUpdateRequest(BaseModel):
+    type: str  # "epr", "architecture", "collection"
+    ids: List[int]
+    status: str  # "Starting", "Pending", "Replied"
+
+class AdminSendEmailRequest(BaseModel):
+    type: str  # "epr", "architecture", "collection"
+    id: int
+    email_content: str
+    subject: str
+
+class GlobalActivityItem(BaseModel):
+    id: int
+    type: str  # "epr", "architecture", "collection"
+    title: str
+    subtitle: str
+    email: str
+    status: str
+    created_at: datetime
+
+class OverviewStatsResponse(BaseModel):
+    total_records: int
+    total_pending: int
+    total_success: int
+    epr_stats: Dict[str, int]
+    architecture_stats: Dict[str, int]
+    collection_stats: Dict[str, int]
