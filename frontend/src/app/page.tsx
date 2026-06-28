@@ -88,15 +88,15 @@ export default function Home() {
             </span>
           </div>
 
-          <nav className="hidden lg:flex items-center gap-6">
-            <ul className="flex gap-8 list-none">
-              <li><a href="#trang-chu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading">{nav.about}</a></li>
-              <li><a href="#tam-nhin-esg" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading">{nav.esg}</a></li>
-              <li><a href="#thu-vien-rd" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading">{nav.rd}</a></li>
-              <li><a href="#tinh-toan" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading">{nav.calc}</a></li>
-              <li><a href="#quy-trinh-epr" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading">{nav.epr}</a></li>
-              <li><a href="#doi-ngu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading">{nav.team}</a></li>
-              <li><a href="#thanh-tuu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading">{nav.awards}</a></li>
+          <nav className="hidden xl:flex items-center gap-4 xl:gap-6">
+            <ul className="flex gap-4 xl:gap-6 2xl:gap-8 list-none">
+              <li><a href="#trang-chu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.about}</a></li>
+              <li><a href="#tam-nhin-esg" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.esg}</a></li>
+              <li><a href="#thu-vien-rd" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.rd}</a></li>
+              <li><a href="#tinh-toan" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.calc}</a></li>
+              <li><a href="#quy-trinh-epr" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.epr}</a></li>
+              <li><a href="#doi-ngu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.team}</a></li>
+              <li><a href="#thanh-tuu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.awards}</a></li>
             </ul>
           </nav>
 
@@ -121,14 +121,14 @@ export default function Home() {
               </button>
             </div>
 
-            <a href="#dang-ky" className="btn-primary header-cta hidden lg:inline-flex px-5 py-2 text-sm">
+            <a href="#dang-ky" className="btn-primary header-cta hidden xl:inline-flex px-5 py-2 text-sm">
               {nav.cta}
             </a>
 
             {/* Mobile Menu Toggle Button */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden bg-transparent border-none text-brand-text-primary dark:text-white cursor-pointer p-1"
+              className="xl:hidden bg-transparent border-none text-brand-text-primary dark:text-white cursor-pointer p-1"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -136,7 +136,7 @@ export default function Home() {
 
           {/* Mobile Drawer Menu */}
           {isMenuOpen && (
-            <div className="absolute top-20 left-[-16px] sm:left-[-24px] w-[calc(100%+32px)] sm:w-[calc(100%+48px)] bg-white/98 dark:bg-zinc-950/98 backdrop-blur-md border-b border-brand-border p-6 flex flex-col gap-4 z-50 shadow-lg max-h-[80vh] overflow-y-auto">
+            <div className="xl:hidden absolute top-20 left-[-16px] sm:left-[-24px] w-[calc(100%+32px)] sm:w-[calc(100%+48px)] bg-white/98 dark:bg-zinc-950/98 backdrop-blur-md border-b border-brand-border p-6 flex flex-col gap-4 z-50 shadow-lg max-h-[80vh] overflow-y-auto">
               <ul className="flex flex-col gap-4 list-none">
                 <li><a href="#trang-chu" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.about}</a></li>
                 <li><a href="#tam-nhin-esg" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.esg}</a></li>
