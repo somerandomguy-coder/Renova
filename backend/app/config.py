@@ -1,7 +1,7 @@
 import os
 import json
 from pydantic_settings import BaseSettings
-from typing import List, Union
+from typing import List, Union, Any
 from pydantic import field_validator
 
 class Settings(BaseSettings):
@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./renova.db"
     
     # CORS Origins
-    CORS_ORIGINS: List[str] = [
+    CORS_ORIGINS: Any = [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
     ]
