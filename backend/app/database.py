@@ -13,6 +13,15 @@ elif db_url.startswith("wss://"):
 
 # Configure Turso connection parameters dynamically to prevent 308 redirects
 if "turso.io" in db_url:
+    # Ensure there is a trailing slash before query parameters if path is empty
+    if "?" in db_url:
+        parts = db_url.split("?", 1)
+        if not parts[0].endswith("/"):
+            db_url = f"{parts[0]}/?{parts[1]}"
+    else:
+        if not db_url.endswith("/"):
+            db_url += "/"
+
     if "secure=true" not in db_url:
         separator = "&" if "?" in db_url else "?"
         db_url += f"{separator}secure=true"
@@ -36,6 +45,12 @@ print(f"[Database Debug] Os environ token loaded: {os.environ.get('TURSO_AUTH_TO
 connect_args = {}
 if "sqlite" in db_url or "libsql" in db_url:
     connect_args = {"check_same_thread": False}
+
+# Double-insure by passing auth_token directly to connect_args
+if "turso.io" in db_url:
+    token = settings.TURSO_AUTH_TOKEN or os.environ.get("TURSO_AUTH_TOKEN") or os.environ.get("TURSO_TOKEN") or os.environ.get("TURSO_DB_TOKEN")
+    if token:
+        connect_args["auth_token"] = token
 
 engine = create_engine(
     db_url,
