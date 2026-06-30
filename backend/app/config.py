@@ -1,7 +1,7 @@
 import os
 import json
 from pydantic_settings import BaseSettings
-from typing import List, Union, Any
+from typing import List, Union, Any, Optional
 from pydantic import field_validator
 
 class Settings(BaseSettings):
@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     # Database configuration
     # By default, use SQLite located in the backend folder
     DATABASE_URL: str = "sqlite:///./renova.db"
+    TURSO_AUTH_TOKEN: Optional[str] = None
     
     # CORS Origins
     CORS_ORIGINS: Any = [
