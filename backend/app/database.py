@@ -17,11 +17,18 @@ if "turso.io" in db_url:
         separator = "&" if "?" in db_url else "?"
         db_url += f"{separator}secure=true"
     
-    # Inject TURSO_AUTH_TOKEN if present and not already in URL query
-    token = os.environ.get("TURSO_AUTH_TOKEN")
+    # Inject token from environment if present and not already in URL query
+    token = os.environ.get("TURSO_AUTH_TOKEN") or os.environ.get("TURSO_TOKEN") or os.environ.get("TURSO_DB_TOKEN")
     if token and "authToken=" not in db_url:
         separator = "&" if "?" in db_url else "?"
         db_url += f"{separator}authToken={token}"
+
+# Print masked database URL for secure deploy logging
+import re
+masked_url = db_url
+if "authToken=" in masked_url:
+    masked_url = re.sub(r"authToken=[^&]+", "authToken=***", masked_url)
+print(f"[Database] Connecting to: {masked_url}")
 
 connect_args = {}
 if "sqlite" in db_url or "libsql" in db_url:
