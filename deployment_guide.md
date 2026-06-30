@@ -58,7 +58,7 @@ Netlify will build and host the Next.js frontend, connecting to the Render API.
 3. Configure the build settings:
    * **Base Directory**: `frontend` (Point Netlify to build inside the frontend subfolder).
    * **Build Command**: `npm run build`
-   * **Publish Directory**: `frontend/.next` (Or Netlify will auto-detect Next.js and handle it).
+   * **Publish Directory**: `frontend/out` (Since we are using static export, Netlify serves static pages directly).
 4. Add the following **Environment Variable** in the Netlify site configuration:
    * `NEXT_PUBLIC_API_URL`: The full URL of your deployed Render backend web service (e.g. `https://your-renova-backend.onrender.com`).
 5. Click **Deploy**. Netlify will deploy the Next.js application, making it accessible on a public `.netlify.app` domain.

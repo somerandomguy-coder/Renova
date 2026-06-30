@@ -1,6 +1,8 @@
 import os
+import json
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Union
+from pydantic import field_validator
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "RENOVA Circular & ESG API"
@@ -15,6 +17,19 @@ class Settings(BaseSettings):
         "http://localhost:3000",
         "http://127.0.0.1:3000",
     ]
+    
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
+        if isinstance(v, str):
+            v = v.strip()
+            if v.startswith("[") and v.endswith("]"):
+                try:
+                    return json.loads(v)
+                except Exception:
+                    pass
+            return [item.strip() for item in v.split(",") if item.strip()]
+        return v
     
     # Email configurations (Mocked by default if not set)
     SMTP_HOST: str = "smtp.gmail.com"
