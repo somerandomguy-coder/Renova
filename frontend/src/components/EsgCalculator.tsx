@@ -5,6 +5,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { Calculator, ArrowRight, Activity, Percent, Sparkles, TrendingUp } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 interface EsgCalculatorProps {
   lang: "vi" | "en";
 }
@@ -130,7 +132,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
   const fetchEsgCalculations = async (bricks: number, pRatio: number) => {
     const hRatio = 100 - pRatio;
     try {
-      const response = await fetch("http://localhost:8000/api/v1/calculate/esg", {
+      const response = await fetch(`${API_BASE_URL}/api/v1/calculate/esg`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ num_bricks: bricks, plastic_ratio: pRatio, husk_ratio: hRatio })
@@ -159,7 +161,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
   // Fetch or calculate EPR Cashflow
   const fetchEprCalculations = async (volume: number, price: number) => {
     try {
-      const response = await fetch("http://localhost:8000/api/v1/calculate/epr", {
+      const response = await fetch(`${API_BASE_URL}/api/v1/calculate/epr`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ packaging_volume_kg: volume, brick_price_vnd: price })

@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Mail, Phone, Building, Home, Users, CheckCircle, AlertCircle, Send } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 interface RegistrationFormsProps {
   lang: "vi" | "en";
 }
@@ -164,7 +166,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/v1/register/epr-partner", {
+      const response = await fetch(`${API_BASE_URL}/api/v1/register/epr-partner`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(eprForm)
@@ -188,7 +190,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/v1/register/green-project", {
+      const response = await fetch(`${API_BASE_URL}/api/v1/register/green-project`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(greenForm)
@@ -212,7 +214,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/v1/register/collector", {
+      const response = await fetch(`${API_BASE_URL}/api/v1/register/collector`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(collectorForm)

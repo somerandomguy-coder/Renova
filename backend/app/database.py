@@ -3,13 +3,19 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from app.config import settings
 
-# For SQLite, we need connect_args={"check_same_thread": False}
+db_url = settings.DATABASE_URL
+# Automatically normalize Turso direct libsql/wss schemas for SQLAlchemy-libsql dialect
+if db_url.startswith("libsql://"):
+    db_url = db_url.replace("libsql://", "sqlite+libsql://", 1)
+elif db_url.startswith("wss://"):
+    db_url = db_url.replace("wss://", "sqlite+libsql://", 1)
+
 connect_args = {}
-if settings.DATABASE_URL.startswith("sqlite"):
+if "sqlite" in db_url or "libsql" in db_url:
     connect_args = {"check_same_thread": False}
 
 engine = create_engine(
-    settings.DATABASE_URL,
+    db_url,
     connect_args=connect_args
 )
 

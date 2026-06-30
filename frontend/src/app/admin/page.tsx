@@ -205,7 +205,9 @@ Trân trọng,
 Ban Điều hành Chuỗi Cung ứng RENOVA.`
     }
   ]
-};export default function AdminDashboard() {
+};const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+export default function AdminDashboard() {
   // Auth State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [usernameInput, setUsernameInput] = useState("");
@@ -286,12 +288,12 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
   // Fetch Overview Stats and Activities
   const fetchOverviewData = async () => {
     try {
-      const statsRes = await adminFetch("http://localhost:8000/api/v1/admin/stats");
+      const statsRes = await adminFetch(`${API_BASE_URL}/api/v1/admin/stats`);
       if (statsRes && statsRes.ok) {
         const statsData = await statsRes.json();
         setStats(statsData);
       }
-      const actRes = await adminFetch("http://localhost:8000/api/v1/admin/activity");
+      const actRes = await adminFetch(`${API_BASE_URL}/api/v1/admin/activity`);
       if (actRes && actRes.ok) {
         const actData = await actRes.json();
         setActivities(actData);
@@ -304,19 +306,19 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
   // Fetch Pipeline Tables Data
   const fetchPipelineData = async () => {
     try {
-      const eprRes = await adminFetch("http://localhost:8000/api/v1/admin/epr-partners");
+      const eprRes = await adminFetch(`${API_BASE_URL}/api/v1/admin/epr-partners`);
       if (eprRes && eprRes.ok) {
         const data = await eprRes.json();
         setEprPartners(data);
       }
       
-      const archRes = await adminFetch("http://localhost:8000/api/v1/admin/green-projects");
+      const archRes = await adminFetch(`${API_BASE_URL}/api/v1/admin/green-projects`);
       if (archRes && archRes.ok) {
         const data = await archRes.json();
         setGreenProjects(data);
       }
 
-      const collRes = await adminFetch("http://localhost:8000/api/v1/admin/collectors");
+      const collRes = await adminFetch(`${API_BASE_URL}/api/v1/admin/collectors`);
       if (collRes && collRes.ok) {
         const data = await collRes.json();
         setCollectors(data);
@@ -343,7 +345,7 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
     setAuthError("");
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/admin/login", {
+      const res = await fetch(`${API_BASE_URL}/api/v1/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: usernameInput, password: passwordInput })
@@ -397,7 +399,7 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
     if (activeTab === "collection") pipelineType = "collection";
 
     try {
-      const res = await adminFetch("http://localhost:8000/api/v1/admin/bulk-status", {
+      const res = await adminFetch(`${API_BASE_URL}/api/v1/admin/bulk-status`, {
         method: "PUT",
         body: JSON.stringify({
           type: pipelineType,
@@ -522,7 +524,7 @@ Ban Điều hành Chuỗi Cung ứng RENOVA.`
     if (activeTab === "collection") pipelineType = "collection";
 
     try {
-      const res = await adminFetch("http://localhost:8000/api/v1/admin/send-email", {
+      const res = await adminFetch(`${API_BASE_URL}/api/v1/admin/send-email`, {
         method: "POST",
         body: JSON.stringify({
           type: pipelineType,
