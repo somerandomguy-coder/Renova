@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RENOVA Circular - Bảng Điều Khiển Tài Chính & AI</title>
+  
+  <!-- CDN Scripts & Styles -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+  <!-- Configure Tailwind CDN with Renova Brand Colors -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['"Be Vietnam Pro"', 'sans-serif'],
+            body: ['"Be Vietnam Pro"', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              primary: '#914724',     /* Earthy Clay Brown */
+              secondary: '#b45309',   /* Gold/Amber */
+              accent: '#d97736',      /* Light Clay/Orange */
+              bgDark: '#FAF8F5',      /* Soft Warm Off-white */
+              bgCard: '#ffffff',      /* Pure White */
+              textPrimary: '#1d1815', /* Deep Espresso */
+              textMuted: '#78726d',   /* Muted Slate Clay Gray */
+              border: '#e6e1dd'       /* Subtle Warm Border */
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background-color: #FAF8F5;
+      color: #1d1815;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      max-height: 400px;
+    }
+    .stat-card {
+      transition: box-shadow 0.3s ease;
+      transform-origin: 50% 100%;
+    }
+    .stat-card:hover {
+      animation: cardWobble 0.55s ease-out forwards;
+      box-shadow: 0 10px 25px -5px rgba(145, 71, 36, 0.15);
+    }
+    .gradient-header {
+      background: linear-gradient(135deg, #1d1815 0%, #2e241f 100%);
+    }
+    .accent-border {
+      border-left: 4px solid #914724;
+    }
+    .formula-box {
+      background: #eefcf3;
+      border: 1px solid #bbf0d0;
+      border-radius: 0.75rem;
+      padding: 0.7rem 1.25rem;
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      color: #15803d;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .data-table th {
+      background-color: #FAF8F5;
+      color: #78726d;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      padding: 12px 16px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 12px 16px;
+      font-size: 13px;
+      border-top: 1px solid #e6e1dd;
+      color: #1d1815;
+    }
+    .data-table tbody tr:hover {
+      background-color: rgba(145, 71, 36, 0.04);
+    }
+    .data-table tr.total-row td {
+      background-color: rgba(145, 71, 36, 0.06);
+      font-weight: 800;
+      color: #914724;
+      border-top: 2px solid #914724;
+    }
+
+
+    /* Gentle wobble hover effect for icons, badges & small objects */
+    .wobble-hover {
+      transform-origin: 50% 0%;
+      transition: transform 0.2s ease;
+    }
+    .wobble-hover:hover {
+      animation: wobble 0.6s ease-in-out;
+    }
+    @keyframes wobble {
+      0%   { transform: rotate(0deg); }
+      20%  { transform: rotate(-8deg); }
+      40%  { transform: rotate(6deg); }
+      60%  { transform: rotate(-4deg); }
+      80%  { transform: rotate(2deg); }
+      100% { transform: rotate(0deg); }
+    }
+    @keyframes cardWobble {
+      0%   { transform: translateY(0) rotate(0deg); }
+      30%  { transform: translateY(-6px) rotate(-1.2deg); }
+      55%  { transform: translateY(-4px) rotate(1deg); }
+      80%  { transform: translateY(-5px) rotate(-0.4deg); }
+      100% { transform: translateY(-4px) rotate(0deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .stat-card:hover, .wobble-hover:hover { animation: none; }
+    }
+
+    /* Scroll animations style classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-brand-bgDark text-brand-textPrimary antialiased">
+
+  <!-- Header -->
+  <header class="gradient-header text-white py-12 px-6 shadow-xl relative overflow-hidden">
+    <!-- Brand glow background decoration -->
+    <div class="absolute w-[400px] h-[400px] rounded-full bg-brand-primary/10 -top-40 -left-40 blur-[100px]"></div>
+    
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center relative z-10">
+      <div class="mb-6 md:mb-0 text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">RENOVA <span class="text-brand-accent">Circular</span></h1>
+          <span class="text-[10px] font-bold border border-white/20 px-2 py-0.5 rounded uppercase tracking-wider text-slate-300">Bài thuyết trình</span>
+        </div>
+        <p class="text-slate-400 max-w-md text-sm sm:text-base">
+          Tái chế rác thải nhựa đa lớp thành vật liệu xây dựng sinh thái có giá trị di sản và kinh tế cao.
+        </p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-4">
+        <div class="bg-brand-primary/20 border border-brand-primary/30 p-4 rounded-xl text-center min-w-[120px] wobble-hover cursor-default">
+          <span class="block text-2xl font-bold text-brand-accent"><span class="counter" data-target="254" data-suffix="%">0%</span></span>
+          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">IRR Dự Kiến</span>
+        </div>
+        <div class="bg-brand-secondary/20 border border-brand-secondary/30 p-4 rounded-xl text-center min-w-[120px] wobble-hover cursor-default">
+          <span class="block text-2xl font-bold text-amber-400"><span class="counter" data-target="5" data-suffix=" Tháng">0 Tháng</span></span>
+          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Thời Gian Hoàn Vốn</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto py-10 px-6">
+
+    <!-- ============================================== -->
+    <!-- 1. MARKET SCALE & POTENTIAL                     -->
+    <!-- ============================================== -->
+
+    <!-- Market scale -->
+    <section id="sec-market" class="mb-16 reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-primary rounded-full mr-3"></span> 1. Quy Mô & Tiềm Năng Thị Trường
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">Ngành vật liệu xây dựng Việt Nam đang trải qua quá trình chuyển đổi xanh mạnh mẽ. Với ngành gạch dự kiến đạt 11,11 tỷ USD vào năm 2029, RENOVA định vị để chiếm lĩnh phân khúc không nung và sinh thái thông qua các nguyên tắc kinh tế tuần hoàn.</p>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-brand-border p-6">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Phân Tích Quy Mô Thị Trường (Tỷ USD)</h3>
+          <div class="chart-container" id="marketChartContainer">
+            <canvas id="marketChart"></canvas>
+          </div>
+          <p class="text-xs text-brand-textMuted mt-4 italic">Nguồn: Viện Kinh tế Xây dựng & Mordor Intelligence (2025).</p>
+        </div>
+        
+        <div class="flex flex-col gap-6">
+          <div class="bg-white rounded-2xl border border-brand-border p-6 accent-border stat-card">
+            <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">TAM (Dự Báo 2029)</span>
+            <span class="text-3xl font-black text-brand-primary mt-1"><span class="counter" data-target="11.11" data-decimals="2" data-prefix="$" data-suffix="B">0</span></span>
+            <p class="text-xs text-brand-textMuted mt-2">Tổng quy mô thị trường vật liệu xây dựng xanh đến năm 2029.</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card border-l-4 border-brand-secondary">
+            <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">SAM (Thị Phần Mục Tiêu)</span>
+            <span class="text-3xl font-black text-brand-secondary mt-1"><span class="counter" data-target="35" data-suffix="%">0%</span></span>
+            <p class="text-xs text-brand-textMuted mt-2">Phân khúc mục tiêu cho vật liệu xây dựng không nung/sinh thái.</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card border-l-4 border-brand-accent">
+            <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">SOM (Pilot Năm 1)</span>
+            <span class="text-3xl font-black text-brand-accent mt-1"><span class="counter" data-target="120000" data-suffix=" Gạch" data-use-commas="true">0</span></span>
+            <p class="text-xs text-brand-textMuted mt-2">Sản lượng gạch block mục tiêu trong năm hoạt động đầu tiên.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail table I -->
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead><tr><th>Chỉ số</th><th>Định mức / Quy mô</th><th>Công thức & Diễn giải</th><th>Nguồn trích dẫn</th></tr></thead>
+            <tbody>
+              <tr><td class="font-bold">TAM <span class="text-brand-textMuted font-normal">(Tổng thị trường)</span></td><td class="font-bold text-brand-primary">11,11 tỷ USD <span class="text-brand-textMuted font-normal">(năm 2029)</span></td><td>Quy mô toàn ngành gạch ốp lát Việt Nam. CAGR = 13,64%</td><td class="text-brand-textMuted">Viện Kinh tế Xây dựng & Mordor Intelligence (2025)</td></tr>
+              <tr><td class="font-bold">SAM <span class="text-brand-textMuted font-normal">(Thị trường mục tiêu)</span></td><td class="font-bold text-brand-secondary">35% thị phần <span class="text-brand-textMuted font-normal">(năm 2030)</span></td><td>Phân khúc vật liệu xây dựng không nung và sinh thái. Tập trung vào &gt; 800 dự án xanh</td><td class="text-brand-textMuted">VLXDgiatot & Hội đồng Công trình xanh Hoa Kỳ (USGBC)</td></tr>
+              <tr><td class="font-bold">SOM <span class="text-brand-textMuted font-normal">(Thị phần chiếm lĩnh)</span></td><td class="font-bold text-brand-accent">120.000 viên/năm <span class="text-brand-textMuted font-normal">(Năm 1)</span></td><td>SOM = Công suất thiết kế × Hiệu suất (OEE 80%)</td><td class="text-brand-textMuted">Năng lực thực nghiệm phối hợp OEM với Xưởng Ánh Thủy</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 2. SOLUTION: AI & SAAS ECOSYSTEM                -->
+    <!-- ============================================== -->
+    <section id="sec-solution" class="mb-16 reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-primary rounded-full mr-3"></span> 2. RENOVA Smart-Hub: Giải Pháp AI & SaaS
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">Hệ sinh thái phần mềm song hành, hỗ trợ kiến trúc sư tối ưu hóa thông gió tự nhiên và các doanh nghiệp FMCG tự động hóa báo cáo tuân thủ EPR.</p>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white p-6 rounded-2xl border border-brand-border border-l-4 border-brand-primary stat-card">
+          <h3 class="font-bold text-lg mb-2 text-brand-textPrimary">RENOVA CFD-Flow™ (Dành cho Kiến Trúc Sư)</h3>
+          <p class="text-sm text-brand-textMuted mb-4 leading-relaxed font-body">Mô phỏng Động lực học Chất lưu Tính toán (CFD) theo thời gian thực thông qua mô hình học máy đại diện. Tạo báo cáo thông gió tự nhiên trong chưa đầy 30 giây để đạt điểm LEED/LOTUS.</p>
+          <div class="grid grid-cols-2 gap-2 text-xs font-bold text-brand-primary">
+            <span class="bg-brand-primary/6 p-3 rounded-xl text-center">CFD Thời Gian Thực</span>
+            <span class="bg-brand-primary/6 p-3 rounded-xl text-center">Giảm Nhiệt: 2-4°C</span>
+          </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-2xl border border-brand-border border-l-4 border-brand-secondary stat-card">
+          <h3 class="font-bold text-lg mb-2 text-brand-textPrimary">EPR-Auditor (Dành cho Doanh Nghiệp FMCG)</h3>
+          <p class="text-sm text-brand-textMuted mb-4 leading-relaxed font-body">Số hóa hóa đơn bằng AI và theo dõi luồng MLP được bảo mật bằng blockchain (SHA-256). Đảm bảo báo cáo tuân thủ quy định tuyệt đối cho Bộ Tài nguyên và Môi trường.</p>
+          <div class="grid grid-cols-2 gap-2 text-xs font-bold text-brand-secondary">
+            <span class="bg-brand-secondary/6 p-3 rounded-xl text-center">Sổ Cái Blockchain SHA-256</span>
+            <span class="bg-brand-secondary/6 p-3 rounded-xl text-center">Dữ Liệu ESG Tự Động</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscription Pricing -->
+      <div class="bg-white rounded-2xl border border-brand-border p-8 mb-8">
+        <h3 class="font-extrabold text-xl mb-6 text-brand-textPrimary text-center sm:text-left">Các Mô Hình Giá Đăng Ký</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="border border-brand-border p-6 rounded-xl text-center stat-card">
+            <h4 class="font-bold uppercase text-brand-textMuted text-xs tracking-wider">Cơ Bản</h4>
+            <div class="text-2xl font-black my-4 text-brand-textPrimary">Miễn phí</div>
+            <ul class="text-xs text-brand-textMuted space-y-3 border-t border-brand-border pt-4 text-left max-w-[180px] mx-auto">
+              <li class="flex items-center gap-2">✓ Thư Viện Vật Liệu</li>
+              <li class="flex items-center gap-2">✓ Mô Phỏng AI Cơ Bản</li>
+              <li class="flex items-center gap-2">✓ Xuất File Tiêu Chuẩn</li>
+            </ul>
+          </div>
+          
+          <div class="border-2 border-brand-primary p-6 rounded-xl text-center bg-brand-primary/5 stat-card">
+            <h4 class="font-bold uppercase text-brand-primary text-xs tracking-wider">Chuyên Nghiệp</h4>
+            <div class="text-2xl font-black my-4 text-brand-primary">2 triệu VND <span class="text-xs font-semibold text-brand-textMuted">/ dự án</span></div>
+            <ul class="text-xs text-brand-textMuted space-y-3 border-t border-brand-primary/20 pt-4 text-left max-w-[180px] mx-auto">
+              <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">✓ CFD AI Nâng Cao</li>
+              <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">✓ Hồ Sơ Kỹ Thuật Có Chứng Nhận</li>
+              <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">✓ Hỗ Trợ Ưu Tiên</li>
+            </ul>
+          </div>
+          
+          <div class="border border-brand-border p-6 rounded-xl text-center stat-card">
+            <h4 class="font-bold uppercase text-brand-textMuted text-xs tracking-wider">Doanh Nghiệp</h4>
+            <div class="text-2xl font-black my-4 text-brand-textPrimary">50 triệu VND <span class="text-xs font-semibold text-brand-textMuted">/ năm</span></div>
+            <ul class="text-xs text-brand-textMuted space-y-3 border-t border-brand-border pt-4 text-left max-w-[180px] mx-auto">
+              <li class="flex items-center gap-2">✓ Tự Động Hóa EPR Toàn Diện</li>
+              <li class="flex items-center gap-2">✓ Tích Hợp API ERP</li>
+              <li class="flex items-center gap-2">✓ Chứng Nhận SHA-256</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SaaS Unit Economics and Revenue Trajectory -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-2xl border border-brand-border p-6">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Cơ Cấu Chi Phí Dịch Vụ SaaS (Mỗi Hợp Đồng)</h3>
+          <div class="chart-container flex items-center justify-center" id="aiBomChartContainer">
+            <canvas id="aiBomChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl border border-brand-border p-6">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Quỹ Đạo Doanh Thu SaaS Phần Mềm (Triệu VND)</h3>
+          <div class="chart-container" id="aiGrowthChartContainer">
+            <canvas id="aiGrowthChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 3. UNIT ECONOMICS & COGS                        -->
+    <!-- ============================================== -->
+    <section id="sec-economics" class="mb-16 reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-secondary rounded-full mr-3"></span> 3. Kinh Tế Đơn Vị & Giá Vốn Hàng Bán (COGS)
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">Quy trình sản xuất của chúng tôi loại bỏ nhựa Epoxy đắt đỏ, thay thế bằng công nghệ ép nhiệt từ rác thải nhựa MLP và phụ phẩm trấu. Mô hình doanh thu kép này thu phí từ các đối tác FMCG đồng thời bán sản phẩm vật liệu xây dựng xanh cao cấp. Dự toán được tính trên quy mô sản xuất thực tế giai đoạn Pilot: <strong class="text-brand-textPrimary">Q = 10.000 viên/tháng</strong> (ép 2 phút/viên, vận hành 2 máy ép, 1 ca/ngày), trọng lượng chuẩn <strong class="text-brand-textPrimary">1,5 kg/viên</strong>.</p>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white rounded-2xl border border-brand-border p-6">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Định Mức Nguyên Vật Liệu (BOM) Mỗi Viên Gạch</h3>
+          <div class="chart-container flex items-center justify-center" id="financialBomChartContainer">
+            <canvas id="financialBomChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl border border-brand-border p-6 flex flex-col justify-center">
+          <div class="space-y-6">
+            <div class="flex justify-between items-end border-b border-brand-border pb-3">
+              <div>
+                <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">Tổng COGS</span>
+                <span class="text-2xl font-extrabold text-brand-textPrimary"><span class="counter" data-target="16258" data-suffix=" VND" data-use-commas="true">0</span></span>
+              </div>
+              <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full"><span class="counter" data-target="50.5" data-decimals="1" data-suffix="%">0%</span> Biên Lợi Nhuận Gộp</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="p-4 bg-brand-bgDark rounded-xl">
+                <span class="text-[10px] text-brand-textMuted uppercase font-bold tracking-wider">Doanh Thu Gạch</span>
+                <span class="block text-lg font-black text-brand-primary mt-1"><span class="counter" data-target="30000" data-suffix=" VND" data-use-commas="true">0</span></span>
+              </div>
+              <div class="p-4 bg-brand-bgDark rounded-xl">
+                <span class="text-[10px] text-brand-textMuted uppercase font-bold tracking-wider">Phí Dịch Vụ EPR</span>
+                <span class="block text-lg font-black text-brand-secondary mt-1"><span class="counter" data-target="2880" data-suffix=" VND" data-use-commas="true">0</span></span>
+              </div>
+            </div>
+            <div class="p-4 bg-orange-50 rounded-xl border border-orange-100 flex items-start gap-3">
+              <span class="wobble-hover shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-brand-primary text-white shadow-sm mt-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                  <path d="M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2zm-1.5 17a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-.5h-3v.5zM9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-.5H9V21z"/>
+                </svg>
+              </span>
+              <p class="text-xs sm:text-sm text-orange-800 leading-relaxed">
+                <strong>Lợi Thế Tuần Hoàn:</strong> Nhựa MLP thô (40%) có chi phí nguyên liệu bằng 0 VND và tạo thu nhập thông qua phí EPR, từ đó giảm hiệu quả mức sàn chi phí.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail BOM -->
+      <h4 class="font-bold text-base mb-2 text-brand-textPrimary">Chi Tiết Định Mức Vật Liệu Trực Tiếp (BOM)</h4>
+      <div class="formula-box mb-4">BOM&nbsp;=&nbsp;&Sigma; (m<sub>i</sub> &times; P<sub>i</sub>) &nbsp;&nbsp;|&nbsp;&nbsp; m<sub>i</sub>: khối lượng, P<sub>i</sub>: đơn giá nguyên liệu i</div>
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden mb-8">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead><tr><th>Thành phần</th><th>Tỷ lệ (%)</th><th>Khối lượng (mi)</th><th>Đơn giá giả định (Pi)</th><th>Chi phí/viên</th><th>Nguồn & Căn cứ</th></tr></thead>
+            <tbody>
+              <tr><td class="font-semibold">Rác nhựa đa lớp (MLP)</td><td>40%</td><td>0,6 kg</td><td>0 VNĐ/kg</td><td class="font-bold text-emerald-600">0 VNĐ/viên</td><td class="text-brand-textMuted">Nhận trực tiếp từ đối tác FMCG (được trả thêm phí EPR)</td></tr>
+              <tr><td class="font-semibold">Nhựa tái chế HDPE</td><td>30%</td><td>0,45 kg</td><td>12.000 VNĐ/kg</td><td class="font-bold">5.400 VNĐ/viên</td><td class="text-brand-textMuted">Khảo sát giá thu gom tại Greenpoint / Trạm phế liệu</td></tr>
+              <tr><td class="font-semibold">Vỏ trấu nông nghiệp</td><td>25%</td><td>0,365 kg</td><td>1.000 VNĐ/kg</td><td class="font-bold">375 VNĐ/viên</td><td class="text-brand-textMuted">Đơn giá bao tiêu tại ĐBSCL mùa vụ ổn định</td></tr>
+              <tr><td class="font-semibold">Phụ gia PE-g-MA</td><td>5%</td><td>0,075 kg</td><td>50.000 VNĐ/kg</td><td class="font-bold">3.750 VNĐ/viên</td><td class="text-brand-textMuted">Giá hóa chất liên kết công nghiệp nội địa</td></tr>
+              <tr class="total-row"><td>TỔNG CHI PHÍ BOM</td><td>100%</td><td>1,5 kg</td><td>—</td><td>9.525 VNĐ/viên</td><td>Tối ưu chi phí nhờ loại bỏ hoàn toàn keo Epoxy</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detail OPEX -->
+      <h4 class="font-bold text-base mb-2 text-brand-textPrimary">Chi Phí Vận Hành Hằng Tháng (OPEX)</h4>
+      <div class="formula-box mb-4">OPEX<sub>unit</sub>&nbsp;=&nbsp;Tổng OPEX tháng&nbsp;/&nbsp;Q</div>
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden mb-8">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead><tr><th>Hạng mục OPEX</th><th>Chi phí hằng tháng</th><th>Diễn giải & Căn cứ</th></tr></thead>
+            <tbody>
+              <tr><td class="font-semibold">Nhân công trực tiếp</td><td class="font-bold">24.000.000 VNĐ</td><td class="text-brand-textMuted">3 công nhân × 8.000.000 VNĐ/người (vận hành máy trộn, máy ép)</td></tr>
+              <tr><td class="font-semibold">Điện năng & Tiện ích</td><td class="font-bold">15.000.000 VNĐ</td><td class="text-brand-textMuted">Ước tính công suất gia nhiệt duy trì 200°C và máy ép thủy lực</td></tr>
+              <tr><td class="font-semibold">Thuê xưởng & Kho bãi</td><td class="font-bold">15.000.000 VNĐ</td><td class="text-brand-textMuted">Diện tích ~150m² tại vành đai công nghiệp phụ trợ (Hóc Môn, Bình Dương)</td></tr>
+              <tr><td class="font-semibold">Chi phí xử lý thô EPR</td><td class="font-bold">9.000.000 VNĐ</td><td class="text-brand-textMuted">Logistics và băm nghiền 6.000 kg MLP × 1.500 VNĐ/kg</td></tr>
+              <tr><td class="font-semibold">Khấu hao thiết bị</td><td class="font-bold">4.333.000 VNĐ</td><td class="text-brand-textMuted">Khấu hao đường thẳng: CapEx 260tr chia đều trong 60 tháng</td></tr>
+              <tr class="total-row"><td>TỔNG OPEX THÁNG</td><td>67.333.000 VNĐ</td><td>Phân bổ → OPEX<sub>unit</sub> = 6.733 VNĐ/viên</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detail COGS & Gross Profit -->
+      <h4 class="font-bold text-base mb-2 text-brand-textPrimary">Giá Vốn Hàng Bán (COGS) & Lợi Nhuận Gộp (Gross Profit)</h4>
+      <div class="formula-box mb-4">COGS&nbsp;=&nbsp;BOM&nbsp;+&nbsp;OPEX<sub>unit</sub></div>
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead><tr><th>Chỉ số Tài chính</th><th>Giá trị / Định mức</th><th>Diễn giải Công thức</th></tr></thead>
+            <tbody>
+              <tr><td class="font-semibold">Tổng Giá vốn (COGS)</td><td class="font-bold">16.258 VNĐ/viên</td><td class="text-brand-textMuted">9.525 VNĐ + 6.733 VNĐ</td></tr>
+              <tr><td class="font-semibold">Doanh thu Bán gạch</td><td class="font-bold">300.000.000 VNĐ</td><td class="text-brand-textMuted">10.000 viên × 30.000 VNĐ/viên (bằng giá gạch xi măng trắng truyền thống)</td></tr>
+              <tr><td class="font-semibold">Doanh thu Dịch vụ EPR</td><td class="font-bold">28.000.000 VNĐ</td><td class="text-brand-textMuted">6.000 kg MLP × 4.800 VNĐ/kg (rẻ hơn 20% so với định mức 6.000 VNĐ của Bộ TN&MT)</td></tr>
+              <tr><td class="font-semibold">Tổng Doanh Thu (TR)</td><td class="font-bold">328.800.000 VNĐ</td><td class="text-brand-textMuted">TR = Doanh thu Gạch + Doanh thu EPR</td></tr>
+              <tr><td class="font-semibold">Tổng Chi phí SX (TC)</td><td class="font-bold">162.580.000 VNĐ</td><td class="text-brand-textMuted">TC = 10.000 viên × 16.258 VNĐ/viên</td></tr>
+              <tr class="total-row"><td>Lợi nhuận Gộp (GP)</td><td>166.220.000 VNĐ</td><td>GP = TR − TC</td></tr>
+              <tr class="total-row"><td>Biên Lợi nhuận Gộp</td><td>50,5%</td><td>Gross Margin = (GP / TR) × 100%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 4. CUSTOMER METRICS / BUSINESS HEALTH           -->
+    <!-- ============================================== -->
+    <section id="sec-customer" class="mb-16 reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-textPrimary rounded-full mr-3"></span> 4. Sức Khỏe Doanh Nghiệp & Chỉ Số Khách Hàng
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">Tính bền vững của mô hình B2B/SaaS được chứng minh qua tỷ lệ LTV:COCA. Mức độ giữ chân cao từ các thương hiệu FMCG và các đơn hàng xây dựng định kỳ tạo ra giá trị trọn đời (lifetime value) rất lớn.</p>
+
+      <div class="bg-white rounded-2xl border border-brand-border p-6 mb-8">
+        <div class="chart-container" style="height:250px;" id="ltvCocaChartContainer">
+          <canvas id="ltvCocaChart"></canvas>
+        </div>
+        <div class="mt-6 flex justify-between items-center border-t border-brand-border pt-4">
+          <div class="text-center">
+            <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">LTV</span>
+            <span class="text-base font-extrabold"><span class="counter" data-target="250" data-suffix="M VND">0</span></span>
+          </div>
+          <div class="h-8 w-px bg-brand-border"></div>
+          <div class="text-center">
+            <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">COCA</span>
+            <span class="text-base font-extrabold"><span class="counter" data-target="36" data-suffix="M VND">0</span></span>
+          </div>
+          <div class="h-8 w-px bg-brand-border"></div>
+          <div class="text-center">
+            <span class="text-[10px] text-brand-primary block uppercase font-bold tracking-wider font-heading">Tỷ Lệ LTV:COCA</span>
+            <span class="text-xl font-black text-brand-primary"><span class="counter" data-target="6.9" data-decimals="1" data-suffix=" : 1">0 : 1</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card">
+          <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">LTV (Life Time Value)</span>
+          <p class="text-2xl font-black text-brand-primary mt-2 mb-3">≈ 250.000.000 VNĐ</p>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Giả định nhà thầu xây dựng B2B mua lặp lại 15.000 viên/năm, hoặc hãng FMCG duy trì gói SaaS EPR trong 3 năm.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card">
+          <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">COCA (Chi phí có 1 khách hàng)</span>
+          <p class="text-2xl font-black text-brand-secondary mt-2 mb-3">36.000.000 VNĐ</p>
+          <div class="formula-box text-xs mb-2">COCA = 360.000.000 / 10 = 36.000.000</div>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Ngân sách Marketing/Sales B2B ~30.000.000 VNĐ/tháng. Năm 1 tốn 360.000.000 VNĐ để chốt được 10 khách hàng lớn.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-accent p-6 stat-card bg-brand-accent/5">
+          <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">Tỷ Lệ LTV : COCA</span>
+          <p class="text-2xl font-black text-brand-accent mt-2 mb-3">6,9 : 1</p>
+          <div class="formula-box text-xs mb-2">Ratio = 250.000.000 / 36.000.000 = 6,9</div>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Tỷ lệ &gt; 3:1 chứng minh mô hình kinh doanh B2B/SaaS của RENOVA phát triển cực kỳ bền vững.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 5. GROWTH PROJECTION & INVESTMENT METRICS       -->
+    <!-- ============================================== -->
+    <section id="sec-growth" class="mb-16 reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-accent rounded-full mr-3"></span> 5. Dự Báo Tăng Trưởng & Chỉ Số Đầu Tư
+      </h2>
+      <div class="bg-white rounded-2xl border border-brand-border p-6 mb-8">
+        <p class="text-brand-textMuted mb-6 text-sm sm:text-base">Việc chuyển đổi từ sản xuất phần cứng sang mô hình SaaS lai (Smart-Hub AI) cho phép tăng trưởng doanh thu theo cấp số nhân, đồng thời duy trì cơ cấu chi phí tinh gọn thông qua các đối tác OEM.</p>
+        <div class="chart-container" style="height: 350px;" id="growthChartContainer">
+          <canvas id="growthChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8">
+        <div class="bg-brand-textPrimary text-white p-4.5 rounded-xl stat-card">
+          <span class="text-[10px] uppercase text-slate-400 font-bold tracking-wider font-heading">Doanh Thu Năm 5</span>
+          <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="48.56" data-decimals="2" data-suffix="B VND">0</span></span>
+        </div>
+        <div class="bg-brand-textPrimary text-white p-4.5 rounded-xl stat-card">
+          <span class="text-[10px] uppercase text-slate-400 font-bold tracking-wider font-heading">Tiền Mặt Lũy Kế</span>
+          <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="46.30" data-decimals="2" data-suffix="B VND">0</span></span>
+        </div>
+        <div class="bg-brand-primary text-white p-4.5 rounded-xl stat-card">
+          <span class="text-[10px] uppercase text-orange-100 font-bold tracking-wider font-heading">NPV Dự Kiến</span>
+          <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="17.65" data-decimals="2" data-suffix="B VND">0</span></span>
+        </div>
+        <div class="bg-brand-secondary text-white p-4.5 rounded-xl stat-card">
+          <span class="text-[10px] uppercase text-amber-100 font-bold tracking-wider font-heading">Khách Hàng SaaS (Năm 5)</span>
+          <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="50" data-suffix=" Thương hiệu">0</span></span>
+        </div>
+      </div>
+
+      <!-- Detail cash flow table -->
+      <p class="text-brand-textMuted text-sm mb-5 max-w-3xl">Đơn vị: Triệu VNĐ. Giả định thuế TNDN = 0% nhờ ưu đãi Doanh nghiệp Xanh theo Nghị định 08/2022/NĐ-CP.</p>
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden mb-8">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead><tr><th>Hạng mục</th><th>Năm 0</th><th>Năm 1</th><th>Năm 2</th><th>Năm 3</th><th>Năm 4</th><th>Năm 5</th></tr></thead>
+            <tbody>
+              <tr><td class="font-semibold">Sản lượng gạch (viên)</td><td>0</td><td>120.000</td><td>240.000</td><td>600.000</td><td>960.000</td><td>1.440.000</td></tr>
+              <tr><td class="font-semibold">Khách hàng SaaS (FMCG)</td><td>0</td><td>0</td><td>5</td><td>15</td><td>30</td><td>50</td></tr>
+              <tr><td class="font-semibold">Tổng Doanh Thu</td><td>0</td><td>3.945</td><td>8.140</td><td>20.350</td><td>32.256</td><td>48.560</td></tr>
+              <tr><td class="font-semibold">Chi phí SX (COGS)</td><td>0</td><td>(1.951)</td><td>(3.800)</td><td>(9.300)</td><td>(14.600)</td><td>(21.500)</td></tr>
+              <tr><td class="font-semibold">Chi phí Marketing & Quản lý</td><td>0</td><td>(800)</td><td>(1.200)</td><td>(2.500)</td><td>(4.000)</td><td>(5.500)</td></tr>
+              <tr><td class="font-semibold">Đầu tư TSCĐ (CapEx)</td><td>(260)</td><td>0</td><td>0</td><td>(500)</td><td>0</td><td>(800)</td></tr>
+              <tr class="total-row"><td>Dòng tiền Thuần (CFt)</td><td>(500)</td><td>1.194</td><td>3.140</td><td>8.050</td><td>13.656</td><td>20.760</td></tr>
+              <tr class="total-row"><td>Dòng tiền Tích lũy</td><td>(500)</td><td>694</td><td>3.834</td><td>11.884</td><td>25.540</td><td>46.300</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-brand-textMuted italic px-4 py-3 border-t border-brand-border">Ghi chú Năm 0: Bao gồm 260tr CapEx (2 máy ép, 2 bồn trộn, 1 máy băm) + 240tr Vốn R&D/Lưu động.</p>
+      </div>
+
+      <h4 class="font-bold text-base mb-4 text-brand-textPrimary">Các Chỉ Số Hiệu Quả Đầu Tư <span class="text-brand-textMuted font-normal text-sm">(Tỷ lệ chiết khấu kỳ vọng r = 20%)</span></h4>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card">
+          <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">Giá Trị Hiện Tại Thuần (NPV)</span>
+          <p class="text-2xl font-black text-brand-primary mt-2 mb-3">17.652 Triệu VNĐ</p>
+          <div class="formula-box text-[11px] mb-2 leading-relaxed">NPV = &Sigma;<sub>t=1</sub><sup>5</sup> CF<sub>t</sub>/(1+r)<sup>t</sup> − C<sub>0</sub></div>
+          <p class="text-xs text-brand-textMuted leading-relaxed">NPV &gt; 0 — dự án tạo ra giá trị thặng dư cực lớn cho cổ đông.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card">
+          <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">Tỷ Suất Sinh Lời Nội Bộ (IRR)</span>
+          <p class="text-2xl font-black text-brand-secondary mt-2 mb-3">254%</p>
+          <div class="formula-box text-[11px] mb-2 leading-relaxed">NPV = 0 → IRR = 254%</div>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Chỉ số IRR bứt phá nhờ đòn bẩy tài chính từ mô hình SaaS phần mềm EPR và chi phí vật liệu đầu vào siêu thấp.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-accent p-6 stat-card bg-brand-accent/5">
+          <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">Thời Gian Hoàn Vốn (PP)</span>
+          <p class="text-2xl font-black text-brand-accent mt-2 mb-3">≈ 5 Tháng</p>
+          <div class="formula-box text-[11px] mb-2 leading-relaxed">PP = 0 + 500/1.194 = 0,41 năm</div>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Chỉ mất khoảng 5 tháng vận hành thương mại để thu hồi toàn bộ 500 triệu VNĐ đầu tư ban đầu.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 6. FUNDING ASK & USE OF FUNDS                   -->
+    <!-- ============================================== -->
+    <section id="sec-funding" class="mb-16 reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-primary rounded-full mr-3"></span> 6. Đề Xuất Gọi Vốn: 1 Tỷ VND
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">Để hiện thực hóa dây chuyền Pilot và hệ thống SaaS, RENOVA kêu gọi <strong class="text-brand-textPrimary">1.000.000.000 VNĐ</strong> đổi lấy <strong class="text-brand-textPrimary">10% cổ phần</strong> (Định giá Pre-money: 9 tỷ VNĐ). Nguồn vốn sẽ được phân chia giữa cơ sở hạ tầng sản xuất vật lý và R&D AI cho nền tảng Smart-Hub.</p>
+
+      <div class="bg-white rounded-2xl border border-brand-border p-6 mb-8">
+        <div class="chart-container" id="fundingChartContainer">
+          <canvas id="fundingChart"></canvas>
+        </div>
+        <div class="mt-6 flex justify-between items-center border-t border-brand-border pt-4">
+          <div class="text-center">
+            <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">Tổng Gọi Vốn</span>
+            <span class="text-base font-extrabold"><span class="counter" data-target="1000" data-suffix="M VND" data-use-commas="true">0</span></span>
+          </div>
+          <div class="h-8 w-px bg-brand-border"></div>
+          <div class="text-center">
+            <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">Cổ Phần Đề Xuất</span>
+            <span class="text-base font-extrabold"><span class="counter" data-target="10" data-suffix="%">0%</span></span>
+          </div>
+          <div class="h-8 w-px bg-brand-border"></div>
+          <div class="text-center">
+            <span class="text-[10px] text-brand-primary block uppercase font-bold tracking-wider font-heading">Định Giá Sau Vốn</span>
+            <span class="text-xl font-black text-brand-primary"><span class="counter" data-target="10" data-suffix="B VND">0</span></span>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="font-bold text-base mb-4 text-brand-textPrimary">Kế Hoạch Sử Dụng Vốn (Use of Funds)</h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card" style="border-left: 4px solid #1d1815;">
+          <div class="flex items-center justify-between mb-2">
+            <h5 class="font-bold text-brand-textPrimary">Thiết Lập Cụm Sản Xuất Pilot</h5>
+            <span class="text-lg font-black text-brand-textPrimary">30%</span>
+          </div>
+          <p class="text-xs text-brand-textMuted mb-2 font-semibold">300 triệu VNĐ</p>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Đầu tư 2 máy ép tự động, 2 bồn gia nhiệt 200°C, 1 máy băm nghiền thô và khuôn mẫu.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card accent-border">
+          <div class="flex items-center justify-between mb-2">
+            <h5 class="font-bold text-brand-textPrimary">R&D Thuật Toán AI & Pháp Lý Chứng Nhận</h5>
+            <span class="text-lg font-black text-brand-secondary">20%</span>
+          </div>
+          <p class="text-xs text-brand-textMuted mb-2 font-semibold">200 triệu VNĐ</p>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Nghiên cứu dải nhiệt độ 180°C–200°C tối ưu ma trận polyme-silica. Đăng ký kiểm định TCVN tại Quatest 3. Phát triển lõi AI Surrogate Model cho RENOVA Smart-Hub.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card" style="border-left: 4px solid #b45309;">
+          <div class="flex items-center justify-between mb-2">
+            <h5 class="font-bold text-brand-textPrimary">Marketing B2B & Phát Triển Thị Trường</h5>
+            <span class="text-lg font-black text-amber-600">20%</span>
+          </div>
+          <p class="text-xs text-brand-textMuted mb-2 font-semibold">200 triệu VNĐ</p>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Tổ chức Tech-Talk cho giới KTS, tặng gạch mẫu trải nghiệm. Chi phí tiếp cận (Inside Sales) các tập đoàn FMCG.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card" style="border-left: 4px solid #d97736;">
+          <div class="flex items-center justify-between mb-2">
+            <h5 class="font-bold text-brand-textPrimary">Vốn Lưu Động</h5>
+            <span class="text-lg font-black text-brand-accent">30%</span>
+          </div>
+          <p class="text-xs text-brand-textMuted mb-2 font-semibold">300 triệu VNĐ</p>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Duy trì dòng tiền chi trả lương và chi phí vận hành trong 6 tháng đầu trước khi dự án đạt điểm hòa vốn.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 7. STRATEGIC TIMELINE                           -->
+    <!-- ============================================== -->
+    <section id="sec-timeline" class="mb-10 reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-6 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-textPrimary rounded-full mr-3"></span> 7. Lộ Trình Chiến Lược & Triển Khai
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="p-6 bg-white rounded-2xl border border-brand-border shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold mb-4 font-heading wobble-hover">01</div>
+          <h4 class="font-bold mb-2 text-brand-textPrimary">Thiết Lập Pilot</h4>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Xây dựng cụm ép 2 máy và chứng nhận Quatest 3.</p>
+        </div>
+        <div class="p-6 bg-white rounded-2xl border border-brand-border shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold mb-4 font-heading wobble-hover">02</div>
+          <h4 class="font-bold mb-2 text-brand-textPrimary">R&D Lõi AI</h4>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Phát triển Mô Hình Đại Diện (Surrogate Model) cho mô phỏng luồng khí CFD.</p>
+        </div>
+        <div class="p-6 bg-white rounded-2xl border border-brand-border shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold mb-4 font-heading wobble-hover">03</div>
+          <h4 class="font-bold mb-2 text-brand-textPrimary">Tiếp Cận B2B</h4>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Kết nối hơn 10 kiến trúc sư lớn và 3 thương hiệu FMCG để thử nghiệm SaaS beta.</p>
+        </div>
+        <div class="p-6 bg-white rounded-2xl border border-brand-border shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold mb-4 font-heading wobble-hover">04</div>
+          <h4 class="font-bold mb-2 text-brand-textPrimary">Điểm Hòa Vốn</h4>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Đạt được lợi nhuận hoạt động trong vòng 6 tháng kể từ khi vận hành thương mại.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-brand-textPrimary text-slate-500 py-12 px-6 text-center border-t border-brand-primary/10">
+    <div class="max-w-6xl mx-auto">
+      <p class="mb-6 text-sm text-slate-400">&copy; 2026 RENOVA Circular - Đổi Mới Trong Xây Dựng Tuần Hoàn</p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10 text-xs sm:text-sm">
+        <!-- Phone -->
+        <div class="flex items-center gap-2.5 wobble-hover cursor-default">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-primary/20 text-brand-accent shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+              <path d="M6.62 10.79a15.1 15.1 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.4 21 3 13.6 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.24 1.01l-2.21 2.2z"/>
+            </svg>
+          </span>
+          <span class="text-slate-300 font-medium">0914 626 717</span>
+        </div>
+
+        <!-- Email -->
+        <div class="flex items-center gap-2.5 wobble-hover cursor-default">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-secondary/20 text-amber-400 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+              <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6zm2 .2V8l8 5 8-5V6.2L12 11 4 6.2z"/>
+            </svg>
+          </span>
+          <span class="text-slate-300 font-medium">renova.project268@gmail.com</span>
+        </div>
+
+        <!-- Address -->
+        <div class="flex items-center gap-2.5 wobble-hover cursor-default">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-accent/20 text-brand-accent shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+              <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
+            </svg>
+          </span>
+          <span class="text-slate-300 font-medium">45 Tân Lập, Đông Hòa, Bình Dương</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts Logic for Animation & Chart.js -->
+  <script>
+    let marketChartInstance = null;
+    let financialBomChartInstance = null;
+    let growthChartInstance = null;
+    let fundingChartInstance = null;
+    let aiBomChartInstance = null;
+    let aiGrowthChartInstance = null;
+    let ltvCocaChartInstance = null;
+
+    // Helper: Wrap labels for Chart.js legends
+    function wrapLabel(label) {
+      if (label.length <= 16) return label;
+      const words = label.split(' ');
+      const lines = [];
+      let currentLine = '';
+      words.forEach(word => {
+        if ((currentLine + word).length > 16) {
+          lines.push(currentLine.trim());
+          currentLine = word + ' ';
+        } else {
+          currentLine += word + ' ';
+        }
+      });
+      lines.push(currentLine.trim());
+      return lines;
+    }
+
+    const tooltipConfig = {
+      callbacks: {
+        title: function(tooltipItems) {
+          const item = tooltipItems[0];
+          let label = item.chart.data.labels[item.dataIndex];
+          return Array.isArray(label) ? label.join(' ') : label;
+        }
+      }
+    };
+
+    // Label definitions for charts
+    const chartLabels = {
+      market: [wrapLabel('Tổng Thị Trường Tiềm Năng (TAM)'), wrapLabel('Thị Trường Có Thể Phục Vụ (SAM)')],
+      bom: [wrapLabel('Nhựa HDPE Tái Chế'), wrapLabel('Chất Kết Hợp PE-g-MA'), wrapLabel('Trấu Nông Nghiệp'), wrapLabel('Bao Bì Đa Lớp')],
+      funding: [wrapLabel('Cụm Sản Xuất Pilot'), wrapLabel('Vốn Lưu Động'), wrapLabel('R&D AI & Pháp Lý'), wrapLabel('Marketing B2B')],
+      aiBom: ['Nhựa HDPE', 'Chất PE-g-MA', 'Trấu', 'Bao Bì MLP']
+    };
+
+    // Chart Initializations (Triggered on Scroll / Tab click)
+    function initMarketChart() {
+      if (marketChartInstance) return;
+      marketChartInstance = new Chart(document.getElementById('marketChart'), {
+        type: 'bar',
+        data: {
+          labels: chartLabels.market,
+          datasets: [{
+            label: 'Tỷ USD',
+            data: [11.11, 3.89],
+            backgroundColor: ['#1d1815', '#914724'],
+            borderRadius: 8
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: tooltipConfig },
+          scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } } }
+        }
+      });
+    }
+
+    function initFinancialBomChart() {
+      if (financialBomChartInstance) return;
+      financialBomChartInstance = new Chart(document.getElementById('financialBomChart'), {
+        type: 'doughnut',
+        data: {
+          labels: chartLabels.bom,
+          datasets: [{
+            data: [5400, 3750, 375, 0],
+            backgroundColor: ['#914724', '#b45309', '#d97736', '#e6e1dd'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: { 
+            legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { family: 'Be Vietnam Pro' } } },
+            tooltip: tooltipConfig 
+          }
+        }
+      });
+    }
+
+    function initGrowthChart() {
+      if (growthChartInstance) return;
+      growthChartInstance = new Chart(document.getElementById('growthChart'), {
+        type: 'line',
+        data: {
+          labels: ['Năm 1', 'Năm 2', 'Năm 3', 'Năm 4', 'Năm 5'],
+          datasets: [
+            {
+              label: 'Tổng Doanh Thu (Triệu VND)',
+              data: [3945, 8140, 20350, 32256, 48560],
+              borderColor: '#914724',
+              backgroundColor: 'rgba(145, 71, 36, 0.08)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 3
+            },
+            {
+              label: 'Dòng Tiền Thuần (Triệu VND)',
+              data: [1194, 3140, 8050, 13656, 20760],
+              borderColor: '#b45309',
+              borderDash: [5, 5],
+              fill: false,
+              tension: 0.4
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { tooltip: tooltipConfig },
+          scales: { 
+            y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function initLtvCocaChart() {
+      if (ltvCocaChartInstance) return;
+      ltvCocaChartInstance = new Chart(document.getElementById('ltvCocaChart'), {
+        type: 'line',
+        data: {
+          labels: [10, 20, 30, 36, 40, 50],
+          datasets: [{
+            label: 'Giá Trị Tăng Trưởng (LTV)',
+            data: [50, 120, 200, 250, 300, 400],
+            borderColor: '#b45309',
+            backgroundColor: '#914724',
+            pointBackgroundColor: '#914724',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2.5
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: tooltipConfig },
+          scales: {
+            y: { title: { display: true, text: 'LTV (Triệu VND)', font: { family: 'Be Vietnam Pro', size: 10 } }, grid: { color: '#f3f4f6' } },
+            x: { title: { display: true, text: 'COCA (Triệu VND)', font: { family: 'Be Vietnam Pro', size: 10 } }, grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function initFundingChart() {
+      if (fundingChartInstance) return;
+      fundingChartInstance = new Chart(document.getElementById('fundingChart'), {
+        type: 'doughnut',
+        data: {
+          labels: chartLabels.funding,
+          datasets: [{
+            data: [30, 30, 20, 20],
+            backgroundColor: ['#1d1815', '#914724', '#b45309', '#d97736'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { 
+            legend: { position: 'right', labels: { boxWidth: 12, padding: 8, font: { size: 10, family: 'Be Vietnam Pro' } } },
+            tooltip: tooltipConfig 
+          }
+        }
+      });
+    }
+
+    function initAiBomChart() {
+      if (aiBomChartInstance) return;
+      aiBomChartInstance = new Chart(document.getElementById('aiBomChart'), {
+        type: 'doughnut',
+        data: {
+          labels: chartLabels.aiBom,
+          datasets: [{
+            data: [5400, 3750, 375, 0],
+            backgroundColor: ['#914724', '#b45309', '#d97736', '#e6e1dd'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { family: 'Be Vietnam Pro' } } }
+          }
+        }
+      });
+    }
+
+    function initAiGrowthChart() {
+      if (aiGrowthChartInstance) return;
+      aiGrowthChartInstance = new Chart(document.getElementById('aiGrowthChart'), {
+        type: 'line',
+        data: {
+          labels: ['Năm 1', 'Năm 2', 'Năm 3', 'Năm 4', 'Năm 5'],
+          datasets: [{
+            label: 'Doanh Thu Phần Mềm (Triệu VND)',
+            data: [408, 850, 2200, 3500, 5200],
+            borderColor: '#914724',
+            backgroundColor: 'rgba(145, 71, 36, 0.08)',
+            fill: true,
+            tension: 0.4,
+            borderWidth: 3
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // Scroll reveal observer logic
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    // Numeric count-up animation logic
+    function animateValue(obj, start, end, duration, decimals, prefix, suffix, useCommas) {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic Ease Out
+        const value = start + easeProgress * (end - start);
+        let formattedValue = value.toFixed(decimals);
+        if (useCommas) {
+          formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        obj.innerHTML = prefix + formattedValue + suffix;
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.getAttribute('data-target'));
+          const duration = parseInt(el.getAttribute('data-duration') || '1500');
+          const decimals = parseInt(el.getAttribute('data-decimals') || '0');
+          const prefix = el.getAttribute('data-prefix') || '';
+          const suffix = el.getAttribute('data-suffix') || '';
+          const useCommas = el.getAttribute('data-use-commas') === 'true';
+          
+          animateValue(el, 0, target, duration, decimals, prefix, suffix, useCommas);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    // Chart scroll-trigger observer
+    const chartObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          if (id === 'marketChartContainer') initMarketChart();
+          else if (id === 'financialBomChartContainer') initFinancialBomChart();
+          else if (id === 'growthChartContainer') initGrowthChart();
+          else if (id === 'ltvCocaChartContainer') initLtvCocaChart();
+          else if (id === 'fundingChartContainer') initFundingChart();
+          else if (id === 'aiBomChartContainer') initAiBomChart();
+          else if (id === 'aiGrowthChartContainer') initAiGrowthChart();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    // Observe elements on load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Observe reveal sections
+      document.querySelectorAll('.reveal').forEach(el => {
+        revealObserver.observe(el);
+      });
+      // Observe counters
+      document.querySelectorAll('.counter').forEach(el => {
+        counterObserver.observe(el);
+      });
+      // Observe all chart containers on the single-page layout
+      ['marketChartContainer', 'financialBomChartContainer', 'growthChartContainer', 'ltvCocaChartContainer', 'fundingChartContainer', 'aiBomChartContainer', 'aiGrowthChartContainer'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) chartObserver.observe(el);
+      });
+    });
+
+  </script>
+</body>
+</html>
