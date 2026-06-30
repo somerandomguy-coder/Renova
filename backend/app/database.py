@@ -29,6 +29,9 @@ masked_url = db_url
 if "authToken=" in masked_url:
     masked_url = re.sub(r"authToken=[^&]+", "authToken=***", masked_url)
 print(f"[Database] Connecting to: {masked_url}", flush=True)
+print(f"[Database Debug] Env keys: {list(os.environ.keys())}", flush=True)
+print(f"[Database Debug] Settings token loaded: {settings.TURSO_AUTH_TOKEN is not None}", flush=True)
+print(f"[Database Debug] Os environ token loaded: {os.environ.get('TURSO_AUTH_TOKEN') is not None}", flush=True)
 
 connect_args = {}
 if "sqlite" in db_url or "libsql" in db_url:
