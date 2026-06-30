@@ -26,11 +26,15 @@ class Settings(BaseSettings):
             v = v.strip()
             if v.startswith("[") and v.endswith("]"):
                 try:
-                    return json.loads(v)
+                    origins = json.loads(v)
                 except Exception:
-                    pass
-            return [item.strip() for item in v.split(",") if item.strip()]
-        return v
+                    origins = [item.strip() for item in v.split(",") if item.strip()]
+            else:
+                origins = [item.strip() for item in v.split(",") if item.strip()]
+        else:
+            origins = v
+        # Automatically strip trailing slashes to prevent browser CORS mismatches
+        return [origin.rstrip("/") for origin in origins]
     
     # Email configurations (Mocked by default if not set)
     SMTP_HOST: str = "smtp.gmail.com"
