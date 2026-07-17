@@ -19,7 +19,7 @@ const translations = {
     awards: [
       {
         title: "Giải Ba Cuộc thi EPICS 8",
-        subtitle: "Engineering Projects in Community Service",
+        subtitle: "Engineering Projects in Community Service (ASU & Dow)",
         description: "Chứng minh năng lực giải quyết bài toán kỹ thuật thực tế nhằm phục vụ và nâng cao chất lượng sống cho cộng đồng xã hội thông qua gạch bông gió sinh thái.",
         certName: "Chứng nhận EPICS 8 (ASU & Dow)",
         date: "Tháng 11, 2024"
@@ -30,6 +30,13 @@ const translations = {
         description: "Chứng minh sự công nhận và đánh giá cao từ các chuyên gia đầu ngành trong lĩnh vực xử lý rác thải nhựa đa lớp và kinh tế tuần hoàn tại Việt Nam.",
         certName: "Bằng khen VWRA 2025",
         date: "Tháng 03, 2025"
+      },
+      {
+        title: "Đồng hành & Ứng dụng Thực tế",
+        subtitle: "Công ty Cổ phần Công nghệ, Thiết bị, Dịch vụ và Môi trường Ánh Thủy",
+        description: "Doanh nghiệp chính thức xác nhận việc thử nghiệm ứng dụng sản phẩm gạch bông gió RENOVA vào các công trình thực tế, đồng thời kiểm định thực tế khả năng cách âm, cách nhiệt vượt trội và chống chịu khí hậu bền bỉ.",
+        certName: "Chứng nhận ứng dụng thực tế",
+        date: "Tháng 05, 2026"
       }
     ]
   },
@@ -43,7 +50,7 @@ const translations = {
     awards: [
       {
         title: "3rd Prize - EPICS 8 Competition",
-        subtitle: "Engineering Projects in Community Service",
+        subtitle: "Engineering Projects in Community Service (ASU & Dow)",
         description: "Demonstrating capabilities in solving engineering problems to serve and uplift the community through eco-friendly breeze blocks.",
         certName: "EPICS 8 Certificate (ASU & Dow)",
         date: "November 2024"
@@ -54,6 +61,13 @@ const translations = {
         description: "Validating recognition and appreciation from leading national experts in multi-layer plastic upcycling and circular economy in Vietnam.",
         certName: "VWRA 2025 Commendation",
         date: "March 2025"
+      },
+      {
+        title: "Corporate Partnership & Pilot Validation",
+        subtitle: "Anh Thuy Technology, Equipment, Service & Environment JSC",
+        description: "Official corporate validation certifying the deployment of RENOVA eco-breeze blocks in active construction projects, confirming high climate resilience, superior thermal insulation, and acoustic shielding.",
+        certName: "Written Certification of Work Application",
+        date: "May 2026"
       }
     ]
   }
@@ -109,8 +123,7 @@ export default function Milestones({ lang }: MilestonesProps) {
       title: t.awards[0].title,
       subtitle: t.awards[0].subtitle,
       description: t.awards[0].description,
-      fbLink: "https://www.facebook.com/share/p/19CPzNJHM3/",
-      certLink: "/cert_work_application.pdf",
+      link: "https://www.facebook.com/share/p/19CPzNJHM3/",
       certName: t.awards[0].certName,
       date: t.awards[0].date
     },
@@ -118,10 +131,17 @@ export default function Milestones({ lang }: MilestonesProps) {
       title: t.awards[1].title,
       subtitle: t.awards[1].subtitle,
       description: t.awards[1].description,
-      fbLink: "https://www.facebook.com/share/p/19Ys4G1HJj/",
-      certLink: "/cert_work_application.pdf",
+      link: "https://www.facebook.com/share/p/19Ys4G1HJj/",
       certName: t.awards[1].certName,
       date: t.awards[1].date
+    },
+    {
+      title: t.awards[2].title,
+      subtitle: t.awards[2].subtitle,
+      description: t.awards[2].description,
+      link: "/cert_work_application.pdf",
+      certName: t.awards[2].certName,
+      date: t.awards[2].date
     }
   ];
 
@@ -189,32 +209,16 @@ export default function Milestones({ lang }: MilestonesProps) {
                 {award.description}
               </p>
 
-              <div className="flex flex-wrap gap-4 border-t border-brand-border/50 pt-4 mt-2">
-                {award.fbLink && (
-                  <a 
-                    href={award.fbLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-brand-primary hover:underline text-xs sm:text-sm font-semibold transition-all"
-                  >
-                    <ExternalLink size={14} />
-                    {lang === "vi" ? "Xem bài đăng công bố" : "View Announcement Post"}
-                  </a>
-                )}
-                {award.fbLink && award.certLink && (
-                  <span className="text-brand-border dark:text-white/10 hidden sm:inline">|</span>
-                )}
-                {award.certLink && (
-                  <a 
-                    href={award.certLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-brand-primary hover:underline text-xs sm:text-sm font-semibold transition-all"
-                  >
-                    <ExternalLink size={14} />
-                    {award.certName}{t.certScanText}
-                  </a>
-                )}
+              <div className="flex border-t border-brand-border/50 pt-4 mt-2">
+                <a 
+                  href={award.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-brand-primary hover:underline text-sm font-semibold transition-all"
+                >
+                  <ExternalLink size={16} />
+                  {award.certName}{t.certScanText}
+                </a>
               </div>
             </div>
           ))}
