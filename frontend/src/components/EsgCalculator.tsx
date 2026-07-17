@@ -326,19 +326,19 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                 </div>
               )}
 
-              {/* Slider for plastic ratio */}
+              {/* Slider for plastic ratio (Static / Disabled to match fixed product recipe) */}
               <div>
                 <div className="flex justify-between mb-2 text-sm">
                   <span className="text-brand-text-muted">{t.ratioLabel}</span>
-                  <span className="font-bold">{t.ratioDesc.replace("{plastic}", plasticRatio.toString()).replace("{husk}", Math.max(0, 95 - plasticRatio).toString())}</span>
+                  <span className="font-bold">{t.ratioDesc.replace("{plastic}", "70").replace("{husk}", "25")}</span>
                 </div>
                 <input 
                   type="range" 
                   min="20" 
                   max="80" 
-                  value={plasticRatio}
-                  onChange={(e) => setPlasticRatio(parseInt(e.target.value))}
-                  className="w-full accent-brand-primary bg-brand-border h-1.5 rounded-lg outline-none cursor-pointer"
+                  value={70}
+                  disabled
+                  className="w-full accent-brand-primary bg-brand-border h-1.5 rounded-lg outline-none cursor-not-allowed opacity-80"
                 />
               </div>
 
@@ -348,13 +348,13 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                   <div className="p-4 rounded-xl bg-white/2 border border-white/3">
                     <p className="text-xs text-brand-text-muted">{t.treesLabel}</p>
                     <p className="text-3xl font-extrabold text-brand-primary">
-                      {(numBricks * (plasticRatio / 100.0) * 1.5).toLocaleString(lang === "vi" ? "vi-VN" : "en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })} <span className="text-sm font-medium text-brand-text-muted">{t.treesUnit}</span>
+                      {(numBricks * (70 / 100.0) * 1.5).toLocaleString(lang === "vi" ? "vi-VN" : "en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })} <span className="text-sm font-medium text-brand-text-muted">{t.treesUnit}</span>
                     </p>
                   </div>
                   <div className="p-4 rounded-xl bg-white/2 border border-white/3">
                     <p className="text-xs text-brand-text-muted">{t.co2Label}</p>
                     <p className="text-3xl font-extrabold text-[#fbbf24]">
-                      {formatNumber(esgResult.co2_reduced_kg)} <span className="text-sm font-medium text-brand-text-muted">{t.co2Unit}</span>
+                      {esgResult.co2_reduced_kg.toLocaleString(lang === "vi" ? "vi-VN" : "en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-sm font-medium text-brand-text-muted">{t.co2Unit}</span>
                     </p>
                   </div>
                 </div>
