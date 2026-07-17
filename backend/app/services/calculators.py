@@ -13,16 +13,26 @@ EPR_FS_NORM_VND = 15000.0
 def run_esg_calculations(req: ESGCalcRequest) -> ESGCalcResponse:
     # 1 brick = 1.5 kg total weight
     brick_weight = 1.5
+    p_ratio = req.plastic_ratio
+    h_ratio = max(0.0, 95.0 - p_ratio) # 5% additives implied
     
-    # Calculate weights of ingredients rescued/consumed
-    mlp_rescued_kg = req.num_bricks * (req.plastic_ratio / 100.0) * brick_weight
-    husk_consumed_kg = req.num_bricks * (req.husk_ratio / 100.0) * brick_weight
+    # MLP is 40% of the brick weight at 70% total plastic (so MLP is 40/70 of the plastic ratio)
+    mlp_rescued_kg = req.num_bricks * ((p_ratio * 40.0 / 70.0) / 100.0) * brick_weight
+    husk_consumed_kg = req.num_bricks * (h_ratio / 100.0) * brick_weight
     
-    # Calculate CO2 emission reduction
-    co2_reduced_kg = (mlp_rescued_kg * CO2_FACTOR_MLP) + (husk_consumed_kg * CO2_FACTOR_HUSK)
+    # Total plastic waste mass
+    plastic_waste_mass = req.num_bricks * (p_ratio / 100.0) * brick_weight
     
-    # Equivalent to trees absorbing CO2 for 1 year
-    trees_eq = co2_reduced_kg / CO2_ANNUAL_TREE_ABSORPTION
+    # CO2 calculations
+    # Production savings: 0.37 kg per block
+    # Upcycled material savings: 0.80 kg per kg of plastic + 0.77 kg per kg of husk
+    # (Yields exactly 1.13 kg for 1.05 kg plastic and 0.375 kg husk)
+    prod_savings = req.num_bricks * 0.37
+    upcycled_savings = (plastic_waste_mass * 0.80) + (husk_consumed_kg * 0.77)
+    co2_reduced_kg = prod_savings + upcycled_savings
+    
+    # Trees equivalent (retained for model compatibility)
+    trees_eq = co2_reduced_kg / 22.0
     
     return ESGCalcResponse(
         mlp_rescued_kg=round(mlp_rescued_kg, 2),
@@ -40,9 +50,9 @@ def run_epr_calculations(req: EPRCashflowRequest) -> EPRCashflowResponse:
     epr_savings = standard_epr_fee - optimized_epr_fee
     
     # Bricks needed analysis
-    # Assuming RENOVA bricks are 50% MLP on average, which means 0.75kg of plastic per brick (1.5kg * 50%)
-    plastic_per_brick = 0.75
-    bricks_needed = math.ceil(req.packaging_volume_kg / plastic_per_brick)
+    # RENOVA bricks contain 40% MLP of 1.5kg total weight = 0.60 kg MLP per brick
+    mlp_per_brick = 0.60
+    bricks_needed = math.ceil(req.packaging_volume_kg / mlp_per_brick)
     
     total_brick_cost = bricks_needed * req.brick_price_vnd
     
@@ -57,7 +67,6 @@ def run_epr_calculations(req: EPRCashflowRequest) -> EPRCashflowResponse:
     else:
         net_savings_percentage = 0.0
         
-    # Cap savings percentage at 100% (or display as is if offset exceeds cost, meaning buying bricks is fully subsidized!)
     net_savings_percentage = min(net_savings_percentage, 100.0)
     
     return EPRCashflowResponse(

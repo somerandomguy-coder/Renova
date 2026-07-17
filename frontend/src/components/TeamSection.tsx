@@ -39,23 +39,27 @@ const translations = {
       },
       {
         role: "Trưởng nhóm R&D & Kỹ thuật vật liệu",
-        major: "Chuyên ngành: Kỹ thuật Vật liệu / Polyme"
+        major: "Chuyên ngành: Kỹ thuật Ô tô"
       },
       {
         role: "Trưởng nhóm Phát triển Bền vững & EPR",
-        major: "Chuyên ngành: Quản lý Môi trường / Kinh tế Tuần hoàn"
+        major: "Chuyên ngành: Kinh tế Tuần hoàn"
       },
       {
         role: "Quản lý Tài chính & Vận hành",
-        major: "Chuyên ngành: Quản trị / Kinh tế"
+        major: "Chuyên ngành: Kinh doanh số"
       },
       {
         role: "Trưởng nhóm Truyền thông & Khảo sát",
-        major: "Chuyên ngành: Truyền thông / Đồ họa"
+        major: "Chuyên ngành: Công nghệ Dệt may"
       },
       {
         role: "Trưởng nhóm Đối ngoại & Thuyết trình",
-        major: "Chuyên ngành: Quản lý Dự án / Đối ngoại"
+        major: "Chuyên ngành: Thiết kế vi mạch"
+      },
+      {
+        role: "Kỹ sư Phần mềm chính & Kiến trúc sư AI",
+        major: "Chuyên ngành: Trí tuệ Nhân tạo (AI)"
       }
     ]
   },
@@ -70,23 +74,27 @@ const translations = {
       },
       {
         role: "R&D & Material Engineering Lead",
-        major: "Major: Materials / Polymer Engineering"
+        major: "Major: Automotive Engineering"
       },
       {
         role: "Sustainability & EPR Compliance Lead",
-        major: "Major: Environmental Management / Circular Economy"
+        major: "Major: Circular Economy"
       },
       {
         role: "Finance & Operations Manager",
-        major: "Major: Business Administration / Economics"
+        major: "Major: Digital Business"
       },
       {
         role: "Media Lead & Survey",
-        major: "Major: Communications / Graphic Design"
+        major: "Major: Textile Technology"
       },
       {
         role: "External Relations & Presentation",
-        major: "Major: Project Management / External Relations"
+        major: "Major: Digital VLSI Design"
+      },
+      {
+        role: "Lead Software Engineer & AI Architect",
+        major: "Major: Artificial Intelligence (AI)"
       }
     ]
   }
@@ -100,55 +108,64 @@ export default function TeamSection({ lang }: TeamSectionProps) {
       name: "Lê Nhật Huy",
       role: t.members[0].role,
       major: t.members[0].major,
-      email: "huy.lenhat@hcmut.edu.vn",
-      phone: "0901234561",
-      linkedin: "https://linkedin.com/in/lenhathuy",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300"
+      email: "lenhathuyaya@gmail.com",
+      phone: "0914626717",
+      linkedin: "https://www.linkedin.com/in/huylenhat",
+      avatar: "/team/le_nhat_huy.jpg"
     },
     {
-      name: "Nguyen Tran The Vinh",
+      name: "Nguyễn Trần Thế Vinh",
       role: t.members[1].role,
       major: t.members[1].major,
-      email: "vinh.nguyentran@hcmut.edu.vn",
-      phone: "0901234562",
-      linkedin: "https://linkedin.com/in/nguyentranthevinh",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300"
+      email: "vinh.nguyentrth07@hcmut.edu.vn",
+      phone: "0983582579",
+      linkedin: "https://www.linkedin.com/in/vinh-nguy%E1%BB%85n-tr%E1%BA%A7n-th%E1%BA%BF",
+      avatar: "/team/nguyen_tran_the_vinh.png"
     },
     {
-      name: "Nguyen Phuc Minh Anh",
+      name: "Nguyễn Phúc Minh Anh",
       role: t.members[2].role,
       major: t.members[2].major,
-      email: "anh.nguyenphucminh@hcmut.edu.vn",
-      phone: "0901234563",
-      linkedin: "https://linkedin.com/in/nguyenphucminhanh",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300"
+      email: "anh.nguyenphucminh76@hcmut.edu.vn",
+      phone: "0703959204",
+      linkedin: "https://www.linkedin.com/in/nguyen-phuc-minh-anh-807a8930a",
+      avatar: "/team/nguyen_phuc_minh_anh.png"
     },
     {
-      name: "Nguyen Phuc Minh Thu",
+      name: "Nguyễn Phúc Minh Thư",
       role: t.members[3].role,
       major: t.members[3].major,
-      email: "thu.nguyenphucminh@hcmut.edu.vn",
-      phone: "0901234564",
-      linkedin: "https://linkedin.com/in/nguyenphucminhthu",
-      avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=300"
+      email: "thunguyen.phucvn@gmail.com",
+      phone: "0829354286",
+      linkedin: "https://www.linkedin.com/in/npmt868686/",
+      avatar: "/team/nguyen_phuc_minh_thu.png"
     },
     {
-      name: "Tran Thi Tuyet Minh",
+      name: "Trần Thị Tuyết Minh",
       role: t.members[4].role,
       major: t.members[4].major,
-      email: "minh.tranthituyet@hcmut.edu.vn",
-      phone: "0901234565",
-      linkedin: "https://linkedin.com/in/tranthituyetminh",
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=300"
+      email: "minh.trantyetmin95@hcmut.edu.vn",
+      phone: "0385747277",
+      linkedin: "https://www.linkedin.com/in/minh-tuyết-32ab683a6?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      avatar: "/team/tran_thi_tuyet_minh.jpg"
     },
     {
-      name: "Le Phuc Khang",
+      name: "Lê Phúc Khang",
       role: t.members[5].role,
       major: t.members[5].major,
-      email: "khang.lephuc@hcmut.edu.vn",
-      phone: "0901234566",
-      linkedin: "https://linkedin.com/in/lephuckhang",
-      avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=300"
+      email: "lephuckhang0@gmail.com",
+      phone: "0981976880",
+      linkedin: "https://www.linkedin.com/in/khanglephuc/",
+      avatar: "/team/le_phuc_khang.png"
+    },
+    {
+      name: "Lê Nam",
+      role: t.members[6].role,
+      major: t.members[6].major,
+      email: "nicholasle0205@gmail.com",
+      phone: "(+61)426649419",
+      linkedin: "https://www.linkedin.com/in/nam-le-1227a7279/",
+      avatar: "/team/nam_le.jpeg"
     }
   ];
 

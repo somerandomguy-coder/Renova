@@ -72,14 +72,14 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
       title: t.advisors[0].title,
       institution: t.advisors[0].institution,
       role: t.advisors[0].role,
-      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300"
+      avatar: "/team/vo_thanh_hang.jpeg"
     },
     {
       name: "Ms. Duong Thi Thanh",
       title: t.advisors[1].title,
       institution: t.advisors[1].institution,
       role: t.advisors[1].role,
-      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300"
+      avatar: "/team/duong_thi_thanh.jpeg"
     }
   ];
 

@@ -24,8 +24,8 @@ const translations = {
     convertEquivalent: "Quy đổi tương đương: ~ {bricks} viên gạch",
     ratioLabel: "Tỷ lệ phối trộn nguyên liệu",
     ratioDesc: "{plastic}% Nhựa / {husk}% Trấu",
-    treesLabel: "Cây xanh tương đương / năm",
-    treesUnit: "cây",
+    treesLabel: "Khối lượng nhựa",
+    treesUnit: "kg",
     co2Label: "Khí nhà kính CO2 cắt giảm",
     co2Unit: "kg",
     rawCompositeTitle: "Cấp phối nhựa đa lớp thô",
@@ -62,8 +62,8 @@ const translations = {
     convertEquivalent: "Equivalent conversion: ~ {bricks} bricks",
     ratioLabel: "Raw Material Mixture Ratio",
     ratioDesc: "{plastic}% Plastic / {husk}% Rice Husk",
-    treesLabel: "Equivalent Trees / Year",
-    treesUnit: "trees",
+    treesLabel: "Plastic waste mass",
+    treesUnit: "kg",
     co2Label: "Greenhouse Gas CO2 Reduced",
     co2Unit: "kg",
     rawCompositeTitle: "Raw Multi-Layer Plastic Mix",
@@ -99,12 +99,12 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
   const [numBricks, setNumBricks] = useState<number>(1000);
   const [inputMode, setInputMode] = useState<"bricks" | "area">("bricks");
   const [surfaceArea, setSurfaceArea] = useState<number>(40);
-  const [plasticRatio, setPlasticRatio] = useState<number>(50);
+  const [plasticRatio, setPlasticRatio] = useState<number>(70);
   const [esgResult, setEsgResult] = useState({
-    mlp_rescued_kg: 750,
-    husk_consumed_kg: 750,
-    co2_reduced_kg: 2362.5,
-    trees_equivalent: 107.4
+    mlp_rescued_kg: 600,
+    husk_consumed_kg: 375,
+    co2_reduced_kg: 1500,
+    trees_equivalent: 68.2
   });
 
   // EPR Cashflow States
@@ -114,10 +114,10 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
     standard_epr_fee_vnd: 75000000,
     optimized_epr_fee_vnd: 45000000,
     epr_savings_vnd: 30000000,
-    renova_bricks_needed: 6667,
-    total_brick_cost_vnd: 300015000,
-    net_cost_after_epr_offset_vnd: 225015000,
-    net_savings_percentage: 25.0
+    renova_bricks_needed: 8334,
+    total_brick_cost_vnd: 375030000,
+    net_cost_after_epr_offset_vnd: 300030000,
+    net_savings_percentage: 20.0
   });
 
   // Sync inputs
@@ -130,7 +130,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
 
   // Fetch or calculate ESG Impact
   const fetchEsgCalculations = async (bricks: number, pRatio: number) => {
-    const hRatio = 100 - pRatio;
+    const hRatio = Math.max(0, 95 - pRatio);
     try {
       const response = await fetch(`${API_BASE_URL}/api/v1/calculate/esg`, {
         method: "POST",
@@ -146,9 +146,10 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
     } catch (e) {
       // Fallback local calculations if backend is offline
       const weight = 1.5;
-      const mlp = bricks * (pRatio / 100) * weight;
-      const husk = bricks * (hRatio / 100) * weight;
-      const co2 = (mlp * 1.95) + (husk * 1.20);
+      const mlp = bricks * ((pRatio * 40.0 / 70.0) / 100.0) * weight;
+      const husk = bricks * (hRatio / 100.0) * weight;
+      const plastic_waste_mass = bricks * (pRatio / 100.0) * weight;
+      const co2 = (bricks * 0.37) + (plastic_waste_mass * 0.80) + (husk * 0.77);
       setEsgResult({
         mlp_rescued_kg: parseFloat(mlp.toFixed(2)),
         husk_consumed_kg: parseFloat(husk.toFixed(2)),
@@ -177,7 +178,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
       const standardFee = volume * 15000; // 15,000 VND / kg Fs norm
       const optimizedFee = standardFee * 0.60;
       const savings = standardFee - optimizedFee;
-      const bricksNeeded = Math.ceil(volume / 0.75); // 0.75kg plastic per brick
+      const bricksNeeded = Math.ceil(volume / 0.60); // 0.60kg MLP plastic per brick
       const totalCost = bricksNeeded * price;
       const netCost = totalCost - standardFee;
       const savingsPct = totalCost > 0 ? (standardFee / totalCost) * 100 : 0;
@@ -235,8 +236,10 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
   ];
 
   const pieData = [
-    { name: t.pieMlp, value: plasticRatio, color: "#914724" },
-    { name: t.pieHusk, value: 100 - plasticRatio, color: "#b45309" }
+    { name: t.pieMlp, value: Math.round(plasticRatio * 40 / 70), color: "#914724" },
+    { name: lang === "vi" ? "Nhựa khác" : "Other Plastic", value: Math.round(plasticRatio * 30 / 70), color: "#d97736" },
+    { name: t.pieHusk, value: Math.max(0, 95 - plasticRatio), color: "#b45309" },
+    { name: lang === "vi" ? "Phụ gia" : "Additives", value: 5, color: "#a19b95" }
   ];
 
   // Helper format currency
@@ -327,7 +330,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
               <div>
                 <div className="flex justify-between mb-2 text-sm">
                   <span className="text-brand-text-muted">{t.ratioLabel}</span>
-                  <span className="font-bold">{t.ratioDesc.replace("{plastic}", plasticRatio.toString()).replace("{husk}", (100 - plasticRatio).toString())}</span>
+                  <span className="font-bold">{t.ratioDesc.replace("{plastic}", plasticRatio.toString()).replace("{husk}", Math.max(0, 95 - plasticRatio).toString())}</span>
                 </div>
                 <input 
                   type="range" 
@@ -345,7 +348,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                   <div className="p-4 rounded-xl bg-white/2 border border-white/3">
                     <p className="text-xs text-brand-text-muted">{t.treesLabel}</p>
                     <p className="text-3xl font-extrabold text-brand-primary">
-                      {formatNumber(esgResult.trees_equivalent)} <span className="text-sm font-medium text-brand-text-muted">{t.treesUnit}</span>
+                      {(numBricks * (plasticRatio / 100.0) * 1.5).toLocaleString(lang === "vi" ? "vi-VN" : "en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })} <span className="text-sm font-medium text-brand-text-muted">{t.treesUnit}</span>
                     </p>
                   </div>
                   <div className="p-4 rounded-xl bg-white/2 border border-white/3">
