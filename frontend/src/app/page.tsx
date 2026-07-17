@@ -50,7 +50,7 @@ const footerTranslations = {
     partnerTitle: "Đăng ký hợp tác",
     financeTitle: "Thông tin tài chính",
     contact: "Liên hệ",
-    lab: "📍 Lab Nghiên cứu R&D Vật liệu mới, Trường Đại học Bách khoa - ĐHQG-HCM",
+    lab: "📍 Trường đại học bách khoa - ĐHQG-HCM",
     rights: `© ${new Date().getFullYear()} RENOVA Circular. Bảo lưu mọi quyền.`,
     privacy: "Điều khoản bảo mật",
     terms: "Quy chế thành viên"
