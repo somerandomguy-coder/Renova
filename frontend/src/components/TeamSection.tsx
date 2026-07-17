@@ -186,7 +186,9 @@ export default function TeamSection({ lang }: TeamSectionProps) {
           {members.map((member, index) => (
             <div 
               key={index}
-              className="glass-card group flex flex-col items-center text-center p-8 px-6 relative overflow-hidden"
+              className={`glass-card group flex flex-col items-center text-center p-8 px-6 relative overflow-hidden ${
+                index === 6 ? "sm:col-span-2 sm:max-w-[360px] sm:mx-auto w-full lg:col-span-1 lg:col-start-2 lg:max-w-none lg:mx-0" : ""
+              }`}
             >
               {/* Profile Image with frame */}
               <div className="w-[120px] h-[120px] rounded-full overflow-hidden border-[3px] border-brand-border/20 mb-5 relative">
