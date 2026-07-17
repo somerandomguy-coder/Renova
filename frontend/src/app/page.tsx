@@ -50,7 +50,7 @@ const footerTranslations = {
     partnerTitle: "Đăng ký hợp tác",
     financeTitle: "Thông tin tài chính",
     contact: "Liên hệ",
-    lab: "📍 Lab Nghiên cứu R&D Vật liệu mới, Đại học Bách khoa TP.HCM",
+    lab: "📍 Lab Nghiên cứu R&D Vật liệu mới, Trường Đại học Bách khoa - ĐHQG-HCM",
     rights: `© ${new Date().getFullYear()} RENOVA Circular. Bảo lưu mọi quyền.`,
     privacy: "Điều khoản bảo mật",
     terms: "Quy chế thành viên"
@@ -64,7 +64,7 @@ const footerTranslations = {
     partnerTitle: "Partner Registration",
     financeTitle: "Financial Info",
     contact: "Contact Details",
-    lab: "📍 New Materials R&D Lab, HCMC University of Technology (BK-HCMUT)",
+    lab: "📍 New Materials R&D Lab, HCMC University of Technology - VNU-HCM",
     rights: `© ${new Date().getFullYear()} RENOVA Circular. All rights reserved.`,
     privacy: "Privacy Policy",
     terms: "Terms of Service"
@@ -213,8 +213,9 @@ export default function Home() {
             <div className="flex flex-col gap-3">
               <h4 className="font-bold text-brand-text-primary dark:text-white mb-2 font-heading">{foot.contact}</h4>
               <p>{foot.lab}</p>
-              <p>✉️ info@renova.vn</p>
-              <p>📞 0901 234 567</p>
+              <p>✉️ <a href="mailto:renova.project268@gmail.com" className="text-inherit hover:text-brand-primary transition-colors">renova.project268@gmail.com</a></p>
+              <p>📞 <a href="tel:0914626717" className="text-inherit hover:text-brand-primary transition-colors">0914626717</a></p>
+              <p>🌐 <a href="https://www.facebook.com/profile.php?id=61586260467256" target="_blank" rel="noopener noreferrer" className="text-inherit hover:text-brand-primary transition-colors underline">Fanpage: RENOVA Circular</a></p>
             </div>
 
           </div>
