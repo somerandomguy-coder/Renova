@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RENOVA Circular - Financial & AI Dashboard</title>
+  
+  <!-- CDN Scripts & Styles -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+  <!-- Configure Tailwind CDN with Renova Brand Colors -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['"Be Vietnam Pro"', 'sans-serif'],
+            body: ['"Be Vietnam Pro"', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              primary: '#914724',     /* Earthy Clay Brown */
+              secondary: '#b45309',   /* Gold/Amber */
+              accent: '#d97736',      /* Light Clay/Orange */
+              bgDark: '#FAF8F5',      /* Soft Warm Off-white */
+              bgCard: '#ffffff',      /* Pure White */
+              textPrimary: '#1d1815', /* Deep Espresso */
+              textMuted: '#78726d',   /* Muted Slate Clay Gray */
+              border: '#e6e1dd'       /* Subtle Warm Border */
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background-color: #FAF8F5;
+      color: #1d1815;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      max-height: 400px;
+    }
+    .stat-card {
+      transition: box-shadow 0.3s ease;
+      transform-origin: 50% 100%;
+    }
+    .stat-card:hover {
+      animation: cardWobble 0.55s ease-out forwards;
+      box-shadow: 0 10px 25px -5px rgba(145, 71, 36, 0.15);
+    }
+    .gradient-header {
+      background: linear-gradient(135deg, #1d1815 0%, #2e241f 100%);
+    }
+    .accent-border {
+      border-left: 4px solid #914724;
+    }
+    .formula-box {
+      background: #eefcf3;
+      border: 1px solid #bbf0d0;
+      border-radius: 0.75rem;
+      padding: 0.7rem 1.25rem;
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      color: #15803d;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .data-table th {
+      background-color: #FAF8F5;
+      color: #78726d;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      padding: 12px 16px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 12px 16px;
+      font-size: 13px;
+      border-top: 1px solid #e6e1dd;
+      color: #1d1815;
+    }
+    .data-table tbody tr:hover {
+      background-color: rgba(145, 71, 36, 0.04);
+    }
+    .data-table tr.total-row td {
+      background-color: rgba(145, 71, 36, 0.06);
+      font-weight: 800;
+      color: #914724;
+      border-top: 2px solid #914724;
+    }
+
+
+    /* Gentle wobble hover effect for icons, badges & small objects */
+    .wobble-hover {
+      transform-origin: 50% 0%;
+      transition: transform 0.2s ease;
+    }
+    .wobble-hover:hover {
+      animation: wobble 0.6s ease-in-out;
+    }
+    @keyframes wobble {
+      0%   { transform: rotate(0deg); }
+      20%  { transform: rotate(-8deg); }
+      40%  { transform: rotate(6deg); }
+      60%  { transform: rotate(-4deg); }
+      80%  { transform: rotate(2deg); }
+      100% { transform: rotate(0deg); }
+    }
+    @keyframes cardWobble {
+      0%   { transform: translateY(0) rotate(0deg); }
+      30%  { transform: translateY(-6px) rotate(-1.2deg); }
+      55%  { transform: translateY(-4px) rotate(1deg); }
+      80%  { transform: translateY(-5px) rotate(-0.4deg); }
+      100% { transform: translateY(-4px) rotate(0deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .stat-card:hover, .wobble-hover:hover { animation: none; }
+    }
+
+    /* Scroll animations style classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-brand-bgDark text-brand-textPrimary antialiased">
+
+  <!-- Header -->
+  <header class="gradient-header text-white py-12 px-6 shadow-xl relative overflow-hidden">
+    <!-- Brand glow background decoration -->
+    <div class="absolute w-[400px] h-[400px] rounded-full bg-brand-primary/10 -top-40 -left-40 blur-[100px]"></div>
+    
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center relative z-10">
+      <div class="mb-6 md:mb-0 text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">RENOVA <span class="text-brand-accent">Circular</span></h1>
+          <span class="text-[10px] font-bold border border-white/20 px-2 py-0.5 rounded uppercase tracking-wider text-slate-300">Presentation</span>
+        </div>
+        <p class="text-slate-400 max-w-md text-sm sm:text-base">
+          Recycling multi-layer plastic waste into eco-friendly building materials with high heritage and economic value.
+        </p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-4">
+        <div class="bg-brand-primary/20 border border-brand-primary/30 p-4 rounded-xl text-center min-w-[120px] wobble-hover cursor-default">
+          <span class="block text-2xl font-bold text-brand-accent"><span class="counter" data-target="254" data-suffix="%">0%</span></span>
+          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Projected IRR</span>
+        </div>
+        <div class="bg-brand-secondary/20 border border-brand-secondary/30 p-4 rounded-xl text-center min-w-[120px] wobble-hover cursor-default">
+          <span class="block text-2xl font-bold text-amber-400"><span class="counter" data-target="5" data-suffix=" Months">0 Months</span></span>
+          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Payback Period</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Navigation Anchors -->
+  <div class="bg-white border-b border-brand-border sticky top-0 z-40 shadow-xs">
+    <div class="max-w-6xl mx-auto px-6 flex justify-center sm:justify-start gap-2 sm:gap-6 overflow-x-auto">
+      <a href="#section-market" class="px-3 py-4 font-bold border-b-3 border-brand-primary text-brand-primary focus:outline-none transition-all text-xs sm:text-sm whitespace-nowrap">
+        1. Market Opportunity
+      </a>
+      <a href="#section-ai-saas" class="px-3 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-xs sm:text-sm whitespace-nowrap">
+        2. AI & SaaS Ecosystem
+      </a>
+      <a href="#section-unit-economics" class="px-3 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-xs sm:text-sm whitespace-nowrap">
+        3. Unit Economics
+      </a>
+      <a href="#section-projections" class="px-3 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-xs sm:text-sm whitespace-nowrap">
+        4. Growth & Projections
+      </a>
+      <a href="#section-roadmap" class="px-3 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-xs sm:text-sm whitespace-nowrap">
+        5. Roadmap & Funding
+      </a>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto py-10 px-6 space-y-20">
+
+    <!-- ============================================== -->
+    <!-- SECTION 1: MARKET OPPORTUNITY & POSITIONING   -->
+    <!-- ============================================== -->
+    <section id="section-market" class="reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-primary rounded-full mr-3 shrink-0"></span> 1. Market Opportunity & Positioning
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">
+        The Vietnamese building materials industry is undergoing a strong green transition. With the brick sector expected to reach USD 11.11 billion by 2029, RENOVA is positioned to capture the unburnt and eco-friendly segment through circular economy principles.
+      </p>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-brand-border p-6">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Market Size Analysis (Billion USD)</h3>
+          <div class="chart-container" id="marketChartContainer">
+            <canvas id="marketChart"></canvas>
+          </div>
+          <p class="text-xs text-brand-textMuted mt-4 italic">Source: Institute of Construction Economics & Mordor Intelligence (2025).</p>
+        </div>
+        
+        <div class="flex flex-col gap-6">
+          <div class="bg-white rounded-2xl border border-brand-border p-6 accent-border stat-card">
+            <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">TAM (Projected 2029)</span>
+            <span class="text-3xl font-black text-brand-primary mt-1"><span class="counter" data-target="11.11" data-decimals="2" data-prefix="$" data-suffix="B">0</span></span>
+            <p class="text-xs text-brand-textMuted mt-2">Total green building materials market size by 2029.</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card border-l-4 border-brand-secondary">
+            <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">SAM (Target Market Share)</span>
+            <span class="text-3xl font-black text-brand-secondary mt-1"><span class="counter" data-target="35" data-suffix="%">0%</span></span>
+            <p class="text-xs text-brand-textMuted mt-2">Target segment for unburnt/ecological building materials.</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card border-l-4 border-brand-accent">
+            <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">SOM (Year 1 Pilot)</span>
+            <span class="text-3xl font-black text-brand-accent mt-1"><span class="counter" data-target="120000" data-suffix=" Bricks" data-use-commas="true">0</span></span>
+            <p class="text-xs text-brand-textMuted mt-2">Target block brick production volume in the first year of operation.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Market Size Table (from Tab 3) -->
+      <h3 class="text-lg font-bold mb-4 text-brand-textPrimary flex items-center">
+        <span class="w-1.5 h-5 bg-brand-primary rounded-full mr-2 shrink-0"></span> 1.1 Market Size Metrics
+      </h3>
+      <p class="text-brand-textMuted text-sm mb-5 max-w-3xl">Market indicators are calculated using a combined Top-down and Bottom-up methodology to ensure empirical validity.</p>
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Target / Scale</th>
+                <th>Formula & Interpretation</th>
+                <th>Source Citation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">TAM <span class="text-brand-textMuted font-normal">(Total Addressable Market)</span></td>
+                <td class="font-bold text-brand-primary">11.11 Billion USD <span class="text-brand-textMuted font-normal">(by 2029)</span></td>
+                <td>Total size of Vietnam brick & tile industry. CAGR = 13.64%</td>
+                <td class="text-brand-textMuted">Institute of Construction Economics & Mordor Intelligence (2025)</td>
+              </tr>
+              <tr>
+                <td class="font-bold">SAM <span class="text-brand-textMuted font-normal">(Serviceable Addressable Market)</span></td>
+                <td class="font-bold text-brand-secondary">35% Market Share <span class="text-brand-textMuted font-normal">(by 2030)</span></td>
+                <td>Unburnt and eco-friendly building materials segment. Focusing on &gt; 800 green projects</td>
+                <td class="text-brand-textMuted">VLXDgiatot & U.S. Green Building Council (USGBC)</td>
+              </tr>
+              <tr>
+                <td class="font-bold">SOM <span class="text-brand-textMuted font-normal">(Serviceable Obtainable Market)</span></td>
+                <td class="font-bold text-brand-accent">120,000 Bricks/Year <span class="text-brand-textMuted font-normal">(Year 1)</span></td>
+                <td>SOM = Design Capacity × Efficiency (OEE 80%)</td>
+                <td class="text-brand-textMuted">Experimental capacity in OEM collaboration with Anh Thuy Workshop</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 2: AI & SAAS ECOSYSTEM                 -->
+    <!-- ============================================== -->
+    <section id="section-ai-saas" class="reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-primary rounded-full mr-3 shrink-0"></span> 2. AI & SaaS Ecosystem
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">
+        A parallel software ecosystem, supporting architects to optimize natural ventilation and FMCG companies to automate EPR compliance reporting.
+      </p>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white p-6 rounded-2xl border border-brand-border border-l-4 border-brand-primary stat-card">
+          <h3 class="font-bold text-lg mb-2 text-brand-textPrimary">RENOVA CFD-Flow™ (For Architects)</h3>
+          <p class="text-sm text-brand-textMuted mb-4 leading-relaxed font-body">Real-time Computational Fluid Dynamics (CFD) simulation via surrogate machine learning models. Generates natural ventilation reports in under 30 seconds to earn LEED/LOTUS points.</p>
+          <div class="grid grid-cols-2 gap-2 text-xs font-bold text-brand-primary">
+            <span class="bg-brand-primary/6 p-3 rounded-xl text-center">Real-Time CFD</span>
+            <span class="bg-brand-primary/6 p-3 rounded-xl text-center">Temp Reduction: 2-4°C</span>
+          </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-2xl border border-brand-border border-l-4 border-brand-secondary stat-card">
+          <h3 class="font-bold text-lg mb-2 text-brand-textPrimary">EPR-Auditor (For FMCG Enterprises)</h3>
+          <p class="text-sm text-brand-textMuted mb-4 leading-relaxed font-body">Digitizes invoices using AI and tracks MLP flows secured by blockchain (SHA-256). Ensures absolute regulatory compliance reporting for the Ministry of Natural Resources and Environment.</p>
+          <div class="grid grid-cols-2 gap-2 text-xs font-bold text-brand-secondary">
+            <span class="bg-brand-secondary/6 p-3 rounded-xl text-center">SHA-256 Blockchain Ledger</span>
+            <span class="bg-brand-secondary/6 p-3 rounded-xl text-center">Automated ESG Data</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscription Pricing -->
+      <div class="bg-white rounded-2xl border border-brand-border p-8 mb-12">
+        <h3 class="font-extrabold text-xl mb-6 text-brand-textPrimary text-center sm:text-left">Subscription Pricing Models</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="border border-brand-border p-6 rounded-xl text-center stat-card">
+            <h4 class="font-bold uppercase text-brand-textMuted text-xs tracking-wider">Basic</h4>
+            <div class="text-2xl font-black my-4 text-brand-textPrimary">Free</div>
+            <ul class="text-xs text-brand-textMuted space-y-3 border-t border-brand-border pt-4 text-left max-w-[180px] mx-auto">
+              <li class="flex items-center gap-2">✓ Material Library</li>
+              <li class="flex items-center gap-2">✓ Basic AI Simulation</li>
+              <li class="flex items-center gap-2">✓ Standard File Export</li>
+            </ul>
+          </div>
+          
+          <div class="border-2 border-brand-primary p-6 rounded-xl text-center bg-brand-primary/5 stat-card">
+            <h4 class="font-bold uppercase text-brand-primary text-xs tracking-wider">Professional</h4>
+            <div class="text-2xl font-black my-4 text-brand-primary">2M VND <span class="text-xs font-semibold text-brand-textMuted">/ project</span></div>
+            <ul class="text-xs text-brand-textMuted space-y-3 border-t border-brand-primary/20 pt-4 text-left max-w-[180px] mx-auto">
+              <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">✓ Advanced AI CFD</li>
+              <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">✓ Certified Technical Profile</li>
+              <li class="flex items-center gap-2 text-brand-textPrimary font-semibold">✓ Priority Support</li>
+            </ul>
+          </div>
+          
+          <div class="border border-brand-border p-6 rounded-xl text-center stat-card">
+            <h4 class="font-bold uppercase text-brand-textMuted text-xs tracking-wider">Enterprise</h4>
+            <div class="text-2xl font-black my-4 text-brand-textPrimary">50M VND <span class="text-xs font-semibold text-brand-textMuted">/ year</span></div>
+            <ul class="text-xs text-brand-textMuted space-y-3 border-t border-brand-border pt-4 text-left max-w-[180px] mx-auto">
+              <li class="flex items-center gap-2">✓ Comprehensive EPR Automation</li>
+              <li class="flex items-center gap-2">✓ ERP API Integration</li>
+              <li class="flex items-center gap-2">✓ SHA-256 Certification</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SaaS Unit Economics and Revenue Trajectory -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-2xl border border-brand-border p-6">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">SaaS Cost Structure (Per Contract)</h3>
+          <div class="chart-container flex items-center justify-center" id="aiBomChartContainer">
+            <canvas id="aiBomChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl border border-brand-border p-6">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">SaaS Software Revenue Trajectory (Million VND)</h3>
+          <div class="chart-container" id="aiGrowthChartContainer">
+            <canvas id="aiGrowthChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 3: UNIT ECONOMICS & COST STRUCTURE     -->
+    <!-- ============================================== -->
+    <section id="section-unit-economics" class="reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-primary rounded-full mr-3 shrink-0"></span> 3. Unit Economics & Cost Structure
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">
+        Our manufacturing process eliminates expensive Epoxy resin, replacing it with thermal compression technology from MLP plastic waste and agricultural rice husk by-products. This dual-revenue model charges FMCG partners for collection fees while selling premium green building materials.
+      </p>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white rounded-2xl border border-brand-border p-6">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Bill of Materials (BOM) per Brick</h3>
+          <div class="chart-container flex items-center justify-center" id="financialBomChartContainer">
+            <canvas id="financialBomChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl border border-brand-border p-6 flex flex-col justify-center">
+          <div class="space-y-6">
+            <div class="flex justify-between items-end border-b border-brand-border pb-3">
+              <div>
+                <span class="text-xs text-brand-textMuted block uppercase font-bold tracking-wider">Total COGS</span>
+                <span class="text-2xl font-extrabold text-brand-textPrimary"><span class="counter" data-target="16258" data-suffix=" VND" data-use-commas="true">0</span></span>
+              </div>
+              <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full"><span class="counter" data-target="50.5" data-decimals="1" data-suffix="%">0%</span> Gross Profit Margin</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="p-4 bg-brand-bgDark rounded-xl">
+                <span class="text-[10px] text-brand-textMuted uppercase font-bold tracking-wider">Brick Revenue</span>
+                <span class="block text-lg font-black text-brand-primary mt-1"><span class="counter" data-target="30000" data-suffix=" VND" data-use-commas="true">0</span></span>
+              </div>
+              <div class="p-4 bg-brand-bgDark rounded-xl">
+                <span class="text-[10px] text-brand-textMuted uppercase font-bold tracking-wider">EPR Service Fee</span>
+                <span class="block text-lg font-black text-brand-secondary mt-1"><span class="counter" data-target="2880" data-suffix=" VND" data-use-commas="true">0</span></span>
+              </div>
+            </div>
+            <div class="p-4 bg-orange-50 rounded-xl border border-orange-100 flex items-start gap-3">
+              <span class="wobble-hover shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-brand-primary text-white shadow-sm mt-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                  <path d="M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2zm-1.5 17a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-.5h-3v.5zM9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-.5H9V21z"/>
+                </svg>
+              </span>
+              <p class="text-xs sm:text-sm text-orange-800 leading-relaxed">
+                <strong>Circular Advantage:</strong> Raw MLP plastic (40%) has 0 VND material cost and generates income through EPR fees, effectively lowering the cost floor.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Unit Economics and Cost Breakdown Tables (from Tab 3) -->
+      <h3 class="text-lg font-bold mb-4 text-brand-textPrimary flex items-center">
+        <span class="w-1.5 h-5 bg-brand-primary rounded-full mr-2 shrink-0"></span> 3.1 Detailed Unit Economics & Cost Breakdown
+      </h3>
+      <p class="text-brand-textMuted text-sm mb-6 max-w-3xl">Estimates are calculated based on the actual production scale of the Pilot phase: <strong class="text-brand-textPrimary">Q = 10,000 bricks/month</strong> (equivalent to 2 mins pressing/brick, operating 2 presses, 1 shift/day). Standard weight: <strong class="text-brand-textPrimary">1.5 kg/brick</strong>.</p>
+
+      <!-- 1. BOM Table -->
+      <h4 class="font-bold text-base mb-2 text-brand-textPrimary">3.1.1 Direct Bill of Materials (BOM)</h4>
+      <div class="formula-box mb-4">BOM&nbsp;=&nbsp;&Sigma; (m<sub>i</sub> &times; P<sub>i</sub>) &nbsp;&nbsp;|&nbsp;&nbsp; m<sub>i</sub>: mass, P<sub>i</sub>: unit price of raw material i</div>
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden mb-8">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Ratio (%)</th>
+                <th>Mass (mi)</th>
+                <th>Assumed Unit Price (Pi)</th>
+                <th>Cost/Brick</th>
+                <th>Source & Basis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-semibold">Multi-layer Plastic (MLP) Waste</td>
+                <td>40%</td>
+                <td>0.6 kg</td>
+                <td>0 VND/kg</td>
+                <td class="font-bold text-emerald-600">0 VND/brick</td>
+                <td class="text-brand-textMuted">Received directly from FMCG partners (EPR fees collected)</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Recycled HDPE Plastic</td>
+                <td>30%</td>
+                <td>0.45 kg</td>
+                <td>12,000 VND/kg</td>
+                <td class="font-bold">5,400 VND/brick</td>
+                <td class="text-brand-textMuted">Collection price survey at Greenpoint / Scrap yards</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Agricultural Rice Husk</td>
+                <td>25%</td>
+                <td>0.365 kg</td>
+                <td>1,000 VND/kg</td>
+                <td class="font-bold">375 VND/brick</td>
+                <td class="text-brand-textMuted">Offtake price in Mekong Delta during stable seasons</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">PE-g-MA Additive</td>
+                <td>5%</td>
+                <td>0.075 kg</td>
+                <td>50,000 VND/kg</td>
+                <td class="font-bold">3,750 VND/brick</td>
+                <td class="text-brand-textMuted">Domestic industrial binding chemical price</td>
+              </tr>
+              <tr class="total-row">
+                <td>TOTAL BOM COST</td>
+                <td>100%</td>
+                <td>1.5 kg</td>
+                <td>—</td>
+                <td>9,525 VND/brick</td>
+                <td>Cost optimized by completely eliminating Epoxy glue</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2. OPEX Table -->
+      <h4 class="font-bold text-base mb-2 text-brand-textPrimary">3.1.2 Monthly Operating Expenses (OPEX)</h4>
+      <div class="formula-box mb-4">OPEX<sub>unit</sub>&nbsp;=&nbsp;Total Monthly OPEX&nbsp;/&nbsp;Q</div>
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden mb-8">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead>
+              <tr>
+                <th>OPEX Item</th>
+                <th>Monthly Cost</th>
+                <th>Explanation & Basis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-semibold">Direct Labor</td>
+                <td class="font-bold">24,000,000 VND</td>
+                <td class="text-brand-textMuted">3 workers × 8,000,000 VND/person (mixer & press operators)</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Electricity & Utilities</td>
+                <td class="font-bold">15,000,000 VND</td>
+                <td class="text-brand-textMuted">Estimated heating power to maintain 200°C and hydraulic presses</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Factory & Warehouse Rental</td>
+                <td class="font-bold">15,000,000 VND</td>
+                <td class="text-brand-textMuted">Area ~150m² at industrial corridor (Hoc Mon, Binh Duong)</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">EPR Raw Processing Cost</td>
+                <td class="font-bold">9,000,000 VND</td>
+                <td class="text-brand-textMuted">Logistics and shredding of 6,000 kg MLP × 1,500 VND/kg</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Equipment Depreciation</td>
+                <td class="font-bold">4,333,000 VND</td>
+                <td class="text-brand-textMuted">Straight-line depreciation: CapEx 260M split over 60 months</td>
+              </tr>
+              <tr class="total-row">
+                <td>TOTAL MONTHLY OPEX</td>
+                <td>67,333,000 VND</td>
+                <td>Allocation → OPEX<sub>unit</sub> = 6,733 VND/brick</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3. COGS & Gross Profit Table -->
+      <h4 class="font-bold text-base mb-2 text-brand-textPrimary">3.1.3 Cost of Goods Sold (COGS) & Gross Profit</h4>
+      <div class="formula-box mb-4">COGS&nbsp;=&nbsp;BOM&nbsp;+&nbsp;OPEX<sub>unit</sub></div>
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead>
+              <tr>
+                <th>Financial Metric</th>
+                <th>Value / Target</th>
+                <th>Formula Explanation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-semibold">Total Cost of Goods Sold (COGS)</td>
+                <td class="font-bold">16,258 VND/brick</td>
+                <td class="text-brand-textMuted">9,525 VND + 6,733 VND</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Brick Sales Revenue</td>
+                <td class="font-bold">300,000,000 VND</td>
+                <td class="text-brand-textMuted">10,000 bricks × 30,000 VND/brick (matching traditional white cement brick price)</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">EPR Service Revenue</td>
+                <td class="font-bold">28,800,000 VND</td>
+                <td class="text-brand-textMuted">6,000 kg MLP × 4,800 VND/kg (20% cheaper than the MONRE norm of 6,000 VND)</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Total Revenue (TR)</td>
+                <td class="font-bold">328,800,000 VND</td>
+                <td class="text-brand-textMuted">TR = Brick Revenue + EPR Revenue</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Total Production Cost (TC)</td>
+                <td class="font-bold">162,580,000 VND</td>
+                <td class="text-brand-textMuted">TC = 10,000 bricks × 16,258 VND/brick</td>
+              </tr>
+              <tr class="total-row">
+                <td>Gross Profit (GP)</td>
+                <td>166,220,000 VND</td>
+                <td>GP = TR − TC</td>
+              </tr>
+              <tr class="total-row">
+                <td>Gross Profit Margin</td>
+                <td>50.5%</td>
+                <td>Gross Margin = (GP / TR) × 100%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 4: GROWTH PROJECTIONS & CASH FLOW     -->
+    <!-- ============================================== -->
+    <section id="section-projections" class="reveal scroll-mt-24">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-primary rounded-full mr-3 shrink-0"></span> 4. Growth Projections & Cash Flow
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">
+        Transitioning from pure manufacturing to a hybrid SaaS model (Smart-Hub AI) enables exponential revenue growth while maintaining a lean cost structure through OEM partners.
+      </p>
+
+      <!-- 5-Year Growth line chart -->
+      <div class="bg-white rounded-2xl border border-brand-border p-6 mb-12">
+        <h3 class="text-base font-bold mb-4 text-brand-textPrimary">5-Year Growth Projections</h3>
+        <div class="chart-container" style="height: 350px;" id="growthChartContainer">
+          <canvas id="growthChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-12">
+        <div class="bg-brand-textPrimary text-white p-4.5 rounded-xl stat-card">
+          <span class="text-[10px] uppercase text-slate-400 font-bold tracking-wider font-heading">Year 5 Revenue</span>
+          <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="48.56" data-decimals="2" data-suffix="B VND">0</span></span>
+        </div>
+        <div class="bg-brand-textPrimary text-white p-4.5 rounded-xl stat-card">
+          <span class="text-[10px] uppercase text-slate-400 font-bold tracking-wider font-heading">Cumulative Cash Flow</span>
+          <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="46.30" data-decimals="2" data-suffix="B VND">0</span></span>
+        </div>
+        <div class="bg-brand-primary text-white p-4.5 rounded-xl stat-card">
+          <span class="text-[10px] uppercase text-orange-100 font-bold tracking-wider font-heading">Projected NPV</span>
+          <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="17.65" data-decimals="2" data-suffix="B VND">0</span></span>
+        </div>
+        <div class="bg-brand-secondary text-white p-4.5 rounded-xl stat-card">
+          <span class="text-[10px] uppercase text-amber-100 font-bold tracking-wider font-heading">SaaS Customers (Year 5)</span>
+          <span class="block text-lg sm:text-xl font-extrabold mt-1"><span class="counter" data-target="50" data-suffix=" Brands">0</span></span>
+        </div>
+      </div>
+
+      <!-- LTV:COCA Chart and detailed block -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white rounded-2xl border border-brand-border p-6 flex flex-col justify-between">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Business Health & Efficiency Metrics</h3>
+          <p class="text-brand-textMuted mb-6 text-sm leading-relaxed">The sustainability of the B2B/SaaS model is demonstrated by the LTV:COCA ratio. High retention from FMCG brands and recurring construction orders generate significant lifetime value.</p>
+          <div class="chart-container" style="height:250px;" id="ltvCocaChartContainer">
+            <canvas id="ltvCocaChart"></canvas>
+          </div>
+          <div class="mt-6 flex justify-between items-center border-t border-brand-border pt-4">
+            <div class="text-center">
+              <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">LTV</span>
+              <span class="text-base font-extrabold"><span class="counter" data-target="250" data-suffix="M VND">0</span></span>
+            </div>
+            <div class="h-8 w-px bg-brand-border"></div>
+            <div class="text-center">
+              <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">COCA</span>
+              <span class="text-base font-extrabold"><span class="counter" data-target="36" data-suffix="M VND">0</span></span>
+            </div>
+            <div class="h-8 w-px bg-brand-border"></div>
+            <div class="text-center">
+              <span class="text-[10px] text-brand-primary block uppercase font-bold tracking-wider font-heading">LTV:COCA Ratio</span>
+              <span class="text-xl font-black text-brand-primary"><span class="counter" data-target="6.9" data-decimals="1" data-suffix=" : 1">0 : 1</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Metrics cards (from Tab 3) -->
+        <div class="flex flex-col gap-6">
+          <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card">
+            <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">LTV (Lifetime Value)</span>
+            <p class="text-2xl font-black text-brand-primary mt-2 mb-3">≈ 250,000,000 VND</p>
+            <p class="text-xs text-brand-textMuted leading-relaxed">Assumes B2B contractors make repeat purchases of 15,000 bricks/year, or FMCG brands maintain the EPR SaaS package for 3 years.</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card">
+            <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">COCA (Customer Acquisition Cost)</span>
+            <p class="text-2xl font-black text-brand-secondary mt-2 mb-3">36,000,000 VND</p>
+            <div class="formula-box text-xs mb-2">COCA = 360,000,000 / 10 = 36,000,000</div>
+            <p class="text-xs text-brand-textMuted leading-relaxed">B2B Marketing/Sales budget ~30M VND/month. Year 1 costs 360M VND to acquire 10 large enterprise accounts.</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-brand-accent p-6 stat-card bg-brand-accent/5">
+            <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">LTV : COCA Ratio</span>
+            <p class="text-2xl font-black text-brand-accent mt-2 mb-3">6.9 : 1</p>
+            <div class="formula-box text-xs mb-2">Ratio = 250,000,000 / 36,000,000 = 6.9</div>
+            <p class="text-xs text-brand-textMuted leading-relaxed">A ratio &gt; 3:1 demonstrates that RENOVA's B2B/SaaS business model is highly sustainable.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed 5-Year Cash Flow & Investment Metrics (from Tab 3) -->
+      <h3 class="text-lg font-bold mb-4 text-brand-textPrimary flex items-center">
+        <span class="w-1.5 h-5 bg-brand-primary rounded-full mr-2 shrink-0"></span> 4.2 Cash Flow Projections & Investment Indicators
+      </h3>
+      <p class="text-brand-textMuted text-sm mb-5 max-w-3xl">Unit: Million VND. Assumed corporate income tax = 0% thanks to Green Enterprise incentives under Decree 08/2022/ND-CP.</p>
+
+      <div class="bg-white rounded-2xl border border-brand-border overflow-hidden mb-8">
+        <div class="overflow-x-auto">
+          <table class="data-table w-full">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Year 0</th>
+                <th>Year 1</th>
+                <th>Year 2</th>
+                <th>Year 3</th>
+                <th>Year 4</th>
+                <th>Year 5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-semibold">Brick Production (units)</td>
+                <td>0</td>
+                <td>120,000</td>
+                <td>240,000</td>
+                <td>600,000</td>
+                <td>960,000</td>
+                <td>1,440,000</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">SaaS Customers (FMCG)</td>
+                <td>0</td>
+                <td>0</td>
+                <td>5</td>
+                <td>15</td>
+                <td>30</td>
+                <td>50</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Total Revenue</td>
+                <td>0</td>
+                <td>3,945</td>
+                <td>8,140</td>
+                <td>20,350</td>
+                <td>32,256</td>
+                <td>48,560</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Production Cost (COGS)</td>
+                <td>0</td>
+                <td>(1,951)</td>
+                <td>(3,800)</td>
+                <td>(9,300)</td>
+                <td>(14,600)</td>
+                <td>(21,500)</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Marketing & SG&A</td>
+                <td>0</td>
+                <td>(800)</td>
+                <td>(1,200)</td>
+                <td>(2,500)</td>
+                <td>(4,000)</td>
+                <td>(5,500)</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">CapEx (Fixed Assets)</td>
+                <td>(260)</td>
+                <td>0</td>
+                <td>0</td>
+                <td>(500)</td>
+                <td>0</td>
+                <td>(800)</td>
+              </tr>
+              <tr class="total-row">
+                <td>Net Cash Flow (CFt)</td>
+                <td>(500)</td>
+                <td>1,194</td>
+                <td>3,140</td>
+                <td>8,050</td>
+                <td>13,656</td>
+                <td>20,760</td>
+              </tr>
+              <tr class="total-row">
+                <td>Cumulative Cash Flow</td>
+                <td>(500)</td>
+                <td>694</td>
+                <td>3,834</td>
+                <td>11,884</td>
+                <td>25,540</td>
+                <td>46,300</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-brand-textMuted italic px-4 py-3 border-t border-brand-border">Note Year 0: Includes 260M CapEx (2 presses, 2 heating tanks, 1 shredder) + 240M R&D / Working Capital.</p>
+      </div>
+
+      <h4 class="font-bold text-base mb-4 text-brand-textPrimary">Investment Efficiency Metrics <span class="text-brand-textMuted font-normal text-sm">(Expected discount rate r = 20%)</span></h4>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card">
+          <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">1. Net Present Value (NPV)</span>
+          <p class="text-2xl font-black text-brand-primary mt-2 mb-3">17,652 Million VND</p>
+          <div class="formula-box text-[11px] mb-2 leading-relaxed">NPV = &Sigma;<sub>t=1</sub><sup>5</sup> CF<sub>t</sub>/(1+r)<sup>t</sup> − C<sub>0</sub></div>
+          <p class="text-xs text-brand-textMuted leading-relaxed">NPV &gt; 0 — indicates the project creates substantial surplus value for shareholders.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card">
+          <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">2. Internal Rate of Return (IRR)</span>
+          <p class="text-2xl font-black text-brand-secondary mt-2 mb-3">254%</p>
+          <div class="formula-box text-[11px] mb-2 leading-relaxed">NPV = 0 → IRR = 254%</div>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Breakthrough IRR driven by financial leverage from the EPR SaaS platform and ultra-low raw material costs.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-accent p-6 stat-card bg-brand-accent/5">
+          <span class="text-xs uppercase font-bold tracking-wider text-brand-textMuted">3. Payback Period (PP)</span>
+          <p class="text-2xl font-black text-brand-accent mt-2 mb-3">≈ 5 Months</p>
+          <div class="formula-box text-[11px] mb-2 leading-relaxed">PP = 0 + 500/1,194 = 0.41 years</div>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Takes only 5 months of commercial operation to recover the entire 500M VND initial investment.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 5: ROADMAP & INVESTMENT PROPOSAL       -->
+    <!-- ============================================== -->
+    <section id="section-roadmap" class="reveal scroll-mt-24 pb-10">
+      <h2 class="text-2xl font-extrabold mb-3 flex items-center text-brand-textPrimary">
+        <span class="w-2 h-6 bg-brand-primary rounded-full mr-3 shrink-0"></span> 5. Roadmap & Investment Proposal
+      </h2>
+      <p class="text-brand-textMuted mb-8 max-w-3xl text-sm sm:text-base">
+        Seeking investment of 1,000 million VND for 10% equity. Funding will be allocated between physical manufacturing infrastructure and AI R&D for the Smart-Hub platform.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <!-- Funding Proposal Chart -->
+        <div class="bg-white rounded-2xl border border-brand-border p-6 flex flex-col justify-between">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Investment Proposal: 1 Billion VND</h3>
+          <div class="chart-container" id="fundingChartContainer">
+            <canvas id="fundingChart"></canvas>
+          </div>
+          <div class="mt-6 flex justify-between items-center border-t border-brand-border pt-4">
+            <div class="text-center">
+              <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">Total Funding</span>
+              <span class="text-base font-extrabold"><span class="counter" data-target="1000" data-suffix="M VND" data-use-commas="true">0</span></span>
+            </div>
+            <div class="h-8 w-px bg-brand-border"></div>
+            <div class="text-center">
+              <span class="text-[10px] text-brand-textMuted block uppercase font-bold tracking-wider font-heading">Equity Offered</span>
+              <span class="text-base font-extrabold"><span class="counter" data-target="10" data-suffix="%">0%</span></span>
+            </div>
+            <div class="h-8 w-px bg-brand-border"></div>
+            <div class="text-center">
+              <span class="text-[10px] text-brand-primary block uppercase font-bold tracking-wider font-heading">Post-Money Valuation</span>
+              <span class="text-xl font-black text-brand-primary"><span class="counter" data-target="10" data-suffix="B VND">0</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strategic Timeline (from Tab 1) -->
+        <div class="flex flex-col justify-between bg-white rounded-2xl border border-brand-border p-6">
+          <h3 class="text-base font-bold mb-4 text-brand-textPrimary">Strategic Timeline & Implementation</h3>
+          <div class="space-y-4">
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold font-heading shrink-0">01</div>
+              <div>
+                <h4 class="font-bold text-xs text-brand-textPrimary">Pilot Setup</h4>
+                <p class="text-[11px] text-brand-textMuted">Build 2-press cluster and obtain Quatest 3 certification.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold font-heading shrink-0">02</div>
+              <div>
+                <h4 class="font-bold text-xs text-brand-textPrimary">AI Core R&D</h4>
+                <p class="text-[11px] text-brand-textMuted">Develop Surrogate Model for CFD air flow simulations.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold font-heading shrink-0">03</div>
+              <div>
+                <h4 class="font-bold text-xs text-brand-textPrimary">B2B Outreach</h4>
+                <p class="text-[11px] text-brand-textMuted">Partner with 10+ major architects and 3 FMCG brands for SaaS beta trials.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold font-heading shrink-0">04</div>
+              <div>
+                <h4 class="font-bold text-xs text-brand-textPrimary">Break-Even Point</h4>
+                <p class="text-[11px] text-brand-textMuted">Achieve operating profitability within 6 months of commercial operations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Funding Allocation Plan (from Tab 3) -->
+      <h3 class="text-lg font-bold mb-4 text-brand-textPrimary flex items-center">
+        <span class="w-1.5 h-5 bg-brand-primary rounded-full mr-2 shrink-0"></span> 5.1 Detailed Funding Allocation Plan
+      </h3>
+      <p class="text-brand-textMuted text-sm mb-6 max-w-3xl">To realize the Pilot line and the SaaS system, RENOVA is raising <strong class="text-brand-textPrimary">1,000,000,000 VND</strong> in exchange for <strong class="text-brand-textPrimary">10% equity</strong> (Pre-money valuation: 9 Billion VND).</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card" style="border-left: 4px solid #1d1815;">
+          <div class="flex items-center justify-between mb-2">
+            <h5 class="font-bold text-brand-textPrimary">Pilot Production Line Setup</h5>
+            <span class="text-lg font-black text-brand-textPrimary">30%</span>
+          </div>
+          <p class="text-xs text-brand-textMuted mb-2 font-semibold">300 Million VND</p>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Purchase 2 automatic presses, 2 heating tanks (200°C), 1 raw shredder, and molds.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card accent-border">
+          <div class="flex items-center justify-between mb-2">
+            <h5 class="font-bold text-brand-textPrimary">AI Algorithms R&D & Certification Legalities</h5>
+            <span class="text-lg font-black text-brand-secondary">20%</span>
+          </div>
+          <p class="text-xs text-brand-textMuted mb-2 font-semibold">200 Million VND</p>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Research optimal polymer-silica matrix at 180°C–200°C. Register TCVN testing with Quatest 3. Develop AI Surrogate Model for RENOVA Smart-Hub.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card" style="border-left: 4px solid #b45309;">
+          <div class="flex items-center justify-between mb-2">
+            <h5 class="font-bold text-brand-textPrimary">B2B Marketing & Market Development</h5>
+            <span class="text-lg font-black text-amber-600">20%</span>
+          </div>
+          <p class="text-xs text-brand-textMuted mb-2 font-semibold">200 Million VND</p>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Organize Tech-Talks for architects, distribute free sample bricks. Acquisition cost (Inside Sales) for FMCG corporations.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-brand-border p-6 stat-card" style="border-left: 4px solid #d97736;">
+          <div class="flex items-center justify-between mb-2">
+            <h5 class="font-bold text-brand-textPrimary">Working Capital</h5>
+            <span class="text-lg font-black text-brand-accent">30%</span>
+          </div>
+          <p class="text-xs text-brand-textMuted mb-2 font-semibold">300 Million VND</p>
+          <p class="text-xs text-brand-textMuted leading-relaxed">Maintain cash flow for payroll and operating expenses for the first 6 months before break-even.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-brand-textPrimary text-slate-500 py-12 px-6 text-center border-t border-brand-primary/10">
+    <div class="max-w-6xl mx-auto">
+      <p class="mb-6 text-sm text-slate-400">&copy; 2026 RENOVA Circular - Innovation in Circular Construction</p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10 text-xs sm:text-sm">
+        <!-- Phone -->
+        <div class="flex items-center gap-2.5 wobble-hover cursor-default">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-primary/20 text-brand-accent shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+              <path d="M6.62 10.79a15.1 15.1 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.4 21 3 13.6 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.24 1.01l-2.21 2.2z"/>
+            </svg>
+          </span>
+          <span class="text-slate-300 font-medium">0914 626 717</span>
+        </div>
+
+        <!-- Email -->
+        <div class="flex items-center gap-2.5 wobble-hover cursor-default">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-secondary/20 text-amber-400 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+              <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6zm2 .2V8l8 5 8-5V6.2L12 11 4 6.2z"/>
+            </svg>
+          </span>
+          <span class="text-slate-300 font-medium">renova.project268@gmail.com</span>
+        </div>
+
+        <!-- Address -->
+        <div class="flex items-center gap-2.5 wobble-hover cursor-default">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-accent/20 text-brand-accent shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+              <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
+            </svg>
+          </span>
+          <span class="text-slate-300 font-medium">45 Tan Lap, Dong Hoa, Binh Duong</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts Logic for Scrollspy, Animation & Chart.js -->
+  <script>
+    let marketChartInstance = null;
+    let financialBomChartInstance = null;
+    let growthChartInstance = null;
+    let fundingChartInstance = null;
+    let aiBomChartInstance = null;
+    let aiGrowthChartInstance = null;
+    let ltvCocaChartInstance = null;
+
+    // Helper: Wrap labels for Chart.js legends
+    function wrapLabel(label) {
+      if (label.length <= 16) return label;
+      const words = label.split(' ');
+      const lines = [];
+      let currentLine = '';
+      words.forEach(word => {
+        if ((currentLine + word).length > 16) {
+          lines.push(currentLine.trim());
+          currentLine = word + ' ';
+        } else {
+          currentLine += word + ' ';
+        }
+      });
+      lines.push(currentLine.trim());
+      return lines;
+    }
+
+    const tooltipConfig = {
+      callbacks: {
+        title: function(tooltipItems) {
+          const item = tooltipItems[0];
+          let label = item.chart.data.labels[item.dataIndex];
+          return Array.isArray(label) ? label.join(' ') : label;
+        }
+      }
+    };
+
+    // Label definitions for charts (Translated to English)
+    const chartLabels = {
+      market: [wrapLabel('Total Addressable Market (TAM)'), wrapLabel('Serviceable Addressable Market (SAM)')],
+      bom: [wrapLabel('Recycled HDPE Plastic'), wrapLabel('PE-g-MA Binder'), wrapLabel('Agricultural Rice Husk'), wrapLabel('Multi-layer Packaging (MLP)')],
+      funding: [wrapLabel('Pilot Production Setup'), wrapLabel('Working Capital'), wrapLabel('AI R&D & Legal Certs'), wrapLabel('B2B Marketing')],
+      aiBom: ['HDPE Plastic', 'PE-g-MA Binder', 'Rice Husk', 'MLP Packaging']
+    };
+
+    // Chart Initializations (Triggered on Scroll)
+    function initMarketChart() {
+      if (marketChartInstance) return;
+      marketChartInstance = new Chart(document.getElementById('marketChart'), {
+        type: 'bar',
+        data: {
+          labels: chartLabels.market,
+          datasets: [{
+            label: 'Billion USD',
+            data: [11.11, 3.89],
+            backgroundColor: ['#1d1815', '#914724'],
+            borderRadius: 8
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: tooltipConfig },
+          scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } } }
+        }
+      });
+    }
+
+    function initFinancialBomChart() {
+      if (financialBomChartInstance) return;
+      financialBomChartInstance = new Chart(document.getElementById('financialBomChart'), {
+        type: 'doughnut',
+        data: {
+          labels: chartLabels.bom,
+          datasets: [{
+            data: [5400, 3750, 375, 0],
+            backgroundColor: ['#914724', '#b45309', '#d97736', '#e6e1dd'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: { 
+            legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { family: 'Be Vietnam Pro' } } },
+            tooltip: tooltipConfig 
+          }
+        }
+      });
+    }
+
+    function initGrowthChart() {
+      if (growthChartInstance) return;
+      growthChartInstance = new Chart(document.getElementById('growthChart'), {
+        type: 'line',
+        data: {
+          labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+          datasets: [
+            {
+              label: 'Total Revenue (Million VND)',
+              data: [3945, 8140, 20350, 32256, 48560],
+              borderColor: '#914724',
+              backgroundColor: 'rgba(145, 71, 36, 0.08)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 3
+            },
+            {
+              label: 'Net Cash Flow (Million VND)',
+              data: [1194, 3140, 8050, 13656, 20760],
+              borderColor: '#b45309',
+              borderDash: [5, 5],
+              fill: false,
+              tension: 0.4
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { tooltip: tooltipConfig },
+          scales: { 
+            y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function initLtvCocaChart() {
+      if (ltvCocaChartInstance) return;
+      ltvCocaChartInstance = new Chart(document.getElementById('ltvCocaChart'), {
+        type: 'line',
+        data: {
+          labels: [10, 20, 30, 36, 40, 50],
+          datasets: [{
+            label: 'Customer Lifetime Value (LTV)',
+            data: [50, 120, 200, 250, 300, 400],
+            borderColor: '#b45309',
+            backgroundColor: '#914724',
+            pointBackgroundColor: '#914724',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2.5
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: tooltipConfig },
+          scales: {
+            y: { title: { display: true, text: 'LTV (Million VND)', font: { family: 'Be Vietnam Pro', size: 10 } }, grid: { color: '#f3f4f6' } },
+            x: { title: { display: true, text: 'COCA (Million VND)', font: { family: 'Be Vietnam Pro', size: 10 } }, grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function initFundingChart() {
+      if (fundingChartInstance) return;
+      fundingChartInstance = new Chart(document.getElementById('fundingChart'), {
+        type: 'doughnut',
+        data: {
+          labels: chartLabels.funding,
+          datasets: [{
+            data: [30, 30, 20, 20],
+            backgroundColor: ['#1d1815', '#914724', '#b45309', '#d97736'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { 
+            legend: { position: 'right', labels: { boxWidth: 12, padding: 8, font: { size: 10, family: 'Be Vietnam Pro' } } },
+            tooltip: tooltipConfig 
+          }
+        }
+      });
+    }
+
+    function initAiBomChart() {
+      if (aiBomChartInstance) return;
+      aiBomChartInstance = new Chart(document.getElementById('aiBomChart'), {
+        type: 'doughnut',
+        data: {
+          labels: chartLabels.aiBom,
+          datasets: [{
+            data: [5400, 3750, 375, 0],
+            backgroundColor: ['#914724', '#b45309', '#d97736', '#e6e1dd'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { family: 'Be Vietnam Pro' } } }
+          }
+        }
+      });
+    }
+
+    function initAiGrowthChart() {
+      if (aiGrowthChartInstance) return;
+      aiGrowthChartInstance = new Chart(document.getElementById('aiGrowthChart'), {
+        type: 'line',
+        data: {
+          labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+          datasets: [{
+            label: 'Software Revenue (Million VND)',
+            data: [408, 850, 2200, 3500, 5200],
+            borderColor: '#914724',
+            backgroundColor: 'rgba(145, 71, 36, 0.08)',
+            fill: true,
+            tension: 0.4,
+            borderWidth: 3
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // Scroll reveal observer logic
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    // Numeric count-up animation logic
+    function animateValue(obj, start, end, duration, decimals, prefix, suffix, useCommas) {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic Ease Out
+        const value = start + easeProgress * (end - start);
+        let formattedValue = value.toFixed(decimals);
+        if (useCommas) {
+          formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        obj.innerHTML = prefix + formattedValue + suffix;
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.getAttribute('data-target'));
+          const duration = parseInt(el.getAttribute('data-duration') || '1500');
+          const decimals = parseInt(el.getAttribute('data-decimals') || '0');
+          const prefix = el.getAttribute('data-prefix') || '';
+          const suffix = el.getAttribute('data-suffix') || '';
+          const useCommas = el.getAttribute('data-use-commas') === 'true';
+          
+          animateValue(el, 0, target, duration, decimals, prefix, suffix, useCommas);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    // Chart scroll-trigger observer
+    const chartObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          if (id === 'marketChartContainer') initMarketChart();
+          else if (id === 'financialBomChartContainer') initFinancialBomChart();
+          else if (id === 'growthChartContainer') initGrowthChart();
+          else if (id === 'ltvCocaChartContainer') initLtvCocaChart();
+          else if (id === 'fundingChartContainer') initFundingChart();
+          else if (id === 'aiBomChartContainer') initAiBomChart();
+          else if (id === 'aiGrowthChartContainer') initAiGrowthChart();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    // Observe elements on load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Observe reveal sections
+      document.querySelectorAll('.reveal').forEach(el => {
+        revealObserver.observe(el);
+      });
+      // Observe counters
+      document.querySelectorAll('.counter').forEach(el => {
+        counterObserver.observe(el);
+      });
+      // Observe chart containers
+      chartObserver.observe(document.getElementById('marketChartContainer'));
+      chartObserver.observe(document.getElementById('financialBomChartContainer'));
+      chartObserver.observe(document.getElementById('growthChartContainer'));
+      chartObserver.observe(document.getElementById('ltvCocaChartContainer'));
+      chartObserver.observe(document.getElementById('fundingChartContainer'));
+      chartObserver.observe(document.getElementById('aiBomChartContainer'));
+      chartObserver.observe(document.getElementById('aiGrowthChartContainer'));
+    });
+
+    // Scrollspy for sticky navigation
+    const sections = document.querySelectorAll('main > section[id]');
+    const navLinks = document.querySelectorAll('div.sticky a');
+
+    window.addEventListener('scroll', () => {
+      let currentSectionId = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.scrollY >= sectionTop - 150) {
+          currentSectionId = section.getAttribute('id');
+        }
+      });
+
+      if (!currentSectionId && sections.length > 0) {
+        currentSectionId = sections[0].getAttribute('id');
+      }
+
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === `#${currentSectionId}`) {
+          link.className = "px-3 py-4 font-bold border-b-3 border-brand-primary text-brand-primary focus:outline-none transition-all text-xs sm:text-sm whitespace-nowrap";
+        } else {
+          link.className = "px-3 py-4 font-bold border-b-3 border-transparent text-brand-textMuted hover:text-brand-textPrimary focus:outline-none transition-all text-xs sm:text-sm whitespace-nowrap";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

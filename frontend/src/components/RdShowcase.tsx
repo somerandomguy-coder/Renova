@@ -152,7 +152,7 @@ export default function RdShowcase({ lang }: RdShowcaseProps) {
   ];
 
   return (
-    <section id="thu-vien-rd" className="relative">
+    <section id="thu-vien-rd" className={`relative ${selectedSample !== null ? "z-[100]" : ""}`}>
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">

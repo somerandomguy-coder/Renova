@@ -60,12 +60,13 @@ def test_esg_calculator():
     response = client.post("/api/v1/calculate/esg", json=payload)
     assert response.status_code == 200
     data = response.json()
-    # 1000 bricks * 50% * 1.5 = 750kg plastic, 750kg husk
-    assert data["mlp_rescued_kg"] == 750.0
-    assert data["husk_consumed_kg"] == 750.0
-    # co2 = 750 * 1.95 + 750 * 1.20 = 1462.5 + 900 = 2362.5
-    assert data["co2_reduced_kg"] == 2362.5
-    assert data["trees_equivalent"] == round(2362.5 / 22.0, 1)
+    # 1000 bricks * ((50.0 * 40.0 / 70.0) / 100.0) * 1.5 = 428.57 kg MLP rescued
+    # 1000 bricks * ((95.0 - 50.0) / 100.0) * 1.5 = 675.0 kg husk consumed
+    assert data["mlp_rescued_kg"] == 428.57
+    assert data["husk_consumed_kg"] == 675.0
+    # co2 = 1000 * 0.37 + (1000 * 0.5 * 1.5) * 0.80 + 675.0 * 0.77 = 370 + 600 + 519.75 = 1489.75
+    assert data["co2_reduced_kg"] == 1489.75
+    assert data["trees_equivalent"] == round(1489.75 / 22.0, 1)
 
 def test_epr_calculator():
     payload = {
@@ -77,7 +78,7 @@ def test_epr_calculator():
     data = response.json()
     assert data["standard_epr_fee_vnd"] == 1000 * 15000.0
     assert data["optimized_epr_fee_vnd"] == (1000 * 15000.0) * 0.60
-    assert data["renova_bricks_needed"] == pytest.approx(1334, rel=1) # 1000 / 0.75 = 1333.33 -> ceil is 1334
+    assert data["renova_bricks_needed"] == 1667 # 1000 / 0.60 = 1666.67 -> ceil is 1667
 
 def test_register_epr_partner():
     payload = {

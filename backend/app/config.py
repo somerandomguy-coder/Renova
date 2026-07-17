@@ -1,6 +1,8 @@
 import os
+import json
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Union, Any, Optional
+from pydantic import field_validator
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "RENOVA Circular & ESG API"
@@ -9,12 +11,30 @@ class Settings(BaseSettings):
     # Database configuration
     # By default, use SQLite located in the backend folder
     DATABASE_URL: str = "sqlite:///./renova.db"
+    TURSO_AUTH_TOKEN: Optional[str] = None
     
     # CORS Origins
-    CORS_ORIGINS: List[str] = [
+    CORS_ORIGINS: Any = [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
     ]
+    
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
+        if isinstance(v, str):
+            v = v.strip()
+            if v.startswith("[") and v.endswith("]"):
+                try:
+                    origins = json.loads(v)
+                except Exception:
+                    origins = [item.strip() for item in v.split(",") if item.strip()]
+            else:
+                origins = [item.strip() for item in v.split(",") if item.strip()]
+        else:
+            origins = v
+        # Automatically strip trailing slashes and quotes to prevent browser CORS mismatches
+        return [origin.strip("\"'").rstrip("/") for origin in origins]
     
     # Email configurations (Mocked by default if not set)
     SMTP_HOST: str = "smtp.gmail.com"

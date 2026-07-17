@@ -13,6 +13,7 @@ import RegistrationForms from "@/components/RegistrationForms";
 import TeamSection from "@/components/TeamSection";
 import Stakeholders from "@/components/Stakeholders";
 import Milestones from "@/components/Milestones";
+import FinancialReport from "@/components/FinancialReport";
 
 const navTranslations = {
   vi: {
@@ -23,6 +24,7 @@ const navTranslations = {
     epr: "Quy trình EPR",
     team: "Về chúng tôi",
     awards: "Bảng vàng",
+    finance: "Thông tin tài chính",
     cta: "Hợp tác ngay"
   },
   en: {
@@ -33,6 +35,7 @@ const navTranslations = {
     epr: "EPR Workflow",
     team: "Core Team",
     awards: "Milestones",
+    finance: "Financial Info",
     cta: "Partner Now"
   }
 };
@@ -45,6 +48,7 @@ const footerTranslations = {
     esgTitle: "Tầm nhìn ESG",
     calcTitle: "Bộ tính toán ESG",
     partnerTitle: "Đăng ký hợp tác",
+    financeTitle: "Thông tin tài chính",
     contact: "Liên hệ",
     lab: "📍 Lab Nghiên cứu R&D Vật liệu mới, Đại học Bách khoa TP.HCM",
     rights: `© ${new Date().getFullYear()} RENOVA Circular. Bảo lưu mọi quyền.`,
@@ -58,6 +62,7 @@ const footerTranslations = {
     esgTitle: "ESG Vision",
     calcTitle: "ESG Calculator",
     partnerTitle: "Partner Registration",
+    financeTitle: "Financial Info",
     contact: "Contact Details",
     lab: "📍 New Materials R&D Lab, HCMC University of Technology (BK-HCMUT)",
     rights: `© ${new Date().getFullYear()} RENOVA Circular. All rights reserved.`,
@@ -76,8 +81,8 @@ export default function Home() {
     <>
       {/* Sticky Header / Navigation */}
       <header className="sticky top-0 z-50 bg-white/85 dark:bg-zinc-950/85 backdrop-blur-md border-b border-black/5 dark:border-white/5">
-        <div className="container flex justify-between items-center h-20 relative">
-          <div className="flex items-center gap-3">
+        <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 flex justify-between items-center h-20 relative">
+          <div className="flex items-center gap-3 shrink-0">
             <img 
               src="/Logo.png" 
               alt="RENOVA Logo" 
@@ -88,19 +93,20 @@ export default function Home() {
             </span>
           </div>
 
-          <nav className="hidden xl:flex items-center gap-4 xl:gap-6">
-            <ul className="flex gap-4 xl:gap-6 2xl:gap-8 list-none">
-              <li><a href="#trang-chu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.about}</a></li>
-              <li><a href="#tam-nhin-esg" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.esg}</a></li>
-              <li><a href="#thu-vien-rd" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.rd}</a></li>
-              <li><a href="#tinh-toan" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.calc}</a></li>
-              <li><a href="#quy-trinh-epr" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.epr}</a></li>
-              <li><a href="#doi-ngu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.team}</a></li>
-              <li><a href="#thanh-tuu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-sm">{nav.awards}</a></li>
+          <nav className="hidden xl:flex items-center justify-center flex-1 mx-4 xl:mx-6 min-w-0">
+            <ul className="flex gap-2 xl:gap-3 2xl:gap-5 list-none justify-center">
+              <li><a href="#trang-chu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.about}</a></li>
+              <li><a href="#tam-nhin-esg" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.esg}</a></li>
+              <li><a href="#thu-vien-rd" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.rd}</a></li>
+              <li><a href="#tinh-toan" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.calc}</a></li>
+              <li><a href="#quy-trinh-epr" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.epr}</a></li>
+              <li><a href="#doi-ngu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.team}</a></li>
+              <li><a href="#thanh-tuu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.awards}</a></li>
+              <li><a href="#tai-chinh" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.finance}</a></li>
             </ul>
           </nav>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-6 xl:gap-8 shrink-0">
             {/* Language Selector Toggle */}
             <div className="flex items-center gap-1.5 bg-black/3 dark:bg-white/3 p-1 rounded-full border border-brand-border">
               <button 
@@ -121,7 +127,7 @@ export default function Home() {
               </button>
             </div>
 
-            <a href="#dang-ky" className="btn-primary header-cta hidden xl:inline-flex px-5 py-2 text-sm">
+            <a href="#dang-ky" className="btn-primary header-cta hidden xl:inline-flex px-5 py-2 text-sm whitespace-nowrap">
               {nav.cta}
             </a>
 
@@ -145,6 +151,7 @@ export default function Home() {
                 <li><a href="#quy-trinh-epr" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.epr}</a></li>
                 <li><a href="#doi-ngu" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.team}</a></li>
                 <li><a href="#thanh-tuu" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.awards}</a></li>
+                <li><a href="#tai-chinh" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.finance}</a></li>
               </ul>
               
               <a 
@@ -172,6 +179,7 @@ export default function Home() {
         <TeamSection lang={lang} />
         <Stakeholders lang={lang} />
         <Milestones lang={lang} />
+        <FinancialReport lang={lang} />
       </main>
 
       {/* Footer */}
@@ -198,6 +206,7 @@ export default function Home() {
               <a href="#trang-chu" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.home}</a>
               <a href="#tam-nhin-esg" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.esgTitle}</a>
               <a href="#tinh-toan" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.calcTitle}</a>
+              <a href="#tai-chinh" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.financeTitle}</a>
               <a href="#dang-ky" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.partnerTitle}</a>
             </div>
 

@@ -72,18 +72,28 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
       title: t.advisors[0].title,
       institution: t.advisors[0].institution,
       role: t.advisors[0].role,
-      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300"
+      avatar: "/team/vo_thanh_hang.jpeg"
     },
     {
       name: "Ms. Duong Thi Thanh",
       title: t.advisors[1].title,
       institution: t.advisors[1].institution,
       role: t.advisors[1].role,
-      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300"
+      avatar: "/team/duong_thi_thanh.jpeg"
     }
   ];
 
-  const partners = t.partners;
+  const partners = t.partners.map((partner, index) => {
+    let logo = "";
+    if (index === 0 || index === 1 || index === 4) {
+      logo = "/logos/hcmut.png";
+    } else if (index === 2) {
+      logo = "/logos/vwra.png";
+    } else if (index === 3) {
+      logo = "/logos/dow.png";
+    }
+    return { ...partner, logo };
+  });
 
   return (
     <section id="doi-tac" className="relative py-20 bg-brand-bg-dark/20">
@@ -110,11 +120,19 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
                 {/* Duplicate array to ensure seamless infinite looping */}
                 {[...partners, ...partners].map((partner, idx) => (
                   <div key={idx} className="logo-item">
-                    <div className="bg-brand-bg-card border border-brand-border rounded-xl py-4 px-6 flex flex-col items-center justify-center w-[220px] h-20 text-center shadow-xs">
-                      <span className="font-extrabold text-brand-text-primary text-[15px] font-heading">
-                        {partner.name}
-                      </span>
-                      <span className="text-[10px] text-brand-text-muted mt-0.5">
+                    <div className="bg-brand-bg-card border border-brand-border rounded-xl py-3 px-5 flex flex-col items-center justify-center w-[220px] h-20 text-center shadow-xs">
+                      {partner.logo ? (
+                        <img 
+                          src={partner.logo} 
+                          alt={partner.name} 
+                          className="h-8 w-auto object-contain mb-1 dark:brightness-110"
+                        />
+                      ) : (
+                        <span className="font-extrabold text-brand-text-primary text-[14px] font-heading mb-0.5">
+                          {partner.name}
+                        </span>
+                      )}
+                      <span className="text-[9px] text-brand-text-muted mt-0.5 uppercase tracking-wide font-bold">
                         {partner.desc}
                       </span>
                     </div>
