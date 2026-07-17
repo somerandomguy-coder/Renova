@@ -20,7 +20,9 @@ const translations = {
       { name: "FENR - HCMUT", desc: "Khoa Môi trường & Tài nguyên" },
       { name: "VWRA VIETNAM", desc: "Hiệp hội Quản lý chất thải Việt Nam" },
       { name: "DOW CHEMICAL", desc: "Dow Vietnam Corporation" },
-      { name: "HCMUT LAB R&D", desc: "Lab Nghiên cứu Vật liệu mới" }
+      { name: "HCMUT LAB R&D", desc: "Lab Nghiên cứu Vật liệu mới" },
+      { name: "MÔI TRƯỜNG ANH THỦY", desc: "Công ty CP Thiết bị & Môi trường Anh Thủy" },
+      { name: "THANH TÙNG 2", desc: "Công ty TNHH MTV Thanh Tùng 2" }
     ],
     advisors: [
       {
@@ -46,7 +48,9 @@ const translations = {
       { name: "FENR - HCMUT", desc: "Faculty of Environment & Natural Resources" },
       { name: "VWRA VIETNAM", desc: "Vietnam Waste Recycling Association" },
       { name: "DOW CHEMICAL", desc: "Dow Vietnam Corporation" },
-      { name: "HCMUT LAB R&D", desc: "New Materials R&D Lab" }
+      { name: "HCMUT LAB R&D", desc: "New Materials R&D Lab" },
+      { name: "ANH THUY ENVIRONMENT", desc: "Anh Thuy Environmental Technology JSC" },
+      { name: "THANH TUNG 2", desc: "Thanh Tung 2 Waste Management Co., Ltd" }
     ],
     advisors: [
       {
@@ -85,12 +89,18 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
 
   const partners = t.partners.map((partner, index) => {
     let logo = "";
-    if (index === 0 || index === 1 || index === 4) {
+    if (index === 0 || index === 1) {
       logo = "/logos/hcmut.png";
     } else if (index === 2) {
       logo = "/logos/vwra.png";
     } else if (index === 3) {
       logo = "/logos/dow.png";
+    } else if (index === 4) {
+      logo = "/logos/hcmut_lab.png";
+    } else if (index === 5) {
+      logo = "/logos/anh_thuy.png";
+    } else if (index === 6) {
+      logo = "/logos/thanh_tung_2.png";
     }
     return { ...partner, logo };
   });

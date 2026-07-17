@@ -400,9 +400,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
 
           <ScrollReveal className="bg-white dark:bg-zinc-900 rounded-3xl border border-brand-border dark:border-white/5 overflow-hidden mt-8 shadow-xs">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse text-brand-text-primary dark:text-zinc-300">
                 <thead>
-                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
+                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted dark:text-zinc-400 font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
                     <th className="p-4">{t.indicator}</th>
                     <th className="p-4">{t.metric}</th>
                     <th className="p-4">{t.formula}</th>
@@ -412,21 +412,21 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                 <tbody className="divide-y divide-brand-border dark:divide-white/5 text-sm">
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-bold text-brand-text-primary dark:text-white">TAM</td>
-                    <td className="p-4 font-bold text-brand-primary">11,11 tỷ USD (2029)</td>
+                    <td className="p-4 font-bold text-brand-primary dark:text-orange-400">11,11 tỷ USD (2029)</td>
                     <td className="p-4">{t.aboutMarket}</td>
-                    <td className="p-4 text-brand-text-muted">{t.citation} Mordor (2025)</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.citation} Mordor (2025)</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-bold text-brand-text-primary dark:text-white">SAM</td>
-                    <td className="p-4 font-bold text-brand-secondary">35% market share</td>
+                    <td className="p-4 font-bold text-brand-secondary dark:text-amber-400">35% market share</td>
                     <td className="p-4">{t.targetMarket}</td>
-                    <td className="p-4 text-brand-text-muted">VLXDgiatot & USGBC</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">VLXDgiatot & USGBC</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-bold text-brand-text-primary dark:text-white">SOM</td>
-                    <td className="p-4 font-bold text-brand-accent">{t.somDetail}</td>
+                    <td className="p-4 font-bold text-brand-accent dark:text-orange-300">{t.somDetail}</td>
                     <td className="p-4">{t.achievedMarket}</td>
-                    <td className="p-4 text-brand-text-muted">OEM Ánh Thủy Pilot line</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">OEM Ánh Thủy Pilot line</td>
                   </tr>
                 </tbody>
               </table>
@@ -557,9 +557,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
           {/* BOM Breakdown Table */}
           <ScrollReveal className="bg-white dark:bg-zinc-900 rounded-3xl border border-brand-border dark:border-white/5 overflow-hidden shadow-xs mb-8">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse text-brand-text-primary dark:text-zinc-300">
                 <thead>
-                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
+                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted dark:text-zinc-400 font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
                     <th className="p-4 font-bold">{t.component}</th>
                     <th className="p-4 font-bold">{t.ratio}</th>
                     <th className="p-4 font-bold">{t.weight}</th>
@@ -574,8 +574,8 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                     <td className="p-4">40%</td>
                     <td className="p-4">0.6 kg</td>
                     <td className="p-4">0 VNĐ/kg</td>
-                    <td className="p-4 font-bold text-emerald-600">0 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.mlpDesc}</td>
+                    <td className="p-4 font-bold text-emerald-600 dark:text-emerald-400">0 VNĐ</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.mlpDesc}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">Nhựa HDPE Tái Chế</td>
@@ -583,7 +583,7 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                     <td className="p-4">0.45 kg</td>
                     <td className="p-4">12,000 VNĐ/kg</td>
                     <td className="p-4 font-bold">5,400 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.hdpeDesc}</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.hdpeDesc}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">Vỏ trấu nông nghiệp</td>
@@ -591,7 +591,7 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                     <td className="p-4">0.365 kg</td>
                     <td className="p-4">1,000 VNĐ/kg</td>
                     <td className="p-4 font-bold">375 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.huskDesc}</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.huskDesc}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">Phụ gia PE-g-MA</td>
@@ -599,7 +599,7 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                     <td className="p-4">0.075 kg</td>
                     <td className="p-4">50,000 VNĐ/kg</td>
                     <td className="p-4 font-bold">3,750 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.peDesc}</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.peDesc}</td>
                   </tr>
                   <tr className="bg-brand-primary/6 font-bold text-brand-primary dark:bg-brand-primary/5 dark:text-zinc-200">
                     <td className="p-4">{t.totalBom}</td>
@@ -620,9 +620,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
           </ScrollReveal>
           <ScrollReveal className="bg-white dark:bg-zinc-900 rounded-3xl border border-brand-border dark:border-white/5 overflow-hidden shadow-xs mb-8">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-sm">
+              <table className="w-full text-left border-collapse text-brand-text-primary dark:text-zinc-300 text-sm">
                 <thead>
-                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
+                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted dark:text-zinc-400 font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
                     <th className="p-4">{t.opexTableHead[0]}</th>
                     <th className="p-4">{t.opexTableHead[1]}</th>
                     <th className="p-4">{t.opexTableHead[2]}</th>
@@ -631,33 +631,33 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                 <tbody className="divide-y divide-brand-border dark:divide-white/5">
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.labor}</td>
-                    <td className="p-4 font-bold text-brand-text-primary dark:text-white">24,000,000 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.laborDesc}</td>
+                    <td className="p-4 font-bold">24,000,000 VNĐ</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.laborDesc}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.utility}</td>
-                    <td className="p-4 font-bold text-brand-text-primary dark:text-white">15,000,000 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.utilityDesc}</td>
+                    <td className="p-4 font-bold">15,000,000 VNĐ</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.utilityDesc}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.rent}</td>
-                    <td className="p-4 font-bold text-brand-text-primary dark:text-white">15,000,000 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.rentDesc}</td>
+                    <td className="p-4 font-bold">15,000,000 VNĐ</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.rentDesc}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.treatment}</td>
-                    <td className="p-4 font-bold text-brand-text-primary dark:text-white">9,000,000 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.treatmentDesc}</td>
+                    <td className="p-4 font-bold">9,000,000 VNĐ</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.treatmentDesc}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.depreciation}</td>
-                    <td className="p-4 font-bold text-brand-text-primary dark:text-white">4,333,000 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.depreciationDesc}</td>
+                    <td className="p-4 font-bold">4,333,000 VNĐ</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.depreciationDesc}</td>
                   </tr>
                   <tr className="bg-brand-primary/6 font-bold text-brand-primary dark:bg-brand-primary/5 dark:text-zinc-200 border-t border-brand-primary">
                     <td className="p-4">{t.totalOpex}</td>
                     <td className="p-4">67,333,000 VNĐ</td>
-                    <td className="p-4">Phân bổ OPEX/Q = 6,733 VNĐ/viên</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">Phân bổ OPEX/Q = 6,733 VNĐ/viên</td>
                   </tr>
                 </tbody>
               </table>
@@ -670,9 +670,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
           </ScrollReveal>
           <ScrollReveal className="bg-white dark:bg-zinc-900 rounded-3xl border border-brand-border dark:border-white/5 overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-sm">
+              <table className="w-full text-left border-collapse text-brand-text-primary dark:text-zinc-300 text-sm">
                 <thead>
-                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
+                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted dark:text-zinc-400 font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
                     <th className="p-4">{t.indicator}</th>
                     <th className="p-4">{t.metric}</th>
                     <th className="p-4">{t.formula}</th>
@@ -682,32 +682,32 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.totalCogs}</td>
                     <td className="p-4 font-bold">16,258 VNĐ/viên</td>
-                    <td className="p-4 text-brand-text-muted">{t.cogsDetailVal}</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.cogsDetailVal}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.brickSales}</td>
                     <td className="p-4 font-bold">300,000,000 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.brickSalesVal}</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.brickSalesVal}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.eprSales}</td>
                     <td className="p-4 font-bold">28,800,000 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">{t.eprSalesVal}</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">{t.eprSalesVal}</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.totalRev}</td>
                     <td className="p-4 font-bold">328,800,000 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">TR = Doanh thu Gạch + Doanh thu EPR</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">TR = Doanh thu Gạch + Doanh thu EPR</td>
                   </tr>
                   <tr className="hover:bg-brand-primary/3 dark:hover:bg-white/3 transition">
                     <td className="p-4 font-semibold">{t.totalCost}</td>
                     <td className="p-4 font-bold">162,580,000 VNĐ</td>
-                    <td className="p-4 text-brand-text-muted">TC = 10,000 viên × COGS</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">TC = 10,000 viên × COGS</td>
                   </tr>
                   <tr className="bg-brand-primary/6 font-bold text-brand-primary dark:bg-brand-primary/5 dark:text-zinc-200">
                     <td className="p-4">{t.grossProfit}</td>
                     <td className="p-4">166,220,000 VNĐ</td>
-                    <td className="p-4">GP = TR - TC (Gross Margin = 50.5%)</td>
+                    <td className="p-4 text-brand-text-muted dark:text-zinc-400">GP = TR - TC (Gross Margin = 50.5%)</td>
                   </tr>
                 </tbody>
               </table>
@@ -828,9 +828,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
           {/* Cashflow Table */}
           <ScrollReveal className="bg-white dark:bg-zinc-900 rounded-3xl border border-brand-border dark:border-white/5 overflow-hidden shadow-xs mb-8">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-sm">
+              <table className="w-full text-left border-collapse text-brand-text-primary dark:text-zinc-300 text-sm">
                 <thead>
-                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
+                  <tr className="bg-brand-bg-dark dark:bg-zinc-800 text-brand-text-muted dark:text-zinc-400 font-bold text-xs uppercase tracking-wider border-b border-brand-border dark:border-white/5">
                     <th className="p-4">{t.cashflowTable[0]}</th>
                     <th className="p-4">{t.cashflowTable[1]}</th>
                     <th className="p-4">{t.cashflowTable[2]}</th>
@@ -916,7 +916,7 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                 </tbody>
               </table>
             </div>
-            <p className="text-[10px] text-brand-text-muted p-4 border-t border-brand-border dark:border-white/5 italic">
+            <p className="text-[10px] text-brand-text-muted dark:text-zinc-400 p-4 border-t border-brand-border dark:border-white/5 italic">
               {t.noteY0}
             </p>
           </ScrollReveal>
