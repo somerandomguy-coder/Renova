@@ -109,7 +109,8 @@ export default function Milestones({ lang }: MilestonesProps) {
       title: t.awards[0].title,
       subtitle: t.awards[0].subtitle,
       description: t.awards[0].description,
-      link: "#",
+      fbLink: "https://www.facebook.com/share/p/19CPzNJHM3/",
+      certLink: "/cert_work_application.pdf",
       certName: t.awards[0].certName,
       date: t.awards[0].date
     },
@@ -117,7 +118,8 @@ export default function Milestones({ lang }: MilestonesProps) {
       title: t.awards[1].title,
       subtitle: t.awards[1].subtitle,
       description: t.awards[1].description,
-      link: "#",
+      fbLink: "https://www.facebook.com/share/p/19Ys4G1HJj/",
+      certLink: "/cert_work_application.pdf",
       certName: t.awards[1].certName,
       date: t.awards[1].date
     }
@@ -187,14 +189,32 @@ export default function Milestones({ lang }: MilestonesProps) {
                 {award.description}
               </p>
 
-              <div className="flex border-t border-brand-border/50 pt-4 mt-2">
-                <a 
-                  href={award.link}
-                  className="inline-flex items-center gap-2 text-brand-primary hover:underline text-sm font-semibold transition-all"
-                >
-                  <ExternalLink size={16} />
-                  {award.certName}{t.certScanText}
-                </a>
+              <div className="flex flex-wrap gap-4 border-t border-brand-border/50 pt-4 mt-2">
+                {award.fbLink && (
+                  <a 
+                    href={award.fbLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-brand-primary hover:underline text-xs sm:text-sm font-semibold transition-all"
+                  >
+                    <ExternalLink size={14} />
+                    {lang === "vi" ? "Xem bài đăng công bố" : "View Announcement Post"}
+                  </a>
+                )}
+                {award.fbLink && award.certLink && (
+                  <span className="text-brand-border dark:text-white/10 hidden sm:inline">|</span>
+                )}
+                {award.certLink && (
+                  <a 
+                    href={award.certLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-brand-primary hover:underline text-xs sm:text-sm font-semibold transition-all"
+                  >
+                    <ExternalLink size={14} />
+                    {award.certName}{t.certScanText}
+                  </a>
+                )}
               </div>
             </div>
           ))}
