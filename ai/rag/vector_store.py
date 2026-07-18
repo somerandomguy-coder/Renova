@@ -34,8 +34,9 @@ class HuggingFaceEmbeddingFunction:
         self.model_name = model_name
 
     def __call__(self, input: list[str]) -> list[list[float]]:
-        """Generate embeddings for a list of texts."""
+        """Generate embeddings for a list of texts with automatic retries for network startup."""
         import os
+        import time
         hf_token = os.getenv("HF_API_KEY") or os.getenv("HF_TOKEN")
         headers = {"Content-Type": "application/json"}
         if hf_token:
@@ -50,28 +51,43 @@ class HuggingFaceEmbeddingFunction:
             method="POST",
         )
 
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                embeddings = json.loads(resp.read().decode("utf-8"))
-            return embeddings
-        except Exception as e:
-            print(f"[HuggingFace Embedding] Error: {e}. Retrying with smaller batch...")
-            # Fallback: process one at a time
-            results = []
-            for text in input:
-                single_payload = json.dumps(
-                    {"inputs": [text], "options": {"wait_for_model": True}}
-                ).encode("utf-8")
-                single_req = urllib.request.Request(
-                    self.api_url,
-                    data=single_payload,
-                    headers=headers,
-                    method="POST",
-                )
-                with urllib.request.urlopen(single_req, timeout=30) as resp:
-                    result = json.loads(resp.read().decode("utf-8"))
-                results.append(result[0] if isinstance(result[0], list) else result)
-            return results
+        max_retries = 5
+        for attempt in range(max_retries):
+            try:
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    embeddings = json.loads(resp.read().decode("utf-8"))
+                return embeddings
+            except Exception as e:
+                print(f"[HuggingFace Embedding] Attempt {attempt+1}/{max_retries} failed: {e}")
+                if attempt < max_retries - 1:
+                    time.sleep(3)  # Wait 3 seconds for network/DNS to initialize
+                else:
+                    print("[HuggingFace Embedding] Batch failed. Trying single items fallback...")
+                    results = []
+                    for text in input:
+                        single_payload = json.dumps(
+                            {"inputs": [text], "options": {"wait_for_model": True}}
+                        ).encode("utf-8")
+                        single_req = urllib.request.Request(
+                            self.api_url,
+                            data=single_payload,
+                            headers=headers,
+                            method="POST",
+                        )
+                        item_success = False
+                        for single_attempt in range(3):
+                            try:
+                                with urllib.request.urlopen(single_req, timeout=30) as resp:
+                                    result = json.loads(resp.read().decode("utf-8"))
+                                results.append(result[0] if isinstance(result[0], list) else result)
+                                item_success = True
+                                break
+                            except Exception as single_err:
+                                print(f"[HuggingFace Embedding] Single item attempt {single_attempt+1} failed: {single_err}")
+                                time.sleep(2)
+                        if not item_success:
+                            raise e  # Bubble up the original exception if single items also fail
+                    return results
 
 
 def _get_embedding_function() -> Any:
