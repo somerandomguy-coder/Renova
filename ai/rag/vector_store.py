@@ -22,7 +22,7 @@ _collection: Any = None
 COLLECTION_NAME = "renova_knowledge"
 
 
-class HuggingFaceEmbeddingFunction:
+class HuggingFaceEmbeddingFunction(chromadb.EmbeddingFunction):
     """Cloud embedding function using the official HuggingFace Inference Client SDK.
 
     No API key required for public models, but HF_TOKEN is recommended to avoid rate limits.
@@ -30,6 +30,9 @@ class HuggingFaceEmbeddingFunction:
 
     def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
         self.model_name = model_name
+
+    def name(self) -> str:
+        return "HuggingFaceEmbeddingFunction"
 
     def __call__(self, input: list[str]) -> list[list[float]]:
         """Generate embeddings using the official InferenceClient."""
