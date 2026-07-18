@@ -30,7 +30,7 @@ class HuggingFaceEmbeddingFunction:
     """
 
     def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
-        self.api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_name}"
+        self.api_url = f"https://api-inference.huggingface.co/models/{model_name}"
         self.model_name = model_name
 
     def __call__(self, input: list[str]) -> list[list[float]]:
