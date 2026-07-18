@@ -161,7 +161,7 @@ export default function AiChat({ lang }: AiChatProps) {
         .slice(1, -1) // skip welcome, skip latest user message (it goes in 'message')
         .map((m) => ({ role: m.role, content: m.content }));
 
-      const response = await fetch(`${API_BASE_URL}/api/v1/ai/chat`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/ai/chat/stream`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -174,16 +174,85 @@ export default function AiChat({ lang }: AiChatProps) {
         throw new Error(`HTTP ${response.status}`);
       }
 
-      const data = await response.json();
-      const assistantMessage: ChatMessage = {
-        role: "assistant",
-        content: data.reply,
-        sources: data.sources?.length > 0 ? data.sources : undefined,
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch {
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error("No response body");
+
+      const decoder = new TextDecoder();
+      let streamedContent = "";
+      let streamedSources: string[] | undefined;
+
+      // Add a placeholder assistant message that we'll update as tokens arrive
       setMessages((prev) => [
         ...prev,
+        { role: "assistant", content: "", sources: undefined },
+      ]);
+
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        // Parse SSE events from buffer (split on double newlines)
+        const events = buffer.split("\n\n");
+        buffer = events.pop() || ""; // Keep incomplete event in buffer
+
+        for (const event of events) {
+          const dataLine = event.trim();
+          if (!dataLine.startsWith("data: ")) continue;
+
+          try {
+            const data = JSON.parse(dataLine.slice(6));
+
+            if (data.type === "sources") {
+              streamedSources = data.sources?.length > 0 ? data.sources : undefined;
+            } else if (data.type === "token") {
+              streamedContent += data.token;
+              // Update the last message with new content
+              setMessages((prev) => {
+                const updated = [...prev];
+                updated[updated.length - 1] = {
+                  role: "assistant",
+                  content: streamedContent,
+                  sources: streamedSources,
+                };
+                return updated;
+              });
+            } else if (data.type === "error") {
+              streamedContent = data.message || t.errorOffline;
+              setMessages((prev) => {
+                const updated = [...prev];
+                updated[updated.length - 1] = {
+                  role: "assistant",
+                  content: streamedContent,
+                };
+                return updated;
+              });
+            }
+            // "done" type — streaming complete, no action needed
+          } catch {
+            // Skip malformed JSON
+          }
+        }
+      }
+
+      // Final update with sources attached
+      if (streamedContent) {
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            role: "assistant",
+            content: streamedContent,
+            sources: streamedSources,
+          };
+          return updated;
+        });
+      }
+    } catch {
+      setMessages((prev) => [
+        ...prev.filter((m) => m.content !== ""), // Remove empty placeholder if exists
         {
           role: "assistant",
           content: t.errorOffline,

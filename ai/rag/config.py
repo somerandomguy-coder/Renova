@@ -2,7 +2,7 @@
 RENOVA AI RAG — Configuration
 
 Provider-agnostic LLM configuration using OpenAI-compatible API.
-Supports Ollama (local), OpenAI, and Gemini by changing env vars.
+Supports Ollama (local), OpenAI, Groq, and Gemini by changing env vars.
 """
 
 import os
@@ -28,6 +28,18 @@ class RAGConfig:
         default_factory=lambda: os.getenv("LLM_BASE_URL", "http://localhost:11434/v1")
     )
     llm_api_key: str = field(default_factory=lambda: os.getenv("LLM_API_KEY", "ollama"))
+
+    # Embedding settings
+    # "local" = ChromaDB's built-in onnxruntime (fast on good CPU, slow on free tier)
+    # "huggingface" = Free HuggingFace Inference API (fast everywhere, no API key needed)
+    embedding_provider: str = field(
+        default_factory=lambda: os.getenv("EMBEDDING_PROVIDER", "local")
+    )
+    embedding_model: str = field(
+        default_factory=lambda: os.getenv(
+            "EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"
+        )
+    )
 
     # RAG settings
     chunk_size: int = field(default_factory=lambda: int(os.getenv("RAG_CHUNK_SIZE", "500")))
