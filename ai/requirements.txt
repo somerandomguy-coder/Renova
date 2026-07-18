@@ -1,0 +1,6 @@
+# RENOVA AI — Python Dependencies
+# These are separate from the backend's requirements.txt to keep concerns isolated.
+# NOTE: No PyTorch/sentence-transformers needed — ChromaDB's built-in embeddings are used.
+
+openai>=1.82.0
+chromadb>=1.0.0
