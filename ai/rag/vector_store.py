@@ -35,12 +35,18 @@ class HuggingFaceEmbeddingFunction:
 
     def __call__(self, input: list[str]) -> list[list[float]]:
         """Generate embeddings for a list of texts."""
+        import os
+        hf_token = os.getenv("HF_API_KEY") or os.getenv("HF_TOKEN")
+        headers = {"Content-Type": "application/json"}
+        if hf_token:
+            headers["Authorization"] = f"Bearer {hf_token}"
+
         payload = json.dumps({"inputs": input, "options": {"wait_for_model": True}}).encode("utf-8")
 
         req = urllib.request.Request(
             self.api_url,
             data=payload,
-            headers={"Content-Type": "application/json"},
+            headers=headers,
             method="POST",
         )
 
@@ -59,7 +65,7 @@ class HuggingFaceEmbeddingFunction:
                 single_req = urllib.request.Request(
                     self.api_url,
                     data=single_payload,
-                    headers={"Content-Type": "application/json"},
+                    headers=headers,
                     method="POST",
                 )
                 with urllib.request.urlopen(single_req, timeout=30) as resp:
