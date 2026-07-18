@@ -131,4 +131,8 @@ def ingest_knowledge():
 
 
 if __name__ == "__main__":
-    ingest_knowledge()
+    try:
+        ingest_knowledge()
+    except Exception as e:
+        print(f"[INGEST ERROR] Failed to ingest knowledge base: {e}")
+        print("[INGEST] Continuing startup anyway to avoid blocking container deployment.")
