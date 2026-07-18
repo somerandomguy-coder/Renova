@@ -606,7 +606,8 @@ Dear {name_plain},
 
 # --- AI CHAT ENDPOINTS ---
 
-from app.services.ai_chat import chat as ai_chat
+from app.services.ai_chat import chat as ai_chat, chat_stream as ai_chat_stream
+from fastapi.responses import StreamingResponse
 
 @app.post(
     f"{settings.API_V1_STR}/ai/chat",
@@ -616,9 +617,7 @@ from app.services.ai_chat import chat as ai_chat
 )
 def chat_with_ai(req: schemas.ChatRequest):
     """
-    RAG-powered chatbot endpoint.
-    Retrieves relevant context from the RENOVA knowledge base and generates
-    a response using the configured LLM provider (Ollama/OpenAI/Gemini).
+    RAG-powered chatbot endpoint (non-streaming, backward compatible).
     """
     try:
         history = [{"role": m.role, "content": m.content} for m in req.history]
@@ -632,4 +631,29 @@ def chat_with_ai(req: schemas.ChatRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"AI Chat failed: {str(e)}"
         )
+
+
+@app.post(
+    f"{settings.API_V1_STR}/ai/chat/stream",
+    summary="Chat with RENOVA AI (streaming SSE)"
+)
+def chat_with_ai_stream(req: schemas.ChatRequest):
+    """
+    RAG-powered chatbot endpoint with Server-Sent Events streaming.
+    Tokens are pushed to the client as they arrive from the LLM,
+    giving sub-500ms Time to First Token (TTFT).
+    """
+    history = [{"role": m.role, "content": m.content} for m in req.history]
+
+    return StreamingResponse(
+        ai_chat_stream(
+            message=req.message,
+            history=history,
+        ),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",  # Disable nginx buffering on Render
+        },
+    )
 
