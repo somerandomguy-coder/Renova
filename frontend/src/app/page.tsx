@@ -14,6 +14,7 @@ import TeamSection from "@/components/TeamSection";
 import Stakeholders from "@/components/Stakeholders";
 import Milestones from "@/components/Milestones";
 import FinancialReport from "@/components/FinancialReport";
+import AiChat from "@/components/AiChat";
 
 const navTranslations = {
   vi: {
@@ -229,6 +230,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* AI Chat Widget — Floating overlay, no impact on existing layout */}
+      <AiChat lang={lang} />
     </>
   );
 }

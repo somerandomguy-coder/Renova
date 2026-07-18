@@ -123,3 +123,18 @@ class OverviewStatsResponse(BaseModel):
     epr_stats: Dict[str, int]
     architecture_stats: Dict[str, int]
     collection_stats: Dict[str, int]
+
+
+# --- AI CHAT SCHEMAS ---
+
+class ChatMessage(BaseModel):
+    role: str = Field(..., description="Message role: 'user' or 'assistant'")
+    content: str = Field(..., description="Message content")
+
+class ChatRequest(BaseModel):
+    message: str = Field(..., min_length=1, description="User's question")
+    history: List[ChatMessage] = Field(default_factory=list, description="Previous conversation turns")
+
+class ChatResponse(BaseModel):
+    reply: str = Field(..., description="AI-generated response")
+    sources: List[str] = Field(default_factory=list, description="Knowledge base sources used")

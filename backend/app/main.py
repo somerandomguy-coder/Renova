@@ -602,3 +602,34 @@ Dear {name_plain},
     db.commit()
     
     return {"message": f"Email successfully sent and status updated to Replied for {email_plain}"}
+
+
+# --- AI CHAT ENDPOINTS ---
+
+from app.services.ai_chat import chat as ai_chat
+
+@app.post(
+    f"{settings.API_V1_STR}/ai/chat",
+    response_model=schemas.ChatResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Chat with RENOVA AI sustainability advisor"
+)
+def chat_with_ai(req: schemas.ChatRequest):
+    """
+    RAG-powered chatbot endpoint.
+    Retrieves relevant context from the RENOVA knowledge base and generates
+    a response using the configured LLM provider (Ollama/OpenAI/Gemini).
+    """
+    try:
+        history = [{"role": m.role, "content": m.content} for m in req.history]
+        result = ai_chat(
+            message=req.message,
+            history=history,
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"AI Chat failed: {str(e)}"
+        )
+
