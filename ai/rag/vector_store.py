@@ -23,71 +23,40 @@ COLLECTION_NAME = "renova_knowledge"
 
 
 class HuggingFaceEmbeddingFunction:
-    """Cloud embedding function using the free HuggingFace Inference API.
+    """Cloud embedding function using the official HuggingFace Inference Client SDK.
 
-    No API key required for public models. ~100ms per request vs 4-10s local
-    on Render's free tier CPU.
+    No API key required for public models, but HF_TOKEN is recommended to avoid rate limits.
     """
 
     def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
-        self.api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_name}"
         self.model_name = model_name
 
     def __call__(self, input: list[str]) -> list[list[float]]:
-        """Generate embeddings for a list of texts with automatic retries for network startup."""
+        """Generate embeddings using the official InferenceClient."""
         import os
-        import time
+        from huggingface_hub import InferenceClient
+
         hf_token = os.getenv("HF_API_KEY") or os.getenv("HF_TOKEN")
-        headers = {"Content-Type": "application/json"}
-        if hf_token:
-            headers["Authorization"] = f"Bearer {hf_token}"
+        client = InferenceClient(api_key=hf_token)
 
-        payload = json.dumps({"inputs": input, "options": {"wait_for_model": True}}).encode("utf-8")
-
-        req = urllib.request.Request(
-            self.api_url,
-            data=payload,
-            headers=headers,
-            method="POST",
-        )
-
-        max_retries = 5
-        for attempt in range(max_retries):
-            try:
-                with urllib.request.urlopen(req, timeout=30) as resp:
-                    embeddings = json.loads(resp.read().decode("utf-8"))
-                return embeddings
-            except Exception as e:
-                print(f"[HuggingFace Embedding] Attempt {attempt+1}/{max_retries} failed: {e}")
-                if attempt < max_retries - 1:
-                    time.sleep(3)  # Wait 3 seconds for network/DNS to initialize
-                else:
-                    print("[HuggingFace Embedding] Batch failed. Trying single items fallback...")
-                    results = []
-                    for text in input:
-                        single_payload = json.dumps(
-                            {"inputs": [text], "options": {"wait_for_model": True}}
-                        ).encode("utf-8")
-                        single_req = urllib.request.Request(
-                            self.api_url,
-                            data=single_payload,
-                            headers=headers,
-                            method="POST",
-                        )
-                        item_success = False
-                        for single_attempt in range(3):
-                            try:
-                                with urllib.request.urlopen(single_req, timeout=30) as resp:
-                                    result = json.loads(resp.read().decode("utf-8"))
-                                results.append(result[0] if isinstance(result[0], list) else result)
-                                item_success = True
-                                break
-                            except Exception as single_err:
-                                print(f"[HuggingFace Embedding] Single item attempt {single_attempt+1} failed: {single_err}")
-                                time.sleep(2)
-                        if not item_success:
-                            raise e  # Bubble up the original exception if single items also fail
-                    return results
+        try:
+            embeddings = client.feature_extraction(input, model=self.model_name)
+            
+            # The SDK returns a NumPy array or list. Convert to a list of lists of floats.
+            if hasattr(embeddings, "tolist"):
+                return embeddings.tolist()
+            elif isinstance(embeddings, list):
+                return [list(emb) if hasattr(emb, "__iter__") else emb for emb in embeddings]
+            return embeddings
+        except Exception as e:
+            print(f"[HuggingFace SDK] Batch embedding failed: {e}. Trying single fallback...")
+            results = []
+            for text in input:
+                emb = client.feature_extraction(text, model=self.model_name)
+                if hasattr(emb, "tolist"):
+                    emb = emb.tolist()
+                results.append(emb)
+            return results
 
 
 def _get_embedding_function() -> Any:
