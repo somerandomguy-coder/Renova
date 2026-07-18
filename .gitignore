@@ -78,3 +78,6 @@ deploy/presentation.html
 deploy/index.html
 deploy/Logo.png
 production_configuration_checklist.md
+
+# AI / RAG
+ai/chroma_db/
