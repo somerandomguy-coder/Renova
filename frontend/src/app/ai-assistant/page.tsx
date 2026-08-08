@@ -80,6 +80,8 @@ const renderMarkdown = (text: string) => {
   }
 };
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export default function AiAssistantPage() {
   const [lang, setLang] = useState<"vi" | "en">("vi");
   const [messages, setMessages] = useState<Message[]>([
@@ -132,7 +134,7 @@ export default function AiAssistantPage() {
     setMessages(prev => [...prev, assistantMessage]);
 
     try {
-      const response = await fetch("http://localhost:8000/api/v1/ai/chat/stream", {
+      const response = await fetch(`${API_BASE_URL}/api/v1/ai/chat/stream`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
