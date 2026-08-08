@@ -115,6 +115,9 @@ export default function AiAssistantPage() {
   const plasticSavedKg = Math.round(calculatedBricks * 1.05);
   const co2SavedKg = Math.round(calculatedBricks * 1.50);
 
+  // Mobile View Tab State ("chat" | "tools" | "specs")
+  const [mobileTab, setMobileTab] = useState<"chat" | "tools" | "specs">("chat");
+
   const standardEprFee = plasticWaste * 15000;
   const optimizedEprFee = standardEprFee * 0.60;
   const eprSavingsVnd = standardEprFee - optimizedEprFee;
@@ -260,11 +263,52 @@ export default function AiAssistantPage() {
         </div>
       </header>
 
+      {/* Mobile Tab Control Bar (Visible only on screens < lg) */}
+      <div className="lg:hidden bg-white dark:bg-zinc-900 border-b border-brand-border dark:border-zinc-800 p-2 flex gap-1 justify-center shrink-0">
+        <button
+          onClick={() => setMobileTab("tools")}
+          className={`flex-1 py-1.5 px-3 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            mobileTab === "tools" 
+              ? "bg-brand-primary text-white shadow-sm" 
+              : "text-brand-text-muted hover:text-brand-text-primary dark:text-zinc-400"
+          }`}
+        >
+          <Calculator size={14} />
+          {lang === "vi" ? "Công Cụ Tính" : "Tools"}
+        </button>
+
+        <button
+          onClick={() => setMobileTab("chat")}
+          className={`flex-1 py-1.5 px-3 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            mobileTab === "chat" 
+              ? "bg-brand-primary text-white shadow-sm" 
+              : "text-brand-text-muted hover:text-brand-text-primary dark:text-zinc-400"
+          }`}
+        >
+          <Sparkles size={14} />
+          {lang === "vi" ? "Trợ Lý AI" : "AI Chat"}
+        </button>
+
+        <button
+          onClick={() => setMobileTab("specs")}
+          className={`flex-1 py-1.5 px-3 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            mobileTab === "specs" 
+              ? "bg-brand-primary text-white shadow-sm" 
+              : "text-brand-text-muted hover:text-brand-text-primary dark:text-zinc-400"
+          }`}
+        >
+          <Box size={14} />
+          {lang === "vi" ? "Thông Số" : "Specs"}
+        </button>
+      </div>
+
       {/* 3-Column Interactive Workspace */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-0 overflow-hidden">
         
         {/* COLUMN 1: Interactive Calculators (3 Columns on LG) */}
-        <div className="lg:col-span-3 border-r border-brand-border dark:border-zinc-800/80 bg-white/50 dark:bg-zinc-900/40 p-5 overflow-y-auto flex flex-col gap-6">
+        <div className={`lg:col-span-3 border-r border-brand-border dark:border-zinc-800/80 bg-white/50 dark:bg-zinc-900/40 p-5 overflow-y-auto flex-col gap-6 ${
+          mobileTab === "tools" ? "flex" : "hidden lg:flex"
+        }`}>
           <div>
             <h3 className="text-xs font-bold text-brand-primary dark:text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-2 font-heading">
               <Sparkles size={14} />
@@ -376,7 +420,9 @@ export default function AiAssistantPage() {
         </div>
 
         {/* COLUMN 2: Main DeepSeek AI Streaming Chat (5 Columns on LG) */}
-        <div className="lg:col-span-5 flex flex-col bg-[#FAF8F5] dark:bg-zinc-950 h-[calc(100vh-5rem)]">
+        <div className={`lg:col-span-5 flex-col bg-[#FAF8F5] dark:bg-zinc-950 h-[calc(100dvh-7.5rem)] lg:h-[calc(100vh-5rem)] ${
+          mobileTab === "chat" ? "flex" : "hidden lg:flex"
+        }`}>
           
           {/* Chat Messages Log */}
           <div className="flex-1 p-6 overflow-y-auto flex flex-col gap-5">
@@ -472,7 +518,9 @@ export default function AiAssistantPage() {
         </div>
 
         {/* COLUMN 3: Technical Specifications Panel (4 Columns on LG) */}
-        <div className="lg:col-span-4 border-l border-brand-border dark:border-zinc-800/80 bg-white/50 dark:bg-zinc-900/30 p-6 overflow-y-auto flex flex-col gap-6">
+        <div className={`lg:col-span-4 border-l border-brand-border dark:border-zinc-800/80 bg-white/50 dark:bg-zinc-900/30 p-6 overflow-y-auto flex-col gap-6 ${
+          mobileTab === "specs" ? "flex" : "hidden lg:flex"
+        }`}>
           
           <div className="border-b border-brand-border dark:border-zinc-800 pb-3">
             <h3 className="text-xs font-bold text-brand-primary dark:text-amber-400 uppercase tracking-wider flex items-center gap-2 font-heading">
