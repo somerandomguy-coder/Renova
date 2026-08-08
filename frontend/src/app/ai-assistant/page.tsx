@@ -108,12 +108,13 @@ export default function AiAssistantPage() {
               const data = JSON.parse(jsonStr);
 
               if (data.type === "token") {
+                const textChunk = data.token || data.content || "";
                 setMessages(prev => {
                   const updated = [...prev];
                   const lastIdx = updated.length - 1;
                   updated[lastIdx] = {
                     ...updated[lastIdx],
-                    content: updated[lastIdx].content + data.content
+                    content: updated[lastIdx].content + textChunk
                   };
                   return updated;
                 });
