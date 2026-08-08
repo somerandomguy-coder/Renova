@@ -8,13 +8,12 @@ import {
   ShoppingCart, 
   Calculator, 
   FileText, 
-  Layers, 
-  CheckCircle2, 
-  ShieldAlert, 
+  Box, 
   RefreshCw,
-  Box,
-  ChevronRight,
-  Maximize2
+  Layers,
+  Leaf,
+  ShieldCheck,
+  Building
 } from "lucide-react";
 
 interface Message {
@@ -29,18 +28,16 @@ export default function AiAssistantPage() {
     {
       role: "assistant",
       content: lang === "vi" 
-        ? "Xin chào! 👋 Tôi là Trợ lý AI Chuyên sâu của ECOVAL. Tôi có thể hỗ trợ bạn tính toán số lượng gạch, lên báo giá đơn hàng, tính dòng tiền bù trừ EPR và xem bản vẽ kỹ thuật gạch bông gió. Hãy nhập câu hỏi hoặc chọn công cụ nhanh ở cột bên trái!"
-        : "Hello! 👋 I am ECOVAL's Advanced AI Assistant. I can help you calculate brick quantities, generate instant order quotes, analyze EPR offset cashflows, and view technical CAD drawings. Type your query or choose a tool from the left panel!"
+        ? "Xin chào! 👋 Tôi là Trợ lý AI Chuyên sâu của ECOVAL. Tôi có thể hỗ trợ bạn về thông số sản phẩm gạch bông gió, tính toán báo giá, dòng tiền bù trừ phí EPR và các chứng nhận thử nghiệm. Hãy nhập câu hỏi hoặc bấm chọn công cụ nhanh bên dưới!"
+        : "Hello! 👋 I am ECOVAL's AI Assistant. I can help you with breeze block technical specs, project quotation calculations, EPR fee offset analysis, and certified test data. Feel free to type your question or select a quick tool!"
     }
   ]);
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
 
-  // Dynamic Quote & Spec State
+  // Dynamic Calculation States
   const [wallArea, setWallArea] = useState<number>(40);
   const [plasticWaste, setPlasticWaste] = useState<number>(5000);
-  const [activeTab, setActiveTab] = useState<"cad" | "cogs" | "epr">("cad");
-  const [isCadModalOpen, setIsCadModalOpen] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +49,7 @@ export default function AiAssistantPage() {
     scrollToBottom();
   }, [messages, isThinking]);
 
-  // Derived Calculations
+  // Calculations
   const calculatedBricks = Math.ceil(wallArea * 25);
   const totalCostVnd = calculatedBricks * 45000;
   const plasticSavedKg = Math.round(calculatedBricks * 1.05);
@@ -145,8 +142,8 @@ export default function AiAssistantPage() {
         updated[lastIdx] = {
           role: "assistant",
           content: lang === "vi"
-            ? "⚠️ Không thể kết nối với DeepSeek AI API. Vui lòng kiểm tra lại dịch vụ backend."
-            : "⚠️ Unable to connect to DeepSeek AI API. Please verify backend service status."
+            ? "⚠️ Không thể kết nối với máy chủ AI. Vui lòng thử lại sau."
+            : "⚠️ Unable to connect to AI server. Please try again later."
         };
         return updated;
       });
@@ -156,45 +153,45 @@ export default function AiAssistantPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans selection:bg-amber-500/30 selection:text-amber-200">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-zinc-950 text-brand-text-primary dark:text-zinc-100 flex flex-col font-sans selection:bg-brand-primary/20">
       
-      {/* Top Header Navigation Bar */}
-      <header className="h-16 border-b border-zinc-800/80 bg-zinc-900/90 backdrop-blur-md px-6 flex items-center justify-between shrink-0 sticky top-0 z-40">
+      {/* Sticky Header — Matches Main Page Style */}
+      <header className="sticky top-0 z-50 bg-white/85 dark:bg-zinc-950/85 backdrop-blur-md border-b border-black/5 dark:border-white/5 h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <a 
             href="/" 
-            className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-xs font-semibold px-3 py-1.5 rounded-lg bg-zinc-800/60 hover:bg-zinc-800 border border-zinc-700/50"
+            className="flex items-center gap-2 text-brand-text-muted hover:text-brand-primary transition-colors text-xs font-semibold px-3 py-1.5 rounded-lg bg-black/5 dark:bg-white/5 border border-brand-border dark:border-white/10"
           >
             <ArrowLeft size={16} />
             {lang === "vi" ? "Trang Chủ" : "Home"}
           </a>
-          <div className="h-4 w-px bg-zinc-800" />
-          <div className="flex items-center gap-2.5">
-            <img src="/ecoval_logo.png" alt="ECOVAL" className="h-7 w-auto object-contain" />
-            <span className="font-bold text-sm tracking-wide bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500 bg-clip-text text-transparent">
-              ECOVAL AI WORKSPACE
+          <div className="h-4 w-px bg-brand-border dark:bg-zinc-800" />
+          <div className="flex items-center gap-3">
+            <img src="/ecoval_logo.png" alt="ECOVAL Logo" className="h-9 w-auto object-contain dark:brightness-110" />
+            <span className="text-[10px] font-bold text-brand-text-muted border border-brand-border dark:border-zinc-800 px-1.5 py-0.5 rounded uppercase hidden sm:inline-block">
+              SUSTAINABLE MATERIALS
             </span>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          {/* DeepSeek API Engine Status */}
-          <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          {/* DeepSeek API Engine Active Badge */}
+          <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             DeepSeek-V3 Engine Active
           </div>
 
-          {/* Bilingual Selector */}
-          <div className="flex items-center gap-1 bg-zinc-800/80 p-1 rounded-lg border border-zinc-700/60">
+          {/* Bilingual Toggle */}
+          <div className="flex items-center gap-1 bg-black/5 dark:bg-white/5 p-1 rounded-full border border-brand-border dark:border-zinc-800">
             <button 
               onClick={() => setLang("vi")} 
-              className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all ${lang === "vi" ? "bg-amber-600 text-white" : "text-zinc-400 hover:text-white"}`}
+              className={`px-2.5 py-1 text-xs font-bold rounded-xl transition-all ${lang === "vi" ? "bg-brand-primary text-white" : "text-brand-text-muted"}`}
             >
               VI
             </button>
             <button 
               onClick={() => setLang("en")} 
-              className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all ${lang === "en" ? "bg-amber-600 text-white" : "text-zinc-400 hover:text-white"}`}
+              className={`px-2.5 py-1 text-xs font-bold rounded-xl transition-all ${lang === "en" ? "bg-brand-primary text-white" : "text-brand-text-muted"}`}
             >
               EN
             </button>
@@ -205,85 +202,85 @@ export default function AiAssistantPage() {
       {/* 3-Column Interactive Workspace */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-0 overflow-hidden">
         
-        {/* COLUMN 1: Quick Interactive Tools (3 Columns on LG) */}
-        <div className="lg:col-span-3 border-r border-zinc-800/80 bg-zinc-900/40 p-5 overflow-y-auto flex flex-col gap-6">
+        {/* COLUMN 1: Interactive Calculators (3 Columns on LG) */}
+        <div className="lg:col-span-3 border-r border-brand-border dark:border-zinc-800/80 bg-white/50 dark:bg-zinc-900/40 p-5 overflow-y-auto flex flex-col gap-6">
           <div>
-            <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-2">
+            <h3 className="text-xs font-bold text-brand-primary dark:text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-2 font-heading">
               <Sparkles size={14} />
-              {lang === "vi" ? "Công Cụ Tương Tác Nhanh" : "Interactive Tools"}
+              {lang === "vi" ? "Công Cụ Tính Toán Nhanh" : "Quick Interactive Tools"}
             </h3>
-            <p className="text-xs text-zinc-400">
-              {lang === "vi" ? "Nhập thông số để tự động tạo báo giá & câu hỏi cho AI" : "Enter parameters to auto-generate quotes & AI prompts"}
+            <p className="text-xs text-brand-text-muted dark:text-zinc-400">
+              {lang === "vi" ? "Nhập thông số công trình để xem dự toán và hỏi AI" : "Enter parameters to estimate costs and ask AI"}
             </p>
           </div>
 
-          {/* Quick Tool 1: Order & Price Estimator */}
-          <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 flex flex-col gap-3">
+          {/* Order & Cost Calculator */}
+          <div className="bg-white dark:bg-zinc-900 border border-brand-border dark:border-zinc-800 rounded-2xl p-4 flex flex-col gap-3 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-zinc-200 flex items-center gap-2">
-                <ShoppingCart size={15} className="text-amber-400" />
-                {lang === "vi" ? "Tính Báo Giá Đặt Hàng" : "Order Quotation"}
+              <span className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 flex items-center gap-2 font-heading">
+                <ShoppingCart size={15} className="text-brand-primary dark:text-amber-400" />
+                {lang === "vi" ? "Dự Toán Gạch & Chi Phí" : "Order Quotation"}
               </span>
-              <span className="text-[10px] font-semibold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-semibold bg-brand-primary/10 text-brand-primary dark:bg-amber-500/20 dark:text-amber-300 px-2 py-0.5 rounded">
                 45.000đ/viên
               </span>
             </div>
 
             <div>
-              <label className="text-[11px] text-zinc-400 block mb-1">
-                {lang === "vi" ? "Diện tích công trình (m²):" : "Project Surface Area (m²):"}
+              <label className="text-[11px] text-brand-text-muted dark:text-zinc-400 block mb-1">
+                {lang === "vi" ? "Diện tích tường thi công (m²):" : "Installation Surface Area (m²):"}
               </label>
               <input 
                 type="number" 
                 min="1" 
                 value={wallArea}
                 onChange={(e) => setWallArea(Math.max(1, Number(e.target.value)))}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                className="w-full bg-black/3 dark:bg-zinc-950 border border-brand-border dark:border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-brand-text-primary dark:text-white focus:outline-none focus:border-brand-primary"
               />
             </div>
 
-            <div className="bg-zinc-950/60 p-2.5 rounded-lg border border-zinc-800/60 text-xs flex flex-col gap-1.5">
-              <div className="flex justify-between text-zinc-400">
-                <span>{lang === "vi" ? "Số gạch cần:" : "Bricks Needed:"}</span>
-                <span className="font-bold text-white">{calculatedBricks.toLocaleString()} viên</span>
+            <div className="bg-[#FAF8F5] dark:bg-zinc-950/60 p-3 rounded-xl border border-brand-border dark:border-zinc-800/60 text-xs flex flex-col gap-1.5">
+              <div className="flex justify-between text-brand-text-muted dark:text-zinc-400">
+                <span>{lang === "vi" ? "Số gạch ước tính:" : "Bricks Needed:"}</span>
+                <span className="font-bold text-brand-text-primary dark:text-white">{calculatedBricks.toLocaleString()} viên</span>
               </div>
-              <div className="flex justify-between text-zinc-400">
-                <span>{lang === "vi" ? "Tổng chi phí mua:" : "Total Brick Cost:"}</span>
-                <span className="font-bold text-amber-400">{totalCostVnd.toLocaleString()} VNĐ</span>
+              <div className="flex justify-between text-brand-text-muted dark:text-zinc-400">
+                <span>{lang === "vi" ? "Tổng chi phí gốc:" : "Total Brick Cost:"}</span>
+                <span className="font-bold text-brand-primary dark:text-amber-400">{totalCostVnd.toLocaleString()} VNĐ</span>
               </div>
-              <div className="flex justify-between text-zinc-400 text-[11px]">
-                <span>🌱 Giảm CO2:</span>
-                <span className="text-emerald-400">{co2SavedKg.toLocaleString()} kg</span>
+              <div className="flex justify-between text-brand-text-muted dark:text-zinc-400 text-[11px]">
+                <span>🌱 Giảm khí nhà kính:</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{co2SavedKg.toLocaleString()} kg CO2</span>
               </div>
             </div>
 
             <button 
               onClick={() => handleSendMessage(
                 lang === "vi" 
-                  ? `Tôi muốn báo giá chính thức cho dự án diện tích ${wallArea}m² (cần ${calculatedBricks} viên gạch ECOVAL). Chi phí là bao nhiêu và có chính sách chiết khấu không?`
-                  : `I need an official quotation for a ${wallArea}m² project (${calculatedBricks} ECOVAL bricks). What is the total cost and bulk discount?`
+                  ? `Tôi cần báo giá chính thức cho dự án diện tích ${wallArea}m² (cần khoảng ${calculatedBricks} viên gạch ECOVAL). Chi phí là bao nhiêu và có chính sách chiết khấu không?`
+                  : `I need a formal quote for a ${wallArea}m² project (${calculatedBricks} ECOVAL bricks). What is the total cost and bulk discount policy?`
               )}
-              className="w-full bg-amber-600 hover:bg-amber-500 text-white font-semibold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full bg-brand-primary hover:bg-brand-secondary text-white font-semibold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
               <Send size={12} />
               {lang === "vi" ? "Hỏi AI Báo Giá Chi Tiết" : "Ask AI For Full Quote"}
             </button>
           </div>
 
-          {/* Quick Tool 2: EPR Fee Savings */}
-          <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 flex flex-col gap-3">
+          {/* EPR Cashflow Savings Calculator */}
+          <div className="bg-white dark:bg-zinc-900 border border-brand-border dark:border-zinc-800 rounded-2xl p-4 flex flex-col gap-3 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-zinc-200 flex items-center gap-2">
-                <Calculator size={15} className="text-teal-400" />
-                {lang === "vi" ? "Tính Tiết Kiệm Phí EPR" : "EPR Offset Calculator"}
+              <span className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 flex items-center gap-2 font-heading">
+                <Calculator size={15} className="text-teal-600 dark:text-teal-400" />
+                {lang === "vi" ? "Tối Ưu Phí EPR" : "EPR Offset Calculator"}
               </span>
-              <span className="text-[10px] font-semibold bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-semibold bg-teal-500/10 text-teal-700 dark:bg-teal-500/20 dark:text-teal-300 px-2 py-0.5 rounded">
                 -40% EPR Fee
               </span>
             </div>
 
             <div>
-              <label className="text-[11px] text-zinc-400 block mb-1">
+              <label className="text-[11px] text-brand-text-muted dark:text-zinc-400 block mb-1">
                 {lang === "vi" ? "Bao bì nhựa MLP xả ra (kg/năm):" : "Annual MLP Waste Output (kg/yr):"}
               </label>
               <input 
@@ -292,14 +289,14 @@ export default function AiAssistantPage() {
                 step="500"
                 value={plasticWaste}
                 onChange={(e) => setPlasticWaste(Math.max(100, Number(e.target.value)))}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-teal-500"
+                className="w-full bg-black/3 dark:bg-zinc-950 border border-brand-border dark:border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-brand-text-primary dark:text-white focus:outline-none focus:border-teal-500"
               />
             </div>
 
-            <div className="bg-zinc-950/60 p-2.5 rounded-lg border border-zinc-800/60 text-xs flex flex-col gap-1.5">
-              <div className="flex justify-between text-zinc-400">
+            <div className="bg-[#FAF8F5] dark:bg-zinc-950/60 p-3 rounded-xl border border-brand-border dark:border-zinc-800/60 text-xs flex flex-col gap-1.5">
+              <div className="flex justify-between text-brand-text-muted dark:text-zinc-400">
                 <span>{lang === "vi" ? "Tiền tiết kiệm EPR:" : "EPR Cashflow Savings:"}</span>
-                <span className="font-bold text-teal-400">{eprSavingsVnd.toLocaleString()} VNĐ</span>
+                <span className="font-bold text-teal-600 dark:text-teal-400">{eprSavingsVnd.toLocaleString()} VNĐ</span>
               </div>
             </div>
 
@@ -309,36 +306,16 @@ export default function AiAssistantPage() {
                   ? `Công ty tôi thải ra ${plasticWaste} kg bao bì nhựa MLP hàng năm. Hãy tư vấn phương án ký hợp đồng hợp tác tái chế với ECOVAL để giảm 40% phí EPR.`
                   : `My company generates ${plasticWaste} kg of MLP plastic waste annually. Advise us on signing an EPR recycling contract with ECOVAL to claim 40% fee reduction.`
               )}
-              className="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
               <Send size={12} />
               {lang === "vi" ? "Hỏi AI Tư Vấn EPR" : "Ask AI EPR Strategy"}
             </button>
           </div>
-
-          {/* Quick Tool 3: Technical Drawings & Specs */}
-          <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 flex flex-col gap-3">
-            <span className="text-xs font-bold text-zinc-200 flex items-center gap-2">
-              <FileText size={15} className="text-purple-400" />
-              {lang === "vi" ? "Bản Vẽ & Cấp Phối R&D" : "CAD Drawings & Specs"}
-            </span>
-            <p className="text-[11px] text-zinc-400 leading-relaxed">
-              {lang === "vi" 
-                ? "Gạch bông gió Gen3 Heritage: Cường độ nén 7.8-8.2 MPa, tỷ lệ 70% nhựa MLP + 25% vỏ trấu + 5% phụ gia." 
-                : "Gen3 Heritage Block: 7.8-8.2 MPa strength, 70% MLP plastic + 25% rice husk + 5% additives."}
-            </p>
-            <button 
-              onClick={() => setIsCadModalOpen(true)}
-              className="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <Maximize2 size={12} />
-              {lang === "vi" ? "Mở Bản Vẽ CAD 2D/3D" : "View Full CAD Blueprint"}
-            </button>
-          </div>
         </div>
 
         {/* COLUMN 2: Main DeepSeek AI Streaming Chat (5 Columns on LG) */}
-        <div className="lg:col-span-5 flex flex-col bg-zinc-950 h-[calc(100vh-4rem)]">
+        <div className="lg:col-span-5 flex flex-col bg-[#FAF8F5] dark:bg-zinc-950 h-[calc(100vh-5rem)]">
           
           {/* Chat Messages Log */}
           <div className="flex-1 p-6 overflow-y-auto flex flex-col gap-5">
@@ -348,23 +325,23 @@ export default function AiAssistantPage() {
                 className={`flex gap-3.5 ${m.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 {m.role === "assistant" && (
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center shrink-0 shadow-md">
-                    <Sparkles size={16} className="text-white" />
+                  <div className="w-8 h-8 rounded-xl bg-brand-primary text-white flex items-center justify-center shrink-0 shadow-md">
+                    <Sparkles size={16} />
                   </div>
                 )}
 
                 <div 
                   className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                     m.role === "user"
-                      ? "bg-amber-600 text-white rounded-tr-none font-medium"
-                      : "bg-zinc-900 border border-zinc-800 text-zinc-200 rounded-tl-none shadow-sm"
+                      ? "bg-brand-primary text-white rounded-tr-none font-medium shadow-sm"
+                      : "bg-white dark:bg-zinc-900 border border-brand-border dark:border-zinc-800 text-brand-text-primary dark:text-zinc-200 rounded-tl-none shadow-sm"
                   }`}
                 >
                   <p className="whitespace-pre-wrap">{m.content}</p>
 
                   {m.sources && m.sources.length > 0 && (
-                    <div className="mt-3 pt-2.5 border-t border-zinc-800 text-[11px] text-zinc-400 flex flex-col gap-1">
-                      <span className="font-semibold text-amber-400">📄 {lang === "vi" ? "Trích dẫn tài liệu:" : "Knowledge Sources:"}</span>
+                    <div className="mt-3 pt-2.5 border-t border-brand-border dark:border-zinc-800 text-[11px] text-brand-text-muted dark:text-zinc-400 flex flex-col gap-1">
+                      <span className="font-semibold text-brand-primary dark:text-amber-400">📄 {lang === "vi" ? "Trích dẫn tài liệu:" : "Knowledge Sources:"}</span>
                       <ul className="list-disc pl-4 space-y-0.5">
                         {m.sources.map((src, i) => (
                           <li key={i}>{src}</li>
@@ -377,11 +354,11 @@ export default function AiAssistantPage() {
             ))}
 
             {isThinking && (
-              <div className="flex gap-3.5 items-center text-zinc-400 text-xs">
-                <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center animate-spin">
-                  <RefreshCw size={14} className="text-amber-400" />
+              <div className="flex gap-3.5 items-center text-brand-text-muted dark:text-zinc-400 text-xs">
+                <div className="w-8 h-8 rounded-xl bg-white dark:bg-zinc-900 border border-brand-border dark:border-zinc-800 flex items-center justify-center animate-spin">
+                  <RefreshCw size={14} className="text-brand-primary dark:text-amber-400" />
                 </div>
-                <span>DeepSeek-V3 {lang === "vi" ? "đang truy xuất tri thức và suy luận..." : "is retrieving context & reasoning..."}</span>
+                <span>DeepSeek-V3 {lang === "vi" ? "đang suy luận và truy xuất thông tin..." : "is retrieving context & reasoning..."}</span>
               </div>
             )}
 
@@ -389,17 +366,17 @@ export default function AiAssistantPage() {
           </div>
 
           {/* Quick Prompt Suggestion Chips */}
-          <div className="px-6 py-2 border-t border-zinc-900 bg-zinc-950/80 flex items-center gap-2 overflow-x-auto">
+          <div className="px-6 py-2 border-t border-brand-border dark:border-zinc-900 bg-white/60 dark:bg-zinc-950/80 flex items-center gap-2 overflow-x-auto">
             {[
               lang === "vi" ? "ECOVAL là gì?" : "What is ECOVAL?",
               lang === "vi" ? "Gạch Gen3 chịu lực mấy MPa?" : "Gen3 Strength (MPa)?",
               lang === "vi" ? "Quy trình giảm 40% phí EPR" : "EPR 40% Fee Refund",
-              lang === "vi" ? "Bản vẽ hoa văn di sản" : "Heritage CAD Specs"
+              lang === "vi" ? "Kích thước gạch chuẩn" : "Standard Dimensions"
             ].map((prompt, i) => (
               <button
                 key={i}
                 onClick={() => handleSendMessage(prompt)}
-                className="whitespace-nowrap px-3 py-1 rounded-full text-xs bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-amber-300 hover:border-amber-500/50 transition-all cursor-pointer"
+                className="whitespace-nowrap px-3 py-1 rounded-full text-xs bg-white dark:bg-zinc-900 border border-brand-border dark:border-zinc-800 text-brand-text-muted dark:text-zinc-400 hover:text-brand-primary dark:hover:text-amber-300 hover:border-brand-primary transition-all cursor-pointer shadow-2xs"
               >
                 {prompt}
               </button>
@@ -407,25 +384,25 @@ export default function AiAssistantPage() {
           </div>
 
           {/* Chat Input Field */}
-          <div className="p-4 border-t border-zinc-800/80 bg-zinc-900/60">
+          <div className="p-4 border-t border-brand-border dark:border-zinc-800/80 bg-white dark:bg-zinc-900/60">
             <form 
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSendMessage();
               }}
-              className="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 focus-within:border-amber-500 transition-colors"
+              className="flex items-center gap-3 bg-[#FAF8F5] dark:bg-zinc-950 border border-brand-border dark:border-zinc-800 rounded-xl px-4 py-2.5 focus-within:border-brand-primary transition-colors"
             >
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={lang === "vi" ? "Hỏi DeepSeek AI về sản phẩm, giá bán, ESG, EPR..." : "Ask DeepSeek AI about products, pricing, ESG, EPR..."}
-                className="flex-1 bg-transparent border-none text-sm text-white placeholder-zinc-500 focus:outline-none"
+                placeholder={lang === "vi" ? "Hỏi DeepSeek AI về sản phẩm gạch, ESG, EPR..." : "Ask DeepSeek AI about products, pricing, ESG, EPR..."}
+                className="flex-1 bg-transparent border-none text-sm text-brand-text-primary dark:text-white placeholder-brand-text-muted focus:outline-none"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isThinking}
-                className="p-2 rounded-lg bg-amber-600 hover:bg-amber-500 disabled:opacity-40 text-white transition-colors cursor-pointer"
+                className="p-2 rounded-xl bg-brand-primary hover:bg-brand-secondary disabled:opacity-40 text-white transition-colors cursor-pointer shadow-sm"
               >
                 <Send size={16} />
               </button>
@@ -433,147 +410,102 @@ export default function AiAssistantPage() {
           </div>
         </div>
 
-        {/* COLUMN 3: Dynamic Technical Drawing & Order Viewer (4 Columns on LG) */}
-        <div className="lg:col-span-4 border-l border-zinc-800/80 bg-zinc-900/30 p-6 overflow-y-auto flex flex-col gap-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+        {/* COLUMN 3: Technical Specifications Panel (4 Columns on LG) */}
+        <div className="lg:col-span-4 border-l border-brand-border dark:border-zinc-800/80 bg-white/50 dark:bg-zinc-900/30 p-6 overflow-y-auto flex flex-col gap-6">
+          
+          <div className="border-b border-brand-border dark:border-zinc-800 pb-3">
+            <h3 className="text-xs font-bold text-brand-primary dark:text-amber-400 uppercase tracking-wider flex items-center gap-2 font-heading">
               <Box size={16} />
-              {lang === "vi" ? "Xem Trước Sản Phẩm & Bản Vẽ" : "Product Spec & CAD Preview"}
+              {lang === "vi" ? "Thông Số Kỹ Thuật Sản Phẩm" : "Product Technical Specifications"}
             </h3>
+            <p className="text-xs text-brand-text-muted dark:text-zinc-400 mt-1">
+              {lang === "vi" ? "Dữ liệu kiểm định bởi Phòng thí nghiệm HCMUT & Ánh Thủy JSC" : "Validated by HCMUT R&D Lab & Anh Thuy JSC"}
+            </p>
+          </div>
 
-            <div className="flex gap-1 bg-zinc-950 p-1 rounded-lg border border-zinc-800 text-[11px]">
-              <button 
-                onClick={() => setActiveTab("cad")}
-                className={`px-2 py-1 rounded font-semibold ${activeTab === "cad" ? "bg-amber-600 text-white" : "text-zinc-400"}`}
-              >
-                CAD 2D
-              </button>
-              <button 
-                onClick={() => setActiveTab("cogs")}
-                className={`px-2 py-1 rounded font-semibold ${activeTab === "cogs" ? "bg-amber-600 text-white" : "text-zinc-400"}`}
-              >
-                Formula
-              </button>
+          {/* Key Product Parameters Grid */}
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            <div className="bg-white dark:bg-zinc-950 p-3.5 rounded-xl border border-brand-border dark:border-zinc-800">
+              <span className="text-brand-text-muted dark:text-zinc-400 block mb-1 font-medium">Kích thước chuẩn:</span>
+              <span className="font-bold text-brand-text-primary dark:text-white text-sm">190 × 190 × 65 mm</span>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-950 p-3.5 rounded-xl border border-brand-border dark:border-zinc-800">
+              <span className="text-brand-text-muted dark:text-zinc-400 block mb-1 font-medium">Trọng lượng viên:</span>
+              <span className="font-bold text-brand-text-primary dark:text-white text-sm">1.5 kg (Siêu nhẹ)</span>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-950 p-3.5 rounded-xl border border-brand-border dark:border-zinc-800">
+              <span className="text-brand-text-muted dark:text-zinc-400 block mb-1 font-medium">Cường độ nén Gen3:</span>
+              <span className="font-bold text-brand-primary dark:text-amber-400 text-sm">7.8 – 8.2 MPa</span>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-950 p-3.5 rounded-xl border border-brand-border dark:border-zinc-800">
+              <span className="text-brand-text-muted dark:text-zinc-400 block mb-1 font-medium">Độ hút nước:</span>
+              <span className="font-bold text-teal-600 dark:text-teal-400 text-sm">&lt; 1.2%</span>
             </div>
           </div>
 
-          {/* Interactive CAD Drawing Box */}
-          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 relative overflow-hidden flex flex-col items-center justify-center min-h-[220px]">
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:16px_16px]" />
-            
-            {/* Visual CAD Representation */}
-            <div className="relative z-10 w-36 h-36 border-2 border-amber-500/80 rounded-xl p-3 flex flex-col items-center justify-center bg-amber-500/5 shadow-inner">
-              <div className="w-20 h-20 border border-dashed border-amber-400/60 rounded-lg flex items-center justify-center">
-                <span className="text-[10px] text-amber-300 font-mono">190×190mm</span>
-              </div>
-              <span className="text-[10px] text-zinc-400 mt-2 font-mono">Thickness: 65mm</span>
-            </div>
-
-            <div className="mt-4 text-center relative z-10">
-              <h4 className="text-sm font-bold text-white">ECOVAL Gen3 Heritage Block</h4>
-              <p className="text-[11px] text-zinc-400">Compressive Strength: 7.8 – 8.2 MPa</p>
-            </div>
-          </div>
-
-          {/* Detailed Material Composition Breakdown */}
-          <div className="bg-zinc-900/90 border border-zinc-800 rounded-xl p-4 flex flex-col gap-3">
-            <h4 className="text-xs font-bold text-zinc-200 border-b border-zinc-800 pb-2">
-              {lang === "vi" ? "Cấp Phối Vật Liệu Chịu Lực (Locked Ratio)" : "Material Composition Ratio"}
+          {/* Material Composition Breakdown */}
+          <div className="bg-white dark:bg-zinc-900 border border-brand-border dark:border-zinc-800 rounded-2xl p-4 flex flex-col gap-3 shadow-sm">
+            <h4 className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 border-b border-brand-border dark:border-zinc-800 pb-2 font-heading">
+              {lang === "vi" ? "Cấp Phối Cố Định (Locked Formula)" : "Locked Material Formula"}
             </h4>
             
-            <div className="space-y-2.5 text-xs">
+            <div className="space-y-3 text-xs">
               <div>
                 <div className="flex justify-between mb-1">
-                  <span className="text-zinc-300">Nhựa đa lớp MLP (Recycled Polymer)</span>
-                  <span className="font-bold text-amber-400">70%</span>
+                  <span className="text-brand-text-primary dark:text-zinc-300 font-medium">Nhựa đa lớp MLP (Polymer tái chế)</span>
+                  <span className="font-bold text-brand-primary dark:text-amber-400">70%</span>
                 </div>
-                <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-                  <div className="h-full bg-amber-500 w-[70%]" />
+                <div className="w-full h-2 bg-black/5 dark:bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="h-full bg-brand-primary dark:bg-amber-500 w-[70%]" />
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between mb-1">
-                  <span className="text-zinc-300">Vỏ trấu nông nghiệp (Cellulose Fiber)</span>
-                  <span className="font-bold text-teal-400">25%</span>
+                  <span className="text-brand-text-primary dark:text-zinc-300 font-medium">Vỏ trấu nông nghiệp (Sợi Xenlulo)</span>
+                  <span className="font-bold text-teal-600 dark:text-teal-400">25%</span>
                 </div>
-                <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-black/5 dark:bg-zinc-800 rounded-full overflow-hidden">
                   <div className="h-full bg-teal-500 w-[25%]" />
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between mb-1">
-                  <span className="text-zinc-300">Phụ gia liên kết chéo & Chống UV</span>
-                  <span className="font-bold text-purple-400">5%</span>
+                  <span className="text-brand-text-primary dark:text-zinc-300 font-medium">Phụ gia liên kết & Chống tia UV</span>
+                  <span className="font-bold text-purple-600 dark:text-purple-400">5%</span>
                 </div>
-                <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-black/5 dark:bg-zinc-800 rounded-full overflow-hidden">
                   <div className="h-full bg-purple-500 w-[5%]" />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Download Specifications Certificate Simulation */}
-          <div className="mt-auto bg-gradient-to-r from-amber-950/40 to-zinc-900 border border-amber-500/30 rounded-xl p-4 flex items-center justify-between">
-            <div>
-              <h5 className="text-xs font-bold text-amber-200">Bản Cứng Chứng Nhận TCVN</h5>
-              <p className="text-[10px] text-zinc-400">Tải file PDF kiểm định chất lượng Quatest 3</p>
+          {/* Environmental Impact Summary */}
+          <div className="bg-gradient-to-br from-brand-primary/10 to-teal-500/10 dark:from-amber-950/40 dark:to-zinc-900 border border-brand-primary/20 dark:border-amber-500/30 rounded-2xl p-4 flex flex-col gap-2">
+            <h4 className="text-xs font-bold text-brand-primary dark:text-amber-300 flex items-center gap-1.5 font-heading">
+              <Leaf size={15} />
+              {lang === "vi" ? "Tác Động Sinh Thái Mỗi Viên Gạch" : "Eco Impact Per Brick"}
+            </h4>
+            <div className="grid grid-cols-2 gap-2 text-xs text-brand-text-muted dark:text-zinc-300 mt-1">
+              <div>
+                <span className="block text-[11px]">Bảo vệ môi trường:</span>
+                <span className="font-bold text-brand-text-primary dark:text-white">1.05 kg rác nhựa</span>
+              </div>
+              <div>
+                <span className="block text-[11px]">Giảm phát thải CO2:</span>
+                <span className="font-bold text-emerald-600 dark:text-emerald-400">1.50 kg CO2</span>
+              </div>
             </div>
-            <button 
-              onClick={() => alert(lang === "vi" ? "Đã tải file PDF chứng nhận TCVN & Kết quả kiểm định Quatest 3 thành công!" : "Downloaded TCVN & Quatest 3 Certificate PDF!")}
-              className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs rounded-lg transition-colors cursor-pointer"
-            >
-              Download PDF
-            </button>
           </div>
+
         </div>
 
       </div>
-
-      {/* CAD Blueprint Full Screen Modal */}
-      {isCadModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-2xl max-w-3xl w-full p-6 flex flex-col gap-4 shadow-2xl relative">
-            <button 
-              onClick={() => setIsCadModalOpen(false)}
-              className="absolute top-4 right-4 text-zinc-400 hover:text-white p-1"
-            >
-              ✕
-            </button>
-
-            <h3 className="text-lg font-bold text-amber-400 flex items-center gap-2">
-              <Box size={20} />
-              ECOVAL Gen3 Heritage Breeze Block — Technical Drawing Specification
-            </h3>
-
-            <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-8 flex flex-col items-center justify-center min-h-[320px]">
-              <div className="w-56 h-56 border-2 border-amber-500 rounded-2xl p-4 flex flex-col items-center justify-center bg-amber-500/10 relative">
-                <div className="w-32 h-32 border-2 border-dashed border-amber-300 rounded-xl flex items-center justify-center">
-                  <span className="text-xs text-amber-300 font-mono">HOLLOW AIRWAY</span>
-                </div>
-                <span className="absolute -bottom-6 text-xs text-zinc-400 font-mono">Width: 190mm | Height: 190mm</span>
-                <span className="absolute -right-16 text-xs text-zinc-400 font-mono rotate-90">Depth: 65mm</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 text-xs">
-              <div className="bg-zinc-950 p-3 rounded-lg border border-zinc-800">
-                <span className="text-zinc-400 block">Unit Weight:</span>
-                <span className="font-bold text-white text-sm">1.5 kg / block</span>
-              </div>
-              <div className="bg-zinc-950 p-3 rounded-lg border border-zinc-800">
-                <span className="text-zinc-400 block">Compressive Endurance:</span>
-                <span className="font-bold text-amber-400 text-sm">7.8 – 8.2 MPa</span>
-              </div>
-              <div className="bg-zinc-950 p-3 rounded-lg border border-zinc-800">
-                <span className="text-zinc-400 block">Water Absorption:</span>
-                <span className="font-bold text-teal-400 text-sm">&lt; 1.2%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );

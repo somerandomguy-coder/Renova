@@ -8,10 +8,13 @@ Measures latency (TTFT, Total s), token usage, estimated DeepSeek API cost ($0.1
 import time
 import json
 import os
+import sys
 from typing import List, Dict
 
+sys.stdout.reconfigure(encoding='utf-8')
+
 # Import RAG engine directly
-from ai.rag.engine import query_rag_stream, query_rag
+from ai.rag.engine import ask_stream, ask
 
 BENCHMARK_QUESTIONS = [
     {
@@ -84,7 +87,7 @@ USD_TO_VND = 25400.0
 
 def run_benchmark():
     print("\n=========================================================================")
-    print(" 🚀 RUNNING ECOVAL DEEPSEEK API RAG BENCHMARK SUITE (10 SCENARIOS)")
+    print("  RUNNING ECOVAL DEEPSEEK API RAG BENCHMARK SUITE (10 SCENARIOS)")
     print("=========================================================================\n")
 
     results: List[Dict] = []
@@ -107,12 +110,17 @@ def run_benchmark():
         full_answer = []
 
         # Run streaming query to capture TTFT
-        for chunk in query_rag_stream(question):
-            if chunk.get("type") == "token":
-                if first_token_time is None:
-                    first_token_time = time.perf_counter()
-                    ttft = first_token_time - start_time
-                full_answer.append(chunk.get("content", ""))
+        for sse_line in ask_stream(question):
+            if sse_line.startswith("data: "):
+                try:
+                    payload = json.loads(sse_line.replace("data: ", "").strip())
+                    if payload.get("type") == "token":
+                        if first_token_time is None:
+                            first_token_time = time.perf_counter()
+                            ttft = first_token_time - start_time
+                        full_answer.append(payload.get("token", ""))
+                except Exception:
+                    pass
 
         end_time = time.perf_counter()
         total_time = end_time - start_time
@@ -147,7 +155,7 @@ def run_benchmark():
         }
         results.append(result_item)
 
-        print(f"    ✓ TTFT: {result_item['ttft_sec']}s | Total: {result_item['total_time_sec']}s | Accuracy: {result_item['accuracy_pct']}% | Cost: ${result_item['cost_usd']:.6f} (~{result_item['cost_vnd']:.2f}đ)")
+        print(f"    -> TTFT: {result_item['ttft_sec']}s | Total: {result_item['total_time_sec']}s | Accuracy: {result_item['accuracy_pct']}% | Cost: ${result_item['cost_usd']:.6f} (~{result_item['cost_vnd']:.2f} VND)")
         print(f"    Ans: {result_item['snippet']}\n")
 
     # Print summary report
@@ -158,16 +166,16 @@ def run_benchmark():
     avg_accuracy = sum(r["accuracy_pct"] for r in results) / len(results)
 
     print("\n=========================================================================")
-    print(" 📊 ECOVAL DEEPSEEK API BENCHMARK FINAL SUMMARY REPORT")
+    print("  ECOVAL DEEPSEEK API BENCHMARK FINAL SUMMARY REPORT")
     print("=========================================================================")
-    print(f"• Total Queries Processed:     {len(results)}")
-    print(f"• Average Time to First Token: {avg_ttft:.3f} seconds")
-    print(f"• Average Total Latency:       {avg_latency:.3f} seconds")
-    print(f"• Average Keyword Accuracy:    {avg_accuracy:.1f}%")
-    print(f"• Total Input Tokens Used:     {total_input_tokens:,}")
-    print(f"• Total Output Tokens Used:    {total_output_tokens:,}")
-    print(f"• Total Suite Execution Cost:  ${total_cost_usd:.6f} USD (~{total_cost_vnd:.2f} VNĐ)")
-    print(f"• Projected Cost / 1,000 Qs:   ${total_cost_usd * 100:.2f} USD (~{total_cost_vnd * 100:,.0f} VNĐ)")
+    print(f"* Total Queries Processed:     {len(results)}")
+    print(f"* Average Time to First Token: {avg_ttft:.3f} seconds")
+    print(f"* Average Total Latency:       {avg_latency:.3f} seconds")
+    print(f"* Average Keyword Accuracy:    {avg_accuracy:.1f}%")
+    print(f"* Total Input Tokens Used:     {total_input_tokens:,}")
+    print(f"* Total Output Tokens Used:    {total_output_tokens:,}")
+    print(f"* Total Suite Execution Cost:  ${total_cost_usd:.6f} USD (~{total_cost_vnd:.2f} VND)")
+    print(f"* Projected Cost / 1,000 Qs:   ${total_cost_usd * 100:.2f} USD (~{total_cost_vnd * 100:,.0f} VND)")
     print("=========================================================================\n")
 
 
