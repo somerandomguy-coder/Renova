@@ -22,6 +22,64 @@ interface Message {
   sources?: string[];
 }
 
+const renderMarkdown = (text: string) => {
+  try {
+    if (!text) return null;
+    const lines = text.split("\n");
+    return lines.map((line, index) => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        return <div key={index} className="h-2" />;
+      }
+
+      // Check if numbered list (e.g. 1. )
+      const numListMatch = trimmed.match(/^(\d+)\.\s(.*)/);
+      if (numListMatch) {
+        const num = numListMatch[1];
+        const textToParse = numListMatch[2];
+        const parts = textToParse.split("**");
+        const formatted = parts.map((part, i) => 
+          i % 2 === 1 ? <strong key={i} className="font-bold text-amber-600 dark:text-amber-300">{part}</strong> : part
+        );
+        return (
+          <div key={index} className="flex gap-2 items-start my-1 pl-1">
+            <span className="text-[12px] font-bold shrink-0 text-brand-primary dark:text-amber-400">{num}.</span>
+            <span className="flex-1 text-[13px] leading-relaxed">{formatted}</span>
+          </div>
+        );
+      }
+
+      // Check if bullet point (* or - or •)
+      const isBullet = trimmed.startsWith("* ") || trimmed.startsWith("- ") || trimmed.startsWith("• ");
+      const textToParse = isBullet ? trimmed.slice(2) : line;
+
+      // Parse **bold** text
+      const parts = textToParse.split("**");
+      const formatted = parts.map((part, i) => 
+        i % 2 === 1 ? <strong key={i} className="font-bold text-amber-600 dark:text-amber-300">{part}</strong> : part
+      );
+
+      if (isBullet) {
+        return (
+          <div key={index} className="flex gap-2 items-start my-1 pl-1">
+            <span className="w-1.5 h-1.5 rounded-full shrink-0 mt-2 bg-brand-primary dark:bg-amber-400" />
+            <span className="flex-1 text-[13px] leading-relaxed">{formatted}</span>
+          </div>
+        );
+      }
+
+      return (
+        <p key={index} className="m-0 text-[13px] leading-relaxed">
+          {formatted}
+        </p>
+      );
+    });
+  } catch (err) {
+    // Graceful fallback to raw text if anything fails
+    return <p className="whitespace-pre-wrap">{text}</p>;
+  }
+};
+
 export default function AiAssistantPage() {
   const [lang, setLang] = useState<"vi" | "en">("vi");
   const [messages, setMessages] = useState<Message[]>([
@@ -338,7 +396,7 @@ export default function AiAssistantPage() {
                       : "bg-white dark:bg-zinc-900 border border-brand-border dark:border-zinc-800 text-brand-text-primary dark:text-zinc-200 rounded-tl-none shadow-sm"
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">{m.content}</p>
+                  {renderMarkdown(m.content)}
 
                   {m.sources && m.sources.length > 0 && (
                     <div className="mt-3 pt-2.5 border-t border-brand-border dark:border-zinc-800 text-[11px] text-brand-text-muted dark:text-zinc-400 flex flex-col gap-1">
