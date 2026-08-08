@@ -12,11 +12,11 @@ const translations = {
   vi: {
     title: "Ma trận So sánh ",
     titleHighlight: "Vật liệu",
-    subtitle: "Khác biệt vượt trội của gạch bông gió sinh thái RENOVA so với các vật liệu xây dựng truyền thống trên thị trường về cả thông số kỹ thuật lẫn bảo vệ môi trường.",
+    subtitle: "Khác biệt vượt trội của gạch bông gió sinh thái ECOVAL so với các vật liệu xây dựng truyền thống trên thị trường về cả thông số kỹ thuật lẫn bảo vệ môi trường.",
     techProp: "Đặc tính kỹ thuật",
     superior: "Vượt trội",
     categories: [
-      { name: "Gạch bông gió RENOVA", sub: "Vật liệu sinh thái thế hệ mới" },
+      { name: "Gạch bông gió ECOVAL", sub: "Vật liệu sinh thái thế hệ mới" },
       { name: "Bông gió Bê tông / Xi măng", sub: "Phương pháp truyền thống nặng" },
       { name: "Bông gió Đất nung", sub: "Đất sét nung nhiệt độ cao" }
     ],
@@ -66,11 +66,11 @@ const translations = {
   en: {
     title: "Comparison ",
     titleHighlight: "Matrix",
-    subtitle: "The outstanding advantages of RENOVA eco breeze blocks compared to traditional materials in terms of physical specifications and eco-impact.",
+    subtitle: "The outstanding advantages of ECOVAL eco breeze blocks compared to traditional materials in terms of physical specifications and eco-impact.",
     techProp: "Technical Properties",
     superior: "Superior",
     categories: [
-      { name: "RENOVA Breeze Block", sub: "Next-gen eco material" },
+      { name: "ECOVAL Breeze Block", sub: "Next-gen eco material" },
       { name: "Concrete / Cement Block", sub: "Heavy traditional method" },
       { name: "Clay Terracotta Block", sub: "High-heat kiln fired clay" }
     ],

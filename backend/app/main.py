@@ -36,7 +36,7 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to RENOVA Circular & ESG Platform API", "docs": "/docs"}
+    return {"message": "Welcome to ECOVAL Sustainable Materials & ESG Platform API", "docs": "/docs"}
 
 @app.get(f"{settings.API_V1_STR}/health", status_code=status.HTTP_200_OK)
 def health_check():
@@ -613,7 +613,7 @@ from fastapi.responses import StreamingResponse
     f"{settings.API_V1_STR}/ai/chat",
     response_model=schemas.ChatResponse,
     status_code=status.HTTP_200_OK,
-    summary="Chat with RENOVA AI sustainability advisor"
+    summary="Chat with ECOVAL AI sustainability advisor"
 )
 def chat_with_ai(req: schemas.ChatRequest):
     """
@@ -635,7 +635,7 @@ def chat_with_ai(req: schemas.ChatRequest):
 
 @app.post(
     f"{settings.API_V1_STR}/ai/chat/stream",
-    summary="Chat with RENOVA AI (streaming SSE)"
+    summary="Chat with ECOVAL AI (streaming SSE)"
 )
 def chat_with_ai_stream(req: schemas.ChatRequest):
     """

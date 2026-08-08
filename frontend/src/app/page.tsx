@@ -26,6 +26,7 @@ const navTranslations = {
     team: "Về chúng tôi",
     awards: "Bảng vàng",
     finance: "Thông tin tài chính",
+    ai: "Trợ lý AI",
     cta: "Hợp tác ngay"
   },
   en: {
@@ -37,6 +38,7 @@ const navTranslations = {
     team: "Core Team",
     awards: "Milestones",
     finance: "Financial Info",
+    ai: "AI Assistant",
     cta: "Partner Now"
   }
 };
@@ -52,7 +54,7 @@ const footerTranslations = {
     financeTitle: "Thông tin tài chính",
     contact: "Liên hệ",
     lab: "📍 Trường đại học bách khoa - ĐHQG-HCM",
-    rights: `© ${new Date().getFullYear()} RENOVA Circular. Bảo lưu mọi quyền.`,
+    rights: `© ${new Date().getFullYear()} ECOVAL Sustainable Materials. Bảo lưu mọi quyền.`,
     privacy: "Điều khoản bảo mật",
     terms: "Quy chế thành viên"
   },
@@ -66,7 +68,7 @@ const footerTranslations = {
     financeTitle: "Financial Info",
     contact: "Contact Details",
     lab: "📍 New Materials R&D Lab, HCMC University of Technology - VNU-HCM",
-    rights: `© ${new Date().getFullYear()} RENOVA Circular. All rights reserved.`,
+    rights: `© ${new Date().getFullYear()} ECOVAL Sustainable Materials. All rights reserved.`,
     privacy: "Privacy Policy",
     terms: "Terms of Service"
   }
@@ -85,12 +87,12 @@ export default function Home() {
         <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 flex justify-between items-center h-20 relative">
           <div className="flex items-center gap-3 shrink-0">
             <img 
-              src="/Logo.png" 
-              alt="RENOVA Logo" 
-              className="h-9 w-auto rounded-md object-contain" 
+              src="/ecoval_logo.jpeg" 
+              alt="ECOVAL Logo" 
+              className="h-10 w-auto rounded-md object-contain" 
             />
             <span className="text-[10px] font-bold text-brand-text-muted border border-brand-border px-1.5 py-0.5 rounded uppercase">
-              Circular
+              SUSTAINABLE MATERIALS
             </span>
           </div>
 
@@ -104,6 +106,7 @@ export default function Home() {
               <li><a href="#doi-ngu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.team}</a></li>
               <li><a href="#thanh-tuu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.awards}</a></li>
               <li><a href="#tai-chinh" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.finance}</a></li>
+              <li><a href="/ai-assistant" className="text-brand-primary font-bold hover:underline transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm flex items-center gap-1">✨ {nav.ai}</a></li>
             </ul>
           </nav>
 
@@ -128,74 +131,66 @@ export default function Home() {
               </button>
             </div>
 
-            <a href="#dang-ky" className="btn-primary header-cta hidden xl:inline-flex px-5 py-2 text-sm whitespace-nowrap">
+            <a href="#dang-ky" className="bg-brand-primary text-white px-5 py-2.5 rounded-full font-bold text-xs hover:bg-brand-secondary transition-all duration-300 shadow-md hover:shadow-lg no-underline font-heading whitespace-nowrap hidden sm:inline-block">
               {nav.cta}
             </a>
 
             {/* Mobile Menu Toggle Button */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="xl:hidden bg-transparent border-none text-brand-text-primary dark:text-white cursor-pointer p-1"
+              className="xl:hidden p-2 text-brand-text-primary dark:text-white bg-transparent border-none cursor-pointer"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 
-          {/* Mobile Drawer Menu */}
+          {/* Mobile Navigation Dropdown */}
           {isMenuOpen && (
-            <div className="xl:hidden absolute top-20 left-[-16px] sm:left-[-24px] w-[calc(100%+32px)] sm:w-[calc(100%+48px)] bg-white/98 dark:bg-zinc-950/98 backdrop-blur-md border-b border-brand-border p-6 flex flex-col gap-4 z-50 shadow-lg max-h-[80vh] overflow-y-auto">
-              <ul className="flex flex-col gap-4 list-none">
-                <li><a href="#trang-chu" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.about}</a></li>
-                <li><a href="#tam-nhin-esg" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.esg}</a></li>
-                <li><a href="#thu-vien-rd" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.rd}</a></li>
-                <li><a href="#tinh-toan" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.calc}</a></li>
-                <li><a href="#quy-trinh-epr" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.epr}</a></li>
-                <li><a href="#doi-ngu" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.team}</a></li>
-                <li><a href="#thanh-tuu" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.awards}</a></li>
-                <li><a href="#tai-chinh" onClick={() => setIsMenuOpen(false)} className="block py-2 text-brand-text-muted hover:text-brand-primary font-medium border-b border-black/3 dark:border-white/4 font-heading">{nav.finance}</a></li>
-              </ul>
-              
-              <a 
-                href="#dang-ky" 
-                onClick={() => setIsMenuOpen(false)} 
-                className="btn-primary w-full justify-center py-3 text-center text-sm mt-2"
-              >
-                {nav.cta}
-              </a>
+            <div className="xl:hidden bg-white dark:bg-zinc-900 border-b border-brand-border px-6 py-4 flex flex-col gap-3 absolute top-20 left-0 w-full z-50">
+              <a href="#trang-chu" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.about}</a>
+              <a href="#tam-nhin-esg" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.esg}</a>
+              <a href="#thu-vien-rd" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.rd}</a>
+              <a href="#tinh-toan" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.calc}</a>
+              <a href="#quy-trinh-epr" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.epr}</a>
+              <a href="#doi-ngu" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.team}</a>
+              <a href="#thanh-tuu" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.awards}</a>
+              <a href="#tai-chinh" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.finance}</a>
+              <a href="/ai-assistant" onClick={() => setIsMenuOpen(false)} className="text-brand-primary font-bold py-2 flex items-center gap-1">✨ {nav.ai}</a>
+              <a href="#dang-ky" onClick={() => setIsMenuOpen(false)} className="bg-brand-primary text-white text-center py-2.5 rounded-full font-bold text-xs mt-2 no-underline">{nav.cta}</a>
             </div>
           )}
         </div>
       </header>
 
-      {/* Main Sections Wrapper */}
-      <main className="pt-20">
+      {/* Main Page Layout Sections */}
+      <main id="trang-chu">
         <HeroSection lang={lang} />
-        <EsgVision lang={lang} />
-        <InteractiveTimeline lang={lang} />
-        <RdShowcase lang={lang} />
-        <ComparisonMatrix lang={lang} />
-        <EsgCalculator lang={lang} />
-        <EprStepper lang={lang} />
-        <RegistrationForms lang={lang} />
-        <TeamSection lang={lang} />
-        <Stakeholders lang={lang} />
-        <Milestones lang={lang} />
-        <FinancialReport lang={lang} />
+        <section id="tam-nhin-esg"><EsgVision lang={lang} /></section>
+        <section><InteractiveTimeline lang={lang} /></section>
+        <section id="thu-vien-rd"><RdShowcase lang={lang} /></section>
+        <section><ComparisonMatrix lang={lang} /></section>
+        <section id="tinh-toan"><EsgCalculator lang={lang} /></section>
+        <section id="quy-trinh-epr"><EprStepper lang={lang} /></section>
+        <section id="doi-ngu"><TeamSection lang={lang} /></section>
+        <section id="thanh-tuu"><Milestones lang={lang} /></section>
+        <section id="tai-chinh"><FinancialReport lang={lang} /></section>
+        <section id="dang-ky"><RegistrationForms lang={lang} /></section>
+        <section><Stakeholders lang={lang} /></section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-[#f4f7f5]/98 border-t border-brand-border py-16 text-brand-text-muted text-sm dark:bg-zinc-950 dark:border-white/10">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+      {/* Global Footer */}
+      <footer className="bg-brand-card-light dark:bg-zinc-900 border-t border-brand-border dark:border-white/10 text-brand-text-muted text-sm py-12 px-6">
+        <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <img 
-                  src="/Logo.png" 
-                  alt="RENOVA Logo" 
+                  src="/ecoval_logo.jpeg" 
+                  alt="ECOVAL Logo" 
                   className="h-8 w-auto rounded object-contain" 
                 />
-                <span className="font-black text-lg text-brand-text-primary dark:text-white">Circular</span>
+                <span className="font-black text-lg text-brand-text-primary dark:text-white">Sustainable Materials</span>
               </div>
               <p className="leading-relaxed max-w-sm">
                 {foot.slogan}
@@ -209,6 +204,7 @@ export default function Home() {
               <a href="#tinh-toan" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.calcTitle}</a>
               <a href="#tai-chinh" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.financeTitle}</a>
               <a href="#dang-ky" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.partnerTitle}</a>
+              <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1">✨ ECOVAL AI Workspace</a>
             </div>
 
             <div className="flex flex-col gap-3">
@@ -216,7 +212,7 @@ export default function Home() {
               <p>{foot.lab}</p>
               <p>✉️ <a href="mailto:renova.project268@gmail.com" className="text-inherit hover:text-brand-primary transition-colors">renova.project268@gmail.com</a></p>
               <p>📞 <a href="tel:0914626717" className="text-inherit hover:text-brand-primary transition-colors">0914626717</a></p>
-              <p>🌐 <a href="https://www.facebook.com/profile.php?id=61586260467256" target="_blank" rel="noopener noreferrer" className="text-inherit hover:text-brand-primary transition-colors underline">Fanpage: RENOVA Circular</a></p>
+              <p>🌐 <a href="https://www.facebook.com/profile.php?id=61586260467256" target="_blank" rel="noopener noreferrer" className="text-inherit hover:text-brand-primary transition-colors underline">Fanpage: ECOVAL Sustainable Materials</a></p>
             </div>
 
           </div>

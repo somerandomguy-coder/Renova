@@ -9,13 +9,13 @@ interface HeroSectionProps {
 
 const translations = {
   vi: {
-    project: "Dự án RENOVA Circular",
+    project: "Dự án ECOVAL Sustainable Materials",
     description: "Quy trình kinh tế tuần hoàn số hóa đột phá. Chúng tôi chuyển đổi rác thải nhựa đa lớp (MLP) \"bất tử\" kết hợp phế phẩm vỏ trấu nông nghiệp thành gạch bông gió di sản xanh đẳng cấp—cách âm, cách nhiệt chủ động.",
     eprBtn: "Đăng ký tư vấn EPR",
     esgBtn: "Công cụ tính toán ESG"
   },
   en: {
-    project: "RENOVA Circular Project",
+    project: "ECOVAL Sustainable Materials Project",
     description: "A breakthrough digital circular economy process. We upcycle \"indestructible\" multi-layer plastic (MLP) waste and agricultural husk by-products into premium heritage breeze blocks—delivering active thermal and acoustic shielding.",
     eprBtn: "EPR Consultation",
     esgBtn: "ESG Calculator"

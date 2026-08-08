@@ -17,28 +17,28 @@ interface ChatMessage {
 
 const translations = {
   vi: {
-    title: "RENOVA AI",
+    title: "ECOVAL AI",
     subtitle: "Trợ lý bền vững",
     placeholder: "Hỏi về sản phẩm, ESG, EPR...",
     thinking: "Đang suy nghĩ...",
-    welcome: "Xin chào! 👋 Tôi là trợ lý AI của RENOVA. Tôi có thể giúp bạn về sản phẩm gạch bông gió, tính toán ESG, quy trình EPR và nhiều hơn nữa. Hãy hỏi tôi bất cứ điều gì!",
+    welcome: "Xin chào! 👋 Tôi là trợ lý AI của ECOVAL. Tôi có thể giúp bạn về sản phẩm gạch bông gió, tính toán ESG, quy trình EPR và nhiều hơn nữa. Hãy hỏi tôi bất cứ điều gì!",
     suggestions: [
-      "RENOVA là gì?",
+      "ECOVAL là gì?",
       "Gạch bông gió có bền không?",
       "EPR hoạt động như nào?",
-      "Giá gạch RENOVA bao nhiêu?",
+      "Giá gạch ECOVAL bao nhiêu?",
     ],
     sourceLabel: "Nguồn tham khảo:",
     errorOffline: "Không thể kết nối đến máy chủ AI. Vui lòng thử lại sau.",
   },
   en: {
-    title: "RENOVA AI",
+    title: "ECOVAL AI",
     subtitle: "Sustainability Advisor",
     placeholder: "Ask about products, ESG, EPR...",
     thinking: "Thinking...",
-    welcome: "Hello! 👋 I'm RENOVA's AI assistant. I can help you with breeze block products, ESG calculations, EPR workflows, and more. Ask me anything!",
+    welcome: "Hello! 👋 I'm ECOVAL's AI assistant. I can help you with breeze block products, ESG calculations, EPR workflows, and more. Ask me anything!",
     suggestions: [
-      "What is RENOVA?",
+      "What is ECOVAL?",
       "How strong are the bricks?",
       "How does EPR work?",
       "How much do bricks cost?",

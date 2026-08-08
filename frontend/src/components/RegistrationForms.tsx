@@ -14,9 +14,9 @@ const translations = {
   vi: {
     title: "Cổng Đăng ký ",
     titleHighlight: "Hợp tác",
-    subtitle: "Lựa chọn phân hệ phù hợp để tham gia chuỗi giá trị tuần hoàn cùng RENOVA. Chúng tôi sẽ liên hệ lại ngay sau khi tiếp nhận thông tin.",
+    subtitle: "Lựa chọn phân hệ phù hợp để tham gia chuỗi giá trị tuần hoàn cùng ECOVAL. Chúng tôi sẽ liên hệ lại ngay sau khi tiếp nhận thông tin.",
     successTitle: "Đăng ký Thành công!",
-    successDesc: "Cảm ơn bạn đã đăng ký thông tin hợp tác với RENOVA. Chúng tôi đã tiếp nhận thông tin và sẽ liên hệ lại qua email {email} trong thời gian sớm nhất.",
+    successDesc: "Cảm ơn bạn đã đăng ký thông tin hợp tác với ECOVAL. Chúng tôi đã tiếp nhận thông tin và sẽ liên hệ lại qua email {email} trong thời gian sớm nhất.",
     infoReceived: "Thông tin đã tiếp nhận:",
     companyLabel: "• Doanh nghiệp: ",
     contactLabel: "• Người đại diện: ",
@@ -62,9 +62,9 @@ const translations = {
   en: {
     title: "Cooperation ",
     titleHighlight: "Register",
-    subtitle: "Select the appropriate module to participate in the circular value chain with RENOVA. We will contact you soon after receiving your submission.",
+    subtitle: "Select the appropriate module to participate in the circular value chain with ECOVAL. We will contact you soon after receiving your submission.",
     successTitle: "Registration Success!",
-    successDesc: "Thank you for registering your cooperation information with RENOVA. We have received your submission and will contact you via email at {email} as soon as possible.",
+    successDesc: "Thank you for registering your cooperation information with ECOVAL. We have received your submission and will contact you via email at {email} as soon as possible.",
     infoReceived: "Received Information:",
     companyLabel: "• Company: ",
     contactLabel: "• Representative: ",

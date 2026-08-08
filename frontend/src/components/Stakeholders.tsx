@@ -12,7 +12,7 @@ const translations = {
   vi: {
     title: "Bên liên quan & ",
     titleHighlight: "Hệ sinh thái",
-    subtitle: "RENOVA được bảo trợ chuyên môn sâu sắc bởi các viện nghiên cứu và đồng hành cùng các hiệp hội, tập đoàn lớn trong định hình chuỗi giá trị rác thải tuần hoàn.",
+    subtitle: "ECOVAL được bảo trợ chuyên môn sâu sắc bởi các viện nghiên cứu và đồng hành cùng các hiệp hội, tập đoàn lớn trong định hình chuỗi giá trị rác thải tuần hoàn.",
     partnersHeader: "Đơn vị Đồng hành & Bảo trợ",
     advisorsHeader: "Hội đồng Cố vấn Chuyên môn (Advisory Board)",
     partners: [
@@ -40,7 +40,7 @@ const translations = {
   en: {
     title: "Stakeholders & ",
     titleHighlight: "Ecosystem",
-    subtitle: "RENOVA is strongly supported by research institutions, working alongside industry organizations to shape the circular waste value chain.",
+    subtitle: "ECOVAL is strongly supported by research institutions, working alongside industry organizations to shape the circular waste value chain.",
     partnersHeader: "Partners & Supporting Units",
     advisorsHeader: "Scientific & Technical Advisory Board",
     partners: [

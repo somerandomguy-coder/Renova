@@ -11,7 +11,7 @@ interface InteractiveTimelineProps {
 const translations = {
   vi: {
     title: "Hành trình ",
-    titleHighlight: "RENOVA",
+    titleHighlight: "ECOVAL",
     subtitle: "Từ phát minh khoa học trong phòng thí nghiệm trường Bách Khoa đến giải pháp vật liệu xanh có chứng nhận chất lượng quốc tế và sẵn sàng thương mại hóa.",
     steps: [
       {
@@ -41,7 +41,7 @@ const translations = {
     ]
   },
   en: {
-    title: "The RENOVA ",
+    title: "The ECOVAL ",
     titleHighlight: "Journey",
     subtitle: "From a scientific breakthrough in the HCMC University of Technology lab to an eco-material solution with international quality certifications, ready for commercialization.",
     steps: [

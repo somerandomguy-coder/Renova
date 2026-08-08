@@ -70,7 +70,7 @@ class ESGCalcResponse(BaseModel):
 
 class EPRCashflowRequest(BaseModel):
     packaging_volume_kg: float = Field(..., gt=0, description="Khối lượng bao bì MLP thải ra thị trường (kg/năm)")
-    brick_price_vnd: float = Field(45000.0, gt=0, description="Giá bán gạch RENOVA dự kiến (VND/viên)")
+    brick_price_vnd: float = Field(45000.0, gt=0, description="Giá bán gạch ECOVAL dự kiến (VND/viên)")
 
 class EPRCashflowResponse(BaseModel):
     packaging_volume_kg: float
@@ -78,9 +78,9 @@ class EPRCashflowResponse(BaseModel):
     optimized_epr_fee_vnd: float = Field(..., description="Nghĩa vụ đóng quỹ EPR sau tối ưu hóa (VND)")
     epr_savings_vnd: float = Field(..., description="Số tiền tiết kiệm từ nghĩa vụ EPR (VND)")
     
-    # RENOVA Purchase dynamic analysis
-    renova_bricks_needed: int = Field(..., description="Số lượng gạch RENOVA cần mua để offset hoàn toàn lượng nhựa")
-    total_brick_cost_vnd: float = Field(..., description="Tổng chi phí mua gạch RENOVA (VND)")
+    # ECOVAL Purchase dynamic analysis
+    renova_bricks_needed: int = Field(..., description="Số lượng gạch ECOVAL cần mua để offset hoàn toàn lượng nhựa")
+    total_brick_cost_vnd: float = Field(..., description="Tổng chi phí mua gạch ECOVAL (VND)")
     net_cost_after_epr_offset_vnd: float = Field(..., description="Chi phí thực tế sau khi bù trừ khấu hao EPR (VND)")
     net_savings_percentage: float = Field(..., description="Phần trăm tiết kiệm được nhờ bù trừ")
 

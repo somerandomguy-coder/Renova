@@ -12,7 +12,7 @@ const translations = {
   vi: {
     title: "Thư viện số ",
     titleHighlight: "Mẫu thử R&D",
-    subtitle: "Khám phá chi tiết các thế hệ mẫu thử RENOVA đã qua kiểm định khắt khe về độ bền cơ lý, khả năng chịu nhiệt và đặc tính chống chịu môi trường.",
+    subtitle: "Khám phá chi tiết các thế hệ mẫu thử ECOVAL đã qua kiểm định khắt khe về độ bền cơ lý, khả năng chịu nhiệt và đặc tính chống chịu môi trường.",
     viewSpecs: "Xem thông số kỹ thuật",
     close: "Đóng lại",
     compressiveLabel: "Cường độ nén",
@@ -65,7 +65,7 @@ const translations = {
   en: {
     title: "Digital Library ",
     titleHighlight: "R&D Specimens",
-    subtitle: "Explore detailed technical data of RENOVA specimen generations, certified under strict mechanical strength, thermal shielding and environmental tests.",
+    subtitle: "Explore detailed technical data of ECOVAL specimen generations, certified under strict mechanical strength, thermal shielding and environmental tests.",
     viewSpecs: "View Specifications",
     close: "Close",
     compressiveLabel: "Compressive Strength",
