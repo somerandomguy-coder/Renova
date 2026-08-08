@@ -1,4 +1,4 @@
-# Vietnam EPR Regulations — Summary for RENOVA
+# Vietnam EPR Regulations — Summary for ECOVAL
 
 ## What is EPR?
 Extended Producer Responsibility (EPR) is a mandatory legal framework in Vietnam under the 2020 Law on Environmental Protection. It requires producers and importers of specific products — including plastic packaging — to take financial and operational responsibility for recycling and end-of-life treatment.
@@ -27,12 +27,12 @@ Producers and importers must either:
 - Vietnam ranked 7th globally in mismanaged plastic waste volume (2.1 million tonnes as of 2025)
 - Recycling industry is scaling up, with leading firms tripling production to 49,000+ metric tonnes of recycled plastic annually by 2025
 
-## How RENOVA Helps with EPR Compliance
-RENOVA provides a direct pathway for companies to offset their EPR obligations:
-1. Companies with MLP packaging waste can partner with RENOVA
-2. RENOVA converts their waste into breeze blocks (each brick uses 1.05 kg of plastic waste)
+## How ECOVAL Helps with EPR Compliance
+ECOVAL provides a direct pathway for companies to offset their EPR obligations:
+1. Companies with MLP packaging waste can partner with ECOVAL
+2. ECOVAL converts their waste into breeze blocks (each brick uses 1.05 kg of plastic waste)
 3. The partnership counts toward the company's recycling obligations under EPR
-4. Companies can also purchase RENOVA bricks for office/factory landscaping, with costs partially offset by EPR fund credits
+4. Companies can also purchase ECOVAL bricks for office/factory landscaping, with costs partially offset by EPR fund credits
 5. This creates a circular economy loop: waste becomes building material, companies save on EPR fees
 
 ## Key Challenges in Vietnam

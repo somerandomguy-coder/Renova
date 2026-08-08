@@ -1,7 +1,7 @@
-# RENOVA Circular — Product Specifications
+# ECOVAL Sustainable Materials — Product Specifications
 
 ## Overview
-RENOVA produces eco-friendly breeze blocks (gạch bông gió) made from recycled multi-layer plastic waste (MLP) and rice husk cellulose fibers. Each block upcycles plastic waste that would otherwise end up in landfills or oceans.
+ECOVAL produces eco-friendly breeze blocks (gạch bông gió) made from recycled multi-layer plastic waste (MLP) and rice husk cellulose fibers. Each block upcycles plastic waste that would otherwise end up in landfills or oceans.
 
 ## Core Specifications
 - **Unit Block Weight**: 1.5 kg per breeze block

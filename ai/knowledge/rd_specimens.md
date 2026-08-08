@@ -1,4 +1,4 @@
-# RENOVA R&D Specimen Generations
+# ECOVAL R&D Specimen Generations
 
 ## Generation 1 — Base Composite Specimen (Lab Phase)
 - **Title**: Mẫu phôi composite nền / Base Composite Specimen

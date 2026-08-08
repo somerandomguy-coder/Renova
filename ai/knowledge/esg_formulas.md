@@ -1,4 +1,4 @@
-# RENOVA ESG Calculation Methodology
+# ECOVAL ESG Calculation Methodology
 
 ## Environmental Impact Calculator
 
@@ -15,7 +15,7 @@ For a given number of bricks:
 - **CO2 reduced** = (bricks × 0.37) + (plastic_waste_mass × 0.80) + (husk_consumed × 0.77) kg
 
 ### Area Conversion
-- 1 m² of surface area requires approximately 25 standard RENOVA breeze bricks (based on 19×19×6.5 cm dimensions)
+- 1 m² of surface area requires approximately 25 standard ECOVAL breeze bricks (based on 19×19×6.5 cm dimensions)
 - Example: A 40 m² surface needs approximately 1,000 bricks
 
 ### Example Calculation (1,000 bricks)
@@ -33,7 +33,7 @@ EPR (Extended Producer Responsibility) is a Vietnamese regulatory framework (Dec
 
 ### EPR Fee Calculation
 - **Standard EPR Fee**: packaging_volume_kg × 15,000 VND/kg
-- **Optimized EPR Fee** (with RENOVA offset): standard_fee × 60% (40% reduction)
+- **Optimized EPR Fee** (with ECOVAL offset): standard_fee × 60% (40% reduction)
 - **EPR Savings**: standard_fee - optimized_fee
 
 ### EPR Offset Purchase Analysis
@@ -42,4 +42,4 @@ EPR (Extended Producer Responsibility) is a Vietnamese regulatory framework (Dec
 - **Net cost after EPR offset**: gross_cost - standard_epr_fee
 
 ### How the Offset Works
-Through the EPR obligation offset mechanism, enterprises can recoup a portion of material expenditures by reinvesting in RENOVA breeze blocks for factory or office landscaping construction. The EPR Fund effectively subsidizes a percentage of the material cost, making RENOVA blocks a financially advantageous choice for companies with EPR obligations.
+Through the EPR obligation offset mechanism, enterprises can recoup a portion of material expenditures by reinvesting in ECOVAL breeze blocks for factory or office landscaping construction. The EPR Fund effectively subsidizes a percentage of the material cost, making ECOVAL blocks a financially advantageous choice for companies with EPR obligations.

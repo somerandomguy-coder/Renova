@@ -19,7 +19,7 @@ from ai.rag.config import get_config
 _client: Any = None
 _collection: Any = None
 
-COLLECTION_NAME = "renova_knowledge"
+COLLECTION_NAME = "ecoval_knowledge"
 
 
 class HuggingFaceEmbeddingFunction(chromadb.EmbeddingFunction):
