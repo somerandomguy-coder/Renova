@@ -17,17 +17,39 @@ if os.path.exists(_backend_env):
     load_dotenv(_backend_env)
 
 
+def _get_default_provider() -> str:
+    if os.getenv("DEEPSEEK_API_KEY"):
+        return "deepseek"
+    return os.getenv("LLM_PROVIDER", "ollama")
+
+def _get_default_base_url() -> str:
+    provider = _get_default_provider()
+    base_url = os.getenv("LLM_BASE_URL", "")
+    if provider == "deepseek" or "groq" in base_url.lower() or not base_url:
+        return "https://api.deepseek.com"
+    return base_url
+
+def _get_default_api_key() -> str:
+    if os.getenv("DEEPSEEK_API_KEY"):
+        return os.getenv("DEEPSEEK_API_KEY")
+    return os.getenv("LLM_API_KEY", "ollama")
+
+def _get_default_model() -> str:
+    provider = _get_default_provider()
+    model = os.getenv("LLM_MODEL", "")
+    if provider == "deepseek" or "llama" in model.lower() or not model:
+        return "deepseek-chat"
+    return model
+
 @dataclass
 class RAGConfig:
     """Configuration for the RAG pipeline, loaded from environment variables."""
 
     # LLM Provider settings
-    llm_provider: str = field(default_factory=lambda: os.getenv("LLM_PROVIDER", "ollama"))
-    llm_model: str = field(default_factory=lambda: os.getenv("LLM_MODEL", "qwen3.5:4b"))
-    llm_base_url: str = field(
-        default_factory=lambda: os.getenv("LLM_BASE_URL", "http://localhost:11434/v1")
-    )
-    llm_api_key: str = field(default_factory=lambda: os.getenv("LLM_API_KEY", "ollama"))
+    llm_provider: str = field(default_factory=_get_default_provider)
+    llm_model: str = field(default_factory=_get_default_model)
+    llm_base_url: str = field(default_factory=_get_default_base_url)
+    llm_api_key: str = field(default_factory=_get_default_api_key)
 
     # Embedding settings
     # "local" = ChromaDB's built-in onnxruntime (fast on good CPU, slow on free tier)
