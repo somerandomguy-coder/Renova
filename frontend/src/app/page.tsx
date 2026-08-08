@@ -87,9 +87,9 @@ export default function Home() {
         <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 flex justify-between items-center h-20 relative">
           <div className="flex items-center gap-3 shrink-0">
             <img 
-              src="/ecoval_logo.jpeg" 
+              src="/ecoval_logo.png" 
               alt="ECOVAL Logo" 
-              className="h-10 w-auto rounded-md object-contain" 
+              className="h-10 w-auto object-contain dark:brightness-110" 
             />
             <span className="text-[10px] font-bold text-brand-text-muted border border-brand-border px-1.5 py-0.5 rounded uppercase">
               SUSTAINABLE MATERIALS
@@ -186,9 +186,9 @@ export default function Home() {
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <img 
-                  src="/ecoval_logo.jpeg" 
+                  src="/ecoval_logo.png" 
                   alt="ECOVAL Logo" 
-                  className="h-8 w-auto rounded object-contain" 
+                  className="h-9 w-auto object-contain dark:brightness-110" 
                 />
                 <span className="font-black text-lg text-brand-text-primary dark:text-white">Sustainable Materials</span>
               </div>
@@ -220,8 +220,8 @@ export default function Home() {
           <div className="border-t border-brand-border pt-6 text-center text-xs flex flex-col md:flex-row justify-between items-center flex-wrap gap-3 dark:border-white/10">
             <p>{foot.rights}</p>
             <p className="flex gap-4">
-              <a href="#" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.privacy}</a>
-              <a href="#" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.terms}</a>
+              <a href="/privacy" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.privacy}</a>
+              <a href="/terms" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.terms}</a>
             </p>
           </div>
         </div>
