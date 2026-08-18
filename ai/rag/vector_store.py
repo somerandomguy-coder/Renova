@@ -1,5 +1,6 @@
+import os
 """
-RENOVA AI RAG — Vector Store
+ECOVAL AI RAG — Vector Store
 
 ChromaDB wrapper for document storage and retrieval.
 Supports two embedding modes:
@@ -10,10 +11,22 @@ Supports two embedding modes:
 import json
 import urllib.request
 import chromadb
-
 from typing import Any
 
 from ai.rag.config import get_config
+
+# Safe Langfuse observe import
+try:
+    from langfuse.decorators import observe, langfuse_context
+    LANGFUSE_AVAILABLE = True
+except ImportError:
+    LANGFUSE_AVAILABLE = False
+    def observe(*args, **kwargs):
+        if len(args) == 1 and callable(args[0]):
+            return args[0]
+        def decorator(func):
+            return func
+        return decorator
 
 # Singleton client and collection
 _client: Any = None
@@ -23,10 +36,7 @@ COLLECTION_NAME = "ecoval_knowledge"
 
 
 class HuggingFaceEmbeddingFunction(chromadb.EmbeddingFunction):
-    """Cloud embedding function using the official HuggingFace Inference Client SDK.
-
-    No API key required for public models, but HF_TOKEN is recommended to avoid rate limits.
-    """
+    """Cloud embedding function using the official HuggingFace Inference Client SDK."""
 
     def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
         self.model_name = model_name
@@ -36,7 +46,6 @@ class HuggingFaceEmbeddingFunction(chromadb.EmbeddingFunction):
 
     def __call__(self, input: list[str]) -> list[list[float]]:
         """Generate embeddings using the official InferenceClient."""
-        import os
         from huggingface_hub import InferenceClient
 
         hf_token = os.getenv("HF_API_KEY") or os.getenv("HF_TOKEN")
@@ -44,8 +53,6 @@ class HuggingFaceEmbeddingFunction(chromadb.EmbeddingFunction):
 
         try:
             embeddings = client.feature_extraction(input, model=self.model_name)
-            
-            # The SDK returns a NumPy array or list. Convert to a list of lists of floats.
             if hasattr(embeddings, "tolist"):
                 return embeddings.tolist()
             elif isinstance(embeddings, list):
@@ -70,20 +77,15 @@ def _get_embedding_function() -> Any:
         return HuggingFaceEmbeddingFunction(model_name=config.embedding_model)
     else:
         print("[Embeddings] Using ChromaDB default (local onnxruntime)")
-        return None  # ChromaDB uses its built-in default
+        return None
 
 
 def get_collection() -> Any:
-    """Get or create the ChromaDB collection (lazy initialization).
-
-    Uses either local onnxruntime embeddings or cloud HuggingFace API
-    depending on EMBEDDING_PROVIDER config.
-    """
+    """Get or create the ChromaDB collection (lazy initialization)."""
     global _client, _collection
     if _collection is None:
         config = get_config()
         _client = chromadb.PersistentClient(path=config.chroma_dir)
-
         ef = _get_embedding_function()
 
         kwargs: dict[str, Any] = {
@@ -97,11 +99,11 @@ def get_collection() -> Any:
     return _collection
 
 
+@observe(name="vector_store_search")
 def search(query: str, top_k: int | None = None) -> list[dict]:
     """
     Search the vector store for relevant document chunks.
-
-    Returns a list of dicts with keys: 'content', 'source', 'distance'.
+    Instrumented with Langfuse tracing when available.
     """
     config = get_config()
     k = top_k or config.top_k
@@ -124,6 +126,15 @@ def search(query: str, top_k: int | None = None) -> list[dict]:
                 "distance": results["distances"][0][i] if results["distances"] else None,
             }
         )
+
+    if LANGFUSE_AVAILABLE and 'langfuse_context' in globals() and langfuse_context:
+        try:
+            langfuse_context.update_current_observation(
+                input={"query": query, "top_k": k},
+                output={"documents_count": len(documents), "sources": list(dict.fromkeys(d['source'] for d in documents))}
+            )
+        except Exception:
+            pass
 
     return documents
 

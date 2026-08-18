@@ -68,6 +68,13 @@ class RAGConfig:
     chunk_overlap: int = field(default_factory=lambda: int(os.getenv("RAG_CHUNK_OVERLAP", "50")))
     top_k: int = field(default_factory=lambda: int(os.getenv("RAG_TOP_K", "5")))
 
+    # Langfuse Observability settings
+    langfuse_public_key: str | None = field(default_factory=lambda: os.getenv("LANGFUSE_PUBLIC_KEY"))
+    langfuse_secret_key: str | None = field(default_factory=lambda: os.getenv("LANGFUSE_SECRET_KEY"))
+    langfuse_host: str = field(
+        default_factory=lambda: os.getenv("LANGFUSE_HOST") or os.getenv("LANGFUSE_BASE_URL", "https://cloud.langfuse.com")
+    )
+
     # Paths
     knowledge_dir: str = field(
         default_factory=lambda: os.getenv(
