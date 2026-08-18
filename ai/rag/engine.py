@@ -20,6 +20,10 @@ import urllib.error
 from typing import Generator
 
 from ai.rag.config import get_config
+
+# Ensure config is initialized and env vars are synced to os.environ BEFORE importing Langfuse
+_init_config = get_config()
+
 from ai.rag.vector_store import search
 
 # Safe Langfuse v4 imports
