@@ -8,7 +8,7 @@ Supports two modes:
   - ask()         → Full response (backward compatible)
   - ask_stream()  → Generator yielding SSE-formatted chunks for streaming
 
-Fully instrumented with Langfuse LLM Observability & Tracing.
+Fully instrumented with Langfuse v4 LLM Observability & Tracing.
 Includes production fallback safety (defaults to standard OpenAI SDK if Langfuse keys are absent).
 """
 
@@ -22,19 +22,20 @@ from typing import Generator
 from ai.rag.config import get_config
 from ai.rag.vector_store import search
 
-# Safe Langfuse observe & context import
+# Safe Langfuse v4 imports
 try:
-    from langfuse.decorators import observe, langfuse_context
+    from langfuse import observe, get_client
     LANGFUSE_AVAILABLE = True
 except ImportError:
     LANGFUSE_AVAILABLE = False
-    langfuse_context = None
     def observe(*args, **kwargs):
         if len(args) == 1 and callable(args[0]):
             return args[0]
         def decorator(func):
             return func
         return decorator
+    def get_client():
+        return None
 
 
 def _get_openai_client(config):
@@ -48,13 +49,14 @@ def _get_openai_client(config):
 
     if pk and sk and LANGFUSE_AVAILABLE:
         try:
+            os.environ["LANGFUSE_PUBLIC_KEY"] = pk
+            os.environ["LANGFUSE_SECRET_KEY"] = sk
+            os.environ["LANGFUSE_HOST"] = host
+
             from langfuse.openai import OpenAI as LangfuseOpenAI
             return LangfuseOpenAI(
                 base_url=config.llm_base_url,
                 api_key=config.llm_api_key,
-                public_key=pk,
-                secret_key=sk,
-                host=host,
             )
         except Exception as e:
             print(f"[Langfuse Warning] Could not initialize Langfuse OpenAI wrapper: {e}. Falling back to standard OpenAI SDK.")
@@ -239,22 +241,6 @@ def ask(
     Instrumented with Langfuse tracing.
     """
     config = get_config()
-
-    env_name = os.getenv("ENVIRONMENT") or ("production" if os.getenv("RENDER") else "local")
-    if LANGFUSE_AVAILABLE and langfuse_context:
-        try:
-            langfuse_context.update_trace(
-                name="ecoval_rag_ask",
-                tags=["ecoval-rag", config.llm_provider, env_name],
-                metadata={
-                    "provider": config.llm_provider,
-                    "model": config.llm_model,
-                    "environment": env_name,
-                }
-            )
-        except Exception:
-            pass
-
     messages, sources = _prepare_messages(question, chat_history, config)
 
     try:
@@ -271,21 +257,21 @@ def ask(
     except (urllib.error.URLError, ConnectionError):
         reply = (
             "Cannot connect to the AI model. "
-            "Please ensure Ollama is running (ollama serve) or check your LLM provider configuration.\n\n"
-            "Khong the ket noi den mo hinh AI. "
-            "Vui long dam bao Ollama dang chay (ollama serve) hoac kiem tra cau hinh nha cung cap LLM."
+            "Please ensure Ollama is running (ollama serve) or check your LLM provider configuration."
         )
         sources = []
     except Exception as e:
         reply = f"AI Error: {str(e)}"
         sources = []
 
-    if LANGFUSE_AVAILABLE and langfuse_context:
+    if LANGFUSE_AVAILABLE:
         try:
-            langfuse_context.update_trace(
-                output={"reply_length": len(reply), "sources": sources}
-            )
-            langfuse_context.flush()
+            client = get_client()
+            if client:
+                trace_url = client.get_trace_url()
+                if trace_url:
+                    print(f"[Langfuse] Live Trace URL: {trace_url}", flush=True)
+                client.flush()
         except Exception:
             pass
 
@@ -312,21 +298,6 @@ def ask_stream(
     Instrumented with Langfuse tracing.
     """
     config = get_config()
-
-    env_name = os.getenv("ENVIRONMENT") or ("production" if os.getenv("RENDER") else "local")
-    if LANGFUSE_AVAILABLE and langfuse_context:
-        try:
-            langfuse_context.update_trace(
-                name="ecoval_rag_ask_stream",
-                tags=["ecoval-rag", config.llm_provider, env_name, "streaming"],
-                metadata={
-                    "provider": config.llm_provider,
-                    "model": config.llm_model,
-                    "environment": env_name,
-                }
-            )
-        except Exception:
-            pass
 
     try:
         messages, sources = _prepare_messages(question, chat_history, config)
@@ -361,9 +332,11 @@ def ask_stream(
             if cleaned:
                 yield f"data: {json.dumps({'type': 'token', 'token': cleaned})}\n\n"
 
-        if LANGFUSE_AVAILABLE and langfuse_context:
+        if LANGFUSE_AVAILABLE:
             try:
-                langfuse_context.flush()
+                client = get_client()
+                if client:
+                    client.flush()
             except Exception:
                 pass
 
