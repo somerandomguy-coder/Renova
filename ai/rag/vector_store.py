@@ -1,18 +1,14 @@
-import os
 """
 ECOVAL AI RAG — Vector Store
 
 ChromaDB wrapper for document storage and retrieval.
-Supports two embedding modes:
-  - "local": ChromaDB's built-in onnxruntime (good on decent CPU, slow on free tier)
-  - "huggingface": Free HuggingFace Inference API (fast everywhere, no API key needed)
+Uses ChromaDB built-in default embeddings (onnxruntime / all-MiniLM-L6-v2).
+Fully instrumented with Langfuse LLM Observability.
 """
 
-import json
-import urllib.request
+import os
 import chromadb
 from typing import Any
-
 from ai.rag.config import get_config
 
 # Safe Langfuse observe import
@@ -21,6 +17,7 @@ try:
     LANGFUSE_AVAILABLE = True
 except ImportError:
     LANGFUSE_AVAILABLE = False
+    langfuse_context = None
     def observe(*args, **kwargs):
         if len(args) == 1 and callable(args[0]):
             return args[0]
@@ -35,65 +32,17 @@ _collection: Any = None
 COLLECTION_NAME = "ecoval_knowledge"
 
 
-class HuggingFaceEmbeddingFunction(chromadb.EmbeddingFunction):
-    """Cloud embedding function using the official HuggingFace Inference Client SDK."""
-
-    def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
-        self.model_name = model_name
-
-    def name(self) -> str:
-        return "HuggingFaceEmbeddingFunction"
-
-    def __call__(self, input: list[str]) -> list[list[float]]:
-        """Generate embeddings using the official InferenceClient."""
-        from huggingface_hub import InferenceClient
-
-        hf_token = os.getenv("HF_API_KEY") or os.getenv("HF_TOKEN")
-        client = InferenceClient(api_key=hf_token)
-
-        try:
-            embeddings = client.feature_extraction(input, model=self.model_name)
-            if hasattr(embeddings, "tolist"):
-                return embeddings.tolist()
-            elif isinstance(embeddings, list):
-                return [list(emb) if hasattr(emb, "__iter__") else emb for emb in embeddings]
-            return embeddings
-        except Exception as e:
-            print(f"[HuggingFace SDK] Batch embedding failed: {e}. Trying single fallback...")
-            results = []
-            for text in input:
-                emb = client.feature_extraction(text, model=self.model_name)
-                if hasattr(emb, "tolist"):
-                    emb = emb.tolist()
-                results.append(emb)
-            return results
-
-
-def _get_embedding_function() -> Any:
-    """Get the configured embedding function (local or cloud)."""
-    config = get_config()
-    if config.embedding_provider == "huggingface":
-        print("[Embeddings] Using HuggingFace Inference API (cloud)")
-        return HuggingFaceEmbeddingFunction(model_name=config.embedding_model)
-    else:
-        print("[Embeddings] Using ChromaDB default (local onnxruntime)")
-        return None
-
-
 def get_collection() -> Any:
     """Get or create the ChromaDB collection (lazy initialization)."""
     global _client, _collection
     if _collection is None:
         config = get_config()
         _client = chromadb.PersistentClient(path=config.chroma_dir)
-        ef = _get_embedding_function()
 
         kwargs: dict[str, Any] = {
             "name": COLLECTION_NAME,
             "metadata": {"hnsw:space": "cosine"},
         }
-        if ef is not None:
-            kwargs["embedding_function"] = ef
 
         _collection = _client.get_or_create_collection(**kwargs)
     return _collection
@@ -149,13 +98,10 @@ def reset_collection():
     except Exception:
         pass
 
-    ef = _get_embedding_function()
     kwargs: dict[str, Any] = {
         "name": COLLECTION_NAME,
         "metadata": {"hnsw:space": "cosine"},
     }
-    if ef is not None:
-        kwargs["embedding_function"] = ef
 
     _collection = _client.create_collection(**kwargs)
     return _collection

@@ -118,4 +118,13 @@ def get_config() -> RAGConfig:
     global _config
     if _config is None:
         _config = RAGConfig()
+
+    # Export Langfuse environment variables so Langfuse SDK decorators & clients auto-detect them
+    if _config.langfuse_public_key and not os.getenv("LANGFUSE_PUBLIC_KEY"):
+        os.environ["LANGFUSE_PUBLIC_KEY"] = _config.langfuse_public_key
+    if _config.langfuse_secret_key and not os.getenv("LANGFUSE_SECRET_KEY"):
+        os.environ["LANGFUSE_SECRET_KEY"] = _config.langfuse_secret_key
+    if _config.langfuse_host and not os.getenv("LANGFUSE_HOST"):
+        os.environ["LANGFUSE_HOST"] = _config.langfuse_host
+
     return _config
