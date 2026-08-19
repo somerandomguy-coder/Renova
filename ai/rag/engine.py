@@ -346,6 +346,9 @@ def ask_stream(
             try:
                 client = get_client()
                 if client:
+                    auth_status = client.auth_check()
+                    trace_url = client.get_trace_url()
+                    print(f"[Langfuse Stream Debug] Auth check: {auth_status} | Live Trace URL: {trace_url}", flush=True)
                     client.flush()
             except Exception:
                 pass
