@@ -127,9 +127,6 @@ def get_config() -> RAGConfig:
     if _config.langfuse_host and not os.getenv("LANGFUSE_HOST"):
         os.environ["LANGFUSE_HOST"] = _config.langfuse_host
 
-    pk_status = "PRESENT (" + os.getenv("LANGFUSE_PUBLIC_KEY", "")[:10] + "...)" if os.getenv("LANGFUSE_PUBLIC_KEY") else "MISSING (None)"
-    sk_status = "PRESENT (" + os.getenv("LANGFUSE_SECRET_KEY", "")[:10] + "...)" if os.getenv("LANGFUSE_SECRET_KEY") else "MISSING (None)"
-    host_val = os.getenv("LANGFUSE_HOST", "None")
-    print(f"[RAG Config Debug] Public Key: {pk_status} | Secret Key: {sk_status} | Host: {host_val}", flush=True)
+
 
     return _config

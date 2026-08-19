@@ -51,7 +51,6 @@ def _get_openai_client(config):
     sk = os.getenv("LANGFUSE_SECRET_KEY") or config.langfuse_secret_key
     host = os.getenv("LANGFUSE_HOST") or os.getenv("LANGFUSE_BASE_URL") or config.langfuse_host
 
-    print(f"[Langfuse Client Debug] LANGFUSE_AVAILABLE={LANGFUSE_AVAILABLE}, PK={'PRESENT' if pk else 'MISSING'}, SK={'PRESENT' if sk else 'MISSING'}, Host={host}", flush=True)
 
     if pk and sk and LANGFUSE_AVAILABLE:
         try:
@@ -60,7 +59,6 @@ def _get_openai_client(config):
             os.environ["LANGFUSE_HOST"] = host
 
             from langfuse.openai import OpenAI as LangfuseOpenAI
-            print(f"[Langfuse Client Debug] Successfully created LangfuseOpenAI client wrapper for host {host}", flush=True)
             return LangfuseOpenAI(
                 base_url=config.llm_base_url,
                 api_key=config.llm_api_key,
@@ -68,7 +66,6 @@ def _get_openai_client(config):
         except Exception as e:
             print(f"[Langfuse Warning] Could not initialize Langfuse OpenAI wrapper: {e}. Falling back to standard OpenAI SDK.", flush=True)
 
-    print("[Langfuse Client Debug] Falling back to standard OpenAI client.", flush=True)
     from openai import OpenAI
     return OpenAI(
         base_url=config.llm_base_url,
@@ -276,14 +273,12 @@ def ask(
         try:
             client = get_client()
             if client:
-                auth_status = client.auth_check()
                 trace_url = client.get_trace_url()
-                print(f"[Langfuse Ask Debug] Auth check: {auth_status} | Live Trace URL: {trace_url}", flush=True)
+                if trace_url:
+                    print(f"[Langfuse] Trace URL: {trace_url}", flush=True)
                 client.flush()
-            else:
-                print("[Langfuse Ask Debug] get_client() returned None", flush=True)
-        except Exception as e:
-            print(f"[Langfuse Ask Error] Flush error: {e}", flush=True)
+        except Exception:
+            pass
 
     return {
         "reply": reply,
@@ -346,9 +341,9 @@ def ask_stream(
             try:
                 client = get_client()
                 if client:
-                    auth_status = client.auth_check()
                     trace_url = client.get_trace_url()
-                    print(f"[Langfuse Stream Debug] Auth check: {auth_status} | Live Trace URL: {trace_url}", flush=True)
+                    if trace_url:
+                        print(f"[Langfuse] Trace URL: {trace_url}", flush=True)
                     client.flush()
             except Exception:
                 pass
