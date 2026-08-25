@@ -30,7 +30,7 @@ const translations = {
         ]
       },
       {
-        name: "Khả năng cách âm & cách nhiệt",
+        name: "Khả năng chịu nhiệt / Độ bền nhiệt",
         values: [
           { text: "Tuyệt vời (Hệ số Thermal Shield cách nhiệt chủ động)", highlight: true },
           { text: "Kém (Dẫn nhiệt nhanh)", highlight: false },
@@ -48,7 +48,7 @@ const translations = {
       {
         name: "Tận dụng rác thải nhựa đa lớp",
         values: [
-          { text: "Có (Trung bình 0.75 kg MLP / viên)", highlight: true },
+          { text: "Có (Trung bình 0.60 kg MLP / viên)", highlight: true },
           { text: "Không", highlight: false },
           { text: "Không", highlight: false }
         ]
@@ -78,15 +78,15 @@ const translations = {
       {
         name: "Average Weight",
         values: [
-          { text: "1.5 kg (Ultra-lightweight, 50% lighter)", highlight: true },
+          { text: "Lightweight (20–30% lighter than traditional blocks)", highlight: true },
           { text: "3.2 kg (Heavy, high freight costs)", highlight: false },
           { text: "2.8 kg (Medium)", highlight: false }
         ]
       },
       {
-        name: "Thermal & Acoustic Shielding",
+        name: "Thermal Resistance & Environmental Durability",
         values: [
-          { text: "Excellent (Active Thermal Shield coefficient)", highlight: true },
+          { text: "Good (Optimizing thermal performance and climate durability)", highlight: true },
           { text: "Poor (High thermal conductivity)", highlight: false },
           { text: "Medium (Retains heat)", highlight: false }
         ]
@@ -94,7 +94,7 @@ const translations = {
       {
         name: "Carbon Profile",
         values: [
-          { text: "Carbon Negative (-0.8 kg CO2eq / block)", highlight: true },
+          { text: "At least -1 kg CO2eq, 1.5 kg reduction, and 0.3–0.6 tons saved per 1,000 blocks", highlight: true },
           { text: "Positive (Heavy kiln emissions & cement clinker)", highlight: false },
           { text: "Highly positive (Fossil fuel kiln clay firing)", highlight: false }
         ]
@@ -102,7 +102,7 @@ const translations = {
       {
         name: "Multi-layer Plastic upcycling",
         values: [
-          { text: "Yes (~0.75 kg MLP upcycled / block)", highlight: true },
+          { text: "Yes (~0.60 kg MLP upcycled / block)", highlight: true },
           { text: "No", highlight: false },
           { text: "No", highlight: false }
         ]

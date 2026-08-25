@@ -19,22 +19,22 @@ const translations = {
     awards: [
       {
         title: "Giải Ba Cuộc thi EPICS 8",
-        subtitle: "Engineering Projects in Community Service (ASU & Dow)",
+        subtitle: "Chương trình EPICS (ASU & Dow Vietnam)",
         description: "Chứng minh năng lực giải quyết bài toán kỹ thuật thực tế nhằm phục vụ và nâng cao chất lượng sống cho cộng đồng xã hội thông qua gạch bông gió sinh thái.",
         certName: "Chứng nhận EPICS 8 (ASU & Dow)",
-        date: "Tháng 11, 2024"
+        date: "Tháng 05, 2026"
       },
       {
         title: "Giải Khuyến khích VWRA 2025",
         subtitle: "Hiệp hội Quản lý chất thải Việt Nam",
         description: "Chứng minh sự công nhận và đánh giá cao từ các chuyên gia đầu ngành trong lĩnh vực xử lý rác thải nhựa đa lớp và kinh tế tuần hoàn tại Việt Nam.",
-        certName: "Bằng khen VWRA 2025",
-        date: "Tháng 03, 2025"
+        certName: "Ghi nhận tại Cuộc thi Sản phẩm & Sáng kiến Tái chế 2025",
+        date: "26/11/2025"
       },
       {
         title: "Đồng hành & Ứng dụng Thực tế",
         subtitle: "Công ty Cổ phần Công nghệ, Thiết bị, Dịch vụ và Môi trường Ánh Thủy",
-        description: "Doanh nghiệp chính thức xác nhận việc thử nghiệm ứng dụng sản phẩm gạch bông gió ECOVAL vào các công trình thực tế, đồng thời kiểm định thực tế khả năng cách âm, cách nhiệt vượt trội và chống chịu khí hậu bền bỉ.",
+        description: "Doanh nghiệp chính thức xác nhận việc thử nghiệm ứng dụng sản phẩm gạch bông gió ECOVAL vào các công trình thực tế, phối hợp thử nghiệm ứng dụng thực tế và đánh giá độ bền của vật liệu trong điều kiện môi trường.",
         certName: "Chứng nhận ứng dụng thực tế",
         date: "Tháng 05, 2026"
       }
@@ -50,22 +50,22 @@ const translations = {
     awards: [
       {
         title: "3rd Prize - EPICS 8 Competition",
-        subtitle: "Engineering Projects in Community Service (ASU & Dow)",
+        subtitle: "Chương trình EPICS (ASU & Dow Vietnam)",
         description: "Demonstrating capabilities in solving engineering problems to serve and uplift the community through eco-friendly breeze blocks.",
         certName: "EPICS 8 Certificate (ASU & Dow)",
-        date: "November 2024"
+        date: "May 2026"
       },
       {
         title: "Consolation Prize - VWRA 2025",
         subtitle: "Vietnam Waste Recycling Association",
         description: "Validating recognition and appreciation from leading national experts in multi-layer plastic upcycling and circular economy in Vietnam.",
         certName: "VWRA 2025 Commendation",
-        date: "March 2025"
+        date: "November 26, 2025"
       },
       {
         title: "Corporate Partnership & Pilot Validation",
         subtitle: "Anh Thuy Technology, Equipment, Service & Environment JSC",
-        description: "Official corporate validation certifying the deployment of ECOVAL eco-breeze blocks in active construction projects, confirming high climate resilience, superior thermal insulation, and acoustic shielding.",
+        description: "Official corporate validation certifying the deployment of ECOVAL eco-breeze blocks in active construction projects, collaborating on field application testing and evaluating material durability under environmental conditions.",
         certName: "Written Certification of Work Application",
         date: "May 2026"
       }

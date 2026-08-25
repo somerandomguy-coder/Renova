@@ -12,25 +12,25 @@ const translations = {
   vi: {
     title: "Hành trình ",
     titleHighlight: "ECOVAL",
-    subtitle: "Từ phát minh khoa học trong phòng thí nghiệm trường Bách Khoa đến giải pháp vật liệu xanh có chứng nhận chất lượng quốc tế và sẵn sàng thương mại hóa.",
+    subtitle: "Từ nghiên cứu và phát triển nguyên mẫu tại Trường Đại học Bách Khoa – ĐHQG-HCM đến giai đoạn kiểm định, pilot và chuẩn bị thương mại hóa vật liệu tuần hoàn ECOVAL",
     steps: [
       {
         title: "Nghiên cứu Lab",
         subtitle: "Giai đoạn Nghiên cứu Cơ bản",
-        description: "Thành công trong việc tổng hợp phôi vật liệu polymer composite nền từ nhựa đa lớp MLP kết hợp sợi xenlulo tự nhiên từ vỏ trấu.",
-        date: "2023 - 2024"
+        description: "Nhóm nghiên cứu phát triển các nguyên mẫu vật liệu composite từ bao bì nhựa đa lớp (MLP), nhựa tái chế và phụ phẩm vỏ trấu, từng bước thử nghiệm cấp phối và khả năng tạo hình.",
+        date: "8/2025"
       },
       {
-        title: "Đạt giải EPICS 8",
-        subtitle: "Giải thưởng Sáng kiến Cộng đồng",
-        description: "Được vinh danh tại cuộc thi Engineering Projects in Community Service (EPICS 8) do ASU và Dow tài trợ nhờ dự án gạch bông gió tuần hoàn.",
-        date: "Cuối 2024"
+        title: "Ghi nhận tại Cuộc thi Tái chế 2025",
+        subtitle: "Hiệp hội Tái chế Chất thải Việt Nam",
+        description: "Nhóm RENOVA được Hiệp hội Tái chế Chất thải Việt Nam khen tặng vì thành tích tại cuộc thi, đánh dấu bước xác nhận đầu tiên đối với hướng nghiên cứu vật liệu tuần hoàn của dự án.",
+        date: "11/2025"
       },
       {
-        title: "Thử nghiệm mẫu V16",
-        subtitle: "Giai đoạn Hoàn thiện Vật lý",
-        description: "Phát triển mẫu V16 với cường độ nén cao (6-8 MPa), độ hút nước dưới 2% và đạt chứng chỉ chống tia cực tím UV và thử nghiệm chống chịu thời tiết.",
-        date: "2025"
+        title: "Giải Ba EPICS",
+        subtitle: "Chương trình EPICS (ASU & Dow Vietnam)",
+        description: "Dự án RENOVA/ECOVAL đạt Giải Ba tại chương trình EPICS do Arizona State University và Dow Vietnam tổ chức, ghi nhận hướng tiếp cận ứng dụng kỹ thuật phục vụ cộng đồng.",
+        date: "Tháng 5/2026"
       },
       {
         title: "Gọi vốn thương mại hóa",
@@ -43,25 +43,25 @@ const translations = {
   en: {
     title: "The ECOVAL ",
     titleHighlight: "Journey",
-    subtitle: "From a scientific breakthrough in the HCMC University of Technology lab to an eco-material solution with international quality certifications, ready for commercialization.",
+    subtitle: "From R&D and prototype development at HCMC University of Technology (VNU-HCM) to testing, piloting, and preparing for commercialization of ECOVAL circular materials.",
     steps: [
       {
-        title: "Lab Research Phase",
-        subtitle: "Basic Science & Feasibility",
-        description: "Successfully synthesized natural fiber polymer composite using tough multi-layer plastic (MLP) as matrix reinforced by rice husk cellulose fibers.",
-        date: "2023 - 2024"
+        title: "Material R&D Initiation",
+        subtitle: "Prototype Research & Development Start",
+        description: "The research team developed composite material prototypes from multi-layer plastic (MLP) packaging, recycled plastic, and rice husk by-products, testing mixing ratios and moldability.",
+        date: "8/2025"
       },
       {
-        title: "EPICS 8 Champion",
-        subtitle: "Community Innovation Award",
-        description: "Awarded top honors at the Engineering Projects in Community Service (EPICS 8) sponsored by Arizona State University & Dow Chemical.",
-        date: "Late 2024"
+        title: "Recognition at Waste Recycling Contest 2025",
+        subtitle: "Vietnam Waste Recycling Association",
+        description: "The RENOVA team received commendation from the Vietnam Waste Recycling Association for contest achievements, marking the first validation of the circular material research direction.",
+        date: "November 2025"
       },
       {
-        title: "Specimen V16 Testing",
-        subtitle: "Physical Optimization Phase",
-        description: "Developed V16 specimens featuring high compressive strength (6-8 MPa), water absorption under 2%, UV resistance and accelerated weathering certifications.",
-        date: "2025"
+        title: "3rd Prize - EPICS Program",
+        subtitle: "Engineering Projects in Community Service (ASU & Dow)",
+        description: "The RENOVA/ECOVAL project won 3rd Prize at the EPICS program hosted by Arizona State University and Dow Vietnam, recognizing an engineering approach serving the community.",
+        date: "Tháng 5/2026"
       },
       {
         title: "Commercial Scaling",
