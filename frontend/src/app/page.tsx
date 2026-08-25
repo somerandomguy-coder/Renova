@@ -54,7 +54,7 @@ const footerTranslations = {
     financeTitle: "Thông tin tài chính",
     contact: "Liên hệ",
     lab: "📍 Trường đại học bách khoa - ĐHQG-HCM",
-    rights: `© ${new Date().getFullYear()} ECOVAL Sustainable Materials. Bảo lưu mọi quyền.`,
+    rights: `© ${new Date().getFullYear()} RENOVA Circular Materials. Bảo lưu mọi quyền.`,
     privacy: "Điều khoản bảo mật",
     terms: "Quy chế thành viên"
   },
@@ -68,7 +68,7 @@ const footerTranslations = {
     financeTitle: "Financial Info",
     contact: "Contact Details",
     lab: "📍 New Materials R&D Lab, HCMC University of Technology - VNU-HCM",
-    rights: `© ${new Date().getFullYear()} ECOVAL Sustainable Materials. All rights reserved.`,
+    rights: `© ${new Date().getFullYear()} RENOVA Circular Materials. All rights reserved.`,
     privacy: "Privacy Policy",
     terms: "Terms of Service"
   }
@@ -87,8 +87,8 @@ export default function Home() {
         <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 flex justify-between items-center h-20 relative">
           <div className="flex items-center gap-3 shrink-0">
             <img 
-              src="/ecoval_logo.png" 
-              alt="ECOVAL Logo" 
+              src="/renova_logo.png" 
+              alt="RENOVA Logo" 
               className="h-10 w-auto object-contain dark:brightness-110" 
             />
             <span className="text-[10px] font-bold text-brand-text-muted border border-brand-border px-1.5 py-0.5 rounded uppercase">
@@ -186,8 +186,8 @@ export default function Home() {
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <img 
-                  src="/ecoval_logo.png" 
-                  alt="ECOVAL Logo" 
+                  src="/renova_logo.png" 
+                  alt="RENOVA Logo" 
                   className="h-9 w-auto object-contain dark:brightness-110" 
                 />
                 <span className="font-black text-lg text-brand-text-primary dark:text-white">Sustainable Materials</span>
@@ -204,7 +204,7 @@ export default function Home() {
               <a href="#tinh-toan" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.calcTitle}</a>
               <a href="#tai-chinh" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.financeTitle}</a>
               <a href="#dang-ky" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.partnerTitle}</a>
-              <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1">✨ ECOVAL AI Workspace</a>
+              <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1">✨ RENOVA AI Workspace</a>
             </div>
 
             <div className="flex flex-col gap-3">
@@ -212,7 +212,7 @@ export default function Home() {
               <p>{foot.lab}</p>
               <p>✉️ <a href="mailto:renova.project268@gmail.com" className="text-inherit hover:text-brand-primary transition-colors">renova.project268@gmail.com</a></p>
               <p>📞 <a href="tel:0914626717" className="text-inherit hover:text-brand-primary transition-colors">0914626717</a></p>
-              <p>🌐 <a href="https://www.facebook.com/profile.php?id=61586260467256" target="_blank" rel="noopener noreferrer" className="text-inherit hover:text-brand-primary transition-colors underline">Fanpage: ECOVAL Sustainable Materials</a></p>
+              <p>🌐 <a href="https://www.facebook.com/profile.php?id=61586260467256" target="_blank" rel="noopener noreferrer" className="text-inherit hover:text-brand-primary transition-colors underline">Fanpage: RENOVA Circular Materials</a></p>
             </div>
 
           </div>

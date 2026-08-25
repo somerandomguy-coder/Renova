@@ -88,8 +88,8 @@ export default function AiAssistantPage() {
     {
       role: "assistant",
       content: lang === "vi" 
-        ? "Xin chào! 👋 Tôi là Trợ lý AI Chuyên sâu của ECOVAL. Tôi có thể hỗ trợ bạn về thông số sản phẩm gạch bông gió, tính toán báo giá, dòng tiền bù trừ phí EPR và các chứng nhận thử nghiệm. Hãy nhập câu hỏi hoặc bấm chọn công cụ nhanh bên dưới!"
-        : "Hello! 👋 I am ECOVAL's AI Assistant. I can help you with breeze block technical specs, project quotation calculations, EPR fee offset analysis, and certified test data. Feel free to type your question or select a quick tool!"
+        ? "Xin chào! 👋 Tôi là Trợ lý AI Chuyên sâu của RENOVA. Tôi có thể hỗ trợ bạn về thông số sản phẩm gạch bông gió, tính toán báo giá, dòng tiền bù trừ phí EPR và các chứng nhận thử nghiệm. Hãy nhập câu hỏi hoặc bấm chọn công cụ nhanh bên dưới!"
+        : "Hello! 👋 I am RENOVA's AI Assistant. I can help you with breeze block technical specs, project quotation calculations, EPR fee offset analysis, and certified test data. Feel free to type your question or select a quick tool!"
     }
   ]);
   const [input, setInput] = useState("");
@@ -231,7 +231,7 @@ export default function AiAssistantPage() {
           </a>
           <div className="h-4 w-px bg-brand-border dark:bg-zinc-800" />
           <div className="flex items-center gap-3">
-            <img src="/ecoval_logo.png" alt="ECOVAL Logo" className="h-9 w-auto object-contain dark:brightness-110" />
+            <img src="/renova_logo.png" alt="RENOVA Logo" className="h-9 w-auto object-contain dark:brightness-110" />
             <span className="text-[10px] font-bold text-brand-text-muted border border-brand-border dark:border-zinc-800 px-1.5 py-0.5 rounded uppercase hidden sm:inline-block">
               SUSTAINABLE MATERIALS
             </span>
@@ -362,8 +362,8 @@ export default function AiAssistantPage() {
             <button 
               onClick={() => handleSendMessage(
                 lang === "vi" 
-                  ? `Tôi cần báo giá chính thức cho dự án diện tích ${wallArea}m² (cần khoảng ${calculatedBricks} viên gạch ECOVAL). Chi phí là bao nhiêu và có chính sách chiết khấu không?`
-                  : `I need a formal quote for a ${wallArea}m² project (${calculatedBricks} ECOVAL bricks). What is the total cost and bulk discount policy?`
+                  ? `Tôi cần báo giá chính thức cho dự án diện tích ${wallArea}m² (cần khoảng ${calculatedBricks} viên gạch RENOVA). Chi phí là bao nhiêu và có chính sách chiết khấu không?`
+                  : `I need a formal quote for a ${wallArea}m² project (${calculatedBricks} RENOVA bricks). What is the total cost and bulk discount policy?`
               )}
               className="w-full bg-brand-primary hover:bg-brand-secondary text-white font-semibold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
@@ -408,8 +408,8 @@ export default function AiAssistantPage() {
             <button 
               onClick={() => handleSendMessage(
                 lang === "vi"
-                  ? `Công ty tôi thải ra ${plasticWaste} kg bao bì nhựa MLP hàng năm. Hãy tư vấn phương án ký hợp đồng hợp tác tái chế với ECOVAL để giảm 40% phí EPR.`
-                  : `My company generates ${plasticWaste} kg of MLP plastic waste annually. Advise us on signing an EPR recycling contract with ECOVAL to claim 40% fee reduction.`
+                  ? `Công ty tôi thải ra ${plasticWaste} kg bao bì nhựa MLP hàng năm. Hãy tư vấn phương án ký hợp đồng hợp tác tái chế với RENOVA để giảm 40% phí EPR.`
+                  : `My company generates ${plasticWaste} kg of MLP plastic waste annually. Advise us on signing an EPR recycling contract with RENOVA to claim 40% fee reduction.`
               )}
               className="w-full bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
@@ -475,7 +475,7 @@ export default function AiAssistantPage() {
           {/* Quick Prompt Suggestion Chips */}
           <div className="px-6 py-2 border-t border-brand-border dark:border-zinc-900 bg-white/60 dark:bg-zinc-950/80 flex items-center gap-2 overflow-x-auto">
             {[
-              lang === "vi" ? "ECOVAL là gì?" : "What is ECOVAL?",
+              lang === "vi" ? "RENOVA là gì?" : "What is RENOVA?",
               lang === "vi" ? "Gạch Gen3 chịu lực mấy MPa?" : "Gen3 Strength (MPa)?",
               lang === "vi" ? "Quy trình giảm 40% phí EPR" : "EPR 40% Fee Refund",
               lang === "vi" ? "Kích thước gạch chuẩn" : "Standard Dimensions"
