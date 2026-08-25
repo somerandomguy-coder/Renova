@@ -81,3 +81,15 @@ production_configuration_checklist.md
 
 # AI / RAG
 ai/chroma_db/
+
+# Temporary scratch scripts & mock data
+scratch/
+mock_emails/
+
+# Root binary / media / temporary archives
+/*.zip
+/*.mp4
+/*.pdf
+/*.jpeg
+/*.png
+!frontend/public/
