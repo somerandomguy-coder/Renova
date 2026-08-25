@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { 
   ResponsiveContainer, 
   BarChart, 
@@ -26,11 +26,11 @@ const translations = {
   vi: {
     title: "Thông Tin ",
     titleHighlight: "Tài Chính",
-    subtitle: "Dự báo tài chính, hiệu quả đầu tư và lộ trình gọi vốn thực tế cho dây chuyền sản xuất xanh ECOVAL.",
+    subtitle: "Dự báo tài chính, hiệu quả đầu tư và lộ trình gọi vốn thực tế cho dây chuyền sản xuất xanh RENOVA.",
     irrBadge: "IRR Dự Kiến",
     paybackBadge: "Hoàn Vốn",
     marketTitle: "1. Quy Mô & Tiềm Năng Thị Trường",
-    marketDesc: "Ngành vật liệu xây dựng Việt Nam chuyển đổi xanh mạnh mẽ. Với ngành gạch dự kiến đạt 11,11 tỷ USD vào năm 2029, ECOVAL định vị để chiếm lĩnh phân khúc xanh thông qua kinh tế tuần hoàn.",
+    marketDesc: "Ngành vật liệu xây dựng Việt Nam chuyển đổi xanh mạnh mẽ. Với ngành gạch dự kiến đạt 11,11 tỷ USD vào năm 2029, RENOVA định vị để chiếm lĩnh phân khúc xanh thông qua kinh tế tuần hoàn.",
     marketChartTitle: "Phân Tích Quy Mô Thị Trường (Tỷ USD)",
     marketSource: "Nguồn: Viện Kinh tế Xây dựng & Mordor Intelligence (2025)",
     indicator: "Chỉ số",
@@ -41,7 +41,7 @@ const translations = {
     targetMarket: "Phân khúc vật liệu xây dựng không nung và sinh thái. Tập trung vào > 800 dự án xanh",
     achievedMarket: "SOM = Công suất thiết kế × Hiệu suất (OEE 80%)",
     somDetail: "120.000 viên/năm (Năm 1)",
-    saasTitle: "2. ECOVAL Smart-Hub: Giải Pháp AI & SaaS",
+    saasTitle: "2. RENOVA Smart-Hub: Giải Pháp AI & SaaS",
     saasDesc: "Hệ sinh thái phần mềm song hành, hỗ trợ KTS tối ưu hóa thông gió và các doanh nghiệp FMCG tự động hóa báo cáo tuân thủ EPR.",
     pricingTitle: "Các Mô Hình Giá Đăng Ký",
     tierFree: "Cơ Bản",
@@ -103,7 +103,7 @@ const translations = {
     ratioTitle: "Tỷ Lệ LTV:COCA",
     ltvDesc: "Nhà thầu xây dựng mua lặp lại 15k viên/năm, hoặc hãng FMCG duy trì gói SaaS EPR trong 3 năm.",
     cocaDesc: "Ngân sách Marketing/Sales B2B ~30tr/tháng. Năm 1 tốn 360tr để chốt được 10 khách hàng lớn.",
-    ratioDesc: "Tỷ lệ > 3:1 chứng minh mô hình kinh doanh B2B/SaaS của ECOVAL phát triển cực kỳ bền vững.",
+    ratioDesc: "Tỷ lệ > 3:1 chứng minh mô hình kinh doanh B2B/SaaS của RENOVA phát triển cực kỳ bền vững.",
     growthTitle: "5. Dự Báo Tăng Trưởng & Chỉ Số Đầu Tư",
     growthDesc: "Việc chuyển đổi từ sản xuất phần cứng sang mô hình SaaS lai (Smart-Hub AI) cho phép tăng trưởng doanh thu theo cấp số nhân, đồng thời duy trì cơ cấu chi phí tinh gọn.",
     y5Rev: "Doanh Thu Năm 5",
@@ -127,7 +127,7 @@ const translations = {
     ppValue: "≈ 5 Tháng",
     ppDesc: "Chỉ mất khoảng 5 tháng vận hành thương mại để thu hồi toàn bộ 500 triệu VNĐ đầu tư ban đầu.",
     fundingTitle: "6. Đề Xuất Gọi Vốn & Sử Dụng Vốn",
-    fundingAsk: "ECOVAL kêu gọi 1.000.000.000 VNĐ đổi lấy 10% cổ phần (Định giá Pre-money: 9 tỷ VNĐ). Nguồn vốn phân chia giữa nhà xưởng và R&D AI.",
+    fundingAsk: "RENOVA kêu gọi 1.000.000.000 VNĐ đổi lấy 10% cổ phần (Định giá Pre-money: 9 tỷ VNĐ). Nguồn vốn phân chia giữa nhà xưởng và R&D AI.",
     totalFunding: "Tổng Gọi Vốn",
     sharesAsk: "Cổ Phần Đề Xuất",
     postMoneyVal: "Định Giá Sau Vốn",
@@ -153,11 +153,11 @@ const translations = {
   en: {
     title: "Financial ",
     titleHighlight: "Information",
-    subtitle: "Financial projections, investment efficiency, and fundraising roadmap for ECOVAL's green production line.",
+    subtitle: "Financial projections, investment efficiency, and fundraising roadmap for RENOVA's green production line.",
     irrBadge: "Expected IRR",
     paybackBadge: "Payback Period",
     marketTitle: "1. Market Scale & Potential",
-    marketDesc: "Vietnam's construction material industry is undergoing green transformation. With the brick market projected to reach $11.11B by 2029, ECOVAL is positioned to capture the green segment via circular economy principles.",
+    marketDesc: "Vietnam's construction material industry is undergoing green transformation. With the brick market projected to reach $11.11B by 2029, RENOVA is positioned to capture the green segment via circular economy principles.",
     marketChartTitle: "Market Scale Analysis (Billion USD)",
     marketSource: "Source: Construction Economics Institute & Mordor Intelligence (2025)",
     indicator: "Metric",
@@ -168,7 +168,7 @@ const translations = {
     targetMarket: "Ecological and non-baked building materials segment. Target > 800 green projects",
     achievedMarket: "SOM = Design Capacity × Design Efficiency (OEE 80%)",
     somDetail: "120,000 bricks/year (Year 1)",
-    saasTitle: "2. ECOVAL Smart-Hub: AI & SaaS Solutions",
+    saasTitle: "2. RENOVA Smart-Hub: AI & SaaS Solutions",
     saasDesc: "Co-existing software ecosystem helping architects optimize ventilation and FMCG companies automate EPR compliance reporting.",
     pricingTitle: "Subscription Pricing Models",
     tierFree: "Basic",
@@ -230,7 +230,7 @@ const translations = {
     ratioTitle: "LTV:COCA Ratio",
     ltvDesc: "B2B construction contractor repeat purchases of 15k bricks/year, or FMCG brand renewing SaaS EPR package for 3 years.",
     cocaDesc: "B2B Marketing/Sales budget ~30M VND/month. Year 1 spends 360M VND to close 10 key client accounts.",
-    ratioDesc: "Ratio > 3:1 proves the ECOVAL hybrid SaaS/B2B model is highly sustainable.",
+    ratioDesc: "Ratio > 3:1 proves the RENOVA hybrid SaaS/B2B model is highly sustainable.",
     growthTitle: "5. Growth Projections & Investment Metrics",
     growthDesc: "Transitioning to a hybrid SaaS model (Smart-Hub AI) enables exponential revenue growth while maintaining a lean cost structure.",
     y5Rev: "Year 5 Revenue",
@@ -254,7 +254,7 @@ const translations = {
     ppValue: "≈ 5 Months",
     ppDesc: "Takes approximately 5 months of commercial operation to recover the entire 500M VND seed investment.",
     fundingTitle: "6. Funding Proposal & Use of Funds",
-    fundingAsk: "ECOVAL is seeking 1,000,000,000 VND in exchange for 10% equity (Pre-money valuation: 9B VND). Split between physical plant and AI R&D.",
+    fundingAsk: "RENOVA is seeking 1,000,000,000 VND in exchange for 10% equity (Pre-money valuation: 9B VND). Split between physical plant and AI R&D.",
     totalFunding: "Total Capital Raised",
     sharesAsk: "Equity Offered",
     postMoneyVal: "Post-money Valuation",
@@ -316,6 +316,8 @@ const ltvData = [
 ];
 
 export default function FinancialReport({ lang }: FinancialReportProps) {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => { setIsMounted(true); }, []);
   const t = translations[lang];
 
   return (
@@ -363,7 +365,8 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
             <ScrollReveal className="lg:col-span-2 bg-white dark:bg-zinc-900 rounded-3xl border border-brand-border dark:border-white/5 p-6 shadow-sm">
               <h4 className="text-sm font-bold mb-4 text-brand-text-primary dark:text-white">{t.marketChartTitle}</h4>
               <div className="h-[250px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
+                {isMounted ? (
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                   <BarChart data={marketData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <XAxis dataKey="name" stroke="#a1a1aa" fontSize={12} tickLine={false} />
                     <YAxis stroke="#a1a1aa" fontSize={12} tickLine={false} />
@@ -375,6 +378,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
+                ) : (
+                  <div className="w-full h-full bg-white/5 animate-pulse rounded-xl" />
+                )}
               </div>
               <p className="text-[10px] text-brand-text-muted mt-4 italic">{t.marketSource}</p>
             </ScrollReveal>
@@ -500,7 +506,8 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
             <ScrollReveal className="bg-white dark:bg-zinc-900 rounded-3xl border border-brand-border dark:border-white/5 p-6 shadow-sm flex flex-col">
               <h4 className="text-sm font-bold mb-4 text-brand-text-primary dark:text-white">{t.bomTitle}</h4>
               <div className="h-[250px] w-full flex-1">
-                <ResponsiveContainer width="100%" height="100%">
+                {isMounted ? (
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                   <PieChart>
                     <Pie
                       data={bomData}
@@ -519,6 +526,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                     <Legend verticalAlign="bottom" height={36} iconSize={12} wrapperStyle={{ fontSize: 11 }} />
                   </PieChart>
                 </ResponsiveContainer>
+                ) : (
+                  <div className="w-full h-full bg-white/5 animate-pulse rounded-xl" />
+                )}
               </div>
             </ScrollReveal>
 
@@ -730,7 +740,8 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
           <ScrollReveal className="bg-white dark:bg-zinc-900 rounded-3xl border border-brand-border dark:border-white/5 p-6 shadow-sm mb-8">
             <h4 className="text-sm font-bold mb-4 text-brand-text-primary dark:text-white">{t.ratioTitle}</h4>
             <div className="h-[250px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
+              {isMounted ? (
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                 <LineChart data={ltvData} margin={{ top: 10, right: 20, left: -20, bottom: 0 }}>
                   <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" />
                   <XAxis dataKey="coca" stroke="#a1a1aa" fontSize={11} />
@@ -739,6 +750,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                   <Line type="monotone" dataKey="ltv" stroke="#b45309" strokeWidth={3} activeDot={{ r: 8 }} />
                 </LineChart>
               </ResponsiveContainer>
+                ) : (
+                  <div className="w-full h-full bg-white/5 animate-pulse rounded-xl" />
+                )}
             </div>
             
             <div className="mt-6 flex justify-around items-center border-t border-brand-border dark:border-white/5 pt-4 text-center">
@@ -792,7 +806,8 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
               {t.growthDesc}
             </p>
             <div className="h-[300px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
+              {isMounted ? (
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                 <LineChart data={growthData} margin={{ top: 10, right: 20, left: -20, bottom: 0 }}>
                   <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" />
                   <XAxis dataKey="year" stroke="#a1a1aa" fontSize={11} />
@@ -803,6 +818,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                   <Line type="monotone" name="Dòng Tiền Thuần (CFt)" dataKey="cashflow" stroke="#b45309" strokeDasharray="5 5" strokeWidth={2.5} />
                 </LineChart>
               </ResponsiveContainer>
+                ) : (
+                  <div className="w-full h-full bg-white/5 animate-pulse rounded-xl" />
+                )}
             </div>
           </ScrollReveal>
 
@@ -958,7 +976,8 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
             <ScrollReveal className="bg-white dark:bg-zinc-900 rounded-3xl border border-brand-border dark:border-white/5 p-6 shadow-sm">
               <h4 className="text-sm font-bold mb-4 text-brand-text-primary dark:text-white">{t.useOfFunds}</h4>
               <div className="h-[230px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
+                {isMounted ? (
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                   <PieChart>
                     <Pie
                       data={opexData}
@@ -976,6 +995,9 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
                     <Tooltip formatter={(value) => value !== undefined && value !== null ? `${value}M VND` : ""} />
                   </PieChart>
                 </ResponsiveContainer>
+                ) : (
+                  <div className="w-full h-full bg-white/5 animate-pulse rounded-xl" />
+                )}
               </div>
             </ScrollReveal>
 

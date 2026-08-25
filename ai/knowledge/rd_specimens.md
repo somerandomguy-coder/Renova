@@ -1,31 +1,18 @@
-# ECOVAL R&D Specimen Generations
+# RENOVA R&D Specimen Generations & Version Matrix
 
-## Generation 1 — Base Composite Specimen (Lab Phase)
-- **Title**: Mẫu phôi composite nền / Base Composite Specimen
-- **Summary**: Core composite base integrating recycled multi-layer plastic polymer with raw husk fiber for load-bearing foundation.
-- **Compressive Strength**: 5.5 - 6.5 MPa
-- **Water Absorption**: < 2.5%
-- **UV Resistance**: SGS 500-hour UV chamber test certified
-- **Composition**: 50% Multi-Layer Plastic (MLP) + 50% Rice Husk Cellulose Fibers
-- **Material Density**: 1.2 g/cm³
-- **Development Focus**: Basic molecular cellular bond structures research
+## R&D Development Version Matrix (V0 - V6)
+- **V0 – Thiết kế khuôn / Mold Design**: Completed (Đã xong)
+- **V1 – Nguyên mẫu, xác định khiếm khuyết / Prototype & Defect Identification**: Completed (Đã xong)
+- **V2 – Đổi màu, biến tính vật liệu / Color & Material Modification**: Completed (Đã xong)
+- **V3 – Tạo hình nhiệt / Thermal Forming**: Completed (Đã xong)
+- **V4 – Áp dụng tính chịu nhiệt / Heat Resistance Application**: Completed (Đã xong)
+- **V5 – Ứng suất nhiệt và môi trường / Thermal & Environmental Stress Testing**: In Progress (Đang diễn ra)
+- **V6 – Giữ màu / Tối ưu thời tiết / Color Retention & Weather Optimization**: In Progress (Đang diễn ra)
+- **Kiểm tra chất lượng / Quality Control & Inspection**: In Progress (Đang diễn ra)
 
-## Generation 2 — Solid Brick V16 (Pilot Phase)
-- **Title**: Mẫu gạch đặc V16 / Solid Brick Specimen V16
-- **Summary**: Semi-solid block optimized for perimeter load walls, amplifying thermal and acoustic shielding.
-- **Compressive Strength**: 6.8 - 7.5 MPa
-- **Water Absorption**: < 1.8%
-- **UV Resistance**: Premium UV resistance certification (ASTM G154)
-- **Composition**: 60% MLP Plastic + 40% Rice Husk and cross-linking additives
-- **Material Density**: 1.35 g/cm³
-- **Development Focus**: Achieved twice the compressive endurance of ordinary autoclaved aerated concrete
-
-## Generation 3 — Heritage Breeze Block (Commercialization)
-- **Title**: Gạch bông gió Heritage / Heritage Breeze Block
-- **Summary**: Iconic East Asian heritage breeze block hollow design, fostering natural ventilation and reducing indoor temperatures by 3-4°C.
-- **Compressive Strength**: 7.8 - 8.2 MPa
-- **Water Absorption**: < 1.2%
-- **UV Resistance**: Colorfast under direct sunlight with 10-year outdoor warranty
-- **Composition**: 45% MLP Plastic + 45% Rice Husk + 10% Inorganic minerals and heritage pigments
-- **Material Density**: 1.4 g/cm³
-- **Development Focus**: Hollow aerodynamic ventilation design actively lowering indoor temperatures by 3-4°C
+## Generations Overview
+- **Generation 1 (Lab Phase)**: Base composite specimen combining MLP polymer matrix with raw rice husk & coconut coir fibers.
+- **Generation 2 (Testing Phase)**: V16 specimen optimized for compressive wall loads and thermal resistance.
+- **Generation 3 (Commercialization Phase - Heritage Breeze Block)**:
+  - **Composition**: 45% Multi-Layer Plastic (MLP) + 45% Natural Rice Husk & Coconut Coir Fibers + 10% Inorganic minerals & heritage pigments.
+  - **Features**: Iconic East Asian heritage ventilation design, active indoor temperature reduction, low water absorption, 10-year outdoor UV warranty.

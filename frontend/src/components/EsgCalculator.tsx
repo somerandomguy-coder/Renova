@@ -15,11 +15,11 @@ const translations = {
   vi: {
     title: "Bộ công cụ Tính toán ",
     titleHighlight: "ESG & EPR",
-    subtitle: "Số hóa các mô hình kinh tế tuần hoàn để đưa ra dự đoán trực quan về tác động sinh thái và lợi ích tài chính thực tế khi đồng hành cùng ECOVAL.",
+    subtitle: "Số hóa các mô hình kinh tế tuần hoàn để đưa ra dự đoán trực quan về tác động sinh thái và lợi ích tài chính thực tế khi đồng hành cùng RENOVA.",
     envTitle: "Dự đoán Tác động Môi trường",
     modeBricks: "Nhập số lượng gạch",
     modeArea: "Nhập diện tích lắp đặt",
-    labelBricks: "Số lượng gạch ECOVAL dự kiến",
+    labelBricks: "Số lượng gạch RENOVA dự kiến",
     labelArea: "Diện tích bề mặt thi công (m²)",
     convertEquivalent: "Quy đổi tương đương: ~ {bricks} viên gạch",
     ratioLabel: "Tỷ lệ phối trộn nguyên liệu",
@@ -43,7 +43,7 @@ const translations = {
     bricksOffsetLabel: "Số gạch cần mua offset:",
     bricksUnit: " viên",
     grossCostLabel: "Chi phí gạch gốc:",
-    footerDesc: "Nhờ cơ chế bù trừ nghĩa vụ nộp quỹ EPR, doanh nghiệp thu hồi lại một phần chi phí vật tư khi tái đầu tư gạch bông gió ECOVAL vào xây dựng cảnh quan nhà máy hoặc văn phòng.",
+    footerDesc: "Nhờ cơ chế bù trừ nghĩa vụ nộp quỹ EPR, doanh nghiệp thu hồi lại một phần chi phí vật tư khi tái đầu tư gạch bông gió RENOVA vào xây dựng cảnh quan nhà máy hoặc văn phòng.",
     chartMlp: "MLP Giải cứu",
     chartHusk: "Vỏ trấu tiêu thụ",
     chartCo2: "CO2 Cắt giảm",
@@ -53,11 +53,11 @@ const translations = {
   en: {
     title: "ESG & EPR ",
     titleHighlight: "Calculator Hub",
-    subtitle: "Digitizing circular economy models to deliver visual predictions of ecological impact and actual financial benefits when partnering with ECOVAL.",
+    subtitle: "Digitizing circular economy models to deliver visual predictions of ecological impact and actual financial benefits when partnering with RENOVA.",
     envTitle: "Environmental Impact Prediction",
     modeBricks: "Enter Brick Quantity",
     modeArea: "Enter Installation Area",
-    labelBricks: "Estimated ECOVAL Bricks",
+    labelBricks: "Estimated RENOVA Bricks",
     labelArea: "Installation Surface Area (m²)",
     convertEquivalent: "Equivalent conversion: ~ {bricks} bricks",
     ratioLabel: "Raw Material Mixture Ratio",
@@ -81,7 +81,7 @@ const translations = {
     bricksOffsetLabel: "Bricks needed to fully offset:",
     bricksUnit: " bricks",
     grossCostLabel: "Gross material cost:",
-    footerDesc: "Through the EPR obligation offset mechanism, enterprises recoup a portion of material expenditures by reinvesting in ECOVAL breeze blocks for factory or office landscaping.",
+    footerDesc: "Through the EPR obligation offset mechanism, enterprises recoup a portion of material expenditures by reinvesting in RENOVA breeze blocks for factory or office landscaping.",
     chartMlp: "MLP Rescued",
     chartHusk: "Husk Consumed",
     chartCo2: "CO2 Reduced",
@@ -93,6 +93,11 @@ const translations = {
 export default function EsgCalculator({ lang }: EsgCalculatorProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const [isChartVisible, setIsChartVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const t = translations[lang];
 
   // ESG Calculator States
@@ -364,7 +369,8 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
             {/* Graphics Column */}
             <ScrollReveal animation="scale-in" duration={600} delay={200} className="h-full flex flex-col justify-center gap-5 min-w-0">
               <div className="h-[220px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
+                {isMounted ? (
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                   <BarChart key={isChartVisible ? "visible" : "hidden"} data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <XAxis dataKey="name" stroke="var(--color-brand-text-muted)" fontSize={11} tickLine={false} />
                     <YAxis stroke="var(--color-brand-text-muted)" fontSize={11} tickLine={false} />
@@ -380,6 +386,9 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
+                ) : (
+                  <div className="w-full h-full bg-white/5 animate-pulse rounded-xl" />
+                )}
               </div>
               
               <div className="flex items-center gap-4 bg-white/2 p-4 rounded-xl">
@@ -388,7 +397,8 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                   <p className="text-xs text-brand-text-muted">{t.rawCompositeDesc}</p>
                 </div>
                 <div className="w-[70px] h-[70px] shrink-0">
-                  <ResponsiveContainer width="100%" height="100%">
+                  {isMounted ? (
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                     <PieChart>
                       <Pie
                         data={pieData}
@@ -405,6 +415,9 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                       </Pie>
                     </PieChart>
                   </ResponsiveContainer>
+                ) : (
+                  <div className="w-full h-full bg-white/5 animate-pulse rounded-xl" />
+                )}
                 </div>
               </div>
             </ScrollReveal>

@@ -12,11 +12,11 @@ const translations = {
   vi: {
     title: "Ma trận So sánh ",
     titleHighlight: "Vật liệu",
-    subtitle: "Khác biệt vượt trội của gạch bông gió sinh thái ECOVAL so với các vật liệu xây dựng truyền thống trên thị trường về cả thông số kỹ thuật lẫn bảo vệ môi trường.",
+    subtitle: "Khác biệt vượt trội của gạch bông gió sinh thái RENOVA so với các vật liệu xây dựng truyền thống trên thị trường về cả thông số kỹ thuật lẫn bảo vệ môi trường.",
     techProp: "Đặc tính kỹ thuật",
     superior: "Vượt trội",
     categories: [
-      { name: "Gạch bông gió ECOVAL", sub: "Vật liệu sinh thái thế hệ mới" },
+      { name: "Gạch bông gió RENOVA", sub: "Vật liệu sinh thái thế hệ mới" },
       { name: "Bông gió Bê tông / Xi măng", sub: "Phương pháp truyền thống nặng" },
       { name: "Bông gió Đất nung", sub: "Đất sét nung nhiệt độ cao" }
     ],
@@ -24,23 +24,23 @@ const translations = {
       {
         name: "Trọng lượng trung bình",
         values: [
-          { text: "1.5 kg (Siêu nhẹ, nhẹ gấp đôi)", highlight: true },
+          { text: "Nhẹ hơn 20–30% so với gạch truyền thống", highlight: true },
           { text: "3.2 kg (Nặng, tốn chi phí vận chuyển)", highlight: false },
           { text: "2.8 kg (Trung bình)", highlight: false }
         ]
       },
       {
-        name: "Khả năng chịu nhiệt / Độ bền nhiệt",
+        name: "Khả năng chịu nhiệt / độ bền nhiệt",
         values: [
-          { text: "Tuyệt vời (Hệ số Thermal Shield cách nhiệt chủ động)", highlight: true },
+          { text: "Tốt (Tối ưu khả năng chịu nhiệt và độ bền môi trường)", highlight: true },
           { text: "Kém (Dẫn nhiệt nhanh)", highlight: false },
           { text: "Trung bình (Giữ nhiệt lâu)", highlight: false }
         ]
       },
       {
-        name: "Hồ sơ Carbon sinh ra",
+        name: "Hồ sơ Carbon",
         values: [
-          { text: "Âm carbon (-0.8 kg CO2eq / viên)", highlight: true },
+          { text: "Có ít nhất -1 kg, 1,5 kg giảm, và 0,3–0,6 tấn/1.000 viên", highlight: true },
           { text: "Dương (Phát thải lớn từ nung & clinker xi măng)", highlight: false },
           { text: "Dương rất cao (Khí thải nung lò đất sét)", highlight: false }
         ]
@@ -66,11 +66,11 @@ const translations = {
   en: {
     title: "Comparison ",
     titleHighlight: "Matrix",
-    subtitle: "The outstanding advantages of ECOVAL eco breeze blocks compared to traditional materials in terms of physical specifications and eco-impact.",
+    subtitle: "The outstanding advantages of RENOVA eco breeze blocks compared to traditional materials in terms of physical specifications and eco-impact.",
     techProp: "Technical Properties",
     superior: "Superior",
     categories: [
-      { name: "ECOVAL Breeze Block", sub: "Next-gen eco material" },
+      { name: "RENOVA Breeze Block", sub: "Next-gen eco material" },
       { name: "Concrete / Cement Block", sub: "Heavy traditional method" },
       { name: "Clay Terracotta Block", sub: "High-heat kiln fired clay" }
     ],

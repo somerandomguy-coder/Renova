@@ -1,45 +1,18 @@
-# ECOVAL ESG Calculation Methodology
+# RENOVA ESG Calculation Methodology
 
 ## Environmental Impact Calculator
 
-### Core Formulas
-- **1 Brick = 1.05 kg** of plastic waste upcycled (at the locked 70% plastic ratio)
-- **1 Brick = 1.50 kg** of CO2 emissions reduced
-- **Unit Block Weight**: 1.5 kg per breeze block
-- **Material Ratio** (locked): 70% Plastic Waste / 25% Rice Husk / 5% Additives
+### Core Formulas & Material Metrics
+- **Average MLP Upcycled per Block**: 0.60 kg of multi-layer plastic waste per standard block.
+- **CO2 Impact**: At least -1 kg net carbon profile, 1.5 kg CO2eq reduction per block (saving 0.3 - 0.6 tons of CO2 per 1,000 blocks).
+- **Weight**: 20-30% lighter than traditional cement or clay blocks.
+- **Core Material Composition**: 60-70% Multi-layer plastic (MLP) waste, 25-30% Rice husk & Coconut coir fibers, 5-10% Inorganic minerals & additives.
 
-### Detailed Calculation
-For a given number of bricks:
-- **Plastic waste mass** = number_of_bricks × (plastic_ratio / 100) × 1.5 kg
-- **Rice husk consumed** = number_of_bricks × (husk_ratio / 100) × 1.5 kg
-- **CO2 reduced** = (bricks × 0.37) + (plastic_waste_mass × 0.80) + (husk_consumed × 0.77) kg
+### Detailed Calculation Rules
+For a given quantity of RENOVA blocks ($N$):
+- **Plastic Waste Upcycled (kg)** = $N \times 0.60 \text{ kg}$
+- **CO2 Reduced (kg)** = $N \times 1.50 \text{ kg}$
+- **Landfill Diversion Volume ($m^3$)** = Plastic mass (kg) / 0.05 (assuming 50 kg/m^3 uncompacted MLP waste density).
 
-### Area Conversion
-- 1 m² of surface area requires approximately 25 standard ECOVAL breeze bricks (based on 19×19×6.5 cm dimensions)
-- Example: A 40 m² surface needs approximately 1,000 bricks
-
-### Example Calculation (1,000 bricks)
-- Plastic waste upcycled: 1,050 kg
-- Rice husk consumed: 375 kg
-- CO2 emissions reduced: 1,500 kg
-- Trees equivalent (CO2 absorption): ~68.2 trees
-
-## EPR Cashflow Engine
-
-### What is EPR?
-EPR (Extended Producer Responsibility) is a Vietnamese regulatory framework (Decree 08/2022, Decree 05/2025) that requires companies producing or importing packaging to either:
-1. Organize recycling at the mandatory rate, OR
-2. Pay a fee to the Vietnam Environmental Protection Fund (VEPF)
-
-### EPR Fee Calculation
-- **Standard EPR Fee**: packaging_volume_kg × 15,000 VND/kg
-- **Optimized EPR Fee** (with ECOVAL offset): standard_fee × 60% (40% reduction)
-- **EPR Savings**: standard_fee - optimized_fee
-
-### EPR Offset Purchase Analysis
-- **Bricks needed for full offset**: packaging_volume_kg ÷ 0.60 (kg MLP plastic per brick)
-- **Gross brick cost**: bricks_needed × brick_price_vnd
-- **Net cost after EPR offset**: gross_cost - standard_epr_fee
-
-### How the Offset Works
-Through the EPR obligation offset mechanism, enterprises can recoup a portion of material expenditures by reinvesting in ECOVAL breeze blocks for factory or office landscaping construction. The EPR Fund effectively subsidizes a percentage of the material cost, making ECOVAL blocks a financially advantageous choice for companies with EPR obligations.
+### EPR Financial Recoupment Estimation
+Enterprises purchasing RENOVA blocks for landscaping or factory construction offset statutory EPR recycling contributions while gaining verified ESG reporting assets.

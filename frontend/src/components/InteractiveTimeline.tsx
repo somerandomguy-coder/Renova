@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Beaker, Trophy, Shield, Rocket } from "lucide-react";
+import { Beaker, Trophy, Shield, Rocket, FileText } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
 interface InteractiveTimelineProps {
@@ -11,8 +11,8 @@ interface InteractiveTimelineProps {
 const translations = {
   vi: {
     title: "Hành trình ",
-    titleHighlight: "ECOVAL",
-    subtitle: "Từ nghiên cứu và phát triển nguyên mẫu tại Trường Đại học Bách Khoa – ĐHQG-HCM đến giai đoạn kiểm định, pilot và chuẩn bị thương mại hóa vật liệu tuần hoàn ECOVAL",
+    titleHighlight: "RENOVA",
+    subtitle: "Từ nghiên cứu và phát triển nguyên mẫu tại Trường Đại học Bách Khoa – ĐHQG-HCM đến giai đoạn kiểm định, pilot và chuẩn bị thương mại hóa vật liệu tuần hoàn RENOVA",
     steps: [
       {
         title: "Nghiên cứu Lab",
@@ -29,21 +29,27 @@ const translations = {
       {
         title: "Giải Ba EPICS",
         subtitle: "Chương trình EPICS (ASU & Dow Vietnam)",
-        description: "Dự án RENOVA/ECOVAL đạt Giải Ba tại chương trình EPICS do Arizona State University và Dow Vietnam tổ chức, ghi nhận hướng tiếp cận ứng dụng kỹ thuật phục vụ cộng đồng.",
+        description: "Dự án RENOVA đạt Giải Ba tại chương trình EPICS do Arizona State University và Dow Vietnam tổ chức, ghi nhận hướng tiếp cận ứng dụng kỹ thuật phục vụ cộng đồng.",
         date: "Tháng 5/2026"
       },
       {
-        title: "Gọi vốn thương mại hóa",
-        subtitle: "Triển khai B2B & Chuyển giao",
-        description: "Mở rộng liên kết với các doanh nghiệp FMCG đóng phí EPR và các quỹ đầu tư xanh để lắp đặt dây chuyền sản xuất công nghiệp quy mô lớn.",
-        date: "2026 - Tương lai"
+        title: "Thiết kế sản phẩm và khuôn",
+        subtitle: "Giai đoạn thiết kế kĩ thuật & tối ưu kiểu dáng",
+        description: "Nghiên cứu, thiết kế chi tiết sản phẩm gạch bông gió sinh thái và chế tạo bản vẽ kĩ thuật khuôn mẫu tối ưu cho sản xuất.",
+        date: "08/2026 - 10/2026"
+      },
+      {
+        title: "Prototype: Gia công khuôn và sản xuất thử",
+        subtitle: "Chế tạo khuôn & Thử nghiệm sản xuất",
+        description: "Gia công thực tế hệ thống khuôn đúc, tiến hành sản xuất thử nghiệm lô mẫu prototype và đánh giá chất lượng sản phẩm.",
+        date: "10/2026 - 12/2026"
       }
     ]
   },
   en: {
-    title: "The ECOVAL ",
+    title: "Hành Trình ",
     titleHighlight: "Journey",
-    subtitle: "From R&D and prototype development at HCMC University of Technology (VNU-HCM) to testing, piloting, and preparing for commercialization of ECOVAL circular materials.",
+    subtitle: "From R&D and prototype development at HCMC University of Technology (VNU-HCM) to testing, piloting, and preparing for commercialization of RENOVA circular materials.",
     steps: [
       {
         title: "Material R&D Initiation",
@@ -60,14 +66,20 @@ const translations = {
       {
         title: "3rd Prize - EPICS Program",
         subtitle: "Engineering Projects in Community Service (ASU & Dow)",
-        description: "The RENOVA/ECOVAL project won 3rd Prize at the EPICS program hosted by Arizona State University and Dow Vietnam, recognizing an engineering approach serving the community.",
+        description: "The RENOVA project won 3rd Prize at the EPICS program hosted by Arizona State University and Dow Vietnam, recognizing an engineering approach serving the community.",
         date: "Tháng 5/2026"
       },
       {
-        title: "Commercial Scaling",
-        subtitle: "B2B Rollout & Technology Transfer",
-        description: "Expanding strategic partnerships with FMCG brands subject to EPR fees and impact investment funds to launch industrial-scale production lines.",
-        date: "2026 - Future"
+        title: "Product & Mold Design",
+        subtitle: "Engineering Design & Mold Optimization",
+        description: "Detailed R&D design for eco-breeze block products and technical mold engineering for optimized manufacturing.",
+        date: "08/2026 - 10/2026"
+      },
+      {
+        title: "Prototype: Mold Machining & Trial Run",
+        subtitle: "Mold Fabrication & Trial Production",
+        description: "Fabricating physical mold systems, conducting trial production runs of prototype batches, and evaluating product performance.",
+        date: "10/2026 - 12/2026"
       }
     ]
   }
@@ -100,11 +112,18 @@ export default function InteractiveTimeline({ lang }: InteractiveTimelineProps) 
       date: t.steps[2].date
     },
     {
-      icon: <Rocket size={20} />,
+      icon: <FileText size={20} />,
       title: t.steps[3].title,
       subtitle: t.steps[3].subtitle,
       description: t.steps[3].description,
       date: t.steps[3].date
+    },
+    {
+      icon: <Rocket size={20} />,
+      title: t.steps[4].title,
+      subtitle: t.steps[4].subtitle,
+      description: t.steps[4].description,
+      date: t.steps[4].date
     }
   ];
 

@@ -12,7 +12,7 @@ const translations = {
   vi: {
     title: "Bảng vàng ",
     titleHighlight: "Thành tựu & Giải thưởng",
-    subtitle: "Những dấu mốc và chứng chỉ chất lượng uy tín bảo chứng cho sự nỗ lực phát triển công nghệ và ý thức xã hội của đội ngũ dự án ECOVAL.",
+    subtitle: "Những dấu mốc và chứng chỉ chất lượng uy tín bảo chứng cho sự nỗ lực phát triển công nghệ và ý thức xã hội của đội ngũ dự án RENOVA.",
     awardsMetric: "Giải thưởng Lớn đạt được",
     standardsMetric: "Vật liệu Lab đạt chuẩn chất lượng",
     certScanText: " (Xem bản Scan xác thực)",
@@ -22,28 +22,28 @@ const translations = {
         subtitle: "Chương trình EPICS (ASU & Dow Vietnam)",
         description: "Chứng minh năng lực giải quyết bài toán kỹ thuật thực tế nhằm phục vụ và nâng cao chất lượng sống cho cộng đồng xã hội thông qua gạch bông gió sinh thái.",
         certName: "Chứng nhận EPICS 8 (ASU & Dow)",
-        date: "Tháng 05, 2026"
+        date: "Tháng 5/2026"
       },
       {
-        title: "Giải Khuyến khích VWRA 2025",
-        subtitle: "Hiệp hội Quản lý chất thải Việt Nam",
-        description: "Chứng minh sự công nhận và đánh giá cao từ các chuyên gia đầu ngành trong lĩnh vực xử lý rác thải nhựa đa lớp và kinh tế tuần hoàn tại Việt Nam.",
-        certName: "Ghi nhận tại Cuộc thi Sản phẩm & Sáng kiến Tái chế 2025",
-        date: "26/11/2025"
+        title: "Ghi nhận tại Cuộc thi Sản phẩm và Sáng kiến Công nghệ Tái chế 2025",
+        subtitle: "Hiệp hội Tái chế Chất thải Việt Nam",
+        description: "Nhóm RENOVA được Hiệp hội Tái chế Chất thải Việt Nam khen tặng vì thành tích tại cuộc thi, đánh dấu bước xác nhận đầu tiên đối với hướng nghiên cứu vật liệu tuần hoàn của dự án.",
+        certName: "Bằng khen Hiệp hội Tái chế Chất thải Việt Nam",
+        date: "ngày 26/11/2025"
       },
       {
         title: "Đồng hành & Ứng dụng Thực tế",
         subtitle: "Công ty Cổ phần Công nghệ, Thiết bị, Dịch vụ và Môi trường Ánh Thủy",
-        description: "Doanh nghiệp chính thức xác nhận việc thử nghiệm ứng dụng sản phẩm gạch bông gió ECOVAL vào các công trình thực tế, phối hợp thử nghiệm ứng dụng thực tế và đánh giá độ bền của vật liệu trong điều kiện môi trường.",
+        description: "Doanh nghiệp phối hợp thử nghiệm ứng dụng thực tế và đánh giá độ bền của vật liệu trong điều kiện môi trường.",
         certName: "Chứng nhận ứng dụng thực tế",
-        date: "Tháng 05, 2026"
+        date: "Tháng 5/2026"
       }
     ]
   },
   en: {
     title: "Achievements ",
     titleHighlight: "& Awards",
-    subtitle: "Key milestones and quality certifications validating ECOVAL's commitment to tech innovation and social responsibility.",
+    subtitle: "Key milestones and quality certifications validating RENOVA's commitment to tech innovation and social responsibility.",
     awardsMetric: "Major Awards Achieved",
     standardsMetric: "Lab Quality Standards Met",
     certScanText: " (View verified scan)",
@@ -65,7 +65,7 @@ const translations = {
       {
         title: "Corporate Partnership & Pilot Validation",
         subtitle: "Anh Thuy Technology, Equipment, Service & Environment JSC",
-        description: "Official corporate validation certifying the deployment of ECOVAL eco-breeze blocks in active construction projects, collaborating on field application testing and evaluating material durability under environmental conditions.",
+        description: "Official corporate validation certifying the deployment of RENOVA eco-breeze blocks in active construction projects, collaborating on field application testing and evaluating material durability under environmental conditions.",
         certName: "Written Certification of Work Application",
         date: "May 2026"
       }

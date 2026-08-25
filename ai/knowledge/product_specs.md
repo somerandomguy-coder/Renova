@@ -1,29 +1,17 @@
-# ECOVAL Sustainable Materials — Product Specifications
+# RENOVA Circular Materials — Product Specifications
 
 ## Overview
-ECOVAL produces eco-friendly breeze blocks (gạch bông gió) made from recycled multi-layer plastic waste (MLP) and rice husk cellulose fibers. Each block upcycles plastic waste that would otherwise end up in landfills or oceans.
+RENOVA produces eco-friendly heritage breeze blocks (gạch bông gió) engineered from upcycled multi-layer plastic waste (MLP), rice husk (vỏ trấu), and coconut coir (xơ dừa) fibers.
 
-## Core Specifications
-- **Unit Block Weight**: 1.5 kg per breeze block
-- **Locked Material Ratio**: 70% Plastic Waste / 25% Rice Husk / 5% Additives
-- **Plastic Waste per Brick**: 1.05 kg of plastic waste upcycled per brick
-- **CO2 Reduction per Brick**: 1.50 kg of CO2 emissions reduced per brick
-- **Standard Block Dimensions**: 19 × 19 × 6.5 cm (breeze block format)
-- **Installation Density**: Approximately 25 bricks per 1 m² of surface area
+## Technical Specifications
+- **Weight**: 20-30% lighter than traditional concrete/clay blocks.
+- **MLP Plastic Waste Content**: ~0.60 kg MLP upcycled per block.
+- **Natural Fiber Reinforcement**: Rice husk (vỏ trấu) & Coconut coir (xơ dừa) fibers for enhanced flexural toughness and thermal resistance.
+- **Carbon Profile**: At least -1 kg net carbon footprint, 1.5 kg CO2eq reduction per block (0.3–0.6 tons saved per 1,000 blocks).
+- **Water Absorption**: Low water absorption (< 1.8%).
+- **Thermal Performance**: High thermal resistance and environmental durability.
+- **Weather & UV Warranty**: 10-year anti-aging & UV colorfastness assurance.
 
-## Material Composition
-The composite material consists of:
-- **Multi-Layer Plastic (MLP)**: Recycled post-consumer packaging plastics including LDPE, HDPE, and multi-layer film laminates
-- **Rice Husk Cellulose Fibers**: Agricultural byproduct providing natural fiber reinforcement and thermal insulation properties
-- **Additives (5%)**: Cross-linking agents, UV stabilizers, and heritage pigments for color retention
-
-## Key Properties
-- Water resistant with low absorption rates (< 2.5% for Gen1, improving to < 1.2% for Gen3)
-- UV resistant — tested and certified under SGS 500-hour UV chamber testing and ASTM G154 standards
-- Thermal insulation — hollow ventilation design reduces indoor temperatures by 3-4°C
-- Compressive strength ranges from 5.5 MPa (Gen1) to 8.2 MPa (Gen3), exceeding standard autoclaved aerated concrete
-
-## Product Variants
-1. **Base Composite Specimen (Gen1)**: Lab-phase foundation research material
-2. **Solid Brick V16 (Gen2)**: Semi-solid block optimized for perimeter load walls
-3. **Heritage Breeze Block (Gen3)**: Commercialized product with East Asian heritage hollow patterns for natural ventilation
+## Material Composition Ratios
+- **Standard Density Matrix**: 60–70% Multi-Layer Plastic (MLP) + 25–30% Rice Husk & Coconut Coir Fibers + 5–10% Additives.
+- **Generation 3 Commercial Heritage Breeze Block**: 45% Multi-Layer Plastic (MLP) + 45% Rice Husk & Coconut Coir Fibers + 10% Inorganic Minerals & Heritage Pigments.
