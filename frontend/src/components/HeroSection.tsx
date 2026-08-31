@@ -25,6 +25,7 @@ const translations = {
 export default function HeroSection({ lang }: HeroSectionProps) {
   const t = translations[lang];
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const videoSrc = lang === "en" ? "/renova_intro_en.mp4" : "/renova_intro_vn.mp4";
 
   return (
     <section 
@@ -93,13 +94,14 @@ export default function HeroSection({ lang }: HeroSectionProps) {
               >
                 {/* Looping Muted Preview Video */}
                 <video
+                  key={videoSrc}
                   autoPlay
                   loop
                   muted
                   playsInline
                   className="w-full h-full object-cover rounded-2xl transition-transform duration-700 group-hover:scale-103"
                 >
-                  <source src="/renova_intro.mp4" type="video/mp4" />
+                  <source src={videoSrc} type="video/mp4" />
                 </video>
 
                 {/* Video Play Overlay */}
@@ -147,12 +149,13 @@ export default function HeroSection({ lang }: HeroSectionProps) {
 
             {/* Full Player Video */}
             <video
+              key={videoSrc}
               autoPlay
               controls
               playsInline
               className="w-full h-full object-contain"
             >
-              <source src="/renova_intro.mp4" type="video/mp4" />
+              <source src={videoSrc} type="video/mp4" />
             </video>
           </div>
         </div>
