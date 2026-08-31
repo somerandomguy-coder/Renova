@@ -1,130 +1,167 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, X } from "lucide-react";
-import HeroSection from "@/components/HeroSection";
-import EsgVision from "@/components/EsgVision";
-import InteractiveTimeline from "@/components/InteractiveTimeline";
-import RdShowcase from "@/components/RdShowcase";
-import ComparisonMatrix from "@/components/ComparisonMatrix";
-import EsgCalculator from "@/components/EsgCalculator";
-import EprStepper from "@/components/EprStepper";
-import RegistrationForms from "@/components/RegistrationForms";
-import TeamSection from "@/components/TeamSection";
-import Stakeholders from "@/components/Stakeholders";
-import Milestones from "@/components/Milestones";
-import FinancialReport from "@/components/FinancialReport";
-import AiChat from "@/components/AiChat";
+import { 
+  BarChart3, 
+  ShieldCheck, 
+  Layers, 
+  Calculator, 
+  Users, 
+  Award, 
+  FileText, 
+  Bot, 
+  Globe, 
+  Menu, 
+  X,
+  Sparkles,
+  ArrowUpRight,
+  TrendingUp,
+  Leaf
+} from "lucide-react";
 
-const navTranslations = {
+import HeroSection from "../components/HeroSection";
+import EsgVision from "../components/EsgVision";
+import InteractiveTimeline from "../components/InteractiveTimeline";
+import RdShowcase from "../components/RdShowcase";
+import ComparisonMatrix from "../components/ComparisonMatrix";
+import EsgCalculator from "../components/EsgCalculator";
+import EprStepper from "../components/EprStepper";
+import TeamSection from "../components/TeamSection";
+import Milestones from "../components/Milestones";
+import FinancialReport from "../components/FinancialReport";
+import RegistrationForms from "../components/RegistrationForms";
+import Stakeholders from "../components/Stakeholders";
+import AiChat from "../components/AiChat";
+
+const translations = {
   vi: {
-    about: "Giới thiệu",
-    esg: "Tầm nhìn ESG",
-    rd: "R&D",
-    calc: "Công cụ ESG",
-    epr: "Quy trình EPR",
-    team: "Về chúng tôi",
-    awards: "Bảng vàng",
-    finance: "Thông tin tài chính",
-    ai: "Trợ lý AI",
-    cta: "Hợp tác ngay"
+    nav: {
+      home: "Trang chủ",
+      esg: "Sứ mệnh ESG",
+      product: "Ưu thế Sản phẩm",
+      epr: "Hợp tác EPR",
+      rd: "Hành trình R&D",
+      about: "Về chúng tôi",
+      ai: "✨ Trợ lý AI",
+      cta: "Đăng ký Hợp tác"
+    },
+    foot: {
+      slogan: "Quy trình kinh tế tuần hoàn số hóa đột phá. Chuyển đổi rác thải nhựa đa lớp (MLP) bất tử và phế phẩm vỏ trấu nông nghiệp thành gạch bông gió di sản xanh đẳng cấp.",
+      quickLinks: "Liên kết Nhanh",
+      home: "Trang chủ",
+      esgTitle: "Định vị & Sứ mệnh ESG",
+      productTitle: "Sản phẩm & Ưu thế",
+      calcTitle: "Bộ công cụ ESG/EPR",
+      financeTitle: "Minh bạch Tài chính",
+      partnerTitle: "Đăng ký Hợp tác",
+      contact: "Thông tin Liên hệ",
+      lab: "📍 Phòng Thí nghiệm & R&D: Trường Đại học Bách Khoa – ĐHQG-HCM, TP. Hồ Chí Minh",
+      rights: "© 2026 RENOVA Circular Materials. Tất cả các quyền được bảo lưu.",
+      privacy: "Chính sách Bảo mật",
+      terms: "Điều khoản Sử dụng"
+    }
   },
   en: {
-    about: "About Us",
-    esg: "ESG Vision",
-    rd: "R&D Showcase",
-    calc: "ESG Calculators",
-    epr: "EPR Workflow",
-    team: "Core Team",
-    awards: "Milestones",
-    finance: "Financial Info",
-    ai: "AI Assistant",
-    cta: "Partner Now"
-  }
-};
-
-const footerTranslations = {
-  vi: {
-    slogan: "Phát triển và ứng dụng công nghệ xanh để chuyển đổi dòng rác thải nhựa khó tái chế thành giải pháp vật liệu xây dựng sinh thái có giá trị di sản và kinh tế cao.",
-    quickLinks: "Liên kết nhanh",
-    home: "Trang chủ",
-    esgTitle: "Tầm nhìn ESG",
-    calcTitle: "Bộ tính toán ESG",
-    partnerTitle: "Đăng ký hợp tác",
-    financeTitle: "Thông tin tài chính",
-    contact: "Liên hệ",
-    lab: "📍 Trường đại học bách khoa - ĐHQG-HCM",
-    rights: `© ${new Date().getFullYear()} RENOVA Circular Materials. Bảo lưu mọi quyền.`,
-    privacy: "Điều khoản bảo mật",
-    terms: "Quy chế thành viên"
-  },
-  en: {
-    slogan: "Developing and applying green technology to transform hard-to-recycle plastic waste streams into ecological building material solutions with high heritage and economic value.",
-    quickLinks: "Quick Links",
-    home: "Home",
-    esgTitle: "ESG Vision",
-    calcTitle: "ESG Calculator",
-    partnerTitle: "Partner Registration",
-    financeTitle: "Financial Info",
-    contact: "Contact Details",
-    lab: "📍 New Materials R&D Lab, HCMC University of Technology - VNU-HCM",
-    rights: `© ${new Date().getFullYear()} RENOVA Circular Materials. All rights reserved.`,
-    privacy: "Privacy Policy",
-    terms: "Terms of Service"
+    nav: {
+      home: "Home",
+      esg: "ESG Mission",
+      product: "Product Advantages",
+      epr: "EPR Partnership",
+      rd: "R&D Journey",
+      about: "About Us",
+      ai: "✨ AI Assistant",
+      cta: "Partner With Us"
+    },
+    foot: {
+      slogan: "Breakthrough digital circular economy workflow. Upcycling multi-layer plastic packaging and agricultural biomass into premium heritage breeze blocks.",
+      quickLinks: "Quick Links",
+      home: "Home",
+      esgTitle: "ESG Positioning & Mission",
+      productTitle: "Products & Advantages",
+      calcTitle: "ESG/EPR Toolkit",
+      financeTitle: "Financial Transparency",
+      partnerTitle: "Partner Registration",
+      contact: "Contact Information",
+      lab: "📍 R&D Laboratory: HCMC University of Technology (VNU-HCM), Ho Chi Minh City",
+      rights: "© 2026 RENOVA Circular Materials. All rights reserved.",
+      privacy: "Privacy Policy",
+      terms: "Terms of Use"
+    }
   }
 };
 
 export default function Home() {
   const [lang, setLang] = useState<"vi" | "en">("vi");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const nav = navTranslations[lang];
-  const foot = footerTranslations[lang];
+
+  const t = translations[lang];
+  const nav = t.nav;
+  const foot = t.foot;
 
   return (
     <>
-      {/* Sticky Header / Navigation */}
-      <header className="sticky top-0 z-50 bg-white/85 dark:bg-zinc-950/85 backdrop-blur-md border-b border-black/5 dark:border-white/5">
-        <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 flex justify-between items-center h-20 relative">
-          <div className="flex items-center gap-3 shrink-0">
+      {/* Global Navigation Header */}
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-zinc-950/80 border-b border-brand-border dark:border-white/10 transition-all duration-300">
+        <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 h-20 flex items-center justify-between">
+          
+          {/* Brand Logo */}
+          <a href="#hero" className="flex items-center gap-3 no-underline shrink-0">
             <img 
               src="/renova_logo.png" 
               alt="RENOVA Logo" 
-              className="h-10 w-auto object-contain dark:brightness-110" 
+              className="h-10 sm:h-11 w-auto object-contain dark:brightness-110" 
             />
-            <span className="text-[10px] font-bold text-brand-text-muted border border-brand-border px-1.5 py-0.5 rounded uppercase">
-              SUSTAINABLE MATERIALS
-            </span>
-          </div>
+            <div className="flex flex-col">
+              <span className="font-heading font-black text-lg sm:text-xl tracking-tight text-brand-text-primary dark:text-white leading-none">
+                RENOVA
+              </span>
+              <span className="text-[10px] font-bold text-brand-primary tracking-wider uppercase mt-0.5">
+                Circular Materials
+              </span>
+            </div>
+          </a>
 
-          <nav className="hidden xl:flex items-center justify-center flex-1 mx-4 xl:mx-6 min-w-0">
-            <ul className="flex gap-2 xl:gap-3 2xl:gap-5 list-none justify-center">
-              <li><a href="#trang-chu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.about}</a></li>
-              <li><a href="#tam-nhin-esg" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.esg}</a></li>
-              <li><a href="#thu-vien-rd" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.rd}</a></li>
-              <li><a href="#tinh-toan" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.calc}</a></li>
-              <li><a href="#quy-trinh-epr" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.epr}</a></li>
-              <li><a href="#doi-ngu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.team}</a></li>
-              <li><a href="#thanh-tuu" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.awards}</a></li>
-              <li><a href="#tai-chinh" className="text-brand-text-muted hover:text-brand-primary font-medium transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm">{nav.finance}</a></li>
-              <li><a href="/ai-assistant" className="text-brand-primary font-bold hover:underline transition-colors duration-300 font-heading whitespace-nowrap text-xs xl:text-[13px] 2xl:text-sm flex items-center gap-1">✨ {nav.ai}</a></li>
-            </ul>
+          {/* Desktop Navigation Links */}
+          <nav className="hidden xl:flex items-center gap-7 text-sm font-medium">
+            <a href="#hero" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+              {nav.home}
+            </a>
+            <a href="#su-menh-esg" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+              {nav.esg}
+            </a>
+            <a href="#uu-the-san-pham" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+              {nav.product}
+            </a>
+            <a href="#hop-tac-epr" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+              {nav.epr}
+            </a>
+            <a href="#hanh-trinh-rd" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+              {nav.rd}
+            </a>
+            <a href="#ve-chung-toi" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+              {nav.about}
+            </a>
+            <a href="/ai-assistant" className="text-brand-primary font-bold hover:underline transition-colors no-underline flex items-center gap-1.5 bg-brand-primary/10 px-3 py-1.5 rounded-full border border-brand-primary/20">
+              {nav.ai}
+            </a>
           </nav>
 
-          <div className="flex items-center gap-6 xl:gap-8 shrink-0">
+          {/* Action CTAs & Controls */}
+          <div className="flex items-center gap-4 shrink-0">
             {/* Language Selector Toggle */}
-            <div className="flex items-center gap-1.5 bg-black/3 dark:bg-white/3 p-1 rounded-full border border-brand-border">
+            <div className="flex items-center gap-1 bg-black/5 dark:bg-white/5 p-1 rounded-full border border-brand-border dark:border-white/10">
               <button 
                 onClick={() => setLang("vi")}
-                className={`border-none rounded-xl px-2 py-1 font-bold text-xs cursor-pointer transition-all duration-200 ${
-                  lang === "vi" ? "bg-brand-primary text-white" : "bg-transparent text-brand-text-muted"
+                className={`border-none rounded-full px-2.5 py-1 font-bold text-xs cursor-pointer transition-all duration-200 ${
+                  lang === "vi" ? "bg-brand-primary text-white shadow-xs" : "bg-transparent text-brand-text-muted hover:text-white"
                 }`}
               >
                 VI
               </button>
               <button 
                 onClick={() => setLang("en")}
-                className={`border-none rounded-xl px-2 py-1 font-bold text-xs cursor-pointer transition-all duration-200 ${
-                  lang === "en" ? "bg-brand-primary text-white" : "bg-transparent text-brand-text-muted"
+                className={`border-none rounded-full px-2.5 py-1 font-bold text-xs cursor-pointer transition-all duration-200 ${
+                  lang === "en" ? "bg-brand-primary text-white shadow-xs" : "bg-transparent text-brand-text-muted hover:text-white"
                 }`}
               >
                 EN
@@ -143,43 +180,76 @@ export default function Home() {
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
-
-          {/* Mobile Navigation Dropdown */}
-          {isMenuOpen && (
-            <div className="xl:hidden bg-white dark:bg-zinc-900 border-b border-brand-border px-6 py-4 flex flex-col gap-3 absolute top-20 left-0 w-full z-50">
-              <a href="#trang-chu" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.about}</a>
-              <a href="#tam-nhin-esg" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.esg}</a>
-              <a href="#thu-vien-rd" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.rd}</a>
-              <a href="#tinh-toan" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.calc}</a>
-              <a href="#quy-trinh-epr" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.epr}</a>
-              <a href="#doi-ngu" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.team}</a>
-              <a href="#thanh-tuu" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.awards}</a>
-              <a href="#tai-chinh" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2">{nav.finance}</a>
-              <a href="/ai-assistant" onClick={() => setIsMenuOpen(false)} className="text-brand-primary font-bold py-2 flex items-center gap-1">✨ {nav.ai}</a>
-              <a href="#dang-ky" onClick={() => setIsMenuOpen(false)} className="bg-brand-primary text-white text-center py-2.5 rounded-full font-bold text-xs mt-2 no-underline">{nav.cta}</a>
-            </div>
-          )}
         </div>
+
+        {/* Mobile Navigation Dropdown */}
+        {isMenuOpen && (
+          <div className="xl:hidden bg-white dark:bg-zinc-950 border-b border-brand-border dark:border-white/10 px-6 py-5 flex flex-col gap-3 absolute top-20 left-0 w-full z-50 shadow-2xl">
+            <a href="#hero" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2 border-b border-white/5">{nav.home}</a>
+            <a href="#su-menh-esg" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2 border-b border-white/5">{nav.esg}</a>
+            <a href="#uu-the-san-pham" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2 border-b border-white/5">{nav.product}</a>
+            <a href="#hop-tac-epr" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2 border-b border-white/5">{nav.epr}</a>
+            <a href="#hanh-trinh-rd" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2 border-b border-white/5">{nav.rd}</a>
+            <a href="#ve-chung-toi" onClick={() => setIsMenuOpen(false)} className="text-brand-text-primary dark:text-white font-medium py-2 border-b border-white/5">{nav.about}</a>
+            <a href="/ai-assistant" onClick={() => setIsMenuOpen(false)} className="text-brand-primary font-bold py-2 flex items-center gap-1.5">{nav.ai}</a>
+            <a href="#dang-ky" onClick={() => setIsMenuOpen(false)} className="bg-brand-primary text-white text-center py-3 rounded-full font-bold text-xs mt-2 no-underline">{nav.cta}</a>
+          </div>
+        )}
       </header>
 
-      {/* Main Page Layout Sections */}
-      <main id="trang-chu">
-        <HeroSection lang={lang} />
-        <section id="tam-nhin-esg"><EsgVision lang={lang} /></section>
-        <section><InteractiveTimeline lang={lang} /></section>
-        <section id="thu-vien-rd"><RdShowcase lang={lang} /></section>
-        <section><ComparisonMatrix lang={lang} /></section>
-        <section id="tinh-toan"><EsgCalculator lang={lang} /></section>
-        <section id="quy-trinh-epr"><EprStepper lang={lang} /></section>
-        <section id="doi-ngu"><TeamSection lang={lang} /></section>
-        <section id="thanh-tuu"><Milestones lang={lang} /></section>
-        <section id="tai-chinh"><FinancialReport lang={lang} /></section>
-        <section id="dang-ky"><RegistrationForms lang={lang} /></section>
-        <section><Stakeholders lang={lang} /></section>
+      {/* Main Page Layout Sections — Structured According to Customer Sitemap */}
+      <main>
+        {/* Section 1: Hero Section */}
+        <section id="hero">
+          <HeroSection lang={lang} />
+        </section>
+
+        {/* Section 2: Định vị & Sứ mệnh ESG */}
+        <section id="su-menh-esg">
+          <EsgVision lang={lang} />
+        </section>
+
+        {/* Section 3: Sản phẩm & Ưu thế vượt trội */}
+        <section id="uu-the-san-pham">
+          <ComparisonMatrix lang={lang} />
+        </section>
+
+        {/* Section 4: Giải pháp Doanh nghiệp & Hợp tác EPR (Gộp 2 mục) */}
+        <section id="hop-tac-epr">
+          {/* Quy trình 4 bước */}
+          <EprStepper lang={lang} />
+          {/* Bộ công cụ tính toán ESG/EPR ngay bên dưới */}
+          <EsgCalculator lang={lang} />
+        </section>
+
+        {/* Section 5: Hành trình Nghiên cứu & Phát triển - R&D (Gộp 2 mục) */}
+        <section id="hanh-trinh-rd">
+          {/* Timeline các cột mốc (8/2025 - 12/2026) */}
+          <InteractiveTimeline lang={lang} />
+          {/* Bảng trạng thái các phiên bản V0 - V6 ngay bên dưới */}
+          <RdShowcase lang={lang} />
+        </section>
+
+        {/* Section 6: Về chúng tôi & Năng lực thực thi (Gộp 3 mục) */}
+        <section id="ve-chung-toi">
+          {/* Profile Team */}
+          <TeamSection lang={lang} />
+          {/* Giải thưởng / Thành tựu */}
+          <Milestones lang={lang} />
+          {/* Minh bạch tài chính */}
+          <FinancialReport lang={lang} />
+          {/* Đối tác & Stakeholders */}
+          <Stakeholders lang={lang} />
+        </section>
+
+        {/* Form Đăng ký */}
+        <section id="dang-ky">
+          <RegistrationForms lang={lang} />
+        </section>
       </main>
 
       {/* Global Footer */}
-      <footer className="bg-brand-card-light dark:bg-zinc-900 border-t border-brand-border dark:border-white/10 text-brand-text-muted text-sm py-12 px-6">
+      <footer className="bg-brand-card-light dark:bg-zinc-950 border-t border-brand-border dark:border-white/10 text-brand-text-muted text-sm py-12 px-6">
         <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             
@@ -190,7 +260,7 @@ export default function Home() {
                   alt="RENOVA Logo" 
                   className="h-9 w-auto object-contain dark:brightness-110" 
                 />
-                <span className="font-black text-lg text-brand-text-primary dark:text-white">Sustainable Materials</span>
+                <span className="font-black text-lg text-brand-text-primary dark:text-white">Circular Materials</span>
               </div>
               <p className="leading-relaxed max-w-sm">
                 {foot.slogan}
@@ -199,12 +269,13 @@ export default function Home() {
 
             <div className="flex flex-col gap-3">
               <h4 className="font-bold text-brand-text-primary dark:text-white mb-2 font-heading">{foot.quickLinks}</h4>
-              <a href="#trang-chu" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.home}</a>
-              <a href="#tam-nhin-esg" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.esgTitle}</a>
-              <a href="#tinh-toan" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.calcTitle}</a>
-              <a href="#tai-chinh" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.financeTitle}</a>
+              <a href="#hero" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.home}</a>
+              <a href="#su-menh-esg" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.esgTitle}</a>
+              <a href="#uu-the-san-pham" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.productTitle}</a>
+              <a href="#hop-tac-epr" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.calcTitle}</a>
+              <a href="#ve-chung-toi" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.financeTitle}</a>
               <a href="#dang-ky" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.partnerTitle}</a>
-              <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1">✨ RENOVA AI Workspace</a>
+              <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1.5">✨ RENOVA AI Workspace</a>
             </div>
 
             <div className="flex flex-col gap-3">
@@ -227,7 +298,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* AI Chat Widget — Floating overlay, no impact on existing layout */}
+      {/* Global Floating AI Assistant Widget Overlay */}
       <AiChat lang={lang} />
     </>
   );

@@ -10,8 +10,8 @@ interface ComparisonMatrixProps {
 
 const translations = {
   vi: {
-    title: "Ma trận So sánh ",
-    titleHighlight: "Vật liệu",
+    title: "Sản phẩm & ",
+    titleHighlight: "Ưu thế vượt trội",
     subtitle: "Khác biệt vượt trội của gạch bông gió sinh thái RENOVA so với các vật liệu xây dựng truyền thống trên thị trường về cả thông số kỹ thuật lẫn bảo vệ môi trường.",
     techProp: "Đặc tính kỹ thuật",
     superior: "Vượt trội",
@@ -65,7 +65,7 @@ const translations = {
   },
   en: {
     title: "Comparison ",
-    titleHighlight: "Matrix",
+    titleHighlight: "Superior Advantages",
     subtitle: "The outstanding advantages of RENOVA eco breeze blocks compared to traditional materials in terms of physical specifications and eco-impact.",
     techProp: "Technical Properties",
     superior: "Superior",
