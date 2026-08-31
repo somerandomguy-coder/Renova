@@ -78,7 +78,7 @@ export default function RdShowcase({ lang }: RdShowcaseProps) {
   ];
 
   return (
-    <section id="thu-vien-rd" className="dark-section py-20 relative">
+    <section id="thu-vien-rd" className="light-section py-20 relative">
       <div className="container max-w-4xl mx-auto">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title text-center">

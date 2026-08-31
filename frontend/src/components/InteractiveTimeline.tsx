@@ -128,7 +128,7 @@ export default function InteractiveTimeline({ lang }: InteractiveTimelineProps) 
   ];
 
   return (
-    <section id="hanh-trinh" className="light-section py-20">
+    <section id="hanh-trinh" className="dark-section py-20">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">
