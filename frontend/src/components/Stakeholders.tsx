@@ -106,7 +106,7 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
   });
 
   return (
-    <section id="doi-tac" className="relative py-20 bg-brand-bg-dark/20">
+    <section id="doi-tac" className="dark-section py-20">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">

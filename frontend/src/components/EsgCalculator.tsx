@@ -259,7 +259,7 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
   };
 
   return (
-    <section id="tinh-toan" ref={sectionRef} className="relative">
+    <section id="tinh-toan" ref={sectionRef} className="dark-section py-20">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">

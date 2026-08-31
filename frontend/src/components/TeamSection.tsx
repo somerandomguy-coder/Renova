@@ -170,7 +170,7 @@ export default function TeamSection({ lang }: TeamSectionProps) {
   ];
 
   return (
-    <section id="doi-ngu" className="dark-section py-20">
+    <section id="doi-ngu" className="light-section py-20">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">

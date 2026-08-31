@@ -605,3 +605,14 @@
     border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
   }
 }
+
+/* Light Section System (alternating sections) */
+.light-section {
+  background-color: #faf8f5 !important;
+  color: #111513 !important;
+}
+
+.dark .light-section {
+  background-color: #0c100e !important;
+  color: #f0f4f2 !important;
+}

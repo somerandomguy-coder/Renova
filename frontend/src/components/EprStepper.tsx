@@ -103,7 +103,7 @@ export default function EprStepper({ lang }: EprStepperProps) {
   ];
 
   return (
-    <section id="quy-trinh-epr" className="dark-section">
+    <section id="quy-trinh-epr" className="light-section py-20">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">

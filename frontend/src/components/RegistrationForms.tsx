@@ -244,7 +244,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
   };
 
   return (
-    <section id="dang-ky" className="relative py-20">
+    <section id="dang-ky" className="light-section py-20">
       <div className="container max-w-3xl">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">

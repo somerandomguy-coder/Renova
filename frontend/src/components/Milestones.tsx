@@ -146,7 +146,7 @@ export default function Milestones({ lang }: MilestonesProps) {
   ];
 
   return (
-    <section id="thanh-tuu" ref={sectionRef} className="relative py-20">
+    <section id="thanh-tuu" ref={sectionRef} className="dark-section py-20">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">

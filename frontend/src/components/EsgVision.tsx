@@ -64,7 +64,7 @@ export default function EsgVision({ lang }: EsgVisionProps) {
   ];
 
   return (
-    <section id="tam-nhin-esg" className="relative">
+    <section id="tam-nhin-esg" className="light-section py-20 relative">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">
@@ -80,7 +80,7 @@ export default function EsgVision({ lang }: EsgVisionProps) {
           {cards.map((card, index) => (
             <div 
               key={index}
-              className="glass-card flex flex-col gap-5 relative overflow-hidden"
+              className="glass-card flex flex-col gap-5 light-section py-20 relative overflow-hidden"
             >
               {/* Massive background letter for visual flair */}
               <div className="absolute -right-5 -bottom-7 text-[150px] font-black text-white/2 select-none font-heading">
