@@ -31,7 +31,6 @@ import TeamSection from "../components/TeamSection";
 import Milestones from "../components/Milestones";
 import FinancialReport from "../components/FinancialReport";
 import RegistrationForms from "../components/RegistrationForms";
-import BrickTakebackForm from "../components/BrickTakebackForm";
 import Stakeholders from "../components/Stakeholders";
 import AiChat from "../components/AiChat";
 
@@ -55,7 +54,7 @@ const translations = {
       productTitle: "Sản phẩm & Ưu thế vượt trội",
       calcTitle: "Bộ công cụ Tính toán ESG/EPR",
       financeTitle: "Minh bạch Tài chính",
-      partnerTitle: "Cổng Đăng ký Hợp tác",
+      partnerTitle: "Cổng Đăng ký Hợp tác & Thu gom",
       contact: "Liên hệ & Trụ sở",
       lab: "📍 PTN Vật liệu Xanh & Kinh tế Tuần hoàn RENOVA - ĐHQG TP.HCM",
       rights: "© 2026 RENOVA Circular Materials Joint Stock Company. Bảo lưu mọi quyền.",
@@ -82,7 +81,7 @@ const translations = {
       productTitle: "Products & Core Advantages",
       calcTitle: "ESG/EPR Calculation Suite",
       financeTitle: "Financial Transparency",
-      partnerTitle: "Cooperation Portal",
+      partnerTitle: "Cooperation & Takeback Portal",
       contact: "Contact & HQ",
       lab: "📍 RENOVA Circular Materials & Green Tech Lab - VNU HCMC",
       rights: "© 2026 RENOVA Circular Materials Joint Stock Company. All rights reserved.",
@@ -247,12 +246,7 @@ export default function Home() {
           <Stakeholders lang={lang} />
         </section>
 
-        {/* Section 7: Tab Đăng ký Thu hồi Gạch Cũ & Voucher Xanh (Gần Footer) */}
-        <section id="dang-ky-thu-hoi">
-          <BrickTakebackForm lang={lang} />
-        </section>
-
-        {/* Section 8: Form Đăng ký Hợp tác (EPR / Công trình Xanh / Vựa Thu gom) */}
+        {/* Section 7: Cổng Đăng ký Hợp tác & Thu gom (Unified Registration Portal) */}
         <section id="dang-ky">
           <RegistrationForms lang={lang} />
         </section>
@@ -284,7 +278,6 @@ export default function Home() {
               <a href="#uu-the-san-pham" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.productTitle}</a>
               <a href="#hop-tac-epr" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.calcTitle}</a>
               <a href="#ve-chung-toi" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.financeTitle}</a>
-              <a href="#dang-ky-thu-hoi" className="text-emerald-400 font-bold no-underline hover:underline transition-colors">♻️ Đăng ký Thu hồi Gạch & Nhận Voucher</a>
               <a href="#dang-ky" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.partnerTitle}</a>
               <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1.5">✨ RENOVA AI Workspace</a>
             </div>
