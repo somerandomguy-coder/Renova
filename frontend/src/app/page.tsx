@@ -24,12 +24,14 @@ import EsgVision from "../components/EsgVision";
 import InteractiveTimeline from "../components/InteractiveTimeline";
 import RdShowcase from "../components/RdShowcase";
 import ComparisonMatrix from "../components/ComparisonMatrix";
+import ProductShowcase from "../components/ProductShowcase";
 import EsgCalculator from "../components/EsgCalculator";
 import EprStepper from "../components/EprStepper";
 import TeamSection from "../components/TeamSection";
 import Milestones from "../components/Milestones";
 import FinancialReport from "../components/FinancialReport";
 import RegistrationForms from "../components/RegistrationForms";
+import BrickTakebackForm from "../components/BrickTakebackForm";
 import Stakeholders from "../components/Stakeholders";
 import AiChat from "../components/AiChat";
 
@@ -48,44 +50,44 @@ const translations = {
     foot: {
       slogan: "Quy trình kinh tế tuần hoàn số hóa đột phá. Chuyển đổi rác thải nhựa đa lớp (MLP) bất tử và phế phẩm vỏ trấu nông nghiệp thành gạch bông gió di sản xanh đẳng cấp.",
       quickLinks: "Liên kết Nhanh",
-      home: "Trang chủ",
+      home: "Trang chủ RENOVA",
       esgTitle: "Định vị & Sứ mệnh ESG",
-      productTitle: "Sản phẩm & Ưu thế",
-      calcTitle: "Bộ công cụ ESG/EPR",
+      productTitle: "Sản phẩm & Ưu thế vượt trội",
+      calcTitle: "Bộ công cụ Tính toán ESG/EPR",
       financeTitle: "Minh bạch Tài chính",
-      partnerTitle: "Đăng ký Hợp tác",
-      contact: "Thông tin Liên hệ",
-      lab: "📍 Phòng Thí nghiệm & R&D: Trường Đại học Bách Khoa – ĐHQG-HCM, TP. Hồ Chí Minh",
-      rights: "© 2026 RENOVA Circular Materials. Tất cả các quyền được bảo lưu.",
+      partnerTitle: "Cổng Đăng ký Hợp tác",
+      contact: "Liên hệ & Trụ sở",
+      lab: "📍 PTN Vật liệu Xanh & Kinh tế Tuần hoàn RENOVA - ĐHQG TP.HCM",
+      rights: "© 2026 RENOVA Circular Materials Joint Stock Company. Bảo lưu mọi quyền.",
       privacy: "Chính sách Bảo mật",
-      terms: "Điều khoản Sử dụng"
+      terms: "Điều khoản Dịch vụ"
     }
   },
   en: {
     nav: {
       home: "Home",
       esg: "ESG Mission",
-      product: "Product Advantages",
-      epr: "EPR Partnership",
+      product: "Product & Advantages",
+      epr: "EPR Solution",
       rd: "R&D Journey",
       about: "About Us",
       ai: "✨ AI Assistant",
-      cta: "Partner With Us"
+      cta: "Partner Register"
     },
     foot: {
-      slogan: "Breakthrough digital circular economy workflow. Upcycling multi-layer plastic packaging and agricultural biomass into premium heritage breeze blocks.",
+      slogan: "Digitalized circular economy breakthrough. Converting multi-layer plastic (MLP) waste and agricultural rice husk into high-performance biophilic breeze blocks.",
       quickLinks: "Quick Links",
-      home: "Home",
+      home: "RENOVA Home",
       esgTitle: "ESG Positioning & Mission",
-      productTitle: "Products & Advantages",
-      calcTitle: "ESG/EPR Toolkit",
+      productTitle: "Products & Core Advantages",
+      calcTitle: "ESG/EPR Calculation Suite",
       financeTitle: "Financial Transparency",
-      partnerTitle: "Partner Registration",
-      contact: "Contact Information",
-      lab: "📍 R&D Laboratory: HCMC University of Technology (VNU-HCM), Ho Chi Minh City",
-      rights: "© 2026 RENOVA Circular Materials. All rights reserved.",
+      partnerTitle: "Cooperation Portal",
+      contact: "Contact & HQ",
+      lab: "📍 RENOVA Circular Materials & Green Tech Lab - VNU HCMC",
+      rights: "© 2026 RENOVA Circular Materials Joint Stock Company. All rights reserved.",
       privacy: "Privacy Policy",
-      terms: "Terms of Use"
+      terms: "Terms of Service"
     }
   }
 };
@@ -100,22 +102,22 @@ export default function Home() {
 
   return (
     <>
-      {/* Global Navigation Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-zinc-950/80 border-b border-brand-border dark:border-white/10 transition-all duration-300">
-        <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 h-20 flex items-center justify-between">
+      {/* Sticky Global Navigation Bar */}
+      <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/80 dark:bg-zinc-950/80 border-b border-brand-border dark:border-white/10 transition-colors duration-300">
+        <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 h-20 flex items-center justify-between gap-4">
           
-          {/* Brand Logo */}
-          <a href="#hero" className="flex items-center gap-3 no-underline shrink-0">
+          {/* Brand Logo & Identifier */}
+          <a href="#hero" className="flex items-center gap-3 no-underline group shrink-0">
             <img 
               src="/renova_logo.png" 
               alt="RENOVA Logo" 
-              className="h-10 sm:h-11 w-auto object-contain dark:brightness-110" 
+              className="h-10 w-auto object-contain transition-transform group-hover:scale-105 dark:brightness-110" 
             />
             <div className="flex flex-col">
-              <span className="font-heading font-black text-lg sm:text-xl tracking-tight text-brand-text-primary dark:text-white leading-none">
+              <span className="font-heading font-black text-xl tracking-tight text-brand-text-primary dark:text-white leading-none">
                 RENOVA
               </span>
-              <span className="text-[10px] font-bold text-brand-primary tracking-wider uppercase mt-0.5">
+              <span className="text-[10px] font-bold text-brand-primary uppercase tracking-widest mt-0.5 font-mono">
                 Circular Materials
               </span>
             </div>
@@ -211,7 +213,10 @@ export default function Home() {
 
         {/* Section 3: Sản phẩm & Ưu thế vượt trội */}
         <section id="uu-the-san-pham">
+          {/* Bảng so sánh đặc tính kỹ thuật */}
           <ComparisonMatrix lang={lang} />
+          {/* Tab Cửa hàng / Showcase Sản phẩm (Mã 001 - Mã 005 Đồng giá 35k & Dòng Đời Thứ Hai) */}
+          <ProductShowcase lang={lang} />
         </section>
 
         {/* Section 4: Giải pháp Doanh nghiệp & Hợp tác EPR (Gộp 2 mục) */}
@@ -242,7 +247,12 @@ export default function Home() {
           <Stakeholders lang={lang} />
         </section>
 
-        {/* Form Đăng ký */}
+        {/* Section 7: Tab Đăng ký Thu hồi Gạch Cũ & Voucher Xanh (Gần Footer) */}
+        <section id="dang-ky-thu-hoi">
+          <BrickTakebackForm lang={lang} />
+        </section>
+
+        {/* Section 8: Form Đăng ký Hợp tác (EPR / Công trình Xanh / Vựa Thu gom) */}
         <section id="dang-ky">
           <RegistrationForms lang={lang} />
         </section>
@@ -274,6 +284,7 @@ export default function Home() {
               <a href="#uu-the-san-pham" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.productTitle}</a>
               <a href="#hop-tac-epr" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.calcTitle}</a>
               <a href="#ve-chung-toi" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.financeTitle}</a>
+              <a href="#dang-ky-thu-hoi" className="text-emerald-400 font-bold no-underline hover:underline transition-colors">♻️ Đăng ký Thu hồi Gạch & Nhận Voucher</a>
               <a href="#dang-ky" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.partnerTitle}</a>
               <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1.5">✨ RENOVA AI Workspace</a>
             </div>

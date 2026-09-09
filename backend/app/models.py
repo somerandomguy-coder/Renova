@@ -42,3 +42,20 @@ class Collector(Base):
     address = Column(String, nullable=True)  # Địa chỉ thu gom
     status = Column(String, default="Starting", nullable=False)  # "Starting", "Pending", "Replied"
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
+
+class BrickTakeback(Base):
+    __tablename__ = "brick_takebacks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    customer_name = Column(String, nullable=False)
+    phone = Column(String, nullable=False)
+    email = Column(String, nullable=True)
+    email_hash = Column(String, index=True, nullable=True)
+    collection_address = Column(String, nullable=False)
+    estimated_quantity = Column(String, nullable=False)
+    brick_condition = Column(String, nullable=False)
+    image_url = Column(String, nullable=True)
+    voucher_code = Column(String, default="RENOVA-VOUCHER-XANH-2026", nullable=False)
+    status = Column(String, default="Starting", nullable=False)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+

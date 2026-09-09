@@ -284,6 +284,52 @@ def register_collector(collector: schemas.CollectorCreate, db: Session = Depends
         )
 
 
+@app.post(
+    f"{settings.API_V1_STR}/register/takeback",
+    response_model=schemas.BrickTakebackResponse,
+    status_code=status.HTTP_201_CREATED,
+    summary="Register a brick takeback and receive discount voucher"
+)
+def register_brick_takeback(takeback: schemas.BrickTakebackCreate, db: Session = Depends(get_db)):
+    try:
+        from app.services.security import encrypt_field, hash_email
+        db_takeback = models.BrickTakeback(
+            customer_name=encrypt_field(takeback.customer_name),
+            phone=encrypt_field(takeback.phone),
+            email=encrypt_field(takeback.email) if takeback.email else None,
+            email_hash=hash_email(takeback.email) if takeback.email else None,
+            collection_address=encrypt_field(takeback.collection_address),
+            estimated_quantity=takeback.estimated_quantity,
+            brick_condition=takeback.brick_condition,
+            image_url=takeback.image_url,
+            voucher_code="RENOVA-VOUCHER-XANH-2026"
+        )
+        db.add(db_takeback)
+        db.commit()
+        db.refresh(db_takeback)
+        
+        decrypted_data = {
+            "id": db_takeback.id,
+            "customer_name": takeback.customer_name,
+            "phone": takeback.phone,
+            "email": takeback.email,
+            "collection_address": takeback.collection_address,
+            "estimated_quantity": db_takeback.estimated_quantity,
+            "brick_condition": db_takeback.brick_condition,
+            "image_url": db_takeback.image_url,
+            "voucher_code": db_takeback.voucher_code,
+            "status": db_takeback.status,
+            "created_at": db_takeback.created_at
+        }
+        return decrypted_data
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to submit brick takeback registration: {str(e)}"
+        )
+
+
 # --- ADMIN PANEL ENDPOINTS ---
 
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials

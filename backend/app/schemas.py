@@ -54,6 +54,25 @@ class CollectorResponse(CollectorCreate):
         from_attributes = True
 
 
+class BrickTakebackCreate(BaseModel):
+    customer_name: str = Field(..., min_length=2, description="Tên Khách hàng / Doanh nghiệp")
+    phone: str = Field(..., min_length=8, description="Số điện thoại liên lạc")
+    email: Optional[str] = Field(None, description="Email nhận mã voucher")
+    collection_address: str = Field(..., min_length=3, description="Địa chỉ thu gom")
+    estimated_quantity: str = Field(..., min_length=1, description="Số lượng ước tính (viên hoặc m2)")
+    brick_condition: str = Field(..., description="Phân loại tình trạng gạch")
+    image_url: Optional[str] = Field(None, description="Ảnh tình trạng thực tế")
+
+class BrickTakebackResponse(BrickTakebackCreate):
+    id: int
+    voucher_code: str
+    status: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
 # --- CALCULATOR SCHEMAS ---
 
 class ESGCalcRequest(BaseModel):

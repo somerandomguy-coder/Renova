@@ -315,3 +315,22 @@ def test_database_encryption_and_hashing():
         assert decrypt_field(db_partner.email) == "shield@crypt.com"
     finally:
         db.close()
+
+
+def test_register_brick_takeback():
+    payload = {
+        "customer_name": "Công ty Xây dựng Xanh",
+        "phone": "0914626717",
+        "email": "takeback@greenbuild.vn",
+        "collection_address": "456 Lê Văn Việt, TP. Thủ Đức",
+        "estimated_quantity": "1000 viên",
+        "brick_condition": "Hư hỏng/Nứt vỡ (Bề mặt sạch)",
+        "image_url": "gach_sample.png"
+    }
+    response = client.post("/api/v1/register/takeback", json=payload)
+    assert response.status_code == 201
+    data = response.json()
+    assert data["customer_name"] == "Công ty Xây dựng Xanh"
+    assert data["phone"] == "0914626717"
+    assert data["voucher_code"] == "RENOVA-VOUCHER-XANH-2026"
+    assert data["status"] == "Starting"
