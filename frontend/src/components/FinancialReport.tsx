@@ -321,7 +321,7 @@ export default function FinancialReport({ lang }: FinancialReportProps) {
   const t = translations[lang];
 
   return (
-    <section id="tai-chinh" className="light-section dark:bg-zinc-950 border-t border-brand-border dark:border-white/5 scroll-mt-20">
+    <section id="tai-chinh" className="light-section py-20 border-t border-brand-border dark:border-white/5 scroll-mt-20">
       <div className="container">
         
         {/* Header Title Section */}

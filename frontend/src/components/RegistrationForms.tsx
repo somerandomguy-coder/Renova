@@ -204,7 +204,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
   };
 
   return (
-    <section id="dang-ky" className="py-24 bg-brand-bg-light dark:bg-zinc-950 text-brand-text-primary dark:text-white transition-colors duration-300 relative overflow-hidden">
+    <section id="dang-ky" className="light-section py-24 relative overflow-hidden">
       
       {/* Background Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-brand-primary/10 rounded-full blur-[140px] pointer-events-none" />
@@ -343,7 +343,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                         {isVi ? "Tên Công ty / Tập đoàn *" : "Company / Group Name *"}
                       </label>
                       <input 
@@ -352,11 +352,11 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "Công ty Unilever / Vinamilk" : "Acme Corp"} 
                         value={eprForm.company_name} 
                         onChange={(e) => setEprForm({...eprForm, company_name: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                         {isVi ? "Họ tên người liên hệ *" : "Contact Person Name *"}
                       </label>
                       <input 
@@ -365,14 +365,14 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "Nguyễn Văn A" : "John Doe"} 
                         value={eprForm.contact_name} 
                         onChange={(e) => setEprForm({...eprForm, contact_name: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                         {isVi ? "Email liên lạc *" : "Contact Email *"}
                       </label>
                       <input 
@@ -381,11 +381,11 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder="partner@fmcg.com" 
                         value={eprForm.email} 
                         onChange={(e) => setEprForm({...eprForm, email: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                         {isVi ? "Số điện thoại *" : "Phone Number *"}
                       </label>
                       <input 
@@ -394,13 +394,13 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder="0901234567" 
                         value={eprForm.phone} 
                         onChange={(e) => setEprForm({...eprForm, phone: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                    <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                       {isVi ? "Sản lượng rác nhựa phát sinh hàng năm (kg) *" : "Annual plastic waste output (kg) *"}
                     </label>
                     <input 
@@ -409,7 +409,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                       min="100" 
                       value={eprForm.annual_plastic_waste} 
                       onChange={(e) => setEprForm({...eprForm, annual_plastic_waste: parseFloat(e.target.value) || 0})} 
-                      className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                      className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                     />
                   </div>
 
@@ -453,7 +453,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                         {isVi ? "Họ tên Chủ đầu tư / KTS *" : "Investor / Architect Name *"}
                       </label>
                       <input 
@@ -462,11 +462,11 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "KTS Trần Anh" : "Architect Smith"} 
                         value={greenForm.contact_name} 
                         onChange={(e) => setGreenForm({...greenForm, contact_name: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                         {isVi ? "Số điện thoại *" : "Phone Number *"}
                       </label>
                       <input 
@@ -475,13 +475,13 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder="0918765432" 
                         value={greenForm.phone} 
                         onChange={(e) => setGreenForm({...greenForm, phone: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                    <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                       {isVi ? "Email liên lạc *" : "Contact Email *"}
                     </label>
                     <input 
@@ -490,13 +490,13 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                       placeholder="architect@greenstudio.vn" 
                       value={greenForm.email} 
                       onChange={(e) => setGreenForm({...greenForm, email: e.target.value})} 
-                      className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                      className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                         {isVi ? "Diện tích bề mặt (m²) *" : "Surface Area (m²) *"}
                       </label>
                       <input 
@@ -505,11 +505,11 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         min="1" 
                         value={greenForm.surface_area} 
                         onChange={(e) => setGreenForm({...greenForm, surface_area: parseFloat(e.target.value) || 0})} 
-                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
                         {isVi ? "Địa điểm thi công *" : "Project Location *"}
                       </label>
                       <input 
@@ -518,7 +518,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "Quận 2, TP. Hồ Chí Minh" : "HCMC"} 
                         value={greenForm.location} 
                         onChange={(e) => setGreenForm({...greenForm, location: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-black/30 text-white placeholder-zinc-500 focus:border-brand-primary outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
                       />
                     </div>
                   </div>
@@ -570,7 +570,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
                         <User size={14} className="text-emerald-400" />
                         {isVi ? "Tên Khách hàng / Doanh nghiệp *" : "Customer / Company Name *"}
                       </label>
@@ -580,12 +580,12 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "Công ty Nam Long / Anh Tuấn" : "e.g. John Doe"} 
                         value={takebackForm.customer_name} 
                         onChange={(e) => setTakebackForm({...takebackForm, customer_name: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-black/40 text-white placeholder-zinc-500 focus:border-emerald-400 outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-400 outline-hidden text-sm" 
                       />
                     </div>
 
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
                         <Phone size={14} className="text-emerald-400" />
                         {isVi ? "Số điện thoại liên lạc *" : "Phone Number *"}
                       </label>
@@ -595,14 +595,14 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "Ví dụ: 0914 626 717" : "e.g. 0914626717"} 
                         value={takebackForm.phone} 
                         onChange={(e) => setTakebackForm({...takebackForm, phone: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-black/40 text-white placeholder-zinc-500 focus:border-emerald-400 outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-400 outline-hidden text-sm" 
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
                         <MapPin size={14} className="text-emerald-400" />
                         {isVi ? "Địa chỉ thu gom tận nơi *" : "Pickup Address *"}
                       </label>
@@ -612,12 +612,12 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "123 Nguyễn Văn Linh, Quận 7, TP.HCM" : "123 Street, City"} 
                         value={takebackForm.collection_address} 
                         onChange={(e) => setTakebackForm({...takebackForm, collection_address: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-black/40 text-white placeholder-zinc-500 focus:border-emerald-400 outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-400 outline-hidden text-sm" 
                       />
                     </div>
 
                     <div>
-                      <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                      <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
                         <Layers size={14} className="text-emerald-400" />
                         {isVi ? "Số lượng ước tính *" : "Estimated Quantity *"}
                       </label>
@@ -627,24 +627,24 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "500 viên / 20 m² / 1 xe tải" : "500 blocks"} 
                         value={takebackForm.estimated_quantity} 
                         onChange={(e) => setTakebackForm({...takebackForm, estimated_quantity: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-black/40 text-white placeholder-zinc-500 focus:border-emerald-400 outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-400 outline-hidden text-sm" 
                       />
                     </div>
                   </div>
 
                   {/* 4-Choice Condition Dropdown */}
                   <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                    <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
                       <Info size={14} className="text-emerald-400" />
                       {isVi ? "Tình trạng gạch của bạn hiện tại: *" : "Your current brick condition: *"}
                     </label>
                     <select 
                       value={takebackForm.brick_condition} 
                       onChange={(e) => setTakebackForm({...takebackForm, brick_condition: e.target.value})} 
-                      className="w-full py-3.5 px-4 rounded-xl border border-white/15 bg-black/40 text-white focus:border-emerald-400 outline-hidden text-sm cursor-pointer font-medium"
+                      className="w-full py-3.5 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 focus:border-emerald-500 shadow-xs outline-hidden text-sm cursor-pointer font-medium"
                     >
                       {BRICK_CONDITIONS.map(cond => (
-                        <option key={cond.value} value={cond.value} className="bg-zinc-900 text-white py-2">
+                        <option key={cond.value} value={cond.value} className="bg-white dark:bg-zinc-900 text-brand-text-primary dark:text-white py-2">
                           {isVi ? cond.labelVi : cond.labelEn}
                         </option>
                       ))}
@@ -666,12 +666,12 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
 
                   {/* Photo Upload */}
                   <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                    <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
                       <Upload size={14} className="text-emerald-400" />
                       {isVi ? "Upload ảnh tình trạng thực tế (Không bắt buộc)" : "Upload actual photo (Optional)"}
                     </label>
 
-                    <div className="border-2 border-dashed border-white/15 hover:border-emerald-400/50 rounded-2xl p-5 text-center bg-black/20 transition-colors relative cursor-pointer group">
+                    <div className="border-2 border-dashed border-brand-border dark:border-white/15 hover:border-emerald-500/50 rounded-2xl p-5 text-center bg-brand-bg-light/50 dark:bg-black/20 transition-colors relative cursor-pointer group">
                       <input 
                         type="file" 
                         accept="image/*"
@@ -695,7 +695,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                           <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                             <Upload size={18} />
                           </div>
-                          <span className="text-xs font-bold text-zinc-300">
+                          <span className="text-xs font-bold text-brand-text-primary dark:text-zinc-200">
                             {isVi ? "Kéo thả hoặc nhấp để tải ảnh gạch thực tế" : "Click or drag photo here"}
                           </span>
                           <span className="text-[11px] text-zinc-500">

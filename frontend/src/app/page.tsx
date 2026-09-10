@@ -102,7 +102,7 @@ export default function Home() {
   return (
     <>
       {/* Sticky Global Navigation Bar */}
-      <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/80 dark:bg-zinc-950/80 border-b border-brand-border dark:border-white/10 transition-colors duration-300">
+      <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/80 dark:bg-zinc-950/80 border-b border-brand-border dark:border-white/10 text-brand-text-primary dark:text-white transition-colors duration-300">
         <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 h-20 flex items-center justify-between gap-4">
           
           {/* Brand Logo & Identifier */}
@@ -124,22 +124,22 @@ export default function Home() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden xl:flex items-center gap-7 text-sm font-medium">
-            <a href="#hero" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+            <a href="#hero" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline font-medium">
               {nav.home}
             </a>
-            <a href="#su-menh-esg" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+            <a href="#su-menh-esg" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline font-medium">
               {nav.esg}
             </a>
-            <a href="#uu-the-san-pham" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+            <a href="#uu-the-san-pham" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline font-medium">
               {nav.product}
             </a>
-            <a href="#hop-tac-epr" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+            <a href="#hop-tac-epr" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline font-medium">
               {nav.epr}
             </a>
-            <a href="#hanh-trinh-rd" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+            <a href="#hanh-trinh-rd" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline font-medium">
               {nav.rd}
             </a>
-            <a href="#ve-chung-toi" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline">
+            <a href="#ve-chung-toi" className="text-brand-text-primary dark:text-zinc-200 hover:text-brand-primary transition-colors no-underline font-medium">
               {nav.about}
             </a>
             <a href="/ai-assistant" className="text-brand-primary font-bold hover:underline transition-colors no-underline flex items-center gap-1.5 bg-brand-primary/10 px-3 py-1.5 rounded-full border border-brand-primary/20">

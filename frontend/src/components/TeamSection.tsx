@@ -4,22 +4,16 @@ import React from "react";
 import { Mail, Phone } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
-const LinkedInIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
+const LinkedInIcon = ({ size = 20 }: { size?: number }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="currentColor"
+    fillRule="evenodd"
+    clipRule="evenodd"
   >
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-    <rect x="2" y="9" width="4" height="12" />
-    <circle cx="4" cy="4" r="2" />
+    <path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM7.119 20.452H3.555V9h3.564v11.452zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm15.11 13.019h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z" />
   </svg>
 );
 
@@ -146,7 +140,7 @@ export default function TeamSection({ lang }: TeamSectionProps) {
       major: t.members[4].major,
       email: "minh.trantyetmin95@hcmut.edu.vn",
       phone: "0385747277",
-      linkedin: "https://www.linkedin.com/in/minh-tuyết-32ab683a6?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      linkedin: "https://www.linkedin.com/in/minh-tuy%E1%BA%BFt-32ab683a6",
       avatar: "/team/tran_thi_tuyet_minh.jpg"
     },
     {
@@ -170,7 +164,7 @@ export default function TeamSection({ lang }: TeamSectionProps) {
   ];
 
   return (
-    <section id="doi-ngu" className="light-section py-20">
+    <section id="doi-ngu" className="dark-section py-20">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">
@@ -191,7 +185,7 @@ export default function TeamSection({ lang }: TeamSectionProps) {
               }`}
             >
               {/* Profile Image with frame */}
-              <div className="w-[120px] h-[120px] rounded-full overflow-hidden border-[3px] border-brand-border/20 mb-5 relative">
+              <div className="w-[120px] h-[120px] rounded-full overflow-hidden border-[3px] border-brand-primary/30 mb-5 relative">
                 <img 
                   src={member.avatar} 
                   alt={member.name}
@@ -200,11 +194,11 @@ export default function TeamSection({ lang }: TeamSectionProps) {
               </div>
 
               {/* Name & Role */}
-              <h3 className="text-xl mb-1.5 text-white">{member.name}</h3>
-              <p className="text-brand-primary text-[13px] font-semibold mb-2 font-heading">
+              <h3 className="text-xl mb-1.5 text-white font-bold">{member.name}</h3>
+              <p className="text-brand-primary text-[13px] font-semibold mb-2 font-heading px-2 leading-snug">
                 {member.role}
               </p>
-              <p className="text-brand-text-muted text-xs leading-relaxed max-w-[220px] mx-auto">
+              <p className="text-zinc-400 text-xs leading-relaxed max-w-[240px] mx-auto">
                 {member.major}
               </p>
 
@@ -215,7 +209,7 @@ export default function TeamSection({ lang }: TeamSectionProps) {
                 <a 
                   href={`mailto:${member.email}`}
                   title={member.email}
-                  className="text-brand-text-muted hover:text-brand-primary transition-colors duration-200 flex items-center"
+                  className="text-zinc-400 hover:text-brand-primary transition-colors duration-200 flex items-center"
                 >
                   <Mail size={20} />
                 </a>
@@ -223,7 +217,7 @@ export default function TeamSection({ lang }: TeamSectionProps) {
                 <a 
                   href={`tel:${member.phone}`}
                   title={member.phone}
-                  className="text-brand-text-muted hover:text-brand-primary transition-colors duration-200 flex items-center"
+                  className="text-zinc-400 hover:text-brand-primary transition-colors duration-200 flex items-center"
                 >
                   <Phone size={20} />
                 </a>
@@ -232,9 +226,9 @@ export default function TeamSection({ lang }: TeamSectionProps) {
                   href={member.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-brand-text-muted hover:text-brand-primary transition-colors duration-200 flex items-center"
+                  className="text-zinc-400 hover:text-brand-primary transition-colors duration-200 flex items-center"
                 >
-                  <LinkedInIcon />
+                  <LinkedInIcon size={20} />
                 </a>
               </div>
 

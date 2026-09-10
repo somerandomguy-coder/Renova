@@ -30,16 +30,14 @@ export default function HeroSection({ lang }: HeroSectionProps) {
   return (
     <section 
       id="trang-chu" 
-      className="relative overflow-hidden min-h-[90vh] flex items-center py-20 bg-brand-bg-dark dark:bg-zinc-950"
+      className="relative overflow-hidden min-h-[90vh] flex items-center -mt-20 pt-32 pb-20 bg-brand-bg-light dark:bg-zinc-950 text-brand-text-primary dark:text-white light-section border-b border-brand-border dark:border-white/10"
     >
       {/* Animated Eco-Mesh background glows */}
       <div className="absolute top-10 left-10 w-[500px] h-[500px] bg-brand-primary/6 rounded-full filter blur-[120px] pointer-events-none z-0 dark:bg-brand-primary/2"></div>
       <div className="absolute bottom-10 right-10 w-[600px] h-[600px] bg-brand-secondary/6 rounded-full filter blur-[140px] pointer-events-none z-0 dark:bg-brand-secondary/2"></div>
 
       {/* Light Backdrop Overlay to soften mesh and ensure high text legibility */}
-      <div 
-        className="absolute inset-0 bg-white/70 z-1 dark:bg-zinc-950/70"
-      ></div>
+      <div className="absolute inset-0 bg-brand-bg-light/70 dark:bg-zinc-950/80 z-1 pointer-events-none"></div>
 
       <div className="container relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -49,7 +47,7 @@ export default function HeroSection({ lang }: HeroSectionProps) {
             <ScrollReveal animation="fade-up" duration={800} repeat={false}>
               <div className="flex flex-col items-center lg:items-start gap-7">
                 <div 
-                  className="inline-flex items-center gap-2 bg-brand-primary/6 border border-brand-primary/15 px-4.5 py-2 rounded-full w-fit"
+                  className="inline-flex items-center gap-2 bg-brand-primary/10 border border-brand-primary/20 px-4 py-2 rounded-full w-fit shadow-xs"
                 >
                   <Leaf size={14} className="text-brand-primary" />
                   <span 
@@ -66,7 +64,7 @@ export default function HeroSection({ lang }: HeroSectionProps) {
                 </h1>
                 
                 <p 
-                  className="text-base md:text-lg lg:text-xl leading-relaxed text-brand-text-muted max-w-2xl"
+                  className="text-base md:text-lg lg:text-xl leading-relaxed text-brand-text-muted dark:text-zinc-300 max-w-2xl font-medium"
                 >
                   {t.description}
                 </p>

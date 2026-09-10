@@ -103,7 +103,7 @@ export default function EprStepper({ lang }: EprStepperProps) {
   ];
 
   return (
-    <section id="quy-trinh-epr" className="light-section py-20">
+    <section id="quy-trinh-epr" className="dark-section py-20">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">
@@ -146,15 +146,15 @@ export default function EprStepper({ lang }: EprStepperProps) {
           </div>
 
           {/* Stepper Content Detail */}
-          <div className="bg-white/2 border border-white/4 rounded-xl p-7 mt-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-center">
+          <div className="bg-white/5 border border-white/10 rounded-xl p-7 mt-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-center">
             <div>
               <span className="text-xs text-brand-primary font-bold uppercase tracking-wider font-heading">
                 {t.statusLabel}{steps[activeStep].status}
               </span>
-              <h3 className="text-2xl mt-1.5 mb-3">
+              <h3 className="text-2xl mt-1.5 mb-3 text-white font-black">
                 {steps[activeStep].title}
               </h3>
-              <p className="text-brand-text-muted text-[15px] leading-relaxed">
+              <p className="text-zinc-300 text-[15px] leading-relaxed">
                 {steps[activeStep].description}
               </p>
             </div>
@@ -171,7 +171,7 @@ export default function EprStepper({ lang }: EprStepperProps) {
               ) : (
                 <button 
                   onClick={() => setActiveStep(0)}
-                  className="btn-secondary w-full md:w-auto justify-center px-5 py-3 dark:text-white"
+                  className="btn-secondary w-full md:w-auto justify-center px-5 py-3 text-white border-white/20 hover:border-white/40"
                 >
                   {t.restartBtn}
                 </button>

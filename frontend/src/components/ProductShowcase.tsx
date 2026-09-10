@@ -182,7 +182,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
   };
 
   return (
-    <section id="showcase-san-pham" className="dark-section py-24 relative overflow-hidden">
+    <section id="showcase-san-pham" className="light-section py-24 relative overflow-hidden">
       {/* Subtle background glow */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-brand-secondary/10 rounded-full blur-3xl pointer-events-none" />
@@ -191,19 +191,19 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
         
         {/* Section Header */}
         <ScrollReveal animation="fade-up" duration={700}>
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 border-b border-white/10 pb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 border-b border-brand-border dark:border-white/10 pb-8">
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/15 border border-brand-primary/30 text-brand-primary text-xs font-bold uppercase tracking-wider mb-4">
                 <Palette size={14} />
                 {isVi ? "Bộ Sưu Tập Gạch Bông Gió Tuần Hoàn" : "Circular Breeze Block Collection"}
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight font-heading leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-text-primary dark:text-white tracking-tight font-heading leading-tight">
                 {isVi ? "Showcase Sản Phẩm & " : "Product Showcase & "}
                 <span className="text-gradient">
                   {isVi ? "Mẫu Mã Độc Bản" : "Unique Patterns"}
                 </span>
               </h2>
-              <p className="mt-4 text-zinc-300 text-base sm:text-lg leading-relaxed">
+              <p className="mt-4 text-brand-text-muted dark:text-zinc-300 text-base sm:text-lg leading-relaxed">
                 {isVi 
                   ? "Từng viên gạch bông gió RENOVA là minh chứng sống động của công nghệ ép nhiệt không nung: đồng giá niêm yết 35.000 VNĐ, nhẹ hơn 40% so với gạch xi măng, bền bỉ chống nứt vỡ và không bám rêu mốc."
                   : "Every RENOVA breeze block embodies our zero-firing hot compression: uniform listed price of 35,000 VND, 40% lighter than concrete blocks, non-porous and moss-resistant."}
@@ -211,9 +211,9 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
             </div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 shrink-0">
-              <div className="bg-white/5 border border-white/10 px-5 py-3 rounded-2xl flex items-center gap-3">
+              <div className="bg-brand-bg-light/80 dark:bg-white/5 border border-brand-border dark:border-white/10 px-5 py-3 rounded-2xl flex items-center gap-3">
                 <div className="h-3 w-3 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-medium text-zinc-300">
+                <span className="text-xs font-medium text-brand-text-muted dark:text-zinc-300">
                   {isVi ? "Đồng giá niêm yết:" : "Listed Uniform Price:"}{" "}
                   <strong className="text-brand-primary font-black text-sm">35.000 VNĐ / viên</strong>
                 </span>
@@ -233,7 +233,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-20">
           {BRICK_PRODUCTS.map((prod, index) => (
             <ScrollReveal key={prod.id} animation="fade-up" duration={700} delay={index * 100}>
-              <div className="group bg-zinc-900/80 hover:bg-zinc-900 border border-white/10 hover:border-brand-primary/50 rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:-translate-y-1.5 h-full">
+              <div className="group bg-white dark:bg-zinc-900/90 border border-brand-border dark:border-white/10 hover:border-brand-primary/60 shadow-md hover:shadow-2xl rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:-translate-y-1.5 h-full">
                 
                 {/* Product Badge & Code */}
                 <div>
@@ -268,19 +268,19 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                     <span className="text-[11px] font-semibold text-brand-primary/90 block uppercase tracking-wider">
                       {isVi ? prod.patternVi : prod.patternEn}
                     </span>
-                    <h3 className="font-heading font-black text-lg text-white mt-1 leading-snug">
+                    <h3 className="font-heading font-black text-lg text-brand-text-primary dark:text-white mt-1 leading-snug">
                       {isVi ? prod.nameVi : prod.nameEn}
                     </h3>
-                    <p className="text-xs text-zinc-400 mt-2 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-brand-text-muted dark:text-zinc-400 mt-2 line-clamp-2 leading-relaxed">
                       {isVi ? prod.descriptionVi : prod.descriptionEn}
                     </p>
                   </div>
 
                   {/* Quick Specs Pill */}
-                  <div className="mt-4 pt-3 border-t border-white/5 flex flex-col gap-1.5 text-[11px] text-zinc-300 font-mono">
+                  <div className="mt-4 pt-3 border-t border-brand-border/60 dark:border-white/5 flex flex-col gap-1.5 text-[11px] text-brand-text-muted dark:text-zinc-300 font-mono">
                     <div className="flex justify-between">
                       <span className="text-zinc-400">{isVi ? "Kích thước:" : "Size:"}</span>
-                      <span className="font-semibold text-white">{prod.dimensions}</span>
+                      <span className="font-semibold text-brand-text-primary dark:text-white">{prod.dimensions}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-zinc-400">{isVi ? "Trọng lượng:" : "Weight:"}</span>
@@ -293,7 +293,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                 <div className="mt-5 pt-3">
                   <button 
                     onClick={() => handleOpenQuoteModal(prod.code)}
-                    className="w-full bg-white/10 hover:bg-brand-primary text-white text-xs font-bold py-2.5 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer group-hover:bg-brand-primary"
+                    className="w-full bg-brand-bg-dark/5 dark:bg-white/10 hover:bg-brand-primary text-brand-text-primary dark:text-white hover:text-white text-xs font-bold py-2.5 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer group-hover:bg-brand-primary"
                   >
                     <span>{isVi ? "Nhận báo giá dự án" : "Get Project Quote"}</span>
                     <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
@@ -307,15 +307,15 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
 
         {/* Real Architectural Applications Gallery */}
         <ScrollReveal animation="fade-up" duration={700}>
-          <div className="bg-zinc-900/60 border border-white/10 rounded-3xl p-6 sm:p-8 lg:p-10 mb-20 backdrop-blur-xl">
+          <div className="bg-white/90 dark:bg-zinc-900/60 border border-brand-border dark:border-white/10 rounded-3xl p-6 sm:p-8 lg:p-10 mb-20 backdrop-blur-xl shadow-lg">
             <div className="max-w-2xl mb-8">
               <span className="text-xs font-bold text-brand-primary uppercase tracking-wider block mb-1">
                 {isVi ? "Ứng Dụng Thực Tế" : "Built Applications"}
               </span>
-              <h3 className="text-2xl sm:text-3xl font-black text-white font-heading tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-black text-brand-text-primary dark:text-white font-heading tracking-tight">
                 {isVi ? "Bức Tường Di Sản Xanh Tại Công Trình Thực Tế" : "Green Heritage Wall in Actual Projects"}
               </h3>
-              <p className="text-sm text-zinc-300 mt-2">
+              <p className="text-sm text-brand-text-muted dark:text-zinc-300 mt-2">
                 {isVi 
                   ? "Sự phối hợp hài hòa giữa các mẫu gạch bông gió RENOVA Mã 001 đến Mã 005 tạo nên diện mạo mặt đứng kiêu sa, thông gió tự nhiên và chống bức xạ nhiệt hoàn hảo."
                   : "Harmonious combinations of RENOVA breeze block patterns create sublime facades, natural ventilation, and effective heat deflection."}
@@ -329,8 +329,8 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                   alt="RENOVA Green Wall Installation Outdoors"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent flex flex-col justify-end p-6">
-                  <span className="text-brand-primary font-mono text-xs font-bold uppercase">Mặt đứng ngoài trời • RENOVA Lab</span>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex flex-col justify-end p-6 sm:p-8">
+                  <span className="inline-block bg-black/85 backdrop-blur-md px-3 py-1 rounded-full text-emerald-400 font-mono text-xs font-bold uppercase border border-emerald-500/30 mb-2 shadow-md">Mặt đứng ngoài trời • RENOVA Lab</span>
                   <h4 className="text-white font-black text-lg sm:text-xl font-heading mt-1">
                     {isVi ? "Vách Ngăn Thông Gió Biophilic Ngoài Trời" : "Biophilic Outdoor Ventilation Facade"}
                   </h4>
@@ -346,8 +346,8 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                   alt="RENOVA Architectural Interior Screen"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent flex flex-col justify-end p-6">
-                  <span className="text-brand-primary font-mono text-xs font-bold uppercase">Không gian nội thất • Không gian sống xanh</span>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex flex-col justify-end p-6 sm:p-8">
+                  <span className="inline-block bg-black/85 backdrop-blur-md px-3 py-1 rounded-full text-emerald-400 font-mono text-xs font-bold uppercase border border-emerald-500/30 mb-2 shadow-md">Không gian nội thất • Không gian sống xanh</span>
                   <h4 className="text-white font-black text-lg sm:text-xl font-heading mt-1">
                     {isVi ? "Mặt Dựng Lấy Sáng & Chiếu Bóng Nghệ Thuật" : "Artistic Daylight & Shadow Projection Screen"}
                   </h4>
@@ -362,7 +362,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
 
         {/* SECTION: Dòng Đời Thứ Hai (The Second Life Collection) */}
         <ScrollReveal animation="fade-up" duration={700}>
-          <div className="relative rounded-3xl overflow-hidden border-2 border-brand-primary/40 bg-gradient-to-br from-brand-primary/10 via-zinc-900/90 to-zinc-950 p-6 sm:p-10 lg:p-12 shadow-2xl">
+          <div className="relative rounded-3xl overflow-hidden border-2 border-emerald-500/40 bg-zinc-950 p-6 sm:p-10 lg:p-12 shadow-2xl">
             {/* Header */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-white/10">
               <div className="max-w-2xl">
@@ -376,7 +376,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                 <p className="text-base sm:text-lg font-semibold text-brand-primary mt-1">
                   The Second Life Collection
                 </p>
-                <p className="text-zinc-300 text-sm sm:text-base mt-2 leading-relaxed">
+                <p className="text-zinc-100 text-sm sm:text-base mt-3 leading-relaxed font-medium">
                   {isVi 
                     ? "Thể hiện rõ việc viên gạch cũ được tái sinh thành hình hài mới. Không bỏ phí bất kỳ gram vật liệu nào, gạch sau vòng đời công trình được nghiền vụn và tái tổ hợp thành gạch terrazzo lộng lẫy và chậu cây xanh tuần hoàn."
                     : "Showcasing how worn bricks are reborn into beautiful new forms. Crushed and recombined into lustrous terrazzo tiles and circular planters without wasting a single gram of material."}
@@ -421,7 +421,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                     <h4 className="text-xl font-bold text-white font-heading mt-2">
                       {isVi ? "Gạch Terrazzo Tái Chế RENOVA" : "RENOVA Upcycled Terrazzo Tiles"}
                     </h4>
-                    <p className="text-xs sm:text-sm text-zinc-300 mt-2 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-brand-text-muted dark:text-zinc-300 mt-2 leading-relaxed">
                       {isVi 
                         ? "Được sản xuất từ cốt liệu gạch cũ nghiền mịn hòa quyện cùng trấu và nhựa tái chế bề mặt bóng gương, kháng nước 100%, vân đá terrazzo ngẫu nhiên sang trọng."
                         : "Manufactured from crushed reclaimed blocks blended with rice husk and circular polymers with a lustrous, water-repellent terrazzo finish."}
@@ -465,7 +465,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                     <h4 className="text-xl font-bold text-white font-heading mt-2">
                       {isVi ? "Chậu Cây Tuần Hoàn Eco-Planter" : "Circular Eco-Planter Pot"}
                     </h4>
-                    <p className="text-xs sm:text-sm text-zinc-300 mt-2 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-brand-text-muted dark:text-zinc-300 mt-2 leading-relaxed">
                       {isVi 
                         ? "Thiết kế đúc nguyên khối chống ẩm mốc, bền bỉ ngoài trời trên 15 năm. Hoàn hảo cho ban công căn hộ, quán cafe và không gian xanh trường học."
                         : "Molded monolithic pot resistant to fungal growth and durable outdoors for 15+ years. Ideal for modern balconies, cafes, and campus gardens."}
@@ -639,7 +639,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                 <h3 className="text-2xl font-black text-white font-heading">
                   {isVi ? "Tiếp Nhận Báo Giá Thành Công!" : "Quote Request Received!"}
                 </h3>
-                <p className="text-sm text-zinc-300 mt-2 max-w-sm mx-auto leading-relaxed">
+                <p className="text-sm text-brand-text-muted dark:text-zinc-300 mt-2 max-w-sm mx-auto leading-relaxed">
                   {isVi 
                     ? `Cảm ơn bạn! Đội ngũ RENOVA sẽ gửi bảng báo giá chi tiết và hồ sơ kỹ thuật cho mẫu [${quoteForm.productModel}] qua email ${quoteForm.email} trong vòng 2 giờ làm việc.`
                     : `Thank you! The RENOVA team will send full specifications and bulk pricing for [${quoteForm.productModel}] to ${quoteForm.email} within 2 business hours.`}
@@ -700,7 +700,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                   {selectedProduct.specs.map((s, idx) => (
                     <div key={idx} className="flex justify-between">
                       <span className="text-zinc-400">{isVi ? s.labelVi : s.labelEn}:</span>
-                      <span className="font-semibold text-white">{s.val}</span>
+                      <span className="font-semibold text-brand-text-primary dark:text-white">{s.val}</span>
                     </div>
                   ))}
                 </div>
