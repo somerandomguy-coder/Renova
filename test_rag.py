@@ -17,8 +17,8 @@ print()
 
 # Test 2: Vietnamese question
 print("=" * 50)
-print("TEST 2: Vietnamese - RENOVA")
+print("TEST 2: Vietnamese - ECOVAL")
 print("=" * 50)
-result = ask("RENOVA la gi?")
+result = ask("ECOVAL la gi?")
 print(f"Reply: {result['reply'][:800]}")
 print(f"Sources: {result['sources']}")

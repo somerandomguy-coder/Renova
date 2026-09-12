@@ -1,5 +1,5 @@
 """
-RENOVA AI RAG — Vector Store
+ECOVAL AI RAG — Vector Store
 
 ChromaDB wrapper for document storage and retrieval.
 Uses ChromaDB built-in default embeddings (onnxruntime / all-MiniLM-L6-v2).
@@ -29,7 +29,7 @@ except ImportError:
 _client: Any = None
 _collection: Any = None
 
-COLLECTION_NAME = "renova_knowledge"
+COLLECTION_NAME = "ecoval_knowledge"
 
 
 def get_collection() -> Any:

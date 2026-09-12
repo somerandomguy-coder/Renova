@@ -248,14 +248,14 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
   ];
 
   // Helper format currency
-  const formatCurrency = (value: number) => {
+  const formatCurrency = (value: number | undefined | null) => {
     const locale = lang === "vi" ? "vi-VN" : "en-US";
-    return new Intl.NumberFormat(locale, { style: "currency", currency: "VND" }).format(value);
+    return new Intl.NumberFormat(locale, { style: "currency", currency: "VND" }).format(Number(value) || 0);
   };
 
-  const formatNumber = (value: number) => {
+  const formatNumber = (value: number | undefined | null) => {
     const locale = lang === "vi" ? "vi-VN" : "en-US";
-    return value.toLocaleString(locale);
+    return (Number(value) || 0).toLocaleString(locale);
   };
 
   return (
@@ -353,13 +353,13 @@ export default function EsgCalculator({ lang }: EsgCalculatorProps) {
                   <div className="p-4 rounded-xl bg-white/2 border border-white/3">
                     <p className="text-xs text-brand-text-muted">{t.treesLabel}</p>
                     <p className="text-3xl font-extrabold text-brand-primary">
-                      {(numBricks * (70 / 100.0) * 1.5).toLocaleString(lang === "vi" ? "vi-VN" : "en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })} <span className="text-sm font-medium text-brand-text-muted">{t.treesUnit}</span>
+                      {((Number(numBricks) || 0) * (70 / 100.0) * 1.5).toLocaleString(lang === "vi" ? "vi-VN" : "en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })} <span className="text-sm font-medium text-brand-text-muted">{t.treesUnit}</span>
                     </p>
                   </div>
                   <div className="p-4 rounded-xl bg-white/2 border border-white/3">
                     <p className="text-xs text-brand-text-muted">{t.co2Label}</p>
                     <p className="text-3xl font-extrabold text-[#fbbf24]">
-                      {esgResult.co2_reduced_kg.toLocaleString(lang === "vi" ? "vi-VN" : "en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-sm font-medium text-brand-text-muted">{t.co2Unit}</span>
+                      {(Number(esgResult?.co2_reduced_kg) || 0).toLocaleString(lang === "vi" ? "vi-VN" : "en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-sm font-medium text-brand-text-muted">{t.co2Unit}</span>
                     </p>
                   </div>
                 </div>

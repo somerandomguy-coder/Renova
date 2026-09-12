@@ -1,5 +1,5 @@
 """
-RENOVA AI RAG — Document Ingestion
+ECOVAL AI RAG — Document Ingestion
 
 Reads markdown files from the knowledge directory, chunks them,
 and stores embeddings in ChromaDB.

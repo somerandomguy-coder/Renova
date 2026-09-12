@@ -1,4 +1,4 @@
-# RENOVA R&D Specimen Generations & Version Matrix
+# ECOVAL R&D Specimen Generations & Version Matrix
 
 ## R&D Development Version Matrix (V0 - V6)
 - **V0 – Thiết kế khuôn / Mold Design**: Completed (Đã xong)

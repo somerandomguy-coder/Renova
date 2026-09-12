@@ -55,7 +55,7 @@ class BrickTakeback(Base):
     estimated_quantity = Column(String, nullable=False)
     brick_condition = Column(String, nullable=False)
     image_url = Column(String, nullable=True)
-    voucher_code = Column(String, default="RENOVA-VOUCHER-XANH-2026", nullable=False)
+    voucher_code = Column(String, default="ECOVAL-VOUCHER-XANH-2026", nullable=False)
     status = Column(String, default="Starting", nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 

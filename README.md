@@ -1,18 +1,18 @@
-# RENOVA Circular: Digital ESG & EPR Platform
+# ECOVAL Circular: Digital ESG & EPR Platform
 
-**RENOVA Circular** is a digital platform designed to digitalize circular economy models, offering visual forecasts of ecological impacts and financial benefits for enterprises. The platform showcases how hard-to-recycle multi-layer plastics (MLP) and agricultural husks are processed into ecological building materials (e.g., breeze blocks) that can be offset against corporate Extended Producer Responsibility (EPR) obligations.
+**ECOVAL Circular** is a digital platform designed to digitalize circular economy models, offering visual forecasts of ecological impacts and financial benefits for enterprises. The platform showcases how hard-to-recycle multi-layer plastics (MLP) and agricultural husks are processed into ecological building materials (e.g., breeze blocks) that can be offset against corporate Extended Producer Responsibility (EPR) obligations.
 
 ---
 
 ## 🚀 Key Features
 
 *   **ESG Environmental Impact Calculator:** Computes CO2 reduction and equivalent trees saved based on the quantity of eco-friendly building blocks. Includes dynamic, scroll-triggered visual charts (using Recharts).
-*   **EPR Cashflow Optimization Engine:** Minimizes government-mandated EPR fees by calculating the exact discount and net cash benefit of investing in RENOVA building materials to offset packaging waste.
+*   **EPR Cashflow Optimization Engine:** Minimizes government-mandated EPR fees by calculating the exact discount and net cash benefit of investing in ECOVAL building materials to offset packaging waste.
 *   **R&D Specifications Showcase:** Interactive library featuring material composition, compressive strength, UV certifications, and water absorption rates of different R&D generations.
 *   **Closed-Loop Stepper:** Visualizes the 4-step logistics chain—from sourcing multi-layer plastic from factories, to transport, green block fabrication, and digital ESG cert validation.
 *   **Dual Frontend Deployments:**
     1.  **Next.js Web Application:** Fully responsive app built with Next.js 14, React, and TypeScript.
-    2.  **Standalone HTML Preview (`renova_demo.html`):** A single self-contained document using CDN libraries (Chart.js, Lucide Icons) for instant client-side testing with zero dependencies.
+    2.  **Standalone HTML Preview (`ecoval_demo.html`):** A single self-contained document using CDN libraries (Chart.js, Lucide Icons) for instant client-side testing with zero dependencies.
 
 ---
 
@@ -38,4 +38,4 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) in your web browser.
 
 ### 2. Standalone HTML Preview
-Double-click `renova_demo.html` in the project root to open it directly in any web browser, or serve it locally.
+Double-click `ecoval_demo.html` in the project root to open it directly in any web browser, or serve it locally.

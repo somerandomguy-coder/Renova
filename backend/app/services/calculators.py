@@ -45,12 +45,12 @@ def run_epr_calculations(req: EPRCashflowRequest) -> EPRCashflowResponse:
     # Standard EPR fee = volume (kg) * recycling cost norm (VND/kg)
     standard_epr_fee = req.packaging_volume_kg * EPR_FS_NORM_VND
     
-    # Optimized EPR fee (through RENOVA circular co-processing partnership, saving 40% in transaction/compliance costs)
+    # Optimized EPR fee (through ECOVAL circular co-processing partnership, saving 40% in transaction/compliance costs)
     optimized_epr_fee = standard_epr_fee * 0.60
     epr_savings = standard_epr_fee - optimized_epr_fee
     
     # Bricks needed analysis
-    # RENOVA bricks contain 40% MLP of 1.5kg total weight = 0.60 kg MLP per brick
+    # ECOVAL bricks contain 40% MLP of 1.5kg total weight = 0.60 kg MLP per brick
     mlp_per_brick = 0.60
     bricks_needed = math.ceil(req.packaging_volume_kg / mlp_per_brick)
     
@@ -74,7 +74,7 @@ def run_epr_calculations(req: EPRCashflowRequest) -> EPRCashflowResponse:
         standard_epr_fee_vnd=round(standard_epr_fee, 2),
         optimized_epr_fee_vnd=round(optimized_epr_fee, 2),
         epr_savings_vnd=round(epr_savings, 2),
-        renova_bricks_needed=bricks_needed,
+        ecoval_bricks_needed=bricks_needed,
         total_brick_cost_vnd=round(total_brick_cost, 2),
         net_cost_after_epr_offset_vnd=round(net_cost_after_offset, 2),
         net_savings_percentage=round(net_savings_percentage, 2)

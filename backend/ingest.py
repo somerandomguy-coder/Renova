@@ -1,5 +1,5 @@
 """
-RENOVA Backend — RAG Ingestion Helper Script
+ECOVAL Backend — RAG Ingestion Helper Script
 
 Ensures the project root is on sys.path and runs ai.rag.ingest.
 Allows Render and local servers to execute ingestion directly inside the backend directory.

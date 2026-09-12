@@ -1,5 +1,5 @@
 """
-RENOVA Backend — AI Chat Service
+ECOVAL Backend — AI Chat Service
 
 Thin service layer that initializes the RAG engine and handles chat requests.
 Supports both full response and streaming modes.

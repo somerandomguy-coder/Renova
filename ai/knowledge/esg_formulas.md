@@ -1,4 +1,4 @@
-# RENOVA ESG Calculation Methodology
+# ECOVAL ESG Calculation Methodology
 
 ## Environmental Impact Calculator
 
@@ -9,10 +9,10 @@
 - **Core Material Composition**: 60-70% Multi-layer plastic (MLP) waste, 25-30% Rice husk & Coconut coir fibers, 5-10% Inorganic minerals & additives.
 
 ### Detailed Calculation Rules
-For a given quantity of RENOVA blocks ($N$):
+For a given quantity of ECOVAL blocks ($N$):
 - **Plastic Waste Upcycled (kg)** = $N \times 0.60 \text{ kg}$
 - **CO2 Reduced (kg)** = $N \times 1.50 \text{ kg}$
 - **Landfill Diversion Volume ($m^3$)** = Plastic mass (kg) / 0.05 (assuming 50 kg/m^3 uncompacted MLP waste density).
 
 ### EPR Financial Recoupment Estimation
-Enterprises purchasing RENOVA blocks for landscaping or factory construction offset statutory EPR recycling contributions while gaining verified ESG reporting assets.
+Enterprises purchasing ECOVAL blocks for landscaping or factory construction offset statutory EPR recycling contributions while gaining verified ESG reporting assets.

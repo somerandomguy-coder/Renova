@@ -1,5 +1,5 @@
 """
-RENOVA AI RAG — Engine
+ECOVAL AI RAG — Engine
 
 Core RAG pipeline: retrieve relevant context from ChromaDB,
 then generate a response using any LLM provider.
@@ -220,7 +220,7 @@ def _prepare_messages(
                 "content": msg["content"],
             })
 
-    user_message = f"""Based on the following context from the RENOVA knowledge base, answer the user's question.
+    user_message = f"""Based on the following context from the ECOVAL knowledge base, answer the user's question.
 
 CONTEXT:
 {context_text}
@@ -234,7 +234,7 @@ USER QUESTION:
 
 # ─── PUBLIC API ────────────────────────────────────────────────────
 
-@observe(name="renova_rag_ask")
+@observe(name="ecoval_rag_ask")
 def ask(
     question: str,
     chat_history: list[dict] | None = None,
@@ -286,7 +286,7 @@ def ask(
     }
 
 
-@observe(name="renova_rag_ask_stream")
+@observe(name="ecoval_rag_ask_stream")
 def ask_stream(
     question: str,
     chat_history: list[dict] | None = None,

@@ -39,8 +39,8 @@ export default function HeroSection({ lang }: HeroSectionProps) {
       {/* Hero Background Wall Texture Image */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-10 dark:opacity-20 mix-blend-multiply dark:mix-blend-luminosity">
         <img 
-          src="/anh_xay_tuong_01.png" 
-          alt="RENOVA Heritage Wall Texture" 
+          src="/anh_xay_tuong_01_cut.png" 
+          alt="ECOVAL Heritage Wall Texture" 
           className="w-full h-full object-cover object-center filter blur-[1px] scale-105"
         />
       </div>
