@@ -12,7 +12,7 @@ ECOVAL blocks are made from multi-layer plastic waste (MLP), agricultural biomas
 1. **Giải Ba EPICS 8 (2026)** — Arizona State University & Dow Vietnam (May 2026).
 2. **Bằng khen VWRA (2025)** — Vietnam Waste Recycling Association (Nov 26, 2025).
 3. **TOP 5 THE NEXTGEN 2026**.
-4. **Vòng Chung kết Bách Khoa Innovation 2026**.
+4. **Giải Ba Bách Khoa Innovation 2026 (Bảng U-I Dow)**.
 5. **TOP 9 TECH PLANTER 2026**.
 6. **TOP 20 Innostar 2026**.
 7. **Đối tác kiểm định thực tế Ánh Thủy JSC** (May 2026).
