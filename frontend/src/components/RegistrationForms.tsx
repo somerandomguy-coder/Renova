@@ -229,6 +229,15 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                 ? "Lựa chọn phân hệ phù hợp để cùng ECOVAL biến rác thải nhựa và gạch cũ thành vật liệu tuần hoàn di sản."
                 : "Select the appropriate path to collaborate with ECOVAL in transforming plastic waste and old bricks into circular materials."}
             </p>
+            {/* Guide & Collection Process Image Banner */}
+            <div className="mt-8 mb-6 max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-xl border border-brand-border/60 dark:border-white/10 bg-white/50 dark:bg-zinc-900/50 p-2">
+              <img 
+                src="/guide.jpeg" 
+                alt="Hướng dẫn đăng ký & Quy trình thu gom ECOVAL" 
+                className="w-full h-auto rounded-xl object-cover"
+              />
+            </div>
+
           </div>
         </ScrollReveal>
 
