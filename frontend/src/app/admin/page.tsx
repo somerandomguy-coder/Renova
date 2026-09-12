@@ -1305,7 +1305,7 @@ export default function AdminDashboard() {
                                 <div className={`font-medium ${themeText}`}>{item.contact_name}</div>
                                 <div className={`text-xs ${themeTextMuted}`}>{item.email}</div>
                               </td>
-                              <td className={`p-4 font-semibold ${isDark ? "text-zinc-300" : "text-zinc-800"}`}>{item.annual_plastic_waste.toLocaleString("vi-VN")} kg</td>
+                              <td className={`p-4 font-semibold ${isDark ? "text-zinc-300" : "text-zinc-800"}`}>{(Number(item?.annual_plastic_waste) || 0).toLocaleString("vi-VN")} kg</td>
                               <td className="p-4">
                                 <span className={`px-2 py-0.5 text-[10px] rounded font-bold uppercase tracking-wide border ${
                                   item.needs_epr_cert 

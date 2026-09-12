@@ -11,16 +11,16 @@ Turso is a distributed SQLite service built on libSQL. It is compatible with our
 1. Install the Turso CLI and log in, or sign up at [Turso.tech](https://turso.tech).
 2. Create a new database:
    ```bash
-   turso db create renova-db
+   turso db create ecoval-db
    ```
 3. Retrieve your database connection URL:
    ```bash
-   turso db show renova-db --url
-   # Example output: libsql://renova-db-yourusername.turso.io
+   turso db show ecoval-db --url
+   # Example output: libsql://ecoval-db-yourusername.turso.io
    ```
 4. Generate a secure authentication token:
    ```bash
-   turso db tokens create renova-db
+   turso db tokens create ecoval-db
    # Example output: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9...
    ```
 5. Save both values for the Render backend environment variables.
@@ -39,9 +39,9 @@ Render will host the FastAPI server and connect to Turso.
    * **Build Command**: `pip install -r requirements.txt`
    * **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 4. Add the following **Environment Variables** in the Render settings panel:
-   * `DATABASE_URL`: Your Turso DB URL (e.g., `libsql://renova-db-user.turso.io`).
+   * `DATABASE_URL`: Your Turso DB URL (e.g., `libsql://ecoval-db-user.turso.io`).
    * `TURSO_AUTH_TOKEN`: The auth token generated in step 1 (Note: `database.py` will append the token parameter automatically from the URL, or you can supply `sqlite+libsql://your-url/?authToken=your-token&secure=true` directly in `DATABASE_URL`).
-   * `CORS_ORIGINS`: A JSON array containing your Netlify site URL, e.g. `["https://renova-circular.netlify.app"]`.
+   * `CORS_ORIGINS`: A JSON array containing your Netlify site URL, e.g. `["https://ecoval-circular.netlify.app"]`.
    * `JWT_SECRET_KEY`: A secure random password string.
    * `ENCRYPTION_KEY`: A base64-encoded Fernet key (Generate via `python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"`).
    * `USE_MOCK_EMAIL`: Set to `False` (if you want live emails) or `True` (if you want to keep logging emails mock-style).
@@ -60,5 +60,5 @@ Netlify will build and host the Next.js frontend, connecting to the Render API.
    * **Build Command**: `npm run build`
    * **Publish Directory**: `frontend/out` (Since we are using static export, Netlify serves static pages directly).
 4. Add the following **Environment Variable** in the Netlify site configuration:
-   * `NEXT_PUBLIC_API_URL`: The full URL of your deployed Render backend web service (e.g. `https://your-renova-backend.onrender.com`).
+   * `NEXT_PUBLIC_API_URL`: The full URL of your deployed Render backend web service (e.g. `https://your-ecoval-backend.onrender.com`).
 5. Click **Deploy**. Netlify will deploy the Next.js application, making it accessible on a public `.netlify.app` domain.

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Rebrand the application from RENOVA to ECOVAL (incorporating new logo), configure DeepSeek API support with local benchmarking tools, and build a dedicated `/ai-assistant` AI Workspace page.
+**Goal:** Rebrand the application from ECOVAL to ECOVAL (incorporating new logo), configure DeepSeek API support with local benchmarking tools, and build a dedicated `/ai-assistant` AI Workspace page.
 
 **Architecture:** Frontend Next.js app updated with new logo (`ecoval_logo.jpeg`), rebranded UI components, and new 3-column AI Workspace route at `/ai-assistant`. Backend RAG engine (`ai/rag/`) updated to default to `ecoval_knowledge` collection and DeepSeek API compatibility. Automated benchmark script (`test_deepseek_bench.py`) created to test 10 customer question scenarios.
 
@@ -10,7 +10,7 @@
 
 ## Global Constraints
 - Target Deadline: 7:00 AM (09/08/2026 Vietnam Time).
-- Rebrand terms: `RENOVA` ➔ `ECOVAL`, `RENOVA Circular` ➔ `ECOVAL Sustainable Materials`, `Gạch RENOVA` ➔ `Gạch ECOVAL`.
+- Rebrand terms: `ECOVAL` ➔ `ECOVAL`, `ECOVAL Circular` ➔ `ECOVAL Sustainable Materials`, `Gạch ECOVAL` ➔ `Gạch ECOVAL`.
 - Logo location: `/ecoval_logo.jpeg` in `frontend/public/`.
 
 ---
@@ -24,15 +24,15 @@
 
 - [ ] **Step 1: Copy logo file**
 
-Copy `C:\Users\Nam\Projects\Web Development (On-going)\Renova\new_logo.jpeg` to `frontend/public/ecoval_logo.jpeg`.
+Copy `C:\Users\Nam\Projects\Web Development (On-going)\Ecoval\new_logo.jpeg` to `frontend/public/ecoval_logo.jpeg`.
 
 - [ ] **Step 2: Update Knowledge Base markdown files**
 
-Replace all references to RENOVA with ECOVAL across `ai/knowledge/*.md`.
+Replace all references to ECOVAL with ECOVAL across `ai/knowledge/*.md`.
 
 - [ ] **Step 3: Update Vector Store collection name**
 
-In `ai/rag/vector_store.py`, change `COLLECTION_NAME = "renova_knowledge"` to `COLLECTION_NAME = "ecoval_knowledge"`. In `ai/rag/config.py`, update system prompt to "You are ECOVAL AI Assistant — a sustainability advisor for ECOVAL Sustainable Materials...".
+In `ai/rag/vector_store.py`, change `COLLECTION_NAME = "ecoval_knowledge"` to `COLLECTION_NAME = "ecoval_knowledge"`. In `ai/rag/config.py`, update system prompt to "You are ECOVAL AI Assistant — a sustainability advisor for ECOVAL Sustainable Materials...".
 
 - [ ] **Step 4: Re-ingest knowledge base**
 
@@ -42,7 +42,7 @@ Expected output: `[INGEST] DONE: 7 chunks from 6 files ingested.`
 - [ ] **Step 5: Commit**
 
 `git add frontend/public/ecoval_logo.jpeg ai/ ai/rag/`
-`git commit -m "feat(rebrand): update logo and knowledge base from RENOVA to ECOVAL"`
+`git commit -m "feat(rebrand): update logo and knowledge base from ECOVAL to ECOVAL"`
 
 ---
 
@@ -69,7 +69,7 @@ Update `<img>` tag in `page.tsx` to point to `/ecoval_logo.jpeg` and update alt/
 
 - [ ] **Step 2: Update all text strings in frontend components**
 
-Replace all RENOVA references with ECOVAL across all 13 components in `frontend/src/components/` and `page.tsx`. Add "Trợ lý ECOVAL AI" nav link pointing to `/ai-assistant`.
+Replace all ECOVAL references with ECOVAL across all 13 components in `frontend/src/components/` and `page.tsx`. Add "Trợ lý ECOVAL AI" nav link pointing to `/ai-assistant`.
 
 - [ ] **Step 3: Test Next.js build**
 
@@ -92,7 +92,7 @@ Expected: Successful Turbopack / Next.js build.
 - Modify: `backend/app/services/emails.py`
 - Modify: `backend/app/services/security.py`
 
-- [ ] **Step 1: Replace RENOVA text in backend files**
+- [ ] **Step 1: Replace ECOVAL text in backend files**
 
 Update `PROJECT_NAME = "ECOVAL Sustainable Materials & ESG API"`, email templates in `emails.py`, schemas field descriptions in `schemas.py`, and endpoint docstrings in `main.py`.
 

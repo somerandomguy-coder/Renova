@@ -1,7 +1,7 @@
-# RENOVA Circular Materials — Product Specifications
+# ECOVAL Circular Materials — Product Specifications
 
 ## Overview
-RENOVA produces eco-friendly heritage breeze blocks (gạch bông gió) engineered from upcycled multi-layer plastic waste (MLP), rice husk (vỏ trấu), and coconut coir (xơ dừa) fibers.
+ECOVAL produces eco-friendly heritage breeze blocks (gạch bông gió) engineered from upcycled multi-layer plastic waste (MLP), rice husk (vỏ trấu), and coconut coir (xơ dừa) fibers.
 
 ## Technical Specifications
 - **Weight**: 20-30% lighter than traditional concrete/clay blocks.

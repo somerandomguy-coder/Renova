@@ -347,15 +347,15 @@ export default function AiAssistantPage() {
             <div className="bg-[#FAF8F5] dark:bg-zinc-950/60 p-3 rounded-xl border border-brand-border dark:border-zinc-800/60 text-xs flex flex-col gap-1.5">
               <div className="flex justify-between text-brand-text-muted dark:text-zinc-400">
                 <span>{lang === "vi" ? "Số gạch ước tính:" : "Bricks Needed:"}</span>
-                <span className="font-bold text-brand-text-primary dark:text-white">{calculatedBricks.toLocaleString()} viên</span>
+                <span className="font-bold text-brand-text-primary dark:text-white">{(Number(calculatedBricks) || 0).toLocaleString()} viên</span>
               </div>
               <div className="flex justify-between text-brand-text-muted dark:text-zinc-400">
                 <span>{lang === "vi" ? "Tổng chi phí gốc:" : "Total Brick Cost:"}</span>
-                <span className="font-bold text-brand-primary dark:text-amber-400">{totalCostVnd.toLocaleString()} VNĐ</span>
+                <span className="font-bold text-brand-primary dark:text-amber-400">{(Number(totalCostVnd) || 0).toLocaleString()} VNĐ</span>
               </div>
               <div className="flex justify-between text-brand-text-muted dark:text-zinc-400 text-[11px]">
                 <span>🌱 Giảm khí nhà kính:</span>
-                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{co2SavedKg.toLocaleString()} kg CO2</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{(Number(co2SavedKg) || 0).toLocaleString()} kg CO2</span>
               </div>
             </div>
 
@@ -401,7 +401,7 @@ export default function AiAssistantPage() {
             <div className="bg-[#FAF8F5] dark:bg-zinc-950/60 p-3 rounded-xl border border-brand-border dark:border-zinc-800/60 text-xs flex flex-col gap-1.5">
               <div className="flex justify-between text-brand-text-muted dark:text-zinc-400">
                 <span>{lang === "vi" ? "Tiền tiết kiệm EPR:" : "EPR Cashflow Savings:"}</span>
-                <span className="font-bold text-teal-600 dark:text-teal-400">{eprSavingsVnd.toLocaleString()} VNĐ</span>
+                <span className="font-bold text-teal-600 dark:text-teal-400">{(Number(eprSavingsVnd) || 0).toLocaleString()} VNĐ</span>
               </div>
             </div>
 

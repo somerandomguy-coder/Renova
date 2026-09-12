@@ -5,12 +5,12 @@ from typing import List, Union, Any, Optional
 from pydantic import field_validator
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "RENOVA Circular Materials & ESG API"
+    PROJECT_NAME: str = "ECOVAL Circular Materials & ESG API"
     API_V1_STR: str = "/api/v1"
     
     # Database configuration
     # By default, use SQLite located in the backend folder
-    DATABASE_URL: str = "sqlite:///./renova.db"
+    DATABASE_URL: str = "sqlite:///./ecoval.db"
     TURSO_AUTH_TOKEN: Optional[str] = None
     
     # CORS Origins
@@ -41,11 +41,11 @@ class Settings(BaseSettings):
     SMTP_PORT: int = 587
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
-    EMAIL_FROM: str = "info@renova.vn"
+    EMAIL_FROM: str = "info@ecoval.vn"
     USE_MOCK_EMAIL: bool = True  # True will log email to file instead of trying to send it
 
     # Security and Encryption Configurations
-    JWT_SECRET_KEY: str = "renova-admin-secret-key-2026-super-secure"
+    JWT_SECRET_KEY: str = "ecoval-admin-secret-key-2026-super-secure"
     ENCRYPTION_KEY: str = "ULgXQZxIRcrPGGC4gO8he5D8Vor8G08oiWzagVp2948="
 
     class Config:

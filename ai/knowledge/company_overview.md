@@ -1,7 +1,7 @@
-# RENOVA Circular Materials — Company Overview
+# ECOVAL Circular Materials — Company Overview
 
 ## Mission
-RENOVA Circular Materials is a Vietnamese circular economy startup dedicated to transforming plastic waste and agricultural byproducts into sustainable, high-performance building materials. Our flagship product — the Heritage Breeze Block — upcycles multi-layer plastic packaging (MLP), rice husk, and coconut coir into decorative ventilation blocks that reduce CO2 emissions and support Vietnam's EPR compliance framework.
+ECOVAL Circular Materials is a Vietnamese circular economy startup dedicated to transforming plastic waste and agricultural byproducts into sustainable, high-performance building materials. Our flagship product — the Heritage Breeze Block — upcycles multi-layer plastic packaging (MLP), rice husk, and coconut coir into decorative ventilation blocks that reduce CO2 emissions and support Vietnam's EPR compliance framework.
 
 ## Key Materials & Upcycling Process
 - **Multi-Layer Plastic Waste (MLP)**: Non-recyclable flexible packaging upcycled into durable polymer composite matrices.
