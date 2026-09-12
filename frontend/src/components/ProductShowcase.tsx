@@ -325,7 +325,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="relative rounded-2xl overflow-hidden border border-white/10 group aspect-4/3 sm:aspect-16/10">
                 <img 
-                  src="/products/tuong01.png" 
+                  src="/anh_xay_tuong_01_cut.png" 
                   alt="ECOVAL Green Wall Installation Outdoors"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />

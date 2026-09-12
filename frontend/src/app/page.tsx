@@ -237,13 +237,13 @@ export default function Home() {
         {/* Section 6: Về chúng tôi & Năng lực thực thi (Gộp 3 mục) */}
         <section id="ve-chung-toi">
           {/* Profile Team */}
-          <TeamSection lang={lang} />
+          <Stakeholders lang={lang} />
           {/* Giải thưởng / Thành tựu */}
           <Milestones lang={lang} />
           {/* Minh bạch tài chính */}
           <FinancialReport lang={lang} />
           {/* Đối tác & Stakeholders */}
-          <Stakeholders lang={lang} />
+          <TeamSection lang={lang} />
         </section>
 
         {/* Section 7: Cổng Đăng ký Hợp tác & Thu gom (Unified Registration Portal) */}
