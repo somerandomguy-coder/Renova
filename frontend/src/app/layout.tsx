@@ -10,8 +10,8 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "RENOVA Circular - ESG & EPR Platform",
-  description: "Trang thông tin, bộ công cụ tính toán tác động môi trường (ESG Data) và quy trình số hóa hợp đồng EPR của dự án gạch sinh thái RENOVA.",
+  title: "ECOVAL Circular - ESG & EPR Platform",
+  description: "Trang thông tin, bộ công cụ tính toán tác động môi trường (ESG Data) và quy trình số hóa hợp đồng EPR của dự án gạch sinh thái ECOVAL.",
   icons: {
     icon: "/Logo.png",
     shortcut: "/Logo.png",

@@ -12,7 +12,7 @@ const translations = {
   vi: {
     title: "Định vị & Sứ mệnh ",
     titleHighlight: "ESG",
-    subtitle: "RENOVA kiến tạo giải pháp vật liệu xây dựng tuần hoàn, giải quyết triệt để các thách thức về môi trường và phát triển cộng đồng bền vững.",
+    subtitle: "ECOVAL kiến tạo giải pháp vật liệu xây dựng tuần hoàn, giải quyết triệt để các thách thức về môi trường và phát triển cộng đồng bền vững.",
     eTitle: "Environmental (Môi trường)",
     eDesc: "Khát vọng giải cứu dòng rác thải 'bất tử' nhựa đa lớp (MLP) và tận dụng phế phẩm nông nghiệp (Vỏ trấu) làm cốt liệu thay thế cát đá.",
     sTitle: "Social (Xã hội)",
@@ -23,7 +23,7 @@ const translations = {
   en: {
     title: "ESG Positioning & Mission ",
     titleHighlight: "ESG",
-    subtitle: "RENOVA builds circular construction solutions, radically resolving environmental challenges and fostering sustainable community development.",
+    subtitle: "ECOVAL builds circular construction solutions, radically resolving environmental challenges and fostering sustainable community development.",
     eTitle: "Environmental",
     eDesc: "A passion to upcycle 'indestructible' multi-layer plastic (MLP) waste and utilize agricultural husk by-products as replacement aggregate.",
     sTitle: "Social",

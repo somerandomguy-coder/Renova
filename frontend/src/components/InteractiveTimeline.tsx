@@ -11,8 +11,8 @@ interface InteractiveTimelineProps {
 const translations = {
   vi: {
     title: "Hành trình ",
-    titleHighlight: "RENOVA",
-    subtitle: "Từ nghiên cứu và phát triển nguyên mẫu tại Trường Đại học Bách Khoa – ĐHQG-HCM đến giai đoạn kiểm định, pilot và chuẩn bị thương mại hóa vật liệu tuần hoàn RENOVA",
+    titleHighlight: "ECOVAL",
+    subtitle: "Từ nghiên cứu và phát triển nguyên mẫu tại Trường Đại học Bách Khoa – ĐHQG-HCM đến giai đoạn kiểm định, pilot và chuẩn bị thương mại hóa vật liệu tuần hoàn ECOVAL",
     steps: [
       {
         title: "Nghiên cứu Lab",
@@ -23,13 +23,13 @@ const translations = {
       {
         title: "Ghi nhận tại Cuộc thi Tái chế 2025",
         subtitle: "Hiệp hội Tái chế Chất thải Việt Nam",
-        description: "Nhóm RENOVA được Hiệp hội Tái chế Chất thải Việt Nam khen tặng vì thành tích tại cuộc thi, đánh dấu bước xác nhận đầu tiên đối với hướng nghiên cứu vật liệu tuần hoàn của dự án.",
+        description: "Nhóm ECOVAL được Hiệp hội Tái chế Chất thải Việt Nam khen tặng vì thành tích tại cuộc thi, đánh dấu bước xác nhận đầu tiên đối với hướng nghiên cứu vật liệu tuần hoàn của dự án.",
         date: "11/2025"
       },
       {
         title: "Giải Ba EPICS",
         subtitle: "Chương trình EPICS (ASU & Dow Vietnam)",
-        description: "Dự án RENOVA đạt Giải Ba tại chương trình EPICS do Arizona State University và Dow Vietnam tổ chức, ghi nhận hướng tiếp cận ứng dụng kỹ thuật phục vụ cộng đồng.",
+        description: "Dự án ECOVAL đạt Giải Ba tại chương trình EPICS do Arizona State University và Dow Vietnam tổ chức, ghi nhận hướng tiếp cận ứng dụng kỹ thuật phục vụ cộng đồng.",
         date: "Tháng 5/2026"
       },
       {
@@ -49,7 +49,7 @@ const translations = {
   en: {
     title: "Hành Trình ",
     titleHighlight: "Journey",
-    subtitle: "From R&D and prototype development at HCMC University of Technology (VNU-HCM) to testing, piloting, and preparing for commercialization of RENOVA circular materials.",
+    subtitle: "From R&D and prototype development at HCMC University of Technology (VNU-HCM) to testing, piloting, and preparing for commercialization of ECOVAL circular materials.",
     steps: [
       {
         title: "Material R&D Initiation",
@@ -60,13 +60,13 @@ const translations = {
       {
         title: "Recognition at Waste Recycling Contest 2025",
         subtitle: "Vietnam Waste Recycling Association",
-        description: "The RENOVA team received commendation from the Vietnam Waste Recycling Association for contest achievements, marking the first validation of the circular material research direction.",
+        description: "The ECOVAL team received commendation from the Vietnam Waste Recycling Association for contest achievements, marking the first validation of the circular material research direction.",
         date: "November 2025"
       },
       {
         title: "3rd Prize - EPICS Program",
         subtitle: "Engineering Projects in Community Service (ASU & Dow)",
-        description: "The RENOVA project won 3rd Prize at the EPICS program hosted by Arizona State University and Dow Vietnam, recognizing an engineering approach serving the community.",
+        description: "The ECOVAL project won 3rd Prize at the EPICS program hosted by Arizona State University and Dow Vietnam, recognizing an engineering approach serving the community.",
         date: "Tháng 5/2026"
       },
       {

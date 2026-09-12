@@ -24,8 +24,8 @@ const translations = {
       },
       {
         title: "2. Vận chuyển",
-        status: "Vận chuyển về xưởng RENOVA",
-        description: "Các đơn vị đối tác vận tải sinh thái của RENOVA tiến hành cân khối lượng thô tại cổng và vận chuyển rác thải nhựa về xưởng xử lý trung tâm."
+        status: "Vận chuyển về xưởng ECOVAL",
+        description: "Các đơn vị đối tác vận tải sinh thái của ECOVAL tiến hành cân khối lượng thô tại cổng và vận chuyển rác thải nhựa về xưởng xử lý trung tâm."
       },
       {
         title: "3. Sản xuất gạch",
@@ -54,8 +54,8 @@ const translations = {
       },
       {
         title: "2. Eco Transportation",
-        status: "Hauling to RENOVA upcycling center",
-        description: "RENOVA's certified green logistics partners perform automated raw weight scale tickets at gates and transport sorted plastic wastes to our hub."
+        status: "Hauling to ECOVAL upcycling center",
+        description: "ECOVAL's certified green logistics partners perform automated raw weight scale tickets at gates and transport sorted plastic wastes to our hub."
       },
       {
         title: "3. Breeze Block Production",

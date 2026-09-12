@@ -49,15 +49,15 @@ const translations = {
     foot: {
       slogan: "Quy trình kinh tế tuần hoàn số hóa đột phá. Chuyển đổi rác thải nhựa đa lớp (MLP) bất tử và phế phẩm vỏ trấu nông nghiệp thành gạch bông gió di sản xanh đẳng cấp.",
       quickLinks: "Liên kết Nhanh",
-      home: "Trang chủ RENOVA",
+      home: "Trang chủ ECOVAL",
       esgTitle: "Định vị & Sứ mệnh ESG",
       productTitle: "Sản phẩm & Ưu thế vượt trội",
       calcTitle: "Bộ công cụ Tính toán ESG/EPR",
       financeTitle: "Minh bạch Tài chính",
       partnerTitle: "Cổng Đăng ký Hợp tác & Thu gom",
       contact: "Liên hệ & Trụ sở",
-      lab: "📍 PTN Vật liệu Xanh & Kinh tế Tuần hoàn RENOVA - ĐHQG TP.HCM",
-      rights: "© 2026 RENOVA Circular Materials Joint Stock Company. Bảo lưu mọi quyền.",
+      lab: "📍 PTN Vật liệu Xanh & Kinh tế Tuần hoàn ECOVAL - ĐHQG TP.HCM",
+      rights: "© 2026 ECOVAL Circular Materials Joint Stock Company. Bảo lưu mọi quyền.",
       privacy: "Chính sách Bảo mật",
       terms: "Điều khoản Dịch vụ"
     }
@@ -76,15 +76,15 @@ const translations = {
     foot: {
       slogan: "Digitalized circular economy breakthrough. Converting multi-layer plastic (MLP) waste and agricultural rice husk into high-performance biophilic breeze blocks.",
       quickLinks: "Quick Links",
-      home: "RENOVA Home",
+      home: "ECOVAL Home",
       esgTitle: "ESG Positioning & Mission",
       productTitle: "Products & Core Advantages",
       calcTitle: "ESG/EPR Calculation Suite",
       financeTitle: "Financial Transparency",
       partnerTitle: "Cooperation & Takeback Portal",
       contact: "Contact & HQ",
-      lab: "📍 RENOVA Circular Materials & Green Tech Lab - VNU HCMC",
-      rights: "© 2026 RENOVA Circular Materials Joint Stock Company. All rights reserved.",
+      lab: "📍 ECOVAL Circular Materials & Green Tech Lab - VNU HCMC",
+      rights: "© 2026 ECOVAL Circular Materials Joint Stock Company. All rights reserved.",
       privacy: "Privacy Policy",
       terms: "Terms of Service"
     }
@@ -108,13 +108,13 @@ export default function Home() {
           {/* Brand Logo & Identifier */}
           <a href="#hero" className="flex items-center gap-3 no-underline group shrink-0">
             <img 
-              src="/renova_logo.png" 
-              alt="RENOVA Logo" 
+              src="/ecoval_logo.png" 
+              alt="ECOVAL Logo" 
               className="h-10 w-auto object-contain transition-transform group-hover:scale-105 dark:brightness-110" 
             />
             <div className="flex flex-col">
               <span className="font-heading font-black text-xl tracking-tight text-brand-text-primary dark:text-white leading-none">
-                RENOVA
+                ECOVAL
               </span>
               <span className="text-[10px] font-bold text-brand-primary uppercase tracking-widest mt-0.5 font-mono">
                 Circular Materials
@@ -262,8 +262,8 @@ export default function Home() {
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <img 
-                  src="/renova_logo.png" 
-                  alt="RENOVA Logo" 
+                  src="/ecoval_logo.png" 
+                  alt="ECOVAL Logo" 
                   className="h-9 w-auto object-contain dark:brightness-110" 
                 />
                 <span className="font-black text-lg text-brand-text-primary dark:text-white">Circular Materials</span>
@@ -281,15 +281,15 @@ export default function Home() {
               <a href="#hop-tac-epr" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.calcTitle}</a>
               <a href="#ve-chung-toi" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.financeTitle}</a>
               <a href="#dang-ky" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.partnerTitle}</a>
-              <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1.5">✨ RENOVA AI Workspace</a>
+              <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1.5">✨ ECOVAL AI Workspace</a>
             </div>
 
             <div className="flex flex-col gap-3">
               <h4 className="font-bold text-brand-text-primary dark:text-white mb-2 font-heading">{foot.contact}</h4>
               <p>{foot.lab}</p>
-              <p>✉️ <a href="mailto:renova.project268@gmail.com" className="text-inherit hover:text-brand-primary transition-colors">renova.project268@gmail.com</a></p>
+              <p>✉️ <a href="mailto:ecoval.project268@gmail.com" className="text-inherit hover:text-brand-primary transition-colors">ecoval.project268@gmail.com</a></p>
               <p>📞 <a href="tel:0914626717" className="text-inherit hover:text-brand-primary transition-colors">0914626717</a></p>
-              <p>🌐 <a href="https://www.facebook.com/profile.php?id=61586260467256" target="_blank" rel="noopener noreferrer" className="text-inherit hover:text-brand-primary transition-colors underline">Fanpage: RENOVA Circular Materials</a></p>
+              <p>🌐 <a href="https://www.facebook.com/profile.php?id=61586260467256" target="_blank" rel="noopener noreferrer" className="text-inherit hover:text-brand-primary transition-colors underline">Fanpage: ECOVAL Circular Materials</a></p>
             </div>
 
           </div>
