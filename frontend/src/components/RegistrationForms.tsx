@@ -232,6 +232,17 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
           </div>
         </ScrollReveal>
 
+        {/* Process Guide Infographic Banner */}
+        <ScrollReveal animation="fade-up" duration={700} delay={100}>
+          <div className="max-w-4xl mx-auto mb-10 rounded-2xl overflow-hidden border border-brand-border dark:border-white/15 shadow-xl bg-white dark:bg-zinc-900 p-2 sm:p-3">
+            <img 
+              src="/guide.jpeg" 
+              alt="Hướng dẫn đăng ký & Quy trình thu gom RENOVA" 
+              className="w-full h-auto object-contain rounded-xl"
+            />
+          </div>
+        </ScrollReveal>
+
         {/* Tab Navigation Selector */}
         <div className="flex justify-center mb-10">
           <div className="bg-white/80 dark:bg-zinc-900/90 border border-brand-border dark:border-white/10 p-1.5 rounded-2xl shadow-lg flex flex-wrap justify-center gap-1 max-w-2xl w-full">
@@ -264,8 +275,8 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
               onClick={() => { setActiveTab("takeback"); setSubmitted(false); }}
               className={`flex-1 min-w-[160px] py-3 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
                 activeTab === "takeback"
-                  ? "bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/25"
-                  : "text-emerald-400 hover:text-emerald-300 font-semibold"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/25 font-bold"
+                  : "text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-semibold"
               }`}
             >
               <Recycle size={16} />
@@ -291,26 +302,26 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
 
               {submittedTab === "takeback" ? (
                 <div className="mt-4">
-                  <p className="text-sm text-zinc-300 max-w-md mx-auto leading-relaxed">
+                  <p className="text-sm text-brand-text-muted dark:text-zinc-300 max-w-md mx-auto leading-relaxed">
                     {isVi 
                       ? `Đội ngũ RENOVA đã tiếp nhận yêu cầu thu gom tại [${takebackForm.collection_address}]. Chúng tôi sẽ liên hệ SĐT ${takebackForm.phone} trong 24h.`
                       : `RENOVA team received your pickup request at [${takebackForm.collection_address}]. We will contact ${takebackForm.phone} within 24 hours.`}
                   </p>
 
-                  <div className="mt-6 bg-gradient-to-br from-emerald-950/70 to-zinc-900 border-2 border-dashed border-emerald-400/50 rounded-2xl p-5 max-w-sm mx-auto shadow-xl">
-                    <span className="text-xs text-zinc-400 uppercase font-mono block">
+                  <div className="mt-6 bg-gradient-to-br from-emerald-50 dark:from-emerald-950/70 to-white dark:to-zinc-900 border-2 border-dashed border-emerald-500/50 rounded-2xl p-5 max-w-sm mx-auto shadow-xl">
+                    <span className="text-xs text-brand-text-muted dark:text-zinc-400 uppercase font-mono block">
                       {isVi ? "Mã Voucher Xanh Ưu Đãi:" : "Your Discount Voucher:"}
                     </span>
-                    <div className="text-2xl font-black text-emerald-400 font-mono mt-1.5 tracking-wider">
+                    <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono mt-1.5 tracking-wider">
                       {voucherCode}
                     </div>
-                    <p className="text-xs text-zinc-300 mt-2">
+                    <p className="text-xs text-brand-text-muted dark:text-zinc-300 mt-2">
                       {isVi ? "Giảm 10% cho các sản phẩm gạch bông gió & Terrazzo tái sinh." : "10% off for breeze block & Terrazzo orders."}
                     </p>
                   </div>
                 </div>
               ) : (
-                <p className="text-sm text-zinc-300 mt-2 max-w-md mx-auto leading-relaxed">
+                <p className="text-sm text-brand-text-muted dark:text-zinc-300 mt-2 max-w-md mx-auto leading-relaxed">
                   {isVi 
                     ? "Cảm ơn bạn đã hợp tác cùng RENOVA. Chuyên viên phát triển bền vững của chúng tôi sẽ liên hệ lại qua thông tin cung cấp trong vòng 2 giờ làm việc."
                     : "Thank you for collaborating with RENOVA. Our sustainability specialist will reach out within 2 business hours."}
@@ -378,7 +389,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                       <input 
                         required 
                         type="email" 
-                        placeholder="partner@fmcg.com" 
+                        placeholder="contact@company.com" 
                         value={eprForm.email} 
                         onChange={(e) => setEprForm({...eprForm, email: e.target.value})} 
                         className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
@@ -401,12 +412,11 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
 
                   <div>
                     <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2">
-                      {isVi ? "Sản lượng rác nhựa phát sinh hàng năm (kg) *" : "Annual plastic waste output (kg) *"}
+                      {isVi ? "Sản lượng rác thải nhựa đa lớp ước tính (Tấn/Năm)" : "Estimated MLP Plastic Waste (Tons/Year)"}
                     </label>
                     <input 
-                      required 
                       type="number" 
-                      min="100" 
+                      min="1" 
                       value={eprForm.annual_plastic_waste} 
                       onChange={(e) => setEprForm({...eprForm, annual_plastic_waste: parseFloat(e.target.value) || 0})} 
                       className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-brand-primary outline-hidden text-sm" 
@@ -416,13 +426,13 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                   <div className="flex items-center gap-2.5">
                     <input 
                       type="checkbox" 
-                      id="eprCert" 
+                      id="cert" 
                       checked={eprForm.needs_epr_cert} 
                       onChange={(e) => setEprForm({...eprForm, needs_epr_cert: e.target.checked})} 
                       className="w-4 h-4 rounded border-brand-border text-brand-primary accent-brand-primary cursor-pointer" 
                     />
-                    <label htmlFor="eprCert" className="text-xs text-zinc-300 cursor-pointer select-none">
-                      {isVi ? "Yêu cầu cấp giấy chứng nhận EPR chính thức cho Bộ TN&MT" : "Request official EPR certificate for Ministry of Environment"}
+                    <label htmlFor="cert" className="text-xs text-brand-text-muted dark:text-zinc-300 cursor-pointer select-none">
+                      {isVi ? "Yêu cầu cấp Chứng nhận Xử lý & Tái chế EPR chính thức" : "Request Official EPR Treatment & Recycling Certificate"}
                     </label>
                   </div>
 
@@ -431,22 +441,22 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                     disabled={loading} 
                     className="w-full bg-brand-primary hover:bg-brand-secondary text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-200 text-sm shadow-lg shadow-brand-primary/20 flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    {loading ? (isVi ? "Đang xử lý..." : "Processing...") : (isVi ? "Đăng Ký Tư Vấn Đối Tác EPR" : "Register for EPR Partner Consultation")}
+                    {loading ? (isVi ? "Đang xử lý..." : "Processing...") : (isVi ? "Gửi Yêu Cầu Hợp Tác EPR" : "Submit EPR Cooperation Request")}
                     <Send size={16} />
                   </button>
                 </form>
               )}
 
-              {/* TAB 2: GREEN BUILDING FORM */}
+              {/* TAB 2: GREEN CONSTRUCTION FORM */}
               {activeTab === "green" && (
                 <form onSubmit={handleGreenSubmit} className="space-y-6">
                   <div className="border-b border-brand-border dark:border-white/10 pb-4 mb-6">
                     <h3 className="text-xl font-bold font-heading text-brand-text-primary dark:text-white">
-                      {isVi ? "Đăng Ký Tư Vấn Công Trình Xanh" : "Green Building Consultation"}
+                      {isVi ? "Đăng Ký Tư Vấn Cung Cấp Gạch Cho Công Trình Xanh" : "Green Building Supply Consultation"}
                     </h3>
                     <p className="text-xs text-brand-text-muted dark:text-zinc-400 mt-1">
                       {isVi 
-                        ? "Tư vấn thiết kế thông gió thụ động & cung cấp gạch bông gió RENOVA cho KTS và Chủ đầu tư."
+                        ? "Giải pháp thiết kế thông gió thụ động & cung cấp gạch bông gió cho KTS, chủ đầu tư."
                         : "Passive ventilation design & breeze block supply for architects and developers."}
                     </p>
                   </div>
@@ -531,7 +541,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                       onChange={(e) => setGreenForm({...greenForm, ventilation_consult: e.target.checked})} 
                       className="w-4 h-4 rounded border-brand-border text-brand-primary accent-brand-primary cursor-pointer" 
                     />
-                    <label htmlFor="ventilation" className="text-xs text-zinc-300 cursor-pointer select-none">
+                    <label htmlFor="ventilation" className="text-xs text-brand-text-muted dark:text-zinc-300 cursor-pointer select-none">
                       {isVi ? "Nhận hồ sơ tư vấn mô phỏng thông gió & cách nhiệt thụ động" : "Receive passive ventilation & thermal insulation simulation profile"}
                     </label>
                   </div>
@@ -552,18 +562,18 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                 <form onSubmit={handleTakebackSubmit} className="space-y-6">
                   <div className="border-b border-brand-border dark:border-white/10 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <h3 className="text-xl font-bold font-heading text-white flex items-center gap-2">
-                        <Recycle className="text-emerald-400" size={20} />
+                      <h3 className="text-xl font-bold font-heading text-brand-text-primary dark:text-white flex items-center gap-2">
+                        <Recycle className="text-emerald-600 dark:text-emerald-400" size={20} />
                         {isVi ? "Đăng Ký Thu Hồi Gạch Cũ & Nhận Voucher Xanh" : "Brick Takeback & Discount Voucher"}
                       </h3>
-                      <p className="text-xs text-zinc-300 mt-1 leading-relaxed">
+                      <p className="text-xs text-brand-text-muted dark:text-zinc-300 mt-1 leading-relaxed">
                         {isVi 
                           ? "Biến gạch thải công trình cũ thành voucher ưu đãi 10%. RENOVA cam kết điều xe thu gom tận nơi."
                           : "Turn old construction bricks into 10% discount vouchers. RENOVA provides on-site collection."}
                       </p>
                     </div>
 
-                    <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider self-start sm:self-auto">
+                    <span className="bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider self-start sm:self-auto">
                       Voucher 10%
                     </span>
                   </div>
@@ -571,7 +581,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                        <User size={14} className="text-emerald-400" />
+                        <User size={14} className="text-emerald-600 dark:text-emerald-400" />
                         {isVi ? "Tên Khách hàng / Doanh nghiệp *" : "Customer / Company Name *"}
                       </label>
                       <input 
@@ -580,13 +590,13 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "Công ty Nam Long / Anh Tuấn" : "e.g. John Doe"} 
                         value={takebackForm.customer_name} 
                         onChange={(e) => setTakebackForm({...takebackForm, customer_name: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-400 outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-500 outline-hidden text-sm" 
                       />
                     </div>
 
                     <div>
                       <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                        <Phone size={14} className="text-emerald-400" />
+                        <Phone size={14} className="text-emerald-600 dark:text-emerald-400" />
                         {isVi ? "Số điện thoại liên lạc *" : "Phone Number *"}
                       </label>
                       <input 
@@ -595,7 +605,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "Ví dụ: 0914 626 717" : "e.g. 0914626717"} 
                         value={takebackForm.phone} 
                         onChange={(e) => setTakebackForm({...takebackForm, phone: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-400 outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-500 outline-hidden text-sm" 
                       />
                     </div>
                   </div>
@@ -603,7 +613,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                        <MapPin size={14} className="text-emerald-400" />
+                        <MapPin size={14} className="text-emerald-600 dark:text-emerald-400" />
                         {isVi ? "Địa chỉ thu gom tận nơi *" : "Pickup Address *"}
                       </label>
                       <input 
@@ -612,13 +622,13 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "123 Nguyễn Văn Linh, Quận 7, TP.HCM" : "123 Street, City"} 
                         value={takebackForm.collection_address} 
                         onChange={(e) => setTakebackForm({...takebackForm, collection_address: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-400 outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-500 outline-hidden text-sm" 
                       />
                     </div>
 
                     <div>
                       <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                        <Layers size={14} className="text-emerald-400" />
+                        <Layers size={14} className="text-emerald-600 dark:text-emerald-400" />
                         {isVi ? "Số lượng ước tính *" : "Estimated Quantity *"}
                       </label>
                       <input 
@@ -627,7 +637,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                         placeholder={isVi ? "500 viên / 20 m² / 1 xe tải" : "500 blocks"} 
                         value={takebackForm.estimated_quantity} 
                         onChange={(e) => setTakebackForm({...takebackForm, estimated_quantity: e.target.value})} 
-                        className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-400 outline-hidden text-sm" 
+                        className="w-full py-3 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 shadow-xs focus:border-emerald-500 outline-hidden text-sm" 
                       />
                     </div>
                   </div>
@@ -635,13 +645,13 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                   {/* 4-Choice Condition Dropdown */}
                   <div>
                     <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                      <Info size={14} className="text-emerald-400" />
+                      <Info size={14} className="text-emerald-600 dark:text-emerald-400" />
                       {isVi ? "Tình trạng gạch của bạn hiện tại: *" : "Your current brick condition: *"}
                     </label>
                     <select 
                       value={takebackForm.brick_condition} 
                       onChange={(e) => setTakebackForm({...takebackForm, brick_condition: e.target.value})} 
-                      className="w-full py-3.5 px-4 rounded-xl border border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 focus:border-emerald-500 shadow-xs outline-hidden text-sm cursor-pointer font-medium"
+                      className="w-full py-3.5 px-4 rounded-xl border border-brand-border dark:border-white/15 bg-white dark:bg-zinc-800 text-brand-text-primary dark:text-white placeholder:text-zinc-400 focus:border-emerald-500 shadow-xs outline-hidden text-sm cursor-pointer font-medium"
                     >
                       {BRICK_CONDITIONS.map(cond => (
                         <option key={cond.value} value={cond.value} className="bg-white dark:bg-zinc-900 text-brand-text-primary dark:text-white py-2">
@@ -654,8 +664,8 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                   {/* Warning notice when Option 4 is selected */}
                   {isSelectedConditionUnusable && (
                     <div className="bg-red-500/15 border border-red-500/40 rounded-2xl p-4 flex items-start gap-3 animate-fadeIn">
-                      <AlertTriangle size={20} className="text-red-400 shrink-0 mt-0.5" />
-                      <div className="text-xs sm:text-sm text-red-200 leading-relaxed">
+                      <AlertTriangle size={20} className="text-red-500 dark:text-red-400 shrink-0 mt-0.5" />
+                      <div className="text-xs sm:text-sm text-red-700 dark:text-red-200 leading-relaxed">
                         <strong>{isVi ? "Thông báo từ RENOVA:" : "Notice from RENOVA:"}</strong>{" "}
                         {isVi 
                           ? "Xin lỗi quý khách, RENOVA chưa thể hỗ trợ thu hồi đối với gạch bị lẫn xà bần hoặc dính xi măng không thể tách rời. Quý khách vui lòng phân loại gạch còn bề mặt sạch trước khi yêu cầu thu gom!"
@@ -667,7 +677,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                   {/* Photo Upload */}
                   <div>
                     <label className="text-xs font-bold text-brand-text-primary dark:text-zinc-200 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                      <Upload size={14} className="text-emerald-400" />
+                      <Upload size={14} className="text-emerald-600 dark:text-emerald-400" />
                       {isVi ? "Upload ảnh tình trạng thực tế (Không bắt buộc)" : "Upload actual photo (Optional)"}
                     </label>
 
@@ -684,21 +694,21 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                           <img 
                             src={previewUrl} 
                             alt="Brick preview" 
-                            className="h-24 w-auto object-cover rounded-xl border border-white/20 shadow-lg"
+                            className="h-24 w-auto object-cover rounded-xl border border-brand-border dark:border-white/20 shadow-lg"
                           />
-                          <span className="text-xs text-emerald-400 font-medium">
+                          <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
                             ✓ {selectedFile?.name}
                           </span>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center gap-2">
-                          <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                             <Upload size={18} />
                           </div>
                           <span className="text-xs font-bold text-brand-text-primary dark:text-zinc-200">
                             {isVi ? "Kéo thả hoặc nhấp để tải ảnh gạch thực tế" : "Click or drag photo here"}
                           </span>
-                          <span className="text-[11px] text-zinc-500">
+                          <span className="text-[11px] text-brand-text-muted dark:text-zinc-500">
                             PNG, JPG, WEBP (Tối đa 10MB)
                           </span>
                         </div>
@@ -707,7 +717,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                   </div>
 
                   {errorMessage && (
-                    <div className="bg-amber-500/15 border border-amber-500/40 rounded-xl p-3 text-xs text-amber-300 text-center font-medium">
+                    <div className="bg-amber-500/15 border border-amber-500/40 rounded-xl p-3 text-xs text-amber-700 dark:text-amber-300 text-center font-medium">
                       {errorMessage}
                     </div>
                   )}
@@ -717,8 +727,8 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                     disabled={loading || isSelectedConditionUnusable} 
                     className={`w-full py-4 px-6 rounded-2xl font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-xl flex items-center justify-center gap-2 cursor-pointer ${
                       isSelectedConditionUnusable 
-                        ? "bg-zinc-800 text-zinc-500 border border-white/10 cursor-not-allowed"
-                        : "bg-gradient-to-r from-emerald-500 to-teal-400 text-zinc-950 hover:shadow-emerald-500/25 hover:scale-[1.01]"
+                        ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 border border-brand-border dark:border-white/10 cursor-not-allowed"
+                        : "bg-gradient-to-r from-emerald-600 to-teal-500 text-white hover:shadow-emerald-500/25 hover:scale-[1.01]"
                     }`}
                   >
                     {loading ? (
@@ -731,7 +741,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                     )}
                   </button>
 
-                  <p className="text-center text-[11px] text-zinc-400">
+                  <p className="text-center text-[11px] text-brand-text-muted dark:text-zinc-400">
                     {isVi 
                       ? "🔒 Thông tin của quý khách được bảo mật tuyệt đối theo tiêu chuẩn ESG RENOVA."
                       : "🔒 Your information is strictly protected under RENOVA ESG standards."}
