@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { GraduationCap, Award, ExternalLink } from "lucide-react";
+import { GraduationCap } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
 interface StakeholdersProps {
@@ -15,11 +15,12 @@ const translations = {
     subtitle: "ECOVAL được bảo trợ chuyên môn sâu sắc bởi các viện nghiên cứu và đồng hành cùng các hiệp hội, tập đoàn lớn trong định hình chuỗi giá trị rác thải tuần hoàn.",
     partnersHeader: "Đơn vị Đồng hành & Bảo trợ",
     advisorsHeader: "Hội đồng Cố vấn Chuyên môn (Advisory Board)",
+    advisorsSubtitle: "Sự bảo trợ và cố vấn chuyên môn từ các tiến sĩ, chuyên gia hàng đầu Đại học Bách Khoa - ĐHQG-HCM.",
     partners: [
-      { name: "ĐHQG-HCM (HCMUT)", desc: "Trường Đại học Bách khoa" },
-      { name: "FENR - HCMUT", desc: "Khoa Môi trường & Tài nguyên" },
-      { name: "VWRA VIETNAM", desc: "Hiệp hội Quản lý chất thải Việt Nam" },
-      { name: "DOW CHEMICAL", desc: "Dow Vietnam Corporation" },
+      { name: "ĐHQG-HCM (HCMUT)", desc: "Trường Đại học Bách Khoa" },
+      { name: "K.MT&TN - HCMUT", desc: "Khoa Môi trường & Tài nguyên" },
+      { name: "HIỆP HỘI TÁI CHẾ VN", desc: "VWRA - Hiệp hội Tái chế Chất thải" },
+      { name: "DOW CHEMICAL", desc: "Tập đoàn DOW Vietnam" },
       { name: "HCMUT LAB R&D", desc: "Lab Nghiên cứu Vật liệu mới" },
       { name: "MÔI TRƯỜNG ANH THỦY", desc: "Công ty CP Thiết bị & Môi trường Anh Thủy" },
       { name: "THANH TÙNG 2", desc: "Công ty TNHH MTV Thanh Tùng 2" }
@@ -43,6 +44,7 @@ const translations = {
     subtitle: "ECOVAL is strongly supported by research institutions, working alongside industry organizations to shape the circular waste value chain.",
     partnersHeader: "Partners & Supporting Units",
     advisorsHeader: "Scientific & Technical Advisory Board",
+    advisorsSubtitle: "Deep academic backing and scientific direction from leading PhDs at HCMC University of Technology.",
     partners: [
       { name: "ĐHQG-HCM (HCMUT)", desc: "HCMC University of Technology" },
       { name: "FENR - HCMUT", desc: "Faculty of Environment & Natural Resources" },
@@ -88,29 +90,27 @@ export function AdvisoryBoard({ lang }: StakeholdersProps) {
   ];
 
   return (
-    <section id="hoi-dong-co-van" className="light-section py-16 border-b border-brand-border dark:border-white/10">
+    <div id="hoi-dong-co-van" className="py-12 border-b border-brand-border/40">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
-          <h2 className="section-title text-center">
-            {t.advisorsHeader}
-          </h2>
-          <p className="section-subtitle text-center max-w-2xl mx-auto mb-10">
-            {lang === "vi" 
-              ? "RENOVA được bảo trợ chuyên môn sâu sắc bởi các chuyên gia, nhà nghiên cứu hàng đầu từ Đại học Bách Khoa TP.HCM." 
-              : "RENOVA receives profound technical guidance from leading researchers and faculty members at HCMUT."}
-          </p>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-text-primary dark:text-white tracking-tight mb-3">
+              {t.advisorsHeader}
+            </h2>
+            <p className="text-sm sm:text-base text-brand-text-muted max-w-2xl mx-auto font-medium">
+              {t.advisorsSubtitle}
+            </p>
+          </div>
         </ScrollReveal>
 
-        {/* ADVISORY BOARD CARDS */}
-        <ScrollReveal animation="scale-in" duration={600} delay={100}>
+        <ScrollReveal animation="scale-in" duration={600} delay={150}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[900px] mx-auto">
             {advisors.map((adv, idx) => (
               <div 
                 key={idx}
-                className="glass-card flex flex-col sm:grid sm:grid-cols-[100px_1fr] gap-6 items-start border-l-4 border-brand-primary p-6 sm:p-8 shadow-md"
+                className="glass-card flex flex-col sm:grid sm:grid-cols-[100px_1fr] gap-6 items-start border-l-4 border-brand-primary p-6 sm:p-8 hover:shadow-xl transition-all duration-300"
               >
-                {/* Advisor Photo */}
-                <div className="w-[100px] h-[100px] rounded-xl overflow-hidden border-2 border-brand-border shrink-0 mx-auto sm:mx-0">
+                <div className="w-[100px] h-[100px] rounded-xl overflow-hidden border-2 border-brand-border shrink-0 mx-auto sm:mx-0 shadow-md">
                   <img 
                     src={adv.avatar} 
                     alt={adv.name}
@@ -118,17 +118,16 @@ export function AdvisoryBoard({ lang }: StakeholdersProps) {
                   />
                 </div>
 
-                {/* Info */}
                 <div className="flex flex-col gap-2 text-center sm:text-left">
-                  <h3 className="text-xl text-brand-text-primary dark:text-white font-bold">{adv.name}</h3>
+                  <h3 className="text-xl text-brand-text-primary font-bold">{adv.name}</h3>
                   <div className="flex items-center justify-center sm:justify-start gap-1.5 text-brand-primary">
                     <GraduationCap size={16} />
                     <span className="text-[13px] font-semibold font-heading">{adv.title}</span>
                   </div>
-                  <p className="text-xs text-brand-text-muted dark:text-zinc-300 font-semibold">
+                  <p className="text-xs text-brand-text-muted font-semibold">
                     {adv.institution}
                   </p>
-                  <p className="text-sm text-brand-text-muted dark:text-zinc-300 leading-relaxed mt-1">
+                  <p className="text-sm text-brand-text-muted leading-relaxed mt-1">
                     {adv.role}
                   </p>
                 </div>
@@ -137,11 +136,11 @@ export function AdvisoryBoard({ lang }: StakeholdersProps) {
           </div>
         </ScrollReveal>
       </div>
-    </section>
+    </div>
   );
 }
 
-export default function Stakeholders({ lang }: StakeholdersProps) {
+export function PartnersEcosystem({ lang }: StakeholdersProps) {
   const t = translations[lang];
 
   const partners = t.partners.map((partner, index) => {
@@ -163,7 +162,7 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
   });
 
   return (
-    <section id="doi-tac" className="light-section py-20">
+    <section id="doi-tac" className="light-section py-20 border-t border-brand-border/40">
       <div className="container">
         <ScrollReveal animation="fade-up" duration={700}>
           <h2 className="section-title">
@@ -175,16 +174,14 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
           </p>
         </ScrollReveal>
 
-        {/* INFINITE LOGO CAROUSEL */}
         <ScrollReveal animation="scale-in" duration={500} delay={100}>
           <div>
-            <p className="text-xs sm:text-sm uppercase tracking-wider text-brand-text-muted dark:text-zinc-300 text-center font-bold mb-8">
+            <p className="text-xs sm:text-sm uppercase tracking-wider text-brand-text-muted text-center font-bold mb-8">
               {t.partnersHeader}
             </p>
 
             <div className="carousel-wrapper">
               <div className="logo-carousel">
-                {/* Duplicate array to ensure seamless infinite looping */}
                 {[...partners, ...partners].map((partner, idx) => (
                   <div key={idx} className="logo-item">
                     <div className="bg-brand-bg-card border border-brand-border rounded-xl py-3 px-5 flex flex-col items-center justify-center w-[220px] h-20 text-center shadow-xs">
@@ -195,11 +192,11 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
                           className="h-8 w-auto object-contain mb-1 dark:brightness-110"
                         />
                       ) : (
-                        <span className="font-extrabold text-brand-text-primary dark:text-white text-[14px] font-heading mb-0.5">
+                        <span className="font-extrabold text-brand-text-primary text-[14px] font-heading mb-0.5">
                           {partner.name}
                         </span>
                       )}
-                      <span className="text-[9px] text-brand-text-muted dark:text-zinc-400 mt-0.5 uppercase tracking-wide font-bold">
+                      <span className="text-[9px] text-brand-text-muted mt-0.5 uppercase tracking-wide font-bold">
                         {partner.desc}
                       </span>
                     </div>
@@ -209,8 +206,16 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
             </div>
           </div>
         </ScrollReveal>
-
       </div>
     </section>
+  );
+}
+
+export default function Stakeholders({ lang }: StakeholdersProps) {
+  return (
+    <>
+      <AdvisoryBoard lang={lang} />
+      <PartnersEcosystem lang={lang} />
+    </>
   );
 }
