@@ -36,8 +36,17 @@ export default function HeroSection({ lang }: HeroSectionProps) {
       <div className="absolute top-10 left-10 w-[500px] h-[500px] bg-brand-primary/6 rounded-full filter blur-[120px] pointer-events-none z-0 dark:bg-brand-primary/2"></div>
       <div className="absolute bottom-10 right-10 w-[600px] h-[600px] bg-brand-secondary/6 rounded-full filter blur-[140px] pointer-events-none z-0 dark:bg-brand-secondary/2"></div>
 
+      {/* Hero Background Wall Texture Image */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-10 dark:opacity-20 mix-blend-multiply dark:mix-blend-luminosity">
+        <img 
+          src="/anh_xay_tuong_01.png" 
+          alt="RENOVA Heritage Wall Texture" 
+          className="w-full h-full object-cover object-center filter blur-[1px] scale-105"
+        />
+      </div>
+
       {/* Light Backdrop Overlay to soften mesh and ensure high text legibility */}
-      <div className="absolute inset-0 bg-brand-bg-light/70 dark:bg-zinc-950/80 z-1 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-brand-bg-light/80 dark:bg-zinc-950/85 z-1 pointer-events-none"></div>
 
       <div className="container relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">

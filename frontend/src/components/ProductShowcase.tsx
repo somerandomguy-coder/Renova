@@ -445,9 +445,9 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                 <div className="w-full sm:w-56 aspect-square rounded-xl overflow-hidden shrink-0 border border-white/10 bg-black/40 relative group flex items-center justify-center p-4">
                   {/* Visual Representation of Eco Planter using Brick Biophilic design */}
                   <img 
-                    src="/products/gach4.png" 
-                    alt="RENOVA Circular Planter" 
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    src="/cups.jpeg" 
+                    alt="Chậu Cây Tuần Hoàn Eco-Planter" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-xl"
                   />
                   <div className="absolute top-2 left-2 bg-brand-primary text-white text-[10px] font-black px-2 py-0.5 rounded-md uppercase">
                     Chậu Cây 35k
