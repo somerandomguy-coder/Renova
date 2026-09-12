@@ -67,7 +67,7 @@ const translations = {
   }
 };
 
-export default function Stakeholders({ lang }: StakeholdersProps) {
+export function AdvisoryBoard({ lang }: StakeholdersProps) {
   const t = translations[lang];
 
   const advisors = [
@@ -86,6 +86,63 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
       avatar: "/team/duong_thi_thanh.jpeg"
     }
   ];
+
+  return (
+    <section id="hoi-dong-co-van" className="light-section py-16 border-b border-brand-border dark:border-white/10">
+      <div className="container">
+        <ScrollReveal animation="fade-up" duration={700}>
+          <h2 className="section-title text-center">
+            {t.advisorsHeader}
+          </h2>
+          <p className="section-subtitle text-center max-w-2xl mx-auto mb-10">
+            {lang === "vi" 
+              ? "RENOVA được bảo trợ chuyên môn sâu sắc bởi các chuyên gia, nhà nghiên cứu hàng đầu từ Đại học Bách Khoa TP.HCM." 
+              : "RENOVA receives profound technical guidance from leading researchers and faculty members at HCMUT."}
+          </p>
+        </ScrollReveal>
+
+        {/* ADVISORY BOARD CARDS */}
+        <ScrollReveal animation="scale-in" duration={600} delay={100}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[900px] mx-auto">
+            {advisors.map((adv, idx) => (
+              <div 
+                key={idx}
+                className="glass-card flex flex-col sm:grid sm:grid-cols-[100px_1fr] gap-6 items-start border-l-4 border-brand-primary p-6 sm:p-8 shadow-md"
+              >
+                {/* Advisor Photo */}
+                <div className="w-[100px] h-[100px] rounded-xl overflow-hidden border-2 border-brand-border shrink-0 mx-auto sm:mx-0">
+                  <img 
+                    src={adv.avatar} 
+                    alt={adv.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Info */}
+                <div className="flex flex-col gap-2 text-center sm:text-left">
+                  <h3 className="text-xl text-brand-text-primary dark:text-white font-bold">{adv.name}</h3>
+                  <div className="flex items-center justify-center sm:justify-start gap-1.5 text-brand-primary">
+                    <GraduationCap size={16} />
+                    <span className="text-[13px] font-semibold font-heading">{adv.title}</span>
+                  </div>
+                  <p className="text-xs text-brand-text-muted dark:text-zinc-300 font-semibold">
+                    {adv.institution}
+                  </p>
+                  <p className="text-sm text-brand-text-muted dark:text-zinc-300 leading-relaxed mt-1">
+                    {adv.role}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+export default function Stakeholders({ lang }: StakeholdersProps) {
+  const t = translations[lang];
 
   const partners = t.partners.map((partner, index) => {
     let logo = "";
@@ -120,8 +177,8 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
 
         {/* INFINITE LOGO CAROUSEL */}
         <ScrollReveal animation="scale-in" duration={500} delay={100}>
-          <div className="mb-20">
-            <p className="text-xs sm:text-sm uppercase tracking-wider text-brand-text-muted text-center font-bold mb-8">
+          <div>
+            <p className="text-xs sm:text-sm uppercase tracking-wider text-brand-text-muted dark:text-zinc-300 text-center font-bold mb-8">
               {t.partnersHeader}
             </p>
 
@@ -138,59 +195,17 @@ export default function Stakeholders({ lang }: StakeholdersProps) {
                           className="h-8 w-auto object-contain mb-1 dark:brightness-110"
                         />
                       ) : (
-                        <span className="font-extrabold text-brand-text-primary text-[14px] font-heading mb-0.5">
+                        <span className="font-extrabold text-brand-text-primary dark:text-white text-[14px] font-heading mb-0.5">
                           {partner.name}
                         </span>
                       )}
-                      <span className="text-[9px] text-brand-text-muted mt-0.5 uppercase tracking-wide font-bold">
+                      <span className="text-[9px] text-brand-text-muted dark:text-zinc-400 mt-0.5 uppercase tracking-wide font-bold">
                         {partner.desc}
                       </span>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </ScrollReveal>
-
-        {/* ADVISORY BOARD */}
-        <ScrollReveal animation="scale-in" duration={600} delay={200}>
-          <div>
-            <p className="text-xs sm:text-sm uppercase tracking-wider text-brand-text-muted text-center font-bold mb-10">
-              {t.advisorsHeader}
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[900px] mx-auto">
-              {advisors.map((adv, idx) => (
-                <div 
-                  key={idx}
-                  className="glass-card flex flex-col sm:grid sm:grid-cols-[100px_1fr] gap-6 items-start border-l-4 border-brand-primary p-6 sm:p-8"
-                >
-                  {/* Advisor Photo */}
-                  <div className="w-[100px] h-[100px] rounded-xl overflow-hidden border-2 border-brand-border shrink-0 mx-auto sm:mx-0">
-                    <img 
-                      src={adv.avatar} 
-                      alt={adv.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Info */}
-                  <div className="flex flex-col gap-2 text-center sm:text-left">
-                    <h3 className="text-xl text-brand-text-primary font-bold">{adv.name}</h3>
-                    <div className="flex items-center justify-center sm:justify-start gap-1.5 text-brand-primary">
-                      <GraduationCap size={16} />
-                      <span className="text-[13px] font-semibold font-heading">{adv.title}</span>
-                    </div>
-                    <p className="text-xs text-brand-text-muted font-semibold">
-                      {adv.institution}
-                    </p>
-                    <p className="text-sm text-brand-text-muted leading-relaxed mt-1">
-                      {adv.role}
-                    </p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </ScrollReveal>
