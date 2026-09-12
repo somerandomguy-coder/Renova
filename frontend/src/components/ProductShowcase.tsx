@@ -115,7 +115,7 @@ const BRICK_PRODUCTS: ProductItem[] = [
     dimensions: "190 x 190 x 65 mm",
     weight: "1.3 kg (-40% so với xi măng)",
     price: "35.000 VNĐ",
-    image: "/cups.jpeg",
+    image: "/products/gach4.png",
     descriptionVi: "Bố cục ô gió đa diện màu hổ phách ấm cúng, phù hợp cho các vách ngăn nội thất, quầy bar và mặt dựng công trình xanh resort.",
     descriptionEn: "Multi-faceted amber layout suited for acoustic interior partitions, feature bars, and resort facades.",
     specs: [
