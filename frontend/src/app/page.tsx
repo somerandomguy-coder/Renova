@@ -31,7 +31,7 @@ import TeamSection from "../components/TeamSection";
 import Milestones from "../components/Milestones";
 import FinancialReport from "../components/FinancialReport";
 import RegistrationForms from "../components/RegistrationForms";
-import Stakeholders from "../components/Stakeholders";
+import Stakeholders, { AdvisoryBoard, PartnersEcosystem } from "../components/Stakeholders";
 import AiChat from "../components/AiChat";
 
 const translations = {
@@ -234,16 +234,20 @@ export default function Home() {
           <RdShowcase lang={lang} />
         </section>
 
-        {/* Section 6: Về chúng tôi & Năng lực thực thi (Gộp 3 mục) */}
+        {/* Section 6: Về chúng tôi & Năng lực thực thi */}
         <section id="ve-chung-toi">
-          {/* Profile Team */}
-          <Stakeholders lang={lang} />
-          {/* Giải thưởng / Thành tựu */}
-          <Milestones lang={lang} />
-          {/* Minh bạch tài chính */}
-          <FinancialReport lang={lang} />
-          {/* Đối tác & Stakeholders */}
+          {/* 1. Hội đồng Cố vấn Chuyên môn (Advisory Board) ngay trên Đội ngũ Cốt lõi */}
+          <AdvisoryBoard lang={lang} />
+
+          {/* 2. Đội ngũ Nhân lực Cốt lõi (Core Team) */}
           <TeamSection lang={lang} />
+
+          {/* 3. Thành tựu / Milestones & Minh bạch tài chính */}
+          <Milestones lang={lang} />
+          <FinancialReport lang={lang} />
+
+          {/* 4. Bên liên quan & Hệ sinh thái (Partners & Ecosystem) */}
+          <PartnersEcosystem lang={lang} />
         </section>
 
         {/* Section 7: Cổng Đăng ký Hợp tác & Thu gom (Unified Registration Portal) */}
