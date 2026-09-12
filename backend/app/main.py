@@ -36,7 +36,7 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to RENOVA Circular Materials & ESG Platform API", "docs": "/docs"}
+    return {"message": "Welcome to ECOVAL Circular Materials & ESG Platform API", "docs": "/docs"}
 
 @app.get(f"{settings.API_V1_STR}/health", status_code=status.HTTP_200_OK)
 def health_check():
@@ -302,7 +302,7 @@ def register_brick_takeback(takeback: schemas.BrickTakebackCreate, db: Session =
             estimated_quantity=takeback.estimated_quantity,
             brick_condition=takeback.brick_condition,
             image_url=takeback.image_url,
-            voucher_code="RENOVA-VOUCHER-XANH-2026"
+            voucher_code="ECOVAL-VOUCHER-XANH-2026"
         )
         db.add(db_takeback)
         db.commit()
@@ -356,7 +356,7 @@ def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(securi
 )
 def admin_login(req: schemas.AdminLoginRequest):
     # Static secure mock credentials for the administrative portal
-    if req.username == "admin" and req.password == "renovacircular2026":
+    if req.username == "admin" and req.password == "ecovalcircular2026":
         access_token = create_access_token(data={"sub": "admin", "role": "admin"})
         return {"token": access_token, "username": "admin", "success": True}
     raise HTTPException(
@@ -659,7 +659,7 @@ from fastapi.responses import StreamingResponse
     f"{settings.API_V1_STR}/ai/chat",
     response_model=schemas.ChatResponse,
     status_code=status.HTTP_200_OK,
-    summary="Chat with RENOVA AI sustainability advisor"
+    summary="Chat with ECOVAL AI sustainability advisor"
 )
 def chat_with_ai(req: schemas.ChatRequest):
     """
@@ -681,7 +681,7 @@ def chat_with_ai(req: schemas.ChatRequest):
 
 @app.post(
     f"{settings.API_V1_STR}/ai/chat/stream",
-    summary="Chat with RENOVA AI (streaming SSE)"
+    summary="Chat with ECOVAL AI (streaming SSE)"
 )
 def chat_with_ai_stream(req: schemas.ChatRequest):
     """

@@ -8,8 +8,8 @@
 
 ## 1. Executive Summary
 
-This design covers three core updates for the RENOVA application:
-1. **Full Rebranding**: Migrate all user-facing and backend brand references from **RENOVA** to **ECOVAL** (ECOVAL Sustainable Materials / ECOVAL Circular). Replace the brand logo across the site with the newly supplied `new_logo.jpeg`.
+This design covers three core updates for the ECOVAL application:
+1. **Full Rebranding**: Migrate all user-facing and backend brand references from **ECOVAL** to **ECOVAL** (ECOVAL Sustainable Materials / ECOVAL Circular). Replace the brand logo across the site with the newly supplied `new_logo.jpeg`.
 2. **DeepSeek API Integration & Benchmarking**: Migrate the LLM inference layer from Groq/Ollama to DeepSeek API (`deepseek-chat` / DeepSeek-V3). Include a automated benchmark suite (`test_deepseek_bench.py`) to measure latency, token usage, cost variance, and answer quality across 10 realistic customer inquiries.
 3. **Dedicated ECOVAL AI Workspace Page (`/ai-assistant`)**: Build a full-featured, 3-column AI interactive page at `frontend/src/app/ai-assistant/page.tsx` for purchasing gạch bông gió (breeze blocks), calculating ESG/EPR savings, and viewing technical drawings & CAD specifications.
 
@@ -18,16 +18,16 @@ This design covers three core updates for the RENOVA application:
 ## 2. Rebranding & Asset Migration Specs
 
 ### 2.1 Asset Updates
-- Source Logo: `c:\Users\Nam\Projects\Web Development (On-going)\Renova\new_logo.jpeg`
+- Source Logo: `c:\Users\Nam\Projects\Web Development (On-going)\Ecoval\new_logo.jpeg`
 - Destination Logo: `frontend/public/ecoval_logo.jpeg`
 - Update Header/Navigation logo references in `frontend/src/app/page.tsx` and Footer to point to `/ecoval_logo.jpeg`.
 
 ### 2.2 Brand Text Substitutions
 Replace all brand instances across the codebase:
-- `RENOVA` ➔ `ECOVAL`
-- `RENOVA Circular` ➔ `ECOVAL Sustainable Materials`
-- `Gạch RENOVA` / `Gạch bông gió RENOVA` ➔ `Gạch ECOVAL` / `Gạch bông gió ECOVAL`
-- `renova_knowledge` ➔ `ecoval_knowledge`
+- `ECOVAL` ➔ `ECOVAL`
+- `ECOVAL Circular` ➔ `ECOVAL Sustainable Materials`
+- `Gạch ECOVAL` / `Gạch bông gió ECOVAL` ➔ `Gạch ECOVAL` / `Gạch bông gió ECOVAL`
+- `ecoval_knowledge` ➔ `ecoval_knowledge`
 - Affected areas: `frontend/src/components/*`, `frontend/src/app/*`, `ai/knowledge/*.md`, `ai/rag/config.py`, `backend/app/services/*.py`, `backend/app/schemas.py`, `backend/app/main.py`.
 
 ---

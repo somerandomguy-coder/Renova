@@ -11,7 +11,7 @@ from app.main import app
 import app.models as models
 
 # Set up test database (SQLite in memory or separate file)
-TEST_DATABASE_URL = "sqlite:///./test_renova.db"
+TEST_DATABASE_URL = "sqlite:///./test_ecoval.db"
 engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -35,9 +35,9 @@ def setup_database():
     # Dispose of engine to release file locks on Windows
     engine.dispose()
     # Clean up test files
-    if os.path.exists("test_renova.db"):
+    if os.path.exists("test_ecoval.db"):
         try:
-            os.remove("test_renova.db")
+            os.remove("test_ecoval.db")
         except Exception:
             pass
     if os.path.exists("mock_emails"):
@@ -78,7 +78,7 @@ def test_epr_calculator():
     data = response.json()
     assert data["standard_epr_fee_vnd"] == 1000 * 15000.0
     assert data["optimized_epr_fee_vnd"] == (1000 * 15000.0) * 0.60
-    assert data["renova_bricks_needed"] == 1667 # 1000 / 0.60 = 1666.67 -> ceil is 1667
+    assert data["ecoval_bricks_needed"] == 1667 # 1000 / 0.60 = 1666.67 -> ceil is 1667
 
 def test_register_epr_partner():
     payload = {
@@ -130,7 +130,7 @@ def test_register_collector():
 def admin_headers():
     payload = {
         "username": "admin",
-        "password": "renovacircular2026"
+        "password": "ecovalcircular2026"
     }
     response = client.post("/api/v1/admin/login", json=payload)
     token = response.json()["token"]
@@ -142,7 +142,7 @@ def test_admin_login():
     # Test valid credentials
     payload = {
         "username": "admin",
-        "password": "renovacircular2026"
+        "password": "ecovalcircular2026"
     }
     response = client.post("/api/v1/admin/login", json=payload)
     assert response.status_code == 200
@@ -332,5 +332,5 @@ def test_register_brick_takeback():
     data = response.json()
     assert data["customer_name"] == "Công ty Xây dựng Xanh"
     assert data["phone"] == "0914626717"
-    assert data["voucher_code"] == "RENOVA-VOUCHER-XANH-2026"
+    assert data["voucher_code"] == "ECOVAL-VOUCHER-XANH-2026"
     assert data["status"] == "Starting"

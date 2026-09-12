@@ -27,7 +27,7 @@ def hash_email(email: str) -> str:
     if not email:
         return ""
     # Standard SHA-256 with static salt for deterministic exact-matching lookup
-    salt = "renova-salt-2026"
+    salt = "ecoval-salt-2026"
     return hashlib.sha256((email.strip().lower() + salt).encode()).hexdigest()
 
 # JWT Auth helpers
