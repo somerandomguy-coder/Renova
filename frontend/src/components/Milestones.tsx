@@ -12,7 +12,7 @@ const translations = {
   vi: {
     title: "Bảng vàng ",
     titleHighlight: "Thành tựu & Giải thưởng",
-    subtitle: "Những dấu mốc và chứng chỉ chất lượng uy tín bảo chứng cho sự nỗ lực phát triển công nghệ và ý thức xã hội của đội ngũ dự án RENOVA.",
+    subtitle: "Những dấu mốc và chứng chỉ chất lượng uy tín bảo chứng cho sự nỗ lực phát triển công nghệ và ý thức xã hội của đội ngũ dự án ECOVAL.",
     awardsMetric: "Giải thưởng Lớn đạt được",
     standardsMetric: "Vật liệu Lab đạt chuẩn chất lượng",
     certScanText: " (Xem bản Scan xác thực)",
@@ -27,7 +27,7 @@ const translations = {
       {
         title: "Ghi nhận tại Cuộc thi Sản phẩm và Sáng kiến Công nghệ Tái chế 2025",
         subtitle: "Hiệp hội Tái chế Chất thải Việt Nam",
-        description: "Nhóm RENOVA được Hiệp hội Tái chế Chất thải Việt Nam khen tặng vì thành tích tại cuộc thi, đánh dấu bước xác nhận đầu tiên đối với hướng nghiên cứu vật liệu tuần hoàn của dự án.",
+        description: "Nhóm ECOVAL được Hiệp hội Tái chế Chất thải Việt Nam khen tặng vì thành tích tại cuộc thi, đánh dấu bước xác nhận đầu tiên đối với hướng nghiên cứu vật liệu tuần hoàn của dự án.",
         certName: "Bằng khen Hiệp hội Tái chế Chất thải Việt Nam",
         date: "ngày 26/11/2025"
       },
@@ -43,7 +43,7 @@ const translations = {
   en: {
     title: "Achievements ",
     titleHighlight: "& Awards",
-    subtitle: "Key milestones and quality certifications validating RENOVA's commitment to tech innovation and social responsibility.",
+    subtitle: "Key milestones and quality certifications validating ECOVAL's commitment to tech innovation and social responsibility.",
     awardsMetric: "Major Awards Achieved",
     standardsMetric: "Lab Quality Standards Met",
     certScanText: " (View verified scan)",
@@ -65,7 +65,7 @@ const translations = {
       {
         title: "Corporate Partnership & Pilot Validation",
         subtitle: "Anh Thuy Technology, Equipment, Service & Environment JSC",
-        description: "Official corporate validation certifying the deployment of RENOVA eco-breeze blocks in active construction projects, collaborating on field application testing and evaluating material durability under environmental conditions.",
+        description: "Official corporate validation certifying the deployment of ECOVAL eco-breeze blocks in active construction projects, collaborating on field application testing and evaluating material durability under environmental conditions.",
         certName: "Written Certification of Work Application",
         date: "May 2026"
       }

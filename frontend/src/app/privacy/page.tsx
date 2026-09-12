@@ -21,9 +21,9 @@ export default function PrivacyPolicyPage() {
           </a>
           <div className="h-4 w-px bg-brand-border dark:bg-zinc-800" />
           <div className="flex items-center gap-2.5">
-            <img src="/renova_logo.png" alt="RENOVA Logo" className="h-8 sm:h-9 w-auto object-contain dark:brightness-110" />
+            <img src="/ecoval_logo.png" alt="ECOVAL Logo" className="h-8 sm:h-9 w-auto object-contain dark:brightness-110" />
             <span className="font-bold text-xs sm:text-sm tracking-wide text-brand-primary dark:text-amber-400 hidden xs:inline-block">
-              RENOVA — PRIVACY POLICY
+              ECOVAL — PRIVACY POLICY
             </span>
           </div>
         </div>
@@ -55,7 +55,7 @@ export default function PrivacyPolicyPage() {
               {lang === "vi" ? "Chính Sách & Điều Khoản Bảo Mật" : "Privacy Policy & Data Security"}
             </h1>
             <p className="text-xs sm:text-sm text-brand-text-muted dark:text-zinc-400 mt-2">
-              {lang === "vi" ? "Cập nhật lần cuối: Ngày 09 tháng 08 năm 2026 | Áp dụng cho hệ sinh thái RENOVA Circular Materials" : "Last updated: August 09, 2026 | Applies to RENOVA Circular Materials Platform"}
+              {lang === "vi" ? "Cập nhật lần cuối: Ngày 09 tháng 08 năm 2026 | Áp dụng cho hệ sinh thái ECOVAL Circular Materials" : "Last updated: August 09, 2026 | Applies to ECOVAL Circular Materials Platform"}
             </p>
           </div>
 
@@ -66,7 +66,7 @@ export default function PrivacyPolicyPage() {
                   <Lock size={18} className="shrink-0" /> 1. Cam Kết Bảo Mật Thông Tin
                 </h2>
                 <p>
-                  RENOVA Circular Materials ("chúng tôi") cam kết bảo vệ tuyệt đối thông tin cá nhân và dữ liệu doanh nghiệp của khách hàng khi đăng ký tư vấn giải pháp gạch bông gió sinh thái, báo cáo ESG và chứng nhận EPR.
+                  ECOVAL Circular Materials ("chúng tôi") cam kết bảo vệ tuyệt đối thông tin cá nhân và dữ liệu doanh nghiệp của khách hàng khi đăng ký tư vấn giải pháp gạch bông gió sinh thái, báo cáo ESG và chứng nhận EPR.
                 </p>
               </section>
 
@@ -94,8 +94,8 @@ export default function PrivacyPolicyPage() {
               <section className="space-y-2">
                 <h2 className="text-sm sm:text-base font-bold text-brand-primary dark:text-amber-300 font-heading">4. Quyền Hạn Của Người Dùng</h2>
                 <p>
-                  Khách hàng có quyền yêu cầu trích xuất, chỉnh sửa hoặc xóa hoàn toàn dữ liệu cá nhân khỏi hệ thống của RENOVA bất kỳ lúc nào bằng cách gửi yêu cầu về email chính thức: 
-                  <span className="text-brand-primary dark:text-amber-400 font-semibold ml-1">renova.project268@gmail.com</span>.
+                  Khách hàng có quyền yêu cầu trích xuất, chỉnh sửa hoặc xóa hoàn toàn dữ liệu cá nhân khỏi hệ thống của ECOVAL bất kỳ lúc nào bằng cách gửi yêu cầu về email chính thức: 
+                  <span className="text-brand-primary dark:text-amber-400 font-semibold ml-1">ecoval.project268@gmail.com</span>.
                 </p>
               </section>
             </div>
@@ -106,7 +106,7 @@ export default function PrivacyPolicyPage() {
                   <Lock size={18} className="shrink-0" /> 1. Privacy Commitment
                 </h2>
                 <p>
-                  RENOVA Circular Materials ("we", "our") is strictly committed to protecting the privacy of personal and corporate data submitted through our ESG & EPR calculation portals and partner consultation forms.
+                  ECOVAL Circular Materials ("we", "our") is strictly committed to protecting the privacy of personal and corporate data submitted through our ESG & EPR calculation portals and partner consultation forms.
                 </p>
               </section>
 
@@ -135,7 +135,7 @@ export default function PrivacyPolicyPage() {
                 <h2 className="text-sm sm:text-base font-bold text-brand-primary dark:text-amber-300 font-heading">4. User Rights</h2>
                 <p>
                   You have full rights to request data access, correction, or complete deletion by emailing our compliance team at: 
-                  <span className="text-brand-primary dark:text-amber-400 font-semibold ml-1">renova.project268@gmail.com</span>.
+                  <span className="text-brand-primary dark:text-amber-400 font-semibold ml-1">ecoval.project268@gmail.com</span>.
                 </p>
               </section>
             </div>

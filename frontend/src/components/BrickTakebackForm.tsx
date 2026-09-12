@@ -68,7 +68,7 @@ export default function BrickTakebackForm({ lang }: BrickTakebackFormProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [voucherCode, setVoucherCode] = useState("RENOVA-VOUCHER-XANH-2026");
+  const [voucherCode, setVoucherCode] = useState("ECOVAL-VOUCHER-XANH-2026");
   const [errorMsg, setErrorMsg] = useState("");
 
   const currentConditionObj = BRICK_CONDITIONS.find(c => c.value === formData.brick_condition) || BRICK_CONDITIONS[0];
@@ -90,8 +90,8 @@ export default function BrickTakebackForm({ lang }: BrickTakebackFormProps) {
     if (isSelectedConditionUnusable) {
       setErrorMsg(
         isVi 
-          ? "Rất tiếc! RENOVA chưa thể hỗ trợ thu hồi gạch dính xà bần không thể tách rời. Vui lòng phân loại trước khi gửi."
-          : "Sorry! RENOVA cannot accept bricks mixed with inseparable rubble. Please sort materials before submitting."
+          ? "Rất tiếc! ECOVAL chưa thể hỗ trợ thu hồi gạch dính xà bần không thể tách rời. Vui lòng phân loại trước khi gửi."
+          : "Sorry! ECOVAL cannot accept bricks mixed with inseparable rubble. Please sort materials before submitting."
       );
       return;
     }
@@ -154,8 +154,8 @@ export default function BrickTakebackForm({ lang }: BrickTakebackFormProps) {
 
             <p className="mt-4 text-zinc-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
               {isVi 
-                ? "Biến gạch thải công trình cũ thành voucher ưu đãi và tích điểm ESG. RENOVA cam kết điều xe thu gom tận nơi và đưa gạch vào dây chuyền tái sinh Dòng Đời Thứ Hai."
-                : "Turn old construction brick waste into discount vouchers and ESG credits. RENOVA picks up on-site and recycles them into our Second Life Collection."}
+                ? "Biến gạch thải công trình cũ thành voucher ưu đãi và tích điểm ESG. ECOVAL cam kết điều xe thu gom tận nơi và đưa gạch vào dây chuyền tái sinh Dòng Đời Thứ Hai."
+                : "Turn old construction brick waste into discount vouchers and ESG credits. ECOVAL picks up on-site and recycles them into our Second Life Collection."}
             </p>
           </div>
         </ScrollReveal>
@@ -257,9 +257,9 @@ export default function BrickTakebackForm({ lang }: BrickTakebackFormProps) {
                   <div className="bg-red-500/15 border border-red-500/40 rounded-2xl p-4 flex items-start gap-3 animate-fadeIn">
                     <AlertTriangle size={20} className="text-red-400 shrink-0 mt-0.5" />
                     <div className="text-xs sm:text-sm text-red-200 leading-relaxed">
-                      <strong>{isVi ? "Thông báo từ RENOVA:" : "Notice from RENOVA:"}</strong>{" "}
+                      <strong>{isVi ? "Thông báo từ ECOVAL:" : "Notice from ECOVAL:"}</strong>{" "}
                       {isVi 
-                        ? "Xin lỗi quý khách, RENOVA chưa thể hỗ trợ thu hồi đối với gạch bị lẫn xà bần hoặc dính xi măng không thể tách rời. Quý khách vui lòng phân loại gạch còn bề mặt sạch trước khi yêu cầu thu gom!"
+                        ? "Xin lỗi quý khách, ECOVAL chưa thể hỗ trợ thu hồi đối với gạch bị lẫn xà bần hoặc dính xi măng không thể tách rời. Quý khách vui lòng phân loại gạch còn bề mặt sạch trước khi yêu cầu thu gom!"
                         : "Sorry, we cannot accept bricks mixed with inseparable rubble or solid concrete. Please sort clean bricks before requesting pickup!"}
                     </div>
                   </div>
@@ -336,8 +336,8 @@ export default function BrickTakebackForm({ lang }: BrickTakebackFormProps) {
 
                 <p className="text-center text-[11px] text-zinc-400">
                   {isVi 
-                    ? "🔒 Thông tin của quý khách được bảo mật tuyệt đối theo tiêu chuẩn ESG RENOVA."
-                    : "🔒 Your privacy is fully secured under RENOVA ESG standards."}
+                    ? "🔒 Thông tin của quý khách được bảo mật tuyệt đối theo tiêu chuẩn ESG ECOVAL."
+                    : "🔒 Your privacy is fully secured under ECOVAL ESG standards."}
                 </p>
 
               </form>
@@ -358,7 +358,7 @@ export default function BrickTakebackForm({ lang }: BrickTakebackFormProps) {
 
                 <p className="text-sm text-zinc-300 mt-2 max-w-md mx-auto leading-relaxed">
                   {isVi 
-                    ? `Đội ngũ khảo sát RENOVA sẽ liên hệ SĐT ${formData.phone} trong vòng 24h để xác nhận lịch điều xe thu gom tại ${formData.collection_address}.`
+                    ? `Đội ngũ khảo sát ECOVAL sẽ liên hệ SĐT ${formData.phone} trong vòng 24h để xác nhận lịch điều xe thu gom tại ${formData.collection_address}.`
                     : `Our team will contact ${formData.phone} within 24 hours to schedule pickup at ${formData.collection_address}.`}
                 </p>
 

@@ -12,11 +12,11 @@ const translations = {
   vi: {
     title: "Sản phẩm & ",
     titleHighlight: "Ưu thế vượt trội",
-    subtitle: "Khác biệt vượt trội của gạch bông gió sinh thái RENOVA so với các vật liệu xây dựng truyền thống trên thị trường về cả thông số kỹ thuật lẫn bảo vệ môi trường.",
+    subtitle: "Khác biệt vượt trội của gạch bông gió sinh thái ECOVAL so với các vật liệu xây dựng truyền thống trên thị trường về cả thông số kỹ thuật lẫn bảo vệ môi trường.",
     techProp: "Đặc tính kỹ thuật",
     superior: "Vượt trội",
     categories: [
-      { name: "Gạch bông gió RENOVA", sub: "Vật liệu sinh thái thế hệ mới" },
+      { name: "Gạch bông gió ECOVAL", sub: "Vật liệu sinh thái thế hệ mới" },
       { name: "Bông gió Bê tông / Xi măng", sub: "Phương pháp truyền thống nặng" },
       { name: "Bông gió Đất nung", sub: "Đất sét nung nhiệt độ cao" }
     ],
@@ -66,11 +66,11 @@ const translations = {
   en: {
     title: "Comparison ",
     titleHighlight: "Superior Advantages",
-    subtitle: "The outstanding advantages of RENOVA eco breeze blocks compared to traditional materials in terms of physical specifications and eco-impact.",
+    subtitle: "The outstanding advantages of ECOVAL eco breeze blocks compared to traditional materials in terms of physical specifications and eco-impact.",
     techProp: "Technical Properties",
     superior: "Superior",
     categories: [
-      { name: "RENOVA Breeze Block", sub: "Next-gen eco material" },
+      { name: "ECOVAL Breeze Block", sub: "Next-gen eco material" },
       { name: "Concrete / Cement Block", sub: "Heavy traditional method" },
       { name: "Clay Terracotta Block", sub: "High-heat kiln fired clay" }
     ],
@@ -120,7 +120,7 @@ const translations = {
 };
 
 export default function ComparisonMatrix({ lang }: ComparisonMatrixProps) {
-  const [hoveredCol, setHoveredCol] = useState<number | null>(0); // Default focus on RENOVA
+  const [hoveredCol, setHoveredCol] = useState<number | null>(0); // Default focus on ECOVAL
   const t = translations[lang];
 
   const categories = t.categories;
@@ -177,36 +177,36 @@ export default function ComparisonMatrix({ lang }: ComparisonMatrixProps) {
 
                 {/* Columns headers */}
                 {categories.map((cat, idx) => {
-                  const isRenova = idx === 0;
+                  const isEcoval = idx === 0;
                   const isHighlighted = hoveredCol === idx;
 
                   return (
                     <th 
                       key={idx}
                       onMouseEnter={() => setHoveredCol(idx)}
-                      onMouseLeave={() => setHoveredCol(0)} // Reset back to highlight RENOVA
+                      onMouseLeave={() => setHoveredCol(0)} // Reset back to highlight ECOVAL
                       className="py-6 px-5 text-center rounded-xl transition-all duration-300 cursor-default w-1/4"
                       style={{
                         background: isHighlighted 
-                          ? isRenova 
+                          ? isEcoval 
                             ? "linear-gradient(180deg, rgba(145, 71, 36, 0.15) 0%, rgba(17, 21, 19, 0.9) 100%)"
                             : "rgba(255, 255, 255, 0.03)"
-                          : isRenova 
+                          : isEcoval 
                             ? "rgba(145, 71, 36, 0.05)"
                             : "transparent",
                         border: isHighlighted
-                          ? isRenova
+                          ? isEcoval
                             ? "1px solid rgba(145, 71, 36, 0.3)"
                             : "1px solid rgba(255, 255, 255, 0.1)"
-                          : isRenova
+                          : isEcoval
                             ? "1px solid rgba(145, 71, 36, 0.15)"
                             : "1px solid transparent",
-                        boxShadow: isHighlighted && isRenova ? "0 10px 30px rgba(145, 71, 36, 0.08)" : "none"
+                        boxShadow: isHighlighted && isEcoval ? "0 10px 30px rgba(145, 71, 36, 0.08)" : "none"
                       }}
                     >
                       <h3 
                         className="text-lg font-heading"
-                        style={{ color: isRenova ? "var(--color-brand-primary)" : "#fff" }}
+                        style={{ color: isEcoval ? "var(--color-brand-primary)" : "#fff" }}
                       >
                         {cat.name}
                       </h3>
@@ -230,7 +230,7 @@ export default function ComparisonMatrix({ lang }: ComparisonMatrixProps) {
 
                   {/* Param values for each option */}
                   {param.values.map((val, colIdx) => {
-                    const isRenova = colIdx === 0;
+                    const isEcoval = colIdx === 0;
                     const isHighlighted = hoveredCol === colIdx;
 
                     return (
@@ -241,20 +241,20 @@ export default function ComparisonMatrix({ lang }: ComparisonMatrixProps) {
                         className="p-4 text-center rounded-xl text-xs leading-normal transition-all duration-300"
                         style={{
                           background: isHighlighted 
-                            ? isRenova
+                            ? isEcoval
                               ? "rgba(145, 71, 36, 0.08)"
                               : "rgba(255, 255, 255, 0.02)"
-                            : isRenova
+                            : isEcoval
                               ? "rgba(145, 71, 36, 0.03)"
                               : "transparent",
-                          border: isHighlighted && isRenova
+                          border: isHighlighted && isEcoval
                             ? "1px solid rgba(145, 71, 36, 0.2)"
                             : "1px solid transparent",
                           color: val.highlight ? "#ffffff" : "var(--color-brand-text-muted)",
                           fontWeight: val.highlight ? "700" : "400"
                         }}
                       >
-                        {isRenova && (
+                        {isEcoval && (
                           <span className="text-[10px] uppercase bg-brand-primary/20 text-brand-primary px-1.5 py-0.5 rounded mr-1.5 align-middle">
                             {t.superior}
                           </span>

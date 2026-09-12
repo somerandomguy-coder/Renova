@@ -86,102 +86,102 @@ const EMAIL_TEMPLATES = {
     {
       id: "epr_onboarding",
       name: "Onboarding Intake (Tiếng Việt)",
-      subject: "RENOVA: Xác nhận Đăng ký Tư vấn Đối tác EPR",
+      subject: "ECOVAL: Xác nhận Đăng ký Tư vấn Đối tác EPR",
       body: `Kính gửi [ContactName],
 
-Cảm ơn công ty [CompanyName] đã đăng ký chương trình Đối tác EPR cùng RENOVA. Chúng tôi xin xác nhận thông tin đăng ký tư vấn sản lượng rác thải nhựa hàng năm là [AnnualWaste] kg.
+Cảm ơn công ty [CompanyName] đã đăng ký chương trình Đối tác EPR cùng ECOVAL. Chúng tôi xin xác nhận thông tin đăng ký tư vấn sản lượng rác thải nhựa hàng năm là [AnnualWaste] kg.
 
-Bộ phận kỹ thuật và pháp lý của RENOVA đang chuẩn bị hồ sơ phân tích tối ưu chi phí EPR cho doanh nghiệp của bạn. Chúng tôi sẽ liên hệ trực tiếp qua số điện thoại [Phone] trong thời gian sớm nhất để thống nhất lịch hẹn.
+Bộ phận kỹ thuật và pháp lý của ECOVAL đang chuẩn bị hồ sơ phân tích tối ưu chi phí EPR cho doanh nghiệp của bạn. Chúng tôi sẽ liên hệ trực tiếp qua số điện thoại [Phone] trong thời gian sớm nhất để thống nhất lịch hẹn.
 
 Trân trọng,
-Ban Quản lý Chương trình RENOVA EPR.`
+Ban Quản lý Chương trình ECOVAL EPR.`
     },
     {
       id: "epr_followup",
       name: "Follow-up Proposal (Tiếng Việt)",
-      subject: "RENOVA: Theo dõi Đề xuất Hợp tác Tối ưu EPR",
+      subject: "ECOVAL: Theo dõi Đề xuất Hợp tác Tối ưu EPR",
       body: `Kính gửi [ContactName],
 
-Chúng tôi liên hệ lại để theo dõi hồ sơ Đăng ký Đối tác EPR của [CompanyName]. RENOVA đã soạn thảo bản đề xuất hợp tác thu gom nhựa MLP và tối ưu thuế phí đóng góp cho dự án.
+Chúng tôi liên hệ lại để theo dõi hồ sơ Đăng ký Đối tác EPR của [CompanyName]. ECOVAL đã soạn thảo bản đề xuất hợp tác thu gom nhựa MLP và tối ưu thuế phí đóng góp cho dự án.
 
 Vui lòng phản hồi email này hoặc liên hệ lại với chúng tôi qua số điện thoại [Phone] để trao đổi chi tiết hơn về các điều khoản hợp tác.
 
 Trân trọng,
-Ban Quản lý Chương trình RENOVA EPR.`
+Ban Quản lý Chương trình ECOVAL EPR.`
     },
     {
       id: "epr_cert",
       name: "EPR Certificate Issuance (Song ngữ)",
-      subject: "RENOVA Circular: Cấp Chứng nhận Bù đắp Dấu chân Nhựa / Plastic Footprint Offset Certificate",
+      subject: "ECOVAL Circular: Cấp Chứng nhận Bù đắp Dấu chân Nhựa / Plastic Footprint Offset Certificate",
       body: `Kính gửi [ContactName],
 
-Đại diện dự án RENOVA Circular xin trân trọng gửi tới [CompanyName] Chứng nhận Tuân thủ nghĩa vụ EPR và bù đắp dấu chân nhựa năm 2026.
+Đại diện dự án ECOVAL Circular xin trân trọng gửi tới [CompanyName] Chứng nhận Tuân thủ nghĩa vụ EPR và bù đắp dấu chân nhựa năm 2026.
 
-Hồ sơ chứng nhận điện tử và báo cáo sản lượng thu hồi thực tế đã được cập nhật thành công trên hệ thống RENOVA Circular Portal. Quý khách hàng có thể tra cứu và tích hợp báo cáo phát thải bất kỳ lúc nào.
+Hồ sơ chứng nhận điện tử và báo cáo sản lượng thu hồi thực tế đã được cập nhật thành công trên hệ thống ECOVAL Circular Portal. Quý khách hàng có thể tra cứu và tích hợp báo cáo phát thải bất kỳ lúc nào.
 
 Trân trọng / Best regards,
-Ban Giám đốc RENOVA Circular.`
+Ban Giám đốc ECOVAL Circular.`
     }
   ],
   architecture: [
     {
       id: "arch_onboarding",
       name: "Onboarding Consultation (Tiếng Việt)",
-      subject: "RENOVA: Xác nhận Đăng ký Tư vấn Công trình Xanh",
+      subject: "ECOVAL: Xác nhận Đăng ký Tư vấn Công trình Xanh",
       body: `Kính gửi [ContactName],
 
-Cảm ơn bạn đã đăng ký tư vấn giải pháp công trình xanh RENOVA cho địa điểm tại [Location] với diện tích bề mặt lắp đặt dự kiến là [SurfaceArea] m2.
+Cảm ơn bạn đã đăng ký tư vấn giải pháp công trình xanh ECOVAL cho địa điểm tại [Location] với diện tích bề mặt lắp đặt dự kiến là [SurfaceArea] m2.
 
-Đội ngũ Kiến trúc sư và Kỹ sư RENOVA đang xem xét sơ đồ công trình của bạn để đưa ra phương án thiết kế gạch bông gió Heritage tối ưu hóa thông gió tự nhiên và cách nhiệt. Chúng tôi sẽ sớm liên hệ lại qua email hoặc số điện thoại [Phone].
+Đội ngũ Kiến trúc sư và Kỹ sư ECOVAL đang xem xét sơ đồ công trình của bạn để đưa ra phương án thiết kế gạch bông gió Heritage tối ưu hóa thông gió tự nhiên và cách nhiệt. Chúng tôi sẽ sớm liên hệ lại qua email hoặc số điện thoại [Phone].
 
 Trân trọng,
-Phòng Thiết kế Công trình Xanh RENOVA.`
+Phòng Thiết kế Công trình Xanh ECOVAL.`
     },
     {
       id: "arch_followup",
       name: "Request CAD Drawings (Tiếng Việt)",
-      subject: "RENOVA: Yêu cầu Bản vẽ Sơ đồ Công trình",
+      subject: "ECOVAL: Yêu cầu Bản vẽ Sơ đồ Công trình",
       body: `Kính gửi [ContactName],
 
-Chúng tôi muốn tiếp tục thảo luận về phương án thiết kế thông gió và cung cấp gạch RENOVA cho công trình tại [Location].
+Chúng tôi muốn tiếp tục thảo luận về phương án thiết kế thông gió và cung cấp gạch ECOVAL cho công trình tại [Location].
 
 Vui lòng cung cấp thêm bản vẽ CAD hoặc mặt bằng chi tiết của khu vực [SurfaceArea] m2 cần lắp đặt để chúng tôi tính toán số lượng gạch chính xác và lên báo giá ưu đãi cho dự án.
 
 Trân trọng,
-Phòng Kinh doanh RENOVA.`
+Phòng Kinh doanh ECOVAL.`
     },
     {
       id: "arch_proposal",
       name: "Passive Cooling Proposal (Song ngữ)",
-      subject: "RENOVA: Đề xuất Giải pháp Kỹ thuật Thông gió Thụ động / Passive Cooling Technical Proposal",
+      subject: "ECOVAL: Đề xuất Giải pháp Kỹ thuật Thông gió Thụ động / Passive Cooling Technical Proposal",
       body: `Kính gửi [ContactName],
 
-RENOVA xin gửi Bản đề xuất Giải pháp kỹ thuật thông gió thụ động và cách nhiệt cho công trình tại [Location].
+ECOVAL xin gửi Bản đề xuất Giải pháp kỹ thuật thông gió thụ động và cách nhiệt cho công trình tại [Location].
 
-Giải pháp sử dụng gạch RENOVA giúp giảm tới 35% điện năng làm mát và đạt chứng chỉ Lotus/LEED cho công trình xanh của bạn. Rất mong được hợp tác cùng bạn.
+Giải pháp sử dụng gạch ECOVAL giúp giảm tới 35% điện năng làm mát và đạt chứng chỉ Lotus/LEED cho công trình xanh của bạn. Rất mong được hợp tác cùng bạn.
 
 Trân trọng,
-Đội ngũ kỹ thuật RENOVA.`
+Đội ngũ kỹ thuật ECOVAL.`
     }
   ],
   collection: [
     {
       id: "coll_onboarding",
       name: "Onboarding Guide (Tiếng Việt)",
-      subject: "RENOVA: Xác nhận Đăng ký Mạng lưới Thu gom Nguyên liệu",
+      subject: "ECOVAL: Xác nhận Đăng ký Mạng lưới Thu gom Nguyên liệu",
       body: `Thân gửi [ContactName],
 
-Cảm ơn bạn đã đăng ký tham gia mạng lưới thu gom nguyên liệu rác thải nhựa MLP cùng RENOVA. Chúng tôi đã nhận được thông tin đăng ký của vựa/cá nhân tại địa chỉ [Address].
+Cảm ơn bạn đã đăng ký tham gia mạng lưới thu gom nguyên liệu rác thải nhựa MLP cùng ECOVAL. Chúng tôi đã nhận được thông tin đăng ký của vựa/cá nhân tại địa chỉ [Address].
 
-Đại diện thu mua của RENOVA sẽ liên hệ trực tiếp với bạn qua số điện thoại [Phone] để hướng dẫn quy trình phân loại nhựa sạch, đóng gói và lên lịch trình thu gom định kỳ.
+Đại diện thu mua của ECOVAL sẽ liên hệ trực tiếp với bạn qua số điện thoại [Phone] để hướng dẫn quy trình phân loại nhựa sạch, đóng gói và lên lịch trình thu gom định kỳ.
 
 Trân trọng,
-Ban Điều hành Chuỗi Cung ứng RENOVA.`
+Ban Điều hành Chuỗi Cung ứng ECOVAL.`
     },
     {
       id: "coll_schedule",
       name: "Collection Schedule Setup (Tiếng Việt)",
-      subject: "RENOVA: Điều phối Lịch trình Gom hàng",
+      subject: "ECOVAL: Điều phối Lịch trình Gom hàng",
       body: `Thân gửi [ContactName],
 
 Chúng tôi liên hệ lại về lịch trình thu gom rác thải nhựa MLP tại địa điểm [Address].
@@ -189,20 +189,20 @@ Chúng tôi liên hệ lại về lịch trình thu gom rác thải nhựa MLP t
 Vui lòng xác nhận sản lượng nhựa hiện tại đã tích lũy được qua số điện thoại [Phone] để chúng tôi điều phối phương tiện vận chuyển phù hợp đến tiếp nhận.
 
 Trân trọng,
-Ban Điều hành Chuỗi Cung ứng RENOVA.`
+Ban Điều hành Chuỗi Cung ứng ECOVAL.`
     },
     {
       id: "coll_agreement",
       name: "Partnership updates (Tiếng Việt)",
-      subject: "RENOVA: Cập nhật Bảng giá Thu mua Nguyên liệu",
+      subject: "ECOVAL: Cập nhật Bảng giá Thu mua Nguyên liệu",
       body: `Thân gửi [ContactName],
 
-RENOVA xin gửi lời cảm ơn sâu sắc vì sự đồng hành của vựa/cá nhân tại [Address] trong chiến dịch làm sạch rác thải nhựa MLP đại dương.
+ECOVAL xin gửi lời cảm ơn sâu sắc vì sự đồng hành của vựa/cá nhân tại [Address] trong chiến dịch làm sạch rác thải nhựa MLP đại dương.
 
 Chúng tôi xin gửi thông tin cập nhật về bảng giá thu mua nguyên liệu mới nhất và các chương trình hỗ trợ thiết bị bảo hộ lao động cho các cộng tác viên.
 
 Trân trọng,
-Ban Điều hành Chuỗi Cung ứng RENOVA.`
+Ban Điều hành Chuỗi Cung ứng ECOVAL.`
     }
   ]
 };const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -722,13 +722,13 @@ export default function AdminDashboard() {
         <div className="w-full max-w-md bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 p-8 rounded-2xl shadow-2xl relative z-10 animate-float">
           <div className="text-center mb-8">
             <div className="flex justify-center items-center gap-2 mb-3">
-              <img src="/Logo.png" alt="RENOVA Logo" className="h-10 w-auto rounded object-contain" />
+              <img src="/Logo.png" alt="ECOVAL Logo" className="h-10 w-auto rounded object-contain" />
               <span className="text-[10px] font-bold text-brand-secondary border border-brand-secondary/35 px-1.5 py-0.5 rounded uppercase">
                 Circular
               </span>
             </div>
             <h1 className="text-2xl font-bold text-zinc-100 font-heading">Hệ thống Quản lý Đối tác</h1>
-            <p className="text-sm text-zinc-400 mt-1">RENOVA Portal Administrative Sign-In</p>
+            <p className="text-sm text-zinc-400 mt-1">ECOVAL Portal Administrative Sign-In</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
@@ -771,7 +771,7 @@ export default function AdminDashboard() {
           </form>
 
           <div className="mt-8 text-center text-xs text-zinc-500">
-            Hệ thống bảo mật nội bộ của RENOVA Circular. &copy; 2026.
+            Hệ thống bảo mật nội bộ của ECOVAL Circular. &copy; 2026.
           </div>
         </div>
       </div>
@@ -802,7 +802,7 @@ export default function AdminDashboard() {
           {/* Logo Brand area */}
           <div className={`p-6 border-b flex items-center justify-between ${themeBorder}`}>
             <div className="flex items-center gap-2">
-              <img src="/Logo.png" alt="RENOVA Logo" className="h-7 w-auto rounded object-contain" />
+              <img src="/Logo.png" alt="ECOVAL Logo" className="h-7 w-auto rounded object-contain" />
               <span className="text-[9px] font-bold text-brand-secondary border border-brand-secondary/35 px-1 py-0.5 rounded uppercase">
                 Circular
               </span>

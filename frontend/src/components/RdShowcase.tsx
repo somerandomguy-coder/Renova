@@ -25,7 +25,7 @@ const translations = {
   vi: {
     title: "Thư viện số ",
     titleHighlight: "Mẫu thử R&D",
-    subtitle: "Khám phá chi tiết các giai đoạn nghiên cứu, thử nghiệm và tối ưu hóa các phiên bản vật liệu RENOVA qua từng cột mốc kỹ thuật khắt khe.",
+    subtitle: "Khám phá chi tiết các giai đoạn nghiên cứu, thử nghiệm và tối ưu hóa các phiên bản vật liệu ECOVAL qua từng cột mốc kỹ thuật khắt khe.",
     colVersion: "Phiên bản",
     colStatus: "Trạng thái",
     statusCompleted: "Đã xong",
@@ -44,7 +44,7 @@ const translations = {
   en: {
     title: "Digital R&D ",
     titleHighlight: "Specimen Matrix",
-    subtitle: "Detailed overview of research, testing, and optimization stages across all RENOVA material iterations subject to strict engineering protocols.",
+    subtitle: "Detailed overview of research, testing, and optimization stages across all ECOVAL material iterations subject to strict engineering protocols.",
     colVersion: "Version & Iteration",
     colStatus: "Development Status",
     statusCompleted: "Completed",

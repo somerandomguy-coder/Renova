@@ -21,9 +21,9 @@ export default function TermsOfServicePage() {
           </a>
           <div className="h-4 w-px bg-brand-border dark:bg-zinc-800" />
           <div className="flex items-center gap-2.5">
-            <img src="/renova_logo.png" alt="RENOVA Logo" className="h-8 sm:h-9 w-auto object-contain dark:brightness-110" />
+            <img src="/ecoval_logo.png" alt="ECOVAL Logo" className="h-8 sm:h-9 w-auto object-contain dark:brightness-110" />
             <span className="font-bold text-xs sm:text-sm tracking-wide text-brand-primary dark:text-amber-400 hidden xs:inline-block">
-              RENOVA — TERMS OF SERVICE
+              ECOVAL — TERMS OF SERVICE
             </span>
           </div>
         </div>
@@ -55,7 +55,7 @@ export default function TermsOfServicePage() {
               {lang === "vi" ? "Quy Chế Thành Viên & Điều Khoản Sử Dụng" : "Terms of Service & Membership Rules"}
             </h1>
             <p className="text-xs sm:text-sm text-brand-text-muted dark:text-zinc-400 mt-2">
-              {lang === "vi" ? "Hiệu lực từ: Ngày 09 tháng 08 năm 2026 | Áp dụng cho hệ sinh thái RENOVA Circular Materials" : "Effective date: August 09, 2026 | Governs RENOVA Circular Materials Ecosystem"}
+              {lang === "vi" ? "Hiệu lực từ: Ngày 09 tháng 08 năm 2026 | Áp dụng cho hệ sinh thái ECOVAL Circular Materials" : "Effective date: August 09, 2026 | Governs ECOVAL Circular Materials Ecosystem"}
             </p>
           </div>
 
@@ -66,7 +66,7 @@ export default function TermsOfServicePage() {
                   <CheckCircle size={18} className="shrink-0" /> 1. Phạm Vi Áp Dụng
                 </h2>
                 <p>
-                  Văn bản này quy định các điều khoản sử dụng nền tảng số, bộ tính toán ESG, mô hình hoàn phí EPR và dịch vụ trợ lý AI của RENOVA Circular Materials. Việc truy cập và gửi thông tin đăng ký đồng nghĩa với việc đối tác chấp thuận các quy định này.
+                  Văn bản này quy định các điều khoản sử dụng nền tảng số, bộ tính toán ESG, mô hình hoàn phí EPR và dịch vụ trợ lý AI của ECOVAL Circular Materials. Việc truy cập và gửi thông tin đăng ký đồng nghĩa với việc đối tác chấp thuận các quy định này.
                 </p>
               </section>
 
@@ -75,7 +75,7 @@ export default function TermsOfServicePage() {
                   <Scale size={18} className="shrink-0" /> 2. Quy Chuẩn Chất Lượng & Kiểm Định Gạch
                 </h2>
                 <p>
-                  Sản phẩm gạch bông gió sinh thái RENOVA tuân thủ nghiêm ngặt các chứng nhận kiểm định chất lượng:
+                  Sản phẩm gạch bông gió sinh thái ECOVAL tuân thủ nghiêm ngặt các chứng nhận kiểm định chất lượng:
                 </p>
                 <ul className="list-disc pl-5 space-y-1.5 text-brand-text-muted dark:text-zinc-400">
                   <li><strong>Cường độ nén:</strong> Đạt 7.8 - 8.2 MPa (Gen3 Heritage Breeze Block) theo kiểm định Quatest 3.</li>
@@ -89,14 +89,14 @@ export default function TermsOfServicePage() {
                   <Shield size={18} className="shrink-0" /> 3. Trách Nhiệm Thu Gom & Cấp Chứng Chỉ EPR
                 </h2>
                 <p>
-                  Các doanh nghiệp ký kết hợp tác xử lý rác thải nhựa đa lớp (MLP) với RENOVA sẽ được cấp Chứng nhận Hoàn thành Trách nhiệm EPR điện tử. Kết quả tính toán cắt giảm phí EPR (giảm tối đa 40%) dựa trên công thức quy định tại Nghị định 08/2022/NĐ-CP và Nghị định 05/2025/NĐ-CP.
+                  Các doanh nghiệp ký kết hợp tác xử lý rác thải nhựa đa lớp (MLP) với ECOVAL sẽ được cấp Chứng nhận Hoàn thành Trách nhiệm EPR điện tử. Kết quả tính toán cắt giảm phí EPR (giảm tối đa 40%) dựa trên công thức quy định tại Nghị định 08/2022/NĐ-CP và Nghị định 05/2025/NĐ-CP.
                 </p>
               </section>
 
               <section className="space-y-2">
                 <h2 className="text-sm sm:text-base font-bold text-brand-primary dark:text-amber-300 font-heading">4. Quyền Sở Hữu Trí Tuệ</h2>
                 <p>
-                  Toàn bộ thiết kế khuôn mẫu gạch bông gió di sản, mã nguồn công cụ tính toán ESG/EPR và nhãn hiệu <strong>RENOVA Circular Materials</strong> thuộc bản quyền sở hữu trí tuệ của đội ngũ dự án RENOVA.
+                  Toàn bộ thiết kế khuôn mẫu gạch bông gió di sản, mã nguồn công cụ tính toán ESG/EPR và nhãn hiệu <strong>ECOVAL Circular Materials</strong> thuộc bản quyền sở hữu trí tuệ của đội ngũ dự án ECOVAL.
                 </p>
               </section>
             </div>
@@ -107,7 +107,7 @@ export default function TermsOfServicePage() {
                   <CheckCircle size={18} className="shrink-0" /> 1. Scope of Agreement
                 </h2>
                 <p>
-                  These Terms of Service govern the use of RENOVA's digital platform, ESG calculators, EPR fee optimization engine, and AI assistant services. By accessing or submitting forms on the platform, partners agree to abide by these terms.
+                  These Terms of Service govern the use of ECOVAL's digital platform, ESG calculators, EPR fee optimization engine, and AI assistant services. By accessing or submitting forms on the platform, partners agree to abide by these terms.
                 </p>
               </section>
 
@@ -115,7 +115,7 @@ export default function TermsOfServicePage() {
                 <h2 className="text-sm sm:text-base font-bold text-brand-primary dark:text-amber-300 flex items-center gap-2 font-heading">
                   <Scale size={18} className="shrink-0" /> 2. Quality Standards & Certifications
                 </h2>
-                <p>RENOVA eco-breeze block products strictly comply with verified technical standards:</p>
+                <p>ECOVAL eco-breeze block products strictly comply with verified technical standards:</p>
                 <ul className="list-disc pl-5 space-y-1.5 text-brand-text-muted dark:text-zinc-400">
                   <li><strong>Compressive Strength:</strong> Certified 7.8 - 8.2 MPa (Gen3 Heritage) via Quatest 3.</li>
                   <li><strong>UV Resistance:</strong> Tested under SGS 500-hour UV chamber & ASTM G154, backed by a 10-year colorfast warranty.</li>
@@ -128,14 +128,14 @@ export default function TermsOfServicePage() {
                   <Shield size={18} className="shrink-0" /> 3. EPR Collection & Certification
                 </h2>
                 <p>
-                  FMCG partners contracting MLP waste upcycling with RENOVA receive official digital EPR Compliance Certificates. Fee reduction estimates (up to 40%) adhere to Vietnamese Decrees 08/2022/ND-CP and 05/2025/ND-CP.
+                  FMCG partners contracting MLP waste upcycling with ECOVAL receive official digital EPR Compliance Certificates. Fee reduction estimates (up to 40%) adhere to Vietnamese Decrees 08/2022/ND-CP and 05/2025/ND-CP.
                 </p>
               </section>
 
               <section className="space-y-2">
                 <h2 className="text-sm sm:text-base font-bold text-brand-primary dark:text-amber-300 font-heading">4. Intellectual Property</h2>
                 <p>
-                  All heritage block mold designs, ESG calculation algorithms, and the <strong>RENOVA Circular Materials</strong> trademark are the exclusive intellectual property of the RENOVA project team.
+                  All heritage block mold designs, ESG calculation algorithms, and the <strong>ECOVAL Circular Materials</strong> trademark are the exclusive intellectual property of the ECOVAL project team.
                 </p>
               </section>
             </div>

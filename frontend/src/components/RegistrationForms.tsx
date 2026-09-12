@@ -61,7 +61,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
   const [submitted, setSubmitted] = useState(false);
   const [submittedTab, setSubmittedTab] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [voucherCode, setVoucherCode] = useState("RENOVA-VOUCHER-XANH-2026");
+  const [voucherCode, setVoucherCode] = useState("ECOVAL-VOUCHER-XANH-2026");
 
   // Form 1 State: EPR Partner
   const [eprForm, setEprForm] = useState({
@@ -166,8 +166,8 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
     if (isSelectedConditionUnusable) {
       setErrorMessage(
         isVi 
-          ? "Rất tiếc! RENOVA chưa thể hỗ trợ thu hồi gạch dính xà bần không thể tách rời. Vui lòng phân loại trước khi gửi."
-          : "Sorry! RENOVA cannot accept bricks mixed with inseparable rubble. Please sort materials before submitting."
+          ? "Rất tiếc! ECOVAL chưa thể hỗ trợ thu hồi gạch dính xà bần không thể tách rời. Vui lòng phân loại trước khi gửi."
+          : "Sorry! ECOVAL cannot accept bricks mixed with inseparable rubble. Please sort materials before submitting."
       );
       return;
     }
@@ -226,8 +226,8 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
 
             <p className="mt-4 text-brand-text-muted dark:text-zinc-300 text-base sm:text-lg leading-relaxed">
               {isVi 
-                ? "Lựa chọn phân hệ phù hợp để cùng RENOVA biến rác thải nhựa và gạch cũ thành vật liệu tuần hoàn di sản."
-                : "Select the appropriate path to collaborate with RENOVA in transforming plastic waste and old bricks into circular materials."}
+                ? "Lựa chọn phân hệ phù hợp để cùng ECOVAL biến rác thải nhựa và gạch cũ thành vật liệu tuần hoàn di sản."
+                : "Select the appropriate path to collaborate with ECOVAL in transforming plastic waste and old bricks into circular materials."}
             </p>
           </div>
         </ScrollReveal>
@@ -293,8 +293,8 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                 <div className="mt-4">
                   <p className="text-sm text-zinc-300 max-w-md mx-auto leading-relaxed">
                     {isVi 
-                      ? `Đội ngũ RENOVA đã tiếp nhận yêu cầu thu gom tại [${takebackForm.collection_address}]. Chúng tôi sẽ liên hệ SĐT ${takebackForm.phone} trong 24h.`
-                      : `RENOVA team received your pickup request at [${takebackForm.collection_address}]. We will contact ${takebackForm.phone} within 24 hours.`}
+                      ? `Đội ngũ ECOVAL đã tiếp nhận yêu cầu thu gom tại [${takebackForm.collection_address}]. Chúng tôi sẽ liên hệ SĐT ${takebackForm.phone} trong 24h.`
+                      : `ECOVAL team received your pickup request at [${takebackForm.collection_address}]. We will contact ${takebackForm.phone} within 24 hours.`}
                   </p>
 
                   <div className="mt-6 bg-gradient-to-br from-emerald-950/70 to-zinc-900 border-2 border-dashed border-emerald-400/50 rounded-2xl p-5 max-w-sm mx-auto shadow-xl">
@@ -312,8 +312,8 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
               ) : (
                 <p className="text-sm text-zinc-300 mt-2 max-w-md mx-auto leading-relaxed">
                   {isVi 
-                    ? "Cảm ơn bạn đã hợp tác cùng RENOVA. Chuyên viên phát triển bền vững của chúng tôi sẽ liên hệ lại qua thông tin cung cấp trong vòng 2 giờ làm việc."
-                    : "Thank you for collaborating with RENOVA. Our sustainability specialist will reach out within 2 business hours."}
+                    ? "Cảm ơn bạn đã hợp tác cùng ECOVAL. Chuyên viên phát triển bền vững của chúng tôi sẽ liên hệ lại qua thông tin cung cấp trong vòng 2 giờ làm việc."
+                    : "Thank you for collaborating with ECOVAL. Our sustainability specialist will reach out within 2 business hours."}
                 </p>
               )}
 
@@ -446,7 +446,7 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                     </h3>
                     <p className="text-xs text-brand-text-muted dark:text-zinc-400 mt-1">
                       {isVi 
-                        ? "Tư vấn thiết kế thông gió thụ động & cung cấp gạch bông gió RENOVA cho KTS và Chủ đầu tư."
+                        ? "Tư vấn thiết kế thông gió thụ động & cung cấp gạch bông gió ECOVAL cho KTS và Chủ đầu tư."
                         : "Passive ventilation design & breeze block supply for architects and developers."}
                     </p>
                   </div>
@@ -558,8 +558,8 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                       </h3>
                       <p className="text-xs text-zinc-300 mt-1 leading-relaxed">
                         {isVi 
-                          ? "Biến gạch thải công trình cũ thành voucher ưu đãi 10%. RENOVA cam kết điều xe thu gom tận nơi."
-                          : "Turn old construction bricks into 10% discount vouchers. RENOVA provides on-site collection."}
+                          ? "Biến gạch thải công trình cũ thành voucher ưu đãi 10%. ECOVAL cam kết điều xe thu gom tận nơi."
+                          : "Turn old construction bricks into 10% discount vouchers. ECOVAL provides on-site collection."}
                       </p>
                     </div>
 
@@ -656,9 +656,9 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
                     <div className="bg-red-500/15 border border-red-500/40 rounded-2xl p-4 flex items-start gap-3 animate-fadeIn">
                       <AlertTriangle size={20} className="text-red-400 shrink-0 mt-0.5" />
                       <div className="text-xs sm:text-sm text-red-200 leading-relaxed">
-                        <strong>{isVi ? "Thông báo từ RENOVA:" : "Notice from RENOVA:"}</strong>{" "}
+                        <strong>{isVi ? "Thông báo từ ECOVAL:" : "Notice from ECOVAL:"}</strong>{" "}
                         {isVi 
-                          ? "Xin lỗi quý khách, RENOVA chưa thể hỗ trợ thu hồi đối với gạch bị lẫn xà bần hoặc dính xi măng không thể tách rời. Quý khách vui lòng phân loại gạch còn bề mặt sạch trước khi yêu cầu thu gom!"
+                          ? "Xin lỗi quý khách, ECOVAL chưa thể hỗ trợ thu hồi đối với gạch bị lẫn xà bần hoặc dính xi măng không thể tách rời. Quý khách vui lòng phân loại gạch còn bề mặt sạch trước khi yêu cầu thu gom!"
                           : "Sorry, we cannot accept bricks mixed with inseparable rubble or solid concrete. Please sort clean bricks before requesting pickup!"}
                       </div>
                     </div>
@@ -733,8 +733,8 @@ export default function RegistrationForms({ lang }: RegistrationFormsProps) {
 
                   <p className="text-center text-[11px] text-zinc-400">
                     {isVi 
-                      ? "🔒 Thông tin của quý khách được bảo mật tuyệt đối theo tiêu chuẩn ESG RENOVA."
-                      : "🔒 Your information is strictly protected under RENOVA ESG standards."}
+                      ? "🔒 Thông tin của quý khách được bảo mật tuyệt đối theo tiêu chuẩn ESG ECOVAL."
+                      : "🔒 Your information is strictly protected under ECOVAL ESG standards."}
                   </p>
                 </form>
               )}
