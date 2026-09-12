@@ -5,10 +5,9 @@ Extended Producer Responsibility (EPR) is a mandatory legal framework in Vietnam
 
 ## Key Regulations
 - **Decree 08/2022/ND-CP**: Established implementation rules, product categories, and the recycling roadmap.
-- **Decree 05/2025/ND-CP**: Revised guidelines on statutory recycling financial contribution & fee offsets.
 - **Circular 02/2022/TT-BTNMT**: Technical guidance on environmental protection implementation.
 
-## How ECOVAL Solves EPR Compliance & 40% Fee Optimization
+## How ECOVAL Solves EPR Compliance
 1. **Upcycling Non-Recyclable Plastics**: ECOVAL processes hard-to-recycle multi-layer plastic (MLP) packaging mixed with agricultural rice husk and coconut coir into high-value heritage breeze blocks.
-2. **40% EPR Fee Reduction Process**: FMCG brand owners and plastic packaging importers can contract upcycling projects with ECOVAL to fulfill their recycling quotas, allowing up to a **40% reduction in statutory EPR financial contributions**.
+2. **EPR Obligation Offsetting**: FMCG brand owners can contribute to or sponsor ECOVAL's upcycling projects to fulfill their statutory recycling quotas.
 3. **Digital ESG & EPR Certificates**: ECOVAL issues verified digital certificates recording plastic tonnage upcycled, CO2 reduced, and material origins.

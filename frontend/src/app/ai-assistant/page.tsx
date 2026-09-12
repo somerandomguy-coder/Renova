@@ -472,13 +472,13 @@ export default function AiAssistantPage() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Prompt Suggestion Chips */}
+                    {/* Quick Prompt Suggestion Chips */}
           <div className="px-6 py-2 border-t border-brand-border dark:border-zinc-900 bg-white/60 dark:bg-zinc-950/80 flex items-center gap-2 overflow-x-auto">
             {[
               lang === "vi" ? "ECOVAL là gì và có những thành tựu nào?" : "What is ECOVAL & key achievements?",
-              lang === "vi" ? "Gạch Gen3 chịu nén mấy MPa?" : "Gen3 Compressive Strength (MPa)?",
-              lang === "vi" ? "Quy trình giảm 40% phí EPR cho doanh nghiệp" : "EPR 40% Fee Reduction Process",
-              lang === "vi" ? "Kích thước gạch chuẩn và công thức ESG" : "Standard Dimensions & ESG Formula"
+              lang === "vi" ? "Tỷ lệ thành phần gạch Gen 3 là bao nhiêu?" : "Gen 3 material composition ratio?",
+              lang === "vi" ? "ECOVAL hỗ trợ doanh nghiệp tuân thủ EPR thế nào?" : "How does ECOVAL solve EPR compliance?",
+              lang === "vi" ? "Lượng nhựa tái chế và CO2 cắt giảm mỗi viên gạch?" : "Plastic upcycled & CO2 saved per block?"
             ].map((prompt, i) => (
               <button
                 key={i}
