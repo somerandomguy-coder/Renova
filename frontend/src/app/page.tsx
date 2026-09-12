@@ -43,46 +43,50 @@ const translations = {
       epr: "Hợp tác EPR",
       rd: "Hành trình R&D",
       about: "Về chúng tôi",
-      ai: "✨ Trợ lý AI",
+      ai: "Trợ lý AI",
       cta: "Đăng ký Hợp tác"
     },
     foot: {
-      slogan: "Quy trình kinh tế tuần hoàn số hóa đột phá. Chuyển đổi rác thải nhựa đa lớp (MLP) bất tử và phế phẩm vỏ trấu nông nghiệp thành gạch bông gió di sản xanh đẳng cấp.",
+      slogan: "Tiên phong chuyển đổi phế phẩm rác thải nhựa đa lớp và vỏ trấu thành vật liệu sinh thái di sản.",
       quickLinks: "Liên kết Nhanh",
       home: "Trang chủ ECOVAL",
       esgTitle: "Định vị & Sứ mệnh ESG",
       productTitle: "Sản phẩm & Ưu thế vượt trội",
       calcTitle: "Bộ công cụ Tính toán ESG/EPR",
+      rdTitle: "Hành trình R&D",
+      aboutTitle: "Hội đồng Cố vấn & Đội ngũ",
       financeTitle: "Minh bạch Tài chính",
       partnerTitle: "Cổng Đăng ký Hợp tác & Thu gom",
-      contact: "Liên hệ & Trụ sở",
+      contact: "Liên hệ & Hợp tác",
       lab: "📍 PTN Vật liệu Xanh & Kinh tế Tuần hoàn ECOVAL - ĐHQG TP.HCM",
       rights: "© 2026 ECOVAL Circular Materials Joint Stock Company. Bảo lưu mọi quyền.",
       privacy: "Chính sách Bảo mật",
-      terms: "Điều khoản Dịch vụ"
+      terms: "Điều khoản Sử dụng"
     }
   },
   en: {
     nav: {
       home: "Home",
       esg: "ESG Mission",
-      product: "Product & Advantages",
+      product: "Products",
       epr: "EPR Solution",
       rd: "R&D Journey",
       about: "About Us",
-      ai: "✨ AI Assistant",
-      cta: "Partner Register"
+      ai: "AI Assistant",
+      cta: "Partner With Us"
     },
     foot: {
-      slogan: "Digitalized circular economy breakthrough. Converting multi-layer plastic (MLP) waste and agricultural rice husk into high-performance biophilic breeze blocks.",
+      slogan: "Pioneering the upcycling of multi-layer plastic (MLP) waste and rice husk into green heritage materials.",
       quickLinks: "Quick Links",
       home: "ECOVAL Home",
-      esgTitle: "ESG Positioning & Mission",
-      productTitle: "Products & Core Advantages",
-      calcTitle: "ESG/EPR Calculation Suite",
+      esgTitle: "ESG Mission",
+      productTitle: "Products",
+      calcTitle: "ESG & EPR Calculator",
+      rdTitle: "R&D Roadmap",
+      aboutTitle: "Advisory Board & Team",
       financeTitle: "Financial Transparency",
-      partnerTitle: "Cooperation & Takeback Portal",
-      contact: "Contact & HQ",
+      partnerTitle: "Cooperation Portal",
+      contact: "Contact & Collaboration",
       lab: "📍 ECOVAL Circular Materials & Green Tech Lab - VNU HCMC",
       rights: "© 2026 ECOVAL Circular Materials Joint Stock Company. All rights reserved.",
       privacy: "Privacy Policy",
@@ -244,7 +248,9 @@ export default function Home() {
 
           {/* 3. Thành tựu / Milestones & Minh bạch tài chính */}
           <Milestones lang={lang} />
-          <FinancialReport lang={lang} />
+          <div id="minh-bach-tai-chinh">
+            <FinancialReport lang={lang} />
+          </div>
 
           {/* 4. Bên liên quan & Hệ sinh thái (Partners & Ecosystem) */}
           <PartnersEcosystem lang={lang} />
@@ -275,15 +281,17 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5">
               <h4 className="font-bold text-brand-text-primary dark:text-white mb-2 font-heading">{foot.quickLinks}</h4>
-              <a href="#hero" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.home}</a>
-              <a href="#su-menh-esg" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.esgTitle}</a>
-              <a href="#uu-the-san-pham" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.productTitle}</a>
-              <a href="#hop-tac-epr" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.calcTitle}</a>
-              <a href="#ve-chung-toi" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.financeTitle}</a>
-              <a href="#dang-ky" className="text-inherit no-underline hover:text-brand-primary transition-colors">{foot.partnerTitle}</a>
-              <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1.5">✨ ECOVAL AI Workspace</a>
+              <a href="#hero" className="text-inherit no-underline hover:text-brand-primary transition-colors text-sm">{foot.home}</a>
+              <a href="#su-menh-esg" className="text-inherit no-underline hover:text-brand-primary transition-colors text-sm">{foot.esgTitle}</a>
+              <a href="#uu-the-san-pham" className="text-inherit no-underline hover:text-brand-primary transition-colors text-sm">{foot.productTitle}</a>
+              <a href="#hop-tac-epr" className="text-inherit no-underline hover:text-brand-primary transition-colors text-sm">{foot.calcTitle}</a>
+              <a href="#hanh-trinh-rd" className="text-inherit no-underline hover:text-brand-primary transition-colors text-sm">{foot.rdTitle}</a>
+              <a href="#hoi-dong-co-van" className="text-inherit no-underline hover:text-brand-primary transition-colors text-sm">{foot.aboutTitle}</a>
+              <a href="#minh-bach-tai-chinh" className="text-inherit no-underline hover:text-brand-primary transition-colors text-sm">{foot.financeTitle}</a>
+              <a href="#dang-ky" className="text-inherit no-underline hover:text-brand-primary transition-colors text-sm">{foot.partnerTitle}</a>
+              <a href="/ai-assistant" className="text-brand-primary font-bold no-underline hover:underline transition-colors flex items-center gap-1.5 text-sm mt-1">✨ ECOVAL AI Workspace</a>
             </div>
 
             <div className="flex flex-col gap-3">
