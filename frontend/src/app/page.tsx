@@ -31,7 +31,7 @@ import TeamSection from "../components/TeamSection";
 import Milestones from "../components/Milestones";
 import FinancialReport from "../components/FinancialReport";
 import RegistrationForms from "../components/RegistrationForms";
-import Stakeholders from "../components/Stakeholders";
+import Stakeholders, { AdvisoryBoard } from "../components/Stakeholders";
 import AiChat from "../components/AiChat";
 
 const translations = {
@@ -234,8 +234,10 @@ export default function Home() {
           <RdShowcase lang={lang} />
         </section>
 
-        {/* Section 6: Về chúng tôi & Năng lực thực thi (Gộp 3 mục) */}
+        {/* Section 6: Về chúng tôi & Năng lực thực thi */}
         <section id="ve-chung-toi">
+          {/* Hội đồng Cố vấn Chuyên môn */}
+          <AdvisoryBoard lang={lang} />
           {/* Profile Team */}
           <TeamSection lang={lang} />
           {/* Giải thưởng / Thành tựu */}

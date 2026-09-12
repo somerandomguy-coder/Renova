@@ -150,7 +150,7 @@ const BRICK_PRODUCTS: ProductItem[] = [
 export default function ProductShowcase({ lang }: ProductShowcaseProps) {
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const [quoteTargetProduct, setQuoteTargetProduct] = useState<string>("Tất cả mẫu gạch ECOVAL");
+  const [quoteTargetProduct, setQuoteTargetProduct] = useState<string>("Tất cả mẫu gạch RENOVA");
   const [quoteSubmitted, setQuoteSubmitted] = useState(false);
   const [quoteForm, setQuoteForm] = useState({
     name: "",
@@ -170,7 +170,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
       setQuoteTargetProduct(productCode);
       setQuoteForm(prev => ({ ...prev, productModel: productCode }));
     } else {
-      setQuoteTargetProduct(isVi ? "Tất cả mẫu gạch ECOVAL" : "All ECOVAL Models");
+      setQuoteTargetProduct(isVi ? "Tất cả mẫu gạch RENOVA" : "All RENOVA Models");
     }
     setIsQuoteModalOpen(true);
     setQuoteSubmitted(false);
@@ -205,8 +205,8 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
               </h2>
               <p className="mt-4 text-brand-text-muted dark:text-zinc-300 text-base sm:text-lg leading-relaxed">
                 {isVi 
-                  ? "Từng viên gạch bông gió ECOVAL là minh chứng sống động của công nghệ ép nhiệt không nung: đồng giá niêm yết 35.000 VNĐ, nhẹ hơn 40% so với gạch xi măng, bền bỉ chống nứt vỡ và không bám rêu mốc."
-                  : "Every ECOVAL breeze block embodies our zero-firing hot compression: uniform listed price of 35,000 VND, 40% lighter than concrete blocks, non-porous and moss-resistant."}
+                  ? "Từng viên gạch bông gió RENOVA là minh chứng sống động của công nghệ ép nhiệt không nung: đồng giá niêm yết 35.000 VNĐ, nhẹ hơn 40% so với gạch xi măng, bền bỉ chống nứt vỡ và không bám rêu mốc."
+                  : "Every RENOVA breeze block embodies our zero-firing hot compression: uniform listed price of 35,000 VND, 40% lighter than concrete blocks, non-porous and moss-resistant."}
               </p>
             </div>
 
@@ -317,8 +317,8 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
               </h3>
               <p className="text-sm text-brand-text-muted dark:text-zinc-300 mt-2">
                 {isVi 
-                  ? "Sự phối hợp hài hòa giữa các mẫu gạch bông gió ECOVAL Mã 001 đến Mã 005 tạo nên diện mạo mặt đứng kiêu sa, thông gió tự nhiên và chống bức xạ nhiệt hoàn hảo."
-                  : "Harmonious combinations of ECOVAL breeze block patterns create sublime facades, natural ventilation, and effective heat deflection."}
+                  ? "Sự phối hợp hài hòa giữa các mẫu gạch bông gió RENOVA Mã 001 đến Mã 005 tạo nên diện mạo mặt đứng kiêu sa, thông gió tự nhiên và chống bức xạ nhiệt hoàn hảo."
+                  : "Harmonious combinations of RENOVA breeze block patterns create sublime facades, natural ventilation, and effective heat deflection."}
               </p>
             </div>
 
@@ -326,16 +326,16 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
               <div className="relative rounded-2xl overflow-hidden border border-white/10 group aspect-4/3 sm:aspect-16/10">
                 <img 
                   src="/products/tuong01.png" 
-                  alt="ECOVAL Green Wall Installation Outdoors"
+                  alt="RENOVA Green Wall Installation Outdoors"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex flex-col justify-end p-6 sm:p-8">
-                  <span className="inline-block bg-black/85 backdrop-blur-md px-3 py-1 rounded-full text-emerald-400 font-mono text-xs font-bold uppercase border border-emerald-500/30 mb-2 shadow-md">Mặt đứng ngoài trời • ECOVAL Lab</span>
+                  <span className="inline-block bg-black/85 backdrop-blur-md px-3 py-1 rounded-full text-emerald-400 font-mono text-xs font-bold uppercase border border-emerald-500/30 mb-2 shadow-md">Mặt đứng ngoài trời • RENOVA Lab</span>
                   <h4 className="text-white font-black text-lg sm:text-xl font-heading mt-1">
                     {isVi ? "Vách Ngăn Thông Gió Biophilic Ngoài Trời" : "Biophilic Outdoor Ventilation Facade"}
                   </h4>
                   <p className="text-zinc-300 text-xs mt-1">
-                    {isVi ? "Tích hợp bồn cây xanh tuần hoàn và logo ECOVAL đúc nổi đồng khối di sản." : "Integrated circular planter bed with 3D embossed ECOVAL emblem."}
+                    {isVi ? "Tích hợp bồn cây xanh tuần hoàn và logo RENOVA đúc nổi đồng khối di sản." : "Integrated circular planter bed with 3D embossed RENOVA emblem."}
                   </p>
                 </div>
               </div>
@@ -343,7 +343,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
               <div className="relative rounded-2xl overflow-hidden border border-white/10 group aspect-4/3 sm:aspect-16/10">
                 <img 
                   src="/products/tuong02.png" 
-                  alt="ECOVAL Architectural Interior Screen"
+                  alt="RENOVA Architectural Interior Screen"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex flex-col justify-end p-6 sm:p-8">
@@ -402,7 +402,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                 <div className="w-full sm:w-56 aspect-square rounded-xl overflow-hidden shrink-0 border border-white/10 bg-black/40 relative group">
                   <img 
                     src="/products/terrazzo_bricks.jpeg" 
-                    alt="ECOVAL Terrazzo Bricks" 
+                    alt="RENOVA Terrazzo Bricks" 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-2 left-2 bg-emerald-500 text-zinc-950 text-[10px] font-black px-2 py-0.5 rounded-md uppercase">
@@ -419,7 +419,7 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                       </span>
                     </div>
                     <h4 className="text-xl font-bold text-white font-heading mt-2">
-                      {isVi ? "Gạch Terrazzo Tái Chế ECOVAL" : "ECOVAL Upcycled Terrazzo Tiles"}
+                      {isVi ? "Gạch Terrazzo Tái Chế RENOVA" : "RENOVA Upcycled Terrazzo Tiles"}
                     </h4>
                     <p className="text-xs sm:text-sm text-brand-text-muted dark:text-zinc-300 mt-2 leading-relaxed">
                       {isVi 
@@ -445,9 +445,9 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                 <div className="w-full sm:w-56 aspect-square rounded-xl overflow-hidden shrink-0 border border-white/10 bg-black/40 relative group flex items-center justify-center p-4">
                   {/* Visual Representation of Eco Planter using Brick Biophilic design */}
                   <img 
-                    src="/products/gach4.png" 
-                    alt="ECOVAL Circular Planter" 
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    src="/cups.jpeg" 
+                    alt="Chậu Cây Tuần Hoàn Eco-Planter" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-xl"
                   />
                   <div className="absolute top-2 left-2 bg-brand-primary text-white text-[10px] font-black px-2 py-0.5 rounded-md uppercase">
                     Chậu Cây 35k
@@ -641,8 +641,8 @@ export default function ProductShowcase({ lang }: ProductShowcaseProps) {
                 </h3>
                 <p className="text-sm text-brand-text-muted dark:text-zinc-300 mt-2 max-w-sm mx-auto leading-relaxed">
                   {isVi 
-                    ? `Cảm ơn bạn! Đội ngũ ECOVAL sẽ gửi bảng báo giá chi tiết và hồ sơ kỹ thuật cho mẫu [${quoteForm.productModel}] qua email ${quoteForm.email} trong vòng 2 giờ làm việc.`
-                    : `Thank you! The ECOVAL team will send full specifications and bulk pricing for [${quoteForm.productModel}] to ${quoteForm.email} within 2 business hours.`}
+                    ? `Cảm ơn bạn! Đội ngũ RENOVA sẽ gửi bảng báo giá chi tiết và hồ sơ kỹ thuật cho mẫu [${quoteForm.productModel}] qua email ${quoteForm.email} trong vòng 2 giờ làm việc.`
+                    : `Thank you! The RENOVA team will send full specifications and bulk pricing for [${quoteForm.productModel}] to ${quoteForm.email} within 2 business hours.`}
                 </p>
                 <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-4 text-xs text-zinc-300 text-left">
                   <p>• <strong>{isVi ? "Người nhận:" : "Recipient:"}</strong> {quoteForm.name} ({quoteForm.phone})</p>
