@@ -239,13 +239,13 @@ export default function Home() {
           {/* Hội đồng Cố vấn Chuyên môn */}
           <AdvisoryBoard lang={lang} />
           {/* Profile Team */}
-          <TeamSection lang={lang} />
+          <Stakeholders lang={lang} />
           {/* Giải thưởng / Thành tựu */}
           <Milestones lang={lang} />
           {/* Minh bạch tài chính */}
           <FinancialReport lang={lang} />
           {/* Đối tác & Stakeholders */}
-          <Stakeholders lang={lang} />
+          <TeamSection lang={lang} />
         </section>
 
         {/* Section 7: Cổng Đăng ký Hợp tác & Thu gom (Unified Registration Portal) */}
