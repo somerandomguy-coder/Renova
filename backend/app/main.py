@@ -333,8 +333,47 @@ def chat_with_ai_stream(req: schemas.ChatRequest):
 
 # --- SERVE STATIC FRONTEND (1-Service Architecture on Render) ---
 # When deployed as a single service, FastAPI serves the static Next.js export from frontend/out
+from fastapi.responses import FileResponse
+
 _project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _frontend_out_dir = os.path.join(_project_root, "frontend", "out")
 
 if os.path.isdir(_frontend_out_dir):
-    app.mount("/", StaticFiles(directory=_frontend_out_dir, html=True), name="frontend_static")
+    _next_dir = os.path.join(_frontend_out_dir, "_next")
+    if os.path.isdir(_next_dir):
+        app.mount("/_next", StaticFiles(directory=_next_dir), name="next_assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_frontend(full_path: str):
+        # Do not intercept API or documentation routes
+        if full_path.startswith("api/") or full_path in ("docs", "openapi.json"):
+            raise HTTPException(status_code=404, detail="Not Found")
+
+        clean_path = full_path.strip("/")
+
+        # 1. Direct file match (e.g. Logo.png, favicon.ico, images)
+        direct_file = os.path.join(_frontend_out_dir, clean_path)
+        if clean_path and os.path.isfile(direct_file):
+            return FileResponse(direct_file)
+
+        # 2. Directory index match (e.g. /ai-assistant/ -> ai-assistant/index.html)
+        dir_index = os.path.join(_frontend_out_dir, clean_path, "index.html")
+        if os.path.isfile(dir_index):
+            return FileResponse(dir_index)
+
+        # 3. Clean URL match (e.g. /ai-assistant -> ai-assistant.html)
+        html_file = os.path.join(_frontend_out_dir, f"{clean_path}.html")
+        if clean_path and os.path.isfile(html_file):
+            return FileResponse(html_file)
+
+        # 4. Root / -> index.html
+        if not clean_path:
+            root_index = os.path.join(_frontend_out_dir, "index.html")
+            if os.path.isfile(root_index):
+                return FileResponse(root_index)
+
+        # 5. Fallback 404 page
+        not_found = os.path.join(_frontend_out_dir, "404.html")
+        if os.path.isfile(not_found):
+            return FileResponse(not_found, status_code=404)
+        return FileResponse(os.path.join(_frontend_out_dir, "index.html"))
