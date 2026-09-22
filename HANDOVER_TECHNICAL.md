@@ -145,7 +145,7 @@ services:
     region: singapore
     plan: starter
     buildCommand: npm --prefix frontend install && npm --prefix frontend run build && pip install -r backend/requirements.txt
-    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    startCommand: cd backend && python ingest.py && uvicorn app.main:app --host 0.0.0.0 --port 8000
     disk:
       name: renova-chroma-storage
       mountPath: /opt/render/project/src/ai/chroma_db

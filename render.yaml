@@ -21,7 +21,7 @@ services:
     plan: starter
     # Render tự động cài Node để build Next.js tĩnh, sau đó cài thư viện Python
     buildCommand: npm --prefix frontend install && npm --prefix frontend run build && pip install -r backend/requirements.txt
-    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    startCommand: cd backend && python ingest.py && uvicorn app.main:app --host 0.0.0.0 --port 8000
     # Ổ đĩa lưu trữ ChromaDB vector AI không bị mất khi restart/redeploy
     disk:
       name: renova-chroma-storage
