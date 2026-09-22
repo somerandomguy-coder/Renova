@@ -8,35 +8,35 @@
 ## 1. HỆ THỐNG WEBSITE & AI CỦA BẠN HOẠT ĐỘNG NHƯ THẾ NÀO?
 
 Nền tảng RENOVA gồm 3 phần chính gắn liền với hoạt động kinh doanh:
-1. **Trang web giới thiệu & Tính toán (Frontend):** Khách hàng truy cập để xem sản phẩm, thử tính toán số lượng gạch, diện tích tường, lượng rác thải nhựa được cứu và chi phí EPR được tối ưu.
-2. **Trợ lý AI tư vấn tự động (RENOVA AI Chatbot):** Đóng vai trò như một chuyên viên tư vấn 24/7. Trợ lý này **chỉ trả lời dựa trên đúng tài liệu thật của RENOVA**, không bịa đặt và hỗ trợ cả tiếng Việt lẫn tiếng Anh.
-3. **Bộ thu thập thông tin khách hàng:** Khi đối tác EPR, kiến trúc sư hoặc các vựa ve chai điền form liên hệ, thông tin sẽ được lưu lại để đội ngũ kinh doanh chăm sóc.
+1. **Trang web giới thiệu & Tính toán (Giao diện):** Khách hàng truy cập để xem sản phẩm, thử tính toán số lượng gạch, diện tích tường, lượng rác thải nhựa được cứu và chi phí EPR được tối ưu.
+2. **Trợ lý AI tư vấn tự động (RENOVA AI Chatbot):** Đóng vai trò như một chuyên viên tư vấn 24/7. Trợ lý này **chỉ trả lời dựa trên đúng tài liệu thật của RENOVA** (không bịa đặt), trả lời mượt mà cả tiếng Việt lẫn tiếng Anh.
+3. **Bộ thu thập thông tin khách hàng:** Khi đối tác EPR, kiến trúc sư hoặc các vựa ve chai điền form liên hệ, thông tin sẽ được tự động lưu lại vào hệ thống để đội ngũ kinh doanh liên hệ chăm sóc.
 
 ---
 
-## 2. WEBSITE VÀ DỮ LIỆU ĐANG ĐƯỢC ĐẶT Ở ĐÂU?
+## 2. WEBSITE VÀ DỮ LIỆU ĐANG ĐƯỢC ĐẶT Ở ĐÂU? CHI PHÍ BAO NHIÊU?
 
-Toàn bộ hệ thống được gom về **1 nền tảng duy nhất** để bạn dễ quản lý tài khoản và thanh toán:
+Toàn bộ hệ thống được gom gọn vào **1 dịch vụ duy nhất trên Render.com**, bạn không cần mua thêm tên miền nếu muốn tiết kiệm:
 
 | Hạng mục | Đặt ở đâu? | Chi phí ước tính | Ghi chú |
 | :--- | :--- | :--- | :--- |
-| **Máy chủ Web & AI** | **Render.com** | ~7 - 14 USD/tháng | Nơi chạy toàn bộ website, máy tính ESG và trợ lý AI. Có sẵn chứng chỉ bảo mật HTTPS (ổ khóa xanh). |
-| **Trí tuệ nhân tạo (AI)** | **DeepSeek API** | ~1 - 3 USD/tháng | Trí tuệ xử lý ngôn ngữ giúp chatbot trả lời khách. Chi phí tính theo số lượng câu hỏi thực tế (cực kỳ tiết kiệm). |
-| **Dữ liệu đăng ký** | **Google Sheets** hoặc **Excel** | Miễn phí | Dữ liệu khách điền form tự động lưu vào file Excel và có thể đồng bộ về trang tính Google Sheet của bạn. |
-| **Tên miền (Domain)** | Nhà cung cấp tên miền của bạn (PA Việt Nam, Mắt Bão, GoDaddy...) | ~200.000 - 350.000 đ/năm | Tên miền thương hiệu của bạn (ví dụ: `renova.vn` hoặc `ecoval.vn`). |
+| **Máy chủ Web & AI** | **Render.com** (1 dịch vụ duy nhất) | ~7 USD/tháng | Chạy toàn bộ trang web và trợ lý AI. Bạn nhận được link web miễn phí dạng `https://renova.onrender.com` có sẵn ổ khóa bảo mật HTTPS. |
+| **Trí tuệ nhân tạo (AI)** | **DeepSeek API** | ~1 - 2 USD/tháng | Trí tuệ xử lý ngôn ngữ giúp chatbot trả lời khách. Chi phí tính theo số lượng câu hỏi thực tế (cực kỳ tiết kiệm). |
+| **Dữ liệu đăng ký** | **File Excel & Database** | Miễn phí | Tự động lưu trên máy chủ, có thể tải về file Excel bất cứ lúc nào. Không cần cài đặt email hay tài khoản phụ phức tạp. |
+| **Tên miền (Domain)** | *Không bắt buộc* | 0 đ (hoặc ~250k/năm nếu muốn dùng tên miền riêng sau này) | Dùng ngay đường link Render được cấp miễn phí, không tốn thêm tiền mua tên miền. |
 
 > 💡 **Khuyến nghị cho chủ doanh nghiệp:** Bạn nên tự lập tài khoản Render.com và DeepSeek bằng email công ty, sau đó cài đặt **hạn mức chi tiêu tối đa (Spending Limit) là 5 USD/tháng** trên DeepSeek để hoàn toàn yên tâm về chi phí.
 
 ---
 
-## 3. KHÁCH ĐIỀN FORM THÌ THÔNG TIN CHẠY VỀ ĐÂU?
+## 3. KHÁCH ĐIỀN FORM THÌ THÔNG TIN NẰM Ở ĐÂU?
 
-Khi có người gửi thông tin trên website (đăng ký EPR, đăng ký dự án xanh, đăng ký thu gom):
-1. **Cách 1: Nhận ngay trên Google Sheets (Khuyên dùng):**
-   * Đội ngũ kỹ thuật đã tích hợp sẵn tính năng đồng bộ. Mỗi khi có khách gửi thông tin, một dòng mới chứa ngày giờ, tên công ty, số điện thoại và nhu cầu sẽ **tự động nhảy vào bảng tính Google Sheet của bạn trong 1 giây**.
-   * Bạn có thể mở điện thoại xem khách hàng mới mọi lúc, mọi nơi.
-2. **Cách 2: File Excel lưu trên máy chủ:**
-   * Hệ thống luôn tự động lưu dự phòng vào các file Excel (`epr_partners.csv`, `green_projects.csv`, `collectors.csv`). Nhân sự kỹ thuật có thể tải về gửi cho bạn bất kỳ lúc nào.
+Khi có người gửi thông tin trên website (đăng ký tư vấn EPR, đăng ký dự án xanh, đăng ký thu gom ve chai):
+* Toàn bộ thông tin (Tên công ty, Người liên hệ, Số điện thoại, Email, Sản lượng rác...) được tự động lưu vào các file Excel chuẩn Tiếng Việt ngay trên máy chủ:
+  * `epr_partners.csv` (Đối tác EPR)
+  * `green_projects.csv` (Dự án công trình xanh)
+  * `collectors.csv` (Mạng lưới thu gom ve chai)
+* Bất cứ lúc nào bạn cần, bạn hoặc nhân sự IT chỉ cần tải các file này về để mở xem bằng Excel bình thường. Hệ thống không phụ thuộc vào hòm thư email hay các dịch vụ bên thứ ba.
 
 ---
 
@@ -54,8 +54,8 @@ Toàn bộ kiến thức của Trợ lý AI được lưu trong một file văn 
   RENOVA vừa xuất sắc đạt Giải Đặc Biệt cuộc thi Innostar 2026 và Top 10 The NextGen 2026.
   ```
 * **Bước 2: Báo nhân sự kỹ thuật chạy cập nhật:**
-  Bạn chỉ cần gửi nội dung này cho nhân sự kỹ thuật hoặc IT và nói: *"Anh/em đã sửa file faq.md rồi, nhờ em chạy lệnh nạp lại vào AI giúp anh/chị nhé"*. (Việc này chỉ mất đúng 5 giây của IT).
-  Ngay sau đó, khách lên web hỏi câu mới, AI sẽ tự động biết câu trả lời chính xác!
+  Bạn chỉ cần gửi file này cho IT và nói: *"Anh/em đã sửa file faq.md rồi, nhờ em chạy lệnh nạp lại vào AI giúp anh/chị nhé"*. (Việc này chỉ mất đúng 5 giây của IT).
+  Ngay sau đó, khách lên web hỏi câu mới, AI sẽ tự động trả lời chính xác thông tin bạn vừa thêm!
 
 ---
 
@@ -63,12 +63,10 @@ Toàn bộ kiến thức của Trợ lý AI được lưu trong một file văn 
 
 Để đảm bảo toàn quyền sở hữu doanh nghiệp của mình, hãy lưu lại các thông tin này:
 
-1. **Tài khoản Render.com:** Quản trị máy chủ, xem trạng thái hoạt động của website.
+1. **Tài khoản Render.com:** Nơi máy chủ web đang chạy.
 2. **Tài khoản DeepSeek (platform.deepseek.com):** Nơi nạp tiền (nạp 5$ là dùng được vài tháng) và lấy mã API Key.
-3. **Tài khoản quản lý Tên miền (Domain Registrar):** Nơi trỏ tên miền công ty về máy chủ website.
-4. **Link Google Sheet nhận khách hàng:** Nơi bạn và đội ngũ bán hàng theo dõi đơn liên hệ mỗi ngày.
-5. **Mã nguồn dự án (GitHub / Git Repository):** Lưu trữ toàn bộ mã nguồn của RENOVA trên nhánh **`client-release`**.
+3. **Mã nguồn dự án (GitHub / Git Repository):** Lưu trữ toàn bộ mã nguồn của RENOVA trên nhánh **`client-release`**.
 
 ---
 
-*Nếu cần nâng cấp tính năng mới hoặc gặp sự cố truy cập, hãy gửi tài liệu **`HANDOVER_TECHNICAL.md`** cho nhân sự lập trình để họ xử lý nhanh nhất.*
+*Nếu cần kiểm tra kỹ thuật sâu hơn hoặc bảo trì code, hãy gửi tài liệu **`HANDOVER_TECHNICAL.md`** cho nhân sự lập trình.*

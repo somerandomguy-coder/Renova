@@ -2,8 +2,8 @@
 ### *(DÀNH CHO ĐỘI NGŨ KỸ THUẬT / DEVELOPER / SYSADMIN)*
 
 > **Nhánh mã nguồn bàn giao:** `client-release`  
-> **Kiến trúc:** Next.js (Frontend) + FastAPI Python (Backend) + ChromaDB (Vector DB cục bộ) + DeepSeek AI (LLM RAG)  
-> **Nền tảng triển khai:** 1-Platform duy nhất trên **Render.com** (qua file `render.yaml`)
+> **Kiến trúc:** 1-Service Monolith — Next.js Static Export được mount trực tiếp vào FastAPI Python + ChromaDB (Vector DB cục bộ) + DeepSeek AI (LLM RAG)  
+> **Nền tảng triển khai:** 1 Web Service duy nhất trên **Render.com** (qua file `render.yaml`), cùng chung domain, không lo lỗi CORS.
 
 ---
 
@@ -13,24 +13,24 @@
                                ┌────────────────────────────────┐
                                │     Client Browser / Mobile    │
                                └──────────────┬─────────────────┘
-                                              │
+                                              │ https://renova.onrender.com/
                                               ▼
-                               ┌────────────────────────────────┐
-                               │  Frontend Service (Next.js)    │
-                               │  - App Router / Tailwind CSS   │
-                               │  - Port 3000 / Web Service     │
-                               └──────────────┬─────────────────┘
-                                              │ REST / SSE Stream
-                                              ▼
-                               ┌────────────────────────────────┐
-                               │   Backend Service (FastAPI)    │
-                               │   - REST API (/api/v1)         │
-                               │   - Calculators (ESG, EPR)     │
-                               │   - SQLite (renova.db) & CSVs  │
-                               └───────┬────────────────┬───────┘
-                                       │                │
-                        Query Semantic │                │ LLM Completion
-                                       ▼                ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    RENDER.COM WEB SERVICE (1 SERVICE DUY NHẤT)               │
+│                                                                              │
+│   FastAPI Server (uvicorn app.main:app)                                      │
+│   ├── Static Mount: /           ──> Phục vụ giao diện Next.js (frontend/out)  │
+│   ├── API Routes:   /api/v1/... ──> Máy tính ESG/EPR, Đăng ký Form           │
+│   ├── Docs:         /docs       ──> Swagger UI tương tác trực tiếp           │
+│   └── AI Engine:    /api/v1/ai  ──> RAG Pipeline                             │
+│                                                                              │
+│   Storage Cục bộ:                                                            │
+│   ├── SQLite: renova.db (Lưu trữ quan hệ tự động)                           │
+│   └── Spreadsheets: *.csv (Excel UTF-8-BOM)                                  │
+└───────────────────────┬───────────────────────────────┬──────────────────────┘
+                        │                               │
+         Query Semantic │                               │ LLM Completion
+                        ▼                               ▼
 ┌──────────────────────────────────────────────┐   ┌───────────────────────────┐
 │       ChromaDB Vector Store (Persistent)     │   │      DeepSeek API         │
 │  - all-MiniLM-L6-v2 embeddings (local on CPU)│   │  - Model: deepseek-chat   │
@@ -38,25 +38,24 @@
 └──────────────────────────────────────────────┘   └───────────────────────────┘
 ```
 
-### Các quyết định thiết kế cốt lõi trên nhánh `client-release`:
-* **Zero-Config Defaults:** Hệ thống tự động gán giá trị mặc định cho toàn bộ biến môi trường; backend chỉ yêu cầu đúng 1 biến bí mật: `DEEPSEEK_API_KEY`.
-* **Loại bỏ Admin & Token Auth:** Xóa bỏ route `/admin`, JWT tokens và encryption keys (`JWT_SECRET_KEY`, `ENCRYPTION_KEY`) nhằm loại bỏ hoàn toàn các lỗ hổng bảo mật và sự phụ thuộc vào secret keys.
-* **Loại bỏ Langfuse:** Gỡ toàn bộ wrapper/decorator và dependency Langfuse. RAG engine gọi trực tiếp DeepSeek qua thư viện `openai.OpenAI` tiêu chuẩn.
-* **Loại bỏ Turso:** Toàn bộ lưu trữ quan hệ sử dụng SQLite cục bộ (`renova.db`), tự động sinh khi chạy lần đầu qua SQLAlchemy.
-* **Dual Storage & Webhook:** Biểu mẫu lưu vào SQLite, ghi tiếp vào file CSV (`utf-8-sig` mở Excel không lỗi font) và chuyển tiếp webhook về Google Sheets nếu có cấu hình `GOOGLE_SHEET_WEBHOOK_URL`.
+### Các ưu điểm vượt trội của kiến trúc 1-Service:
+* **Same-Origin (Không cần CORS):** Vì FastAPI phục vụ trực tiếp cả giao diện HTML/CSS/JS tĩnh lẫn các endpoint API trên cùng 1 domain và cổng mạng, các lệnh gọi API từ frontend là đường dẫn tương đối (`/api/v1/...`). Hoàn toàn không bao giờ gặp lỗi CORS trên trình duyệt.
+* **Tiết kiệm 50% chi phí máy chủ:** Thay vì phải tốn 2 service (1 cho Node.js frontend, 1 cho Python backend), hệ thống chỉ chạy đúng 1 Web Service duy nhất trên Render (~7$/tháng).
+* **Zero-Config Deployment:** Chỉ cần khai báo đúng 1 biến bí mật duy nhất: `DEEPSEEK_API_KEY`.
+* **Loại bỏ hoàn toàn phụ thuộc bên ngoài:** Không cần máy chủ SMTP email (tránh lỗi spam/hết quota), không cần cấu hình tài khoản Google Sheets phụ phức tạp. Dữ liệu đăng ký được ghi trực tiếp vào SQLite và các file Excel CSV chuẩn tiếng Việt.
 
 ---
 
-## 2. CẤU TRÚC THƯ MỤC CHI TIẾT
+## 2. CẤU TRÚC THƯ MỤC DỰ ÁN
 
 ```text
 Renova/
 │
-├── render.yaml                 # Bản thiết kế tự động dựng 2 service trên Render.com
+├── render.yaml                 # Bản thiết kế tự động dựng 1 service trên Render.com
 ├── HANDOVER_BUSINESS.md        # Bản hướng dẫn dành cho chủ doanh nghiệp / non-tech
 ├── HANDOVER_TECHNICAL.md       # Bản tài liệu kỹ thuật chi tiết này
 │
-├── frontend/                   # ỨNG DỤNG GIAO DIỆN NGƯỜI DÙNG (Next.js 16)
+├── frontend/                   # MÃ NGUỒN GIAO DIỆN (Next.js 16)
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── page.tsx        # Trang chủ RENOVA
@@ -64,23 +63,22 @@ Renova/
 │   │   │   ├── terms/          # Trang điều khoản dịch vụ
 │   │   │   ├── privacy/        # Trang chính sách bảo mật
 │   │   │   └── globals.css     # CSS Tokens (Theme Terracotta Clay #914724)
-│   │   └── components/         # Các component giao diện (Hero, Calculators, Forms...)
-│   ├── package.json            # Node.js dependencies
-│   └── .env.example            # Biến môi trường frontend (NEXT_PUBLIC_API_URL)
+│   │   └── components/         # Các khối UI (Hero, Máy tính ESG/EPR, Form...)
+│   ├── out/                    # Thư mục HTML tĩnh xuất ra sau khi chạy `npm run build`
+│   └── package.json            # Quản lý thư viện frontend
 │
-├── backend/                    # MÁY CHỦ DỊCH VỤ API (FastAPI / Python)
+├── backend/                    # MÁY CHỦ DỊCH VỤ & API (FastAPI / Python)
 │   ├── app/
-│   │   ├── main.py             # Điểm khởi chạy FastAPI, cấu hình CORS, endpoints
-│   │   ├── config.py           # Quản lý cấu hình toàn hệ thống (Pydantic Settings)
-│   │   ├── database.py         # SQLAlchemy engine kết nối SQLite renova.db
-│   │   ├── models.py           # ORM Models (EPRPartner, GreenProject, Collector, BrickTakeback)
-│   │   ├── schemas.py          # Pydantic Schemas cho request / response validation
+│   │   ├── main.py             # FastAPI app, mount frontend/out, endpoints API
+│   │   ├── config.py           # Quản lý cài đặt (DEEPSEEK_API_KEY, database)
+│   │   ├── database.py         # SQLAlchemy kết nối SQLite renova.db
+│   │   ├── models.py           # Bảng dữ liệu ORM
+│   │   ├── schemas.py          # Pydantic Schemas cho API
 │   │   └── services/
-│   │       ├── calculators.py  # Thuật toán tính toán ESG & bài toán kinh tế EPR
+│   │       ├── calculators.py  # Thuật toán tính toán ESG & EPR
 │   │       ├── spreadsheets.py # Thread-safe CSV logger (UTF-8-BOM cho Excel)
-│   │       ├── ai_chat.py      # Tầng dịch vụ chuyển tiếp chat và SSE streaming
-│   │       └── emails.py       # Email dispatcher (tự động bypass nếu không có SMTP)
-│   ├── renova.db               # File database SQLite cục bộ
+│   │       └── ai_chat.py      # Tầng dịch vụ chuyển tiếp chat và SSE streaming
+│   ├── renova.db               # File database SQLite cục bộ (tự sinh)
 │   ├── epr_partners.csv        # Log đăng ký đối tác EPR
 │   ├── green_projects.csv      # Log đăng ký dự án công trình xanh
 │   ├── collectors.csv          # Log đăng ký mạng lưới ve chai
@@ -88,15 +86,15 @@ Renova/
 │   └── .env.example            # Mẫu biến môi trường backend
 │
 └── ai/                         # MÔ-ĐUN TRÍ TUỆ NHÂN TẠO RAG
-    ├── knowledge/              # THƯ MỤC CHỨA TÀI LIỆU CỦA DOANH NGHIỆP
+    ├── knowledge/              # THƯ MỤC TÀI LIỆU DOANH NGHIỆP
     │   ├── faq.md              # Câu hỏi thường gặp & giải thưởng của RENOVA
     │   ├── product_specs.md    # Thông số kỹ thuật gạch bông gió
     │   ├── epr_regulations.md  # Quy định EPR và pháp lý môi trường
-    │   └── esg_formulas.md     # Công thức quy đổi phát thải CO2, trấu, nhựa
+    │   └── esg_formulas.md     # Công thức quy đổi phát thải
     ├── chroma_db/              # Thư mục lưu trữ vector index của ChromaDB
     ├── rag/
-    │   ├── engine.py           # RAG pipeline: Tìm kiếm tài liệu + Gửi prompt đến DeepSeek
-    │   ├── vector_store.py     # ChromaDB client, Cosine search, lazy collection init
+    │   ├── engine.py           # RAG pipeline: Tìm kiếm tài liệu + Gọi DeepSeek
+    │   ├── vector_store.py     # ChromaDB client, Cosine search cục bộ
     │   ├── config.py           # Cấu hình RAG (Model, chunk size, top_k=5)
     │   └── ingest.py           # Script nạp tài liệu markdown vào ChromaDB
     └── requirements.txt        # Dependencies riêng cho AI (openai, chromadb)
@@ -106,145 +104,93 @@ Renova/
 
 ## 3. CẤU HÌNH BIẾN MÔI TRƯỜNG (ENVIRONMENT VARIABLES)
 
-### Backend (`backend/.env` hoặc cấu hình trên Render Environment):
+Hệ thống được thiết kế với triết lý **Zero-Config Defaults**.
+
+Khi deploy lên Render (hoặc chạy local trong `backend/.env`), bạn **CHỈ CẦN DUY NHẤT 1 BIẾN**:
 ```env
 # [BẮT BUỘC] API Key của DeepSeek (Lấy tại https://platform.deepseek.com)
 DEEPSEEK_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-# [TÙY CHỌN] Webhook nhận dữ liệu form về Google Sheets
-GOOGLE_SHEET_WEBHOOK_URL=https://script.google.com/macros/s/xxxx/exec
-
-# [TÙY CHỌN] CORS Origins cho phép frontend gọi tới (Mặc định: ["*"])
-CORS_ORIGINS=["*"]
-
-# [TÙY CHỌN] Đường dẫn SQLite Database (Mặc định: sqlite:///./renova.db)
-DATABASE_URL=sqlite:///./renova.db
 ```
 
-### Frontend (`frontend/.env.local` hoặc cấu hình trên Render Environment):
-```env
-# URL trỏ tới dịch vụ backend (Khi dùng render.yaml, giá trị này được tự động liên kết)
-NEXT_PUBLIC_API_URL=https://renova-backend.onrender.com
-```
+*(Tất cả các biến khác như `DATABASE_URL`, `PORT`, `PYTHON_VERSION` đều đã được Render và code tự động xử lý).*
 
 ---
 
 ## 4. QUY TRÌNH QUẢN TRỊ CHROMADB & CẬP NHẬT KIẾN THỨC AI
 
-### Nguyên lý hoạt động:
+### Cơ chế hoạt động:
 1. File tài liệu nằm trong thư mục `ai/knowledge/*.md`.
-2. Script `ai/rag/ingest.py` sử dụng hàm `_chunk_text()` để chia tài liệu thành từng đoạn (chunk size ~500 từ, overlap 50 từ) dựa trên ranh giới đoạn văn.
-3. ChromaDB nhúng văn bản bằng mô hình mã nguồn mở `all-MiniLM-L6-v2` (chạy trên CPU cục bộ, zero latency, zero cost) và lưu vào `ai/chroma_db/`.
-4. Khi có câu hỏi: ChromaDB thực hiện Cosine Distance Search để tìm top 5 chunks sát nghĩa nhất, gắn vào context prompt và gửi đến endpoint `https://api.deepseek.com/chat/completions` với model `deepseek-chat`.
+2. Script `ai/rag/ingest.py` sử dụng hàm `_chunk_text()` để chia nhỏ tài liệu dựa trên ranh giới đoạn văn.
+3. ChromaDB nhúng văn bản bằng mô hình `all-MiniLM-L6-v2` (chạy trên CPU máy chủ, hoàn toàn miễn phí, tốc độ vài mili-giây) và lưu vào `ai/chroma_db/`.
+4. Khi khách hỏi: ChromaDB tìm top 5 đoạn tài liệu sát nhất, gắn vào context prompt và gửi đến DeepSeek (`deepseek-chat`) để sinh câu trả lời.
 
 ### Lệnh chạy Re-index dữ liệu:
-Mỗi khi có file tài liệu mới được cập nhật trong `ai/knowledge/`, chạy lệnh sau từ thư mục gốc dự án:
+Mỗi khi có nội dung mới trong `ai/knowledge/`, chạy lệnh sau:
 ```bash
-python -m ai.rag.ingest
-# Hoặc: python ai/rag/ingest.py
+python ai/rag/ingest.py
 ```
-*Thời gian xử lý: ~2 đến 4 giây. Sau khi chạy xong, dữ liệu trong `ai/chroma_db/` sẽ được cập nhật hoàn toàn mới mà không cần khởi động lại server.*
+*Thời gian chạy: ~2 đến 4 giây. ChromaDB tự động cập nhật dữ liệu mới mà không cần khởi động lại máy chủ.*
 
 ---
 
-## 5. TRIỂN KHAI TRÊN RENDER.COM (1-CLICK BLUEPRINT)
+## 5. TRIỂN KHAI TRÊN RENDER.COM (1-CLICK DEPLOY)
 
-File `render.yaml` ở thư mục gốc đã định nghĩa sẵn 2 Web Services trong cùng 1 cụm:
+File `render.yaml` ở thư mục gốc tự động dựng 1 Web Service hợp nhất:
 
-1. **`renova-backend` (Python Web Service):**
-   * Runtime: `Python 3.11`
-   * Region: `singapore`
-   * Root Directory: `backend`
-   * Build Command: `pip install -r requirements.txt`
-   * Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-   * **Persistent Disk:** Tên `renova-chroma-storage`, dung lượng 1GB, mount tại `/opt/render/project/src/ai/chroma_db`. *(Giúp giữ nguyên toàn bộ dữ liệu vector của ChromaDB khi redeploy hoặc restart)*.
-2. **`renova-frontend` (Node.js Web Service):**
-   * Runtime: `Node 20`
-   * Root Directory: `frontend`
-   * Build Command: `npm install && npm run build`
-   * Start Command: `npm run start`
-   * `NEXT_PUBLIC_API_URL`: Tự động nhận URL từ `renova-backend.host`.
+```yaml
+services:
+  - type: web
+    name: renova
+    runtime: python
+    region: singapore
+    plan: starter
+    buildCommand: npm --prefix frontend install && npm --prefix frontend run build && pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: renova-chroma-storage
+      mountPath: /opt/render/project/src/ai/chroma_db
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: NODE_VERSION
+        value: 20.14.0
+      - key: DEEPSEEK_API_KEY
+        sync: false
+```
 
-### Các bước deploy trên giao diện Render:
+### Các bước deploy:
 1. Đăng nhập [dashboard.render.com](https://dashboard.render.com) -> **New +** -> **Blueprint**.
 2. Kết nối repo GitHub -> Chọn nhánh **`client-release`**.
 3. Điền giá trị cho ô `DEEPSEEK_API_KEY`.
 4. Nhấn **Apply**.
+5. Render sẽ tự động build frontend, cài backend và khởi chạy website tại đường link `https://renova.onrender.com`.
 
 ---
 
-## 6. TÍCH HỢP WEBHOOK GOOGLE SHEETS (DÀNH CHO DEV)
+## 6. CHẠY VÀ KIỂM THỬ LOCAL (DEVELOPER WORKFLOW)
 
-Khi người dùng submit form tại các endpoint `/api/v1/register/*`, hàm `forward_to_google_sheet(form_type, data)` trong `backend/app/main.py` sẽ thực hiện một HTTP POST bất đồng bộ tới URL được khai báo trong `GOOGLE_SHEET_WEBHOOK_URL`.
-
-### Định dạng Payload gửi đi:
-```json
-{
-  "form_type": "epr_partner", // hoặc "green_project", "collector", "takeback"
-  "company_name": "Công ty TNHH Nhựa ABC",
-  "contact_name": "Nguyễn Văn A",
-  "email": "contact@abc.vn",
-  "phone": "0901234567",
-  "annual_plastic_waste": 15000,
-  "needs_epr_cert": true,
-  "created_at": "2026-09-22 23:45:00"
-}
-```
-
-### Code mẫu Google Apps Script để nhận dữ liệu:
-```javascript
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var data = JSON.parse(e.postData.contents);
-    
-    sheet.appendRow([
-      new Date(),
-      data.form_type || "",
-      data.company_name || data.contact_name || data.name || "",
-      data.email || "",
-      data.phone || "",
-      data.annual_plastic_waste || data.surface_area || data.collector_type || "",
-      JSON.stringify(data)
-    ]);
-    
-    return ContentService.createTextOutput("OK").setMimeType(ContentService.MimeType.TEXT);
-  } catch (err) {
-    return ContentService.createTextOutput("ERROR: " + err.message).setMimeType(ContentService.MimeType.TEXT);
-  }
-}
-```
-
----
-
-## 7. CHẠY VÀ KIỂM THỬ LOCAL (DEVELOPER WORKFLOW)
-
-### Khởi động Backend:
-```bash
-cd backend
-python -m venv .venv
-# Kích hoạt venv (Windows: .venv\Scripts\activate | Unix: source .venv/bin/activate)
-pip install -r requirements.txt
-
-# Kiểm tra ingest dữ liệu vector
-python -m ai.rag.ingest
-
-# Chạy server development
-uvicorn app.main:app --reload --port 8000
-```
-Swagger UI Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
-
-### Khởi động Frontend:
+### Bước 1: Build Frontend tĩnh
 ```bash
 cd frontend
 npm install
-npm run dev
-```
-Local Web App: [http://localhost:3000](http://localhost:3000)
-
-### Kiểm tra build production của Frontend:
-```bash
-cd frontend
 npm run build
 ```
-*(Xác nhận: Biên dịch thành công 100% trong ~2.8 giây, 7 static routes, không phụ thuộc vào admin types).*
+*(Kết quả sinh ra thư mục `frontend/out/` chứa toàn bộ trang web tĩnh)*.
+
+### Bước 2: Chạy Backend & Phục vụ Website
+```bash
+cd ../backend
+python -m venv .venv
+# Kích hoạt venv (Windows: .venv\Scripts\activate | macOS/Linux: source .venv/bin/activate)
+pip install -r requirements.txt
+
+# Nạp dữ liệu AI lần đầu
+python ../ai/rag/ingest.py
+
+# Khởi chạy server hợp nhất
+uvicorn app.main:app --reload --port 8000
+```
+
+* **Truy cập Website:** Mở [http://localhost:8000](http://localhost:8000) (Trình duyệt sẽ hiển thị website RENOVA đầy đủ chức năng).
+* **Truy cập Swagger API Docs:** Mở [http://localhost:8000/docs](http://localhost:8000/docs).

@@ -1,7 +1,8 @@
 """
 RENOVA / ECOVAL Backend — Application Settings
 
-Zero-config settings with production-safe defaults for Render deployment.
+Ultra-simplified settings for 1-service deployment on Render.
+Only requires DEEPSEEK_API_KEY to operate the AI Chatbot.
 """
 
 import os
@@ -11,24 +12,21 @@ from typing import List, Union, Any, Optional
 from pydantic import field_validator
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "RENOVA / ECOVAL Circular Materials & ESG API"
+    PROJECT_NAME: str = "RENOVA Circular Materials & ESG Platform"
     API_V1_STR: str = "/api/v1"
     
-    # Database configuration (Defaults to local SQLite)
+    # Database configuration (Defaults to local SQLite 'renova.db')
     DATABASE_URL: str = "sqlite:///./renova.db"
-    
-    # Optional Webhook URL to push form registrations directly to Google Sheets
-    GOOGLE_SHEET_WEBHOOK_URL: Optional[str] = None
 
-    # DeepSeek API Key for AI Chatbot
+    # DeepSeek API Key for AI Chatbot (Only required variable)
     DEEPSEEK_API_KEY: Optional[str] = None
     
-    # CORS Origins (Permissive default to prevent CORS errors on new deploy URLs)
-    CORS_ORIGINS: Any = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "*"
-    ]
+    # Internal default keys (used for hashing/field protection)
+    ENCRYPTION_KEY: str = "ULgXQZxIRcrPGGC4gO8he5D8Vor8G08oiWzagVp2948="
+    JWT_SECRET_KEY: str = "renova-default-secret-key-2026"
+    
+    # Permissive CORS to allow frontend and any origin to connect
+    CORS_ORIGINS: Any = ["*"]
     
     @field_validator("CORS_ORIGINS", mode="before")
     @classmethod
@@ -45,18 +43,6 @@ class Settings(BaseSettings):
         else:
             origins = v
         return [origin.strip("\"'").rstrip("/") for origin in origins]
-    
-    # Email configurations (Mocked to log file by default, no SMTP account needed)
-    SMTP_HOST: str = "smtp.gmail.com"
-    SMTP_PORT: int = 587
-    SMTP_USER: str = ""
-    SMTP_PASSWORD: str = ""
-    EMAIL_FROM: str = "info@renova.vn"
-    USE_MOCK_EMAIL: bool = True
-
-    # Legacy encryption keys kept as safe dummy defaults
-    JWT_SECRET_KEY: str = "renova-safe-default-key-2026"
-    ENCRYPTION_KEY: str = "ULgXQZxIRcrPGGC4gO8he5D8Vor8G08oiWzagVp2948="
 
     class Config:
         env_file = ".env"

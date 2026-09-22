@@ -1,31 +1,28 @@
 # ==============================================================================
 # RENDER.COM BLUEPRINT SPECIFICATION — RENOVA CIRCULAR PLATFORM
 # ==============================================================================
-# Bản thiết kế tự động triển khai toàn bộ hệ thống RENOVA trên Render.com
-# Bao gồm:
-#   1. renova-backend: Python FastAPI + AI Chatbot RAG (kèm Ổ đĩa lưu trữ ChromaDB)
-#   2. renova-frontend: Next.js Website người dùng
+# Bản thiết kế triển khai TOÀN BỘ RENOVA trên 1 WEB SERVICE DUY NHẤT:
+#   - Tự động build giao diện Next.js (frontend/out)
+#   - Chạy máy chủ FastAPI Python phục vụ đồng thời cả Website & API & AI Chatbot
+#   - Không tốn tiền 2 dịch vụ, không cần tên miền riêng, không lo lỗi CORS
 #
 # Cách sử dụng trên Render:
 #   1. Đăng nhập https://dashboard.render.com
 #   2. Nhấn "New +" -> Chọn "Blueprint"
 #   3. Kết nối với Repository GitHub này -> Chọn nhánh 'client-release'
-#   4. Render sẽ tự động nhận diện file này và tạo cả 2 dịch vụ cùng lúc.
+#   4. Nhập mã DEEPSEEK_API_KEY -> Nhấn Apply là xong!
 # ==============================================================================
 
 services:
-  # ----------------------------------------------------------------------------
-  # DỊCH VỤ 1: BACKEND API & CHATBOT AI (Python FastAPI + ChromaDB)
-  # ----------------------------------------------------------------------------
   - type: web
-    name: renova-backend
+    name: renova
     runtime: python
-    region: singapore # Khu vực Singapore giúp tối ưu tốc độ cho người dùng tại Việt Nam
+    region: singapore # Khu vực gần Việt Nam nhất, tốc độ phản hồi nhanh
     plan: starter
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    # Ổ đĩa vĩnh viễn (Persistent Disk) giúp dữ liệu vector ChromaDB không bị mất khi restart/redeploy
+    # Render tự động cài Node để build Next.js tĩnh, sau đó cài thư viện Python
+    buildCommand: npm --prefix frontend install && npm --prefix frontend run build && pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    # Ổ đĩa lưu trữ ChromaDB vector AI không bị mất khi restart/redeploy
     disk:
       name: renova-chroma-storage
       mountPath: /opt/render/project/src/ai/chroma_db
@@ -33,33 +30,8 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
+      - key: NODE_VERSION
+        value: 20.14.0
       # Khóa API DeepSeek (Render sẽ hiển thị ô để bạn nhập key trên giao diện)
       - key: DEEPSEEK_API_KEY
         sync: false
-      # Tùy chọn: Webhook đẩy dữ liệu form về Google Sheets
-      - key: GOOGLE_SHEET_WEBHOOK_URL
-        sync: false
-      # Mặc định cho phép kết nối từ mọi nguồn
-      - key: CORS_ORIGINS
-        value: '["*"]'
-
-  # ----------------------------------------------------------------------------
-  # DỊCH VỤ 2: FRONTEND GIAO DIỆN NGƯỜI DÙNG (Next.js App Router)
-  # ----------------------------------------------------------------------------
-  - type: web
-    name: renova-frontend
-    runtime: node
-    region: singapore
-    plan: starter
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    startCommand: npm run start
-    envVars:
-      - key: NODE_VERSION
-        value: 20.14.0
-      # Tự động liên kết URL của backend vừa tạo ở trên sang frontend
-      - key: NEXT_PUBLIC_API_URL
-        fromService:
-          type: web
-          name: renova-backend
-          property: host

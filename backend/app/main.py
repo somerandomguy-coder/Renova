@@ -1,16 +1,17 @@
-from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
-from typing import List
 import os
 import datetime
+from typing import List
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import StreamingResponse
+from sqlalchemy.orm import Session
 
 from app.config import settings
 from app.database import engine, Base, get_db
 import app.models as models
 import app.schemas as schemas
 from app.services.calculators import run_esg_calculations, run_epr_calculations
-from app.services.emails import send_bilingual_confirmation_email
 from app.services.spreadsheets import (
     log_epr_partner_registration,
     log_green_project_registration,
@@ -34,13 +35,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to ECOVAL Circular Materials & ESG Platform API", "docs": "/docs"}
-
 @app.get(f"{settings.API_V1_STR}/health", status_code=status.HTTP_200_OK)
 def health_check():
-    return {"status": "healthy", "database": "connected"}
+    return {"status": "healthy", "database": "connected", "service": "RENOVA Platform"}
 
 # --- CALCULATOR ENDPOINTS ---
 
@@ -74,7 +71,7 @@ def calculate_epr(req: schemas.EPRCashflowRequest):
             detail=f"EPR Cashflow Calculation failed: {str(e)}"
         )
 
-# --- REGISTRATION ENDPOINTS ---
+# --- REGISTRATION ENDPOINTS (Saved to DB & CSV) ---
 
 @app.post(
     f"{settings.API_V1_STR}/register/epr-partner",
@@ -98,7 +95,6 @@ def register_epr_partner(partner: schemas.EPRPartnerCreate, db: Session = Depend
         db.commit()
         db.refresh(db_partner)
         
-        # Clean decrypted dict representation for external outputs and response
         decrypted_data = {
             "id": db_partner.id,
             "company_name": partner.company_name,
@@ -125,24 +121,6 @@ def register_epr_partner(partner: schemas.EPRPartnerCreate, db: Session = Depend
             )
         except Exception as csv_err:
             print(f"[CSV LOG ERROR] Failed to log EPR partner to CSV: {str(csv_err)}")
-        
-        # Optional: Forward to Google Sheets Webhook
-        forward_to_google_sheet("epr_partner", decrypted_data)
-        
-        # Trigger email notification (safely handled if SMTP not configured)
-        try:
-            send_bilingual_confirmation_email(
-                to_email=decrypted_data["email"],
-                recipient_name=decrypted_data["contact_name"],
-                form_type="epr_partner",
-                form_data={
-                    "company_name": decrypted_data["company_name"],
-                    "annual_plastic_waste": decrypted_data["annual_plastic_waste"],
-                    "needs_epr_cert": decrypted_data["needs_epr_cert"]
-                }
-            )
-        except Exception as mail_err:
-            print(f"[Email Notice] Skipped sending confirmation email: {mail_err}", flush=True)
         
         return decrypted_data
     except Exception as e:
@@ -174,7 +152,6 @@ def register_green_project(project: schemas.GreenProjectCreate, db: Session = De
         db.commit()
         db.refresh(db_project)
         
-        # Clean decrypted dict representation for external outputs and response
         decrypted_data = {
             "id": db_project.id,
             "contact_name": project.contact_name,
@@ -201,24 +178,6 @@ def register_green_project(project: schemas.GreenProjectCreate, db: Session = De
             )
         except Exception as csv_err:
             print(f"[CSV LOG ERROR] Failed to log Green Project to CSV: {str(csv_err)}")
-        
-        # Optional: Forward to Google Sheets Webhook
-        forward_to_google_sheet("green_project", decrypted_data)
-
-        # Trigger email notification (safely handled if SMTP not configured)
-        try:
-            send_bilingual_confirmation_email(
-                to_email=decrypted_data["email"],
-                recipient_name=decrypted_data["contact_name"],
-                form_type="green_project",
-                form_data={
-                    "surface_area": decrypted_data["surface_area"],
-                    "location": decrypted_data["location"],
-                    "ventilation_consult": decrypted_data["ventilation_consult"]
-                }
-            )
-        except Exception as mail_err:
-            print(f"[Email Notice] Skipped sending confirmation email: {mail_err}", flush=True)
         
         return decrypted_data
     except Exception as e:
@@ -249,7 +208,6 @@ def register_collector(collector: schemas.CollectorCreate, db: Session = Depends
         db.commit()
         db.refresh(db_collector)
         
-        # Clean decrypted dict representation for external outputs and response
         decrypted_data = {
             "id": db_collector.id,
             "name": collector.name,
@@ -275,24 +233,6 @@ def register_collector(collector: schemas.CollectorCreate, db: Session = Depends
         except Exception as csv_err:
             print(f"[CSV LOG ERROR] Failed to log Collector to CSV: {str(csv_err)}")
         
-        # Optional: Forward to Google Sheets Webhook
-        forward_to_google_sheet("collector", decrypted_data)
-
-        # Trigger email notification (safely handled if SMTP not configured)
-        try:
-            send_bilingual_confirmation_email(
-                to_email=decrypted_data["email"],
-                recipient_name=decrypted_data["name"],
-                form_type="collector",
-                form_data={
-                    "collector_type": decrypted_data["collector_type"],
-                    "phone": decrypted_data["phone"],
-                    "address": decrypted_data["address"]
-                }
-            )
-        except Exception as mail_err:
-            print(f"[Email Notice] Skipped sending confirmation email: {mail_err}", flush=True)
-        
         return decrypted_data
     except Exception as e:
         db.rollback()
@@ -300,7 +240,6 @@ def register_collector(collector: schemas.CollectorCreate, db: Session = Depends
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to submit Collector registration: {str(e)}"
         )
-
 
 @app.post(
     f"{settings.API_V1_STR}/register/takeback",
@@ -320,7 +259,7 @@ def register_brick_takeback(takeback: schemas.BrickTakebackCreate, db: Session =
             estimated_quantity=takeback.estimated_quantity,
             brick_condition=takeback.brick_condition,
             image_url=takeback.image_url,
-            voucher_code="ECOVAL-VOUCHER-XANH-2026"
+            voucher_code="RENOVA-VOUCHER-XANH-2026"
         )
         db.add(db_takeback)
         db.commit()
@@ -347,37 +286,18 @@ def register_brick_takeback(takeback: schemas.BrickTakebackCreate, db: Session =
             detail=f"Failed to submit brick takeback registration: {str(e)}"
         )
 
-
-def forward_to_google_sheet(form_type: str, data: dict):
-    """
-    Optionally forwards form submission data to a customer's Google Sheets Webhook.
-    Configure GOOGLE_SHEET_WEBHOOK_URL in environment to enable real-time sync.
-    """
-    if not settings.GOOGLE_SHEET_WEBHOOK_URL:
-        return
-    try:
-        import httpx
-        payload = {"form_type": form_type, **data}
-        httpx.post(settings.GOOGLE_SHEET_WEBHOOK_URL, json=payload, timeout=5.0)
-    except Exception as e:
-        print(f"[Google Sheet Webhook Notice] Could not forward data: {e}", flush=True)
-
-
 # --- AI CHAT ENDPOINTS ---
 
 from app.services.ai_chat import chat as ai_chat, chat_stream as ai_chat_stream
-from fastapi.responses import StreamingResponse
 
 @app.post(
     f"{settings.API_V1_STR}/ai/chat",
     response_model=schemas.ChatResponse,
     status_code=status.HTTP_200_OK,
-    summary="Chat with ECOVAL AI sustainability advisor"
+    summary="Chat with RENOVA AI sustainability advisor"
 )
 def chat_with_ai(req: schemas.ChatRequest):
-    """
-    RAG-powered chatbot endpoint (non-streaming, backward compatible).
-    """
+    """RAG-powered chatbot endpoint (non-streaming, backward compatible)."""
     try:
         history = [{"role": m.role, "content": m.content} for m in req.history]
         result = ai_chat(
@@ -391,17 +311,12 @@ def chat_with_ai(req: schemas.ChatRequest):
             detail=f"AI Chat failed: {str(e)}"
         )
 
-
 @app.post(
     f"{settings.API_V1_STR}/ai/chat/stream",
-    summary="Chat with ECOVAL AI (streaming SSE)"
+    summary="Chat with RENOVA AI (streaming SSE)"
 )
 def chat_with_ai_stream(req: schemas.ChatRequest):
-    """
-    RAG-powered chatbot endpoint with Server-Sent Events streaming.
-    Tokens are pushed to the client as they arrive from the LLM,
-    giving sub-500ms Time to First Token (TTFT).
-    """
+    """RAG-powered chatbot endpoint with Server-Sent Events streaming."""
     history = [{"role": m.role, "content": m.content} for m in req.history]
 
     return StreamingResponse(
@@ -412,7 +327,14 @@ def chat_with_ai_stream(req: schemas.ChatRequest):
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",  # Disable nginx buffering on Render
+            "X-Accel-Buffering": "no",
         },
     )
 
+# --- SERVE STATIC FRONTEND (1-Service Architecture on Render) ---
+# When deployed as a single service, FastAPI serves the static Next.js export from frontend/out
+_project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_frontend_out_dir = os.path.join(_project_root, "frontend", "out")
+
+if os.path.isdir(_frontend_out_dir):
+    app.mount("/", StaticFiles(directory=_frontend_out_dir, html=True), name="frontend_static")
