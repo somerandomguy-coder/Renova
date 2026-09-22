@@ -5,7 +5,12 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { Calculator, ArrowRight, Activity, Percent, Sparkles, TrendingUp } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const getApiBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== "undefined" && window.location.port === "3000") return "http://localhost:8000";
+  return "";
+};
+const API_BASE_URL = getApiBaseUrl();
 
 interface EsgCalculatorProps {
   lang: "vi" | "en";

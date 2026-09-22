@@ -80,7 +80,12 @@ const renderMarkdown = (text: string) => {
   }
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const getApiBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== "undefined" && window.location.port === "3000") return "http://localhost:8000";
+  return "";
+};
+const API_BASE_URL = getApiBaseUrl();
 
 export default function AiAssistantPage() {
   const [lang, setLang] = useState<"vi" | "en">("vi");
