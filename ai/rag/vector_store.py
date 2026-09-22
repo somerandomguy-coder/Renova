@@ -11,20 +11,6 @@ import chromadb
 from typing import Any
 from ai.rag.config import get_config
 
-# Safe Langfuse observe import
-try:
-    from langfuse.decorators import observe, langfuse_context
-    LANGFUSE_AVAILABLE = True
-except ImportError:
-    LANGFUSE_AVAILABLE = False
-    langfuse_context = None
-    def observe(*args, **kwargs):
-        if len(args) == 1 and callable(args[0]):
-            return args[0]
-        def decorator(func):
-            return func
-        return decorator
-
 # Singleton client and collection
 _client: Any = None
 _collection: Any = None
@@ -48,12 +34,8 @@ def get_collection() -> Any:
     return _collection
 
 
-@observe(name="vector_store_search")
 def search(query: str, top_k: int | None = None) -> list[dict]:
-    """
-    Search the vector store for relevant document chunks.
-    Instrumented with Langfuse tracing when available.
-    """
+    """Search the vector store for relevant document chunks using cosine similarity."""
     config = get_config()
     k = top_k or config.top_k
     collection = get_collection()
@@ -75,15 +57,6 @@ def search(query: str, top_k: int | None = None) -> list[dict]:
                 "distance": results["distances"][0][i] if results["distances"] else None,
             }
         )
-
-    if LANGFUSE_AVAILABLE and 'langfuse_context' in globals() and langfuse_context:
-        try:
-            langfuse_context.update_current_observation(
-                input={"query": query, "top_k": k},
-                output={"documents_count": len(documents), "sources": list(dict.fromkeys(d['source'] for d in documents))}
-            )
-        except Exception:
-            pass
 
     return documents
 

@@ -9,8 +9,14 @@ Usage:
 """
 
 import os
+import sys
 import re
 import hashlib
+
+# Ensure project root is on sys.path for direct script execution
+_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if _root_dir not in sys.path:
+    sys.path.insert(0, _root_dir)
 
 from ai.rag.config import get_config
 from ai.rag.vector_store import reset_collection

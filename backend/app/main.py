@@ -126,17 +126,23 @@ def register_epr_partner(partner: schemas.EPRPartnerCreate, db: Session = Depend
         except Exception as csv_err:
             print(f"[CSV LOG ERROR] Failed to log EPR partner to CSV: {str(csv_err)}")
         
-        # Trigger email notification
-        send_bilingual_confirmation_email(
-            to_email=decrypted_data["email"],
-            recipient_name=decrypted_data["contact_name"],
-            form_type="epr_partner",
-            form_data={
-                "company_name": decrypted_data["company_name"],
-                "annual_plastic_waste": decrypted_data["annual_plastic_waste"],
-                "needs_epr_cert": decrypted_data["needs_epr_cert"]
-            }
-        )
+        # Optional: Forward to Google Sheets Webhook
+        forward_to_google_sheet("epr_partner", decrypted_data)
+        
+        # Trigger email notification (safely handled if SMTP not configured)
+        try:
+            send_bilingual_confirmation_email(
+                to_email=decrypted_data["email"],
+                recipient_name=decrypted_data["contact_name"],
+                form_type="epr_partner",
+                form_data={
+                    "company_name": decrypted_data["company_name"],
+                    "annual_plastic_waste": decrypted_data["annual_plastic_waste"],
+                    "needs_epr_cert": decrypted_data["needs_epr_cert"]
+                }
+            )
+        except Exception as mail_err:
+            print(f"[Email Notice] Skipped sending confirmation email: {mail_err}", flush=True)
         
         return decrypted_data
     except Exception as e:
@@ -196,17 +202,23 @@ def register_green_project(project: schemas.GreenProjectCreate, db: Session = De
         except Exception as csv_err:
             print(f"[CSV LOG ERROR] Failed to log Green Project to CSV: {str(csv_err)}")
         
-        # Trigger email notification
-        send_bilingual_confirmation_email(
-            to_email=decrypted_data["email"],
-            recipient_name=decrypted_data["contact_name"],
-            form_type="green_project",
-            form_data={
-                "surface_area": decrypted_data["surface_area"],
-                "location": decrypted_data["location"],
-                "ventilation_consult": decrypted_data["ventilation_consult"]
-            }
-        )
+        # Optional: Forward to Google Sheets Webhook
+        forward_to_google_sheet("green_project", decrypted_data)
+
+        # Trigger email notification (safely handled if SMTP not configured)
+        try:
+            send_bilingual_confirmation_email(
+                to_email=decrypted_data["email"],
+                recipient_name=decrypted_data["contact_name"],
+                form_type="green_project",
+                form_data={
+                    "surface_area": decrypted_data["surface_area"],
+                    "location": decrypted_data["location"],
+                    "ventilation_consult": decrypted_data["ventilation_consult"]
+                }
+            )
+        except Exception as mail_err:
+            print(f"[Email Notice] Skipped sending confirmation email: {mail_err}", flush=True)
         
         return decrypted_data
     except Exception as e:
@@ -263,17 +275,23 @@ def register_collector(collector: schemas.CollectorCreate, db: Session = Depends
         except Exception as csv_err:
             print(f"[CSV LOG ERROR] Failed to log Collector to CSV: {str(csv_err)}")
         
-        # Trigger email notification
-        send_bilingual_confirmation_email(
-            to_email=decrypted_data["email"],
-            recipient_name=decrypted_data["name"],
-            form_type="collector",
-            form_data={
-                "collector_type": decrypted_data["collector_type"],
-                "phone": decrypted_data["phone"],
-                "address": decrypted_data["address"]
-            }
-        )
+        # Optional: Forward to Google Sheets Webhook
+        forward_to_google_sheet("collector", decrypted_data)
+
+        # Trigger email notification (safely handled if SMTP not configured)
+        try:
+            send_bilingual_confirmation_email(
+                to_email=decrypted_data["email"],
+                recipient_name=decrypted_data["name"],
+                form_type="collector",
+                form_data={
+                    "collector_type": decrypted_data["collector_type"],
+                    "phone": decrypted_data["phone"],
+                    "address": decrypted_data["address"]
+                }
+            )
+        except Exception as mail_err:
+            print(f"[Email Notice] Skipped sending confirmation email: {mail_err}", flush=True)
         
         return decrypted_data
     except Exception as e:
@@ -330,324 +348,19 @@ def register_brick_takeback(takeback: schemas.BrickTakebackCreate, db: Session =
         )
 
 
-# --- ADMIN PANEL ENDPOINTS ---
-
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from app.services.security import verify_token, create_access_token, decrypt_field
-
-security_scheme = HTTPBearer()
-
-def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(security_scheme)):
-    token = credentials.credentials
-    payload = verify_token(token)
-    if not payload or payload.get("role") != "admin":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Mã xác thực không hợp lệ hoặc đã hết hạn / Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    return payload
-
-@app.post(
-    f"{settings.API_V1_STR}/admin/login",
-    response_model=schemas.AdminLoginResponse,
-    status_code=status.HTTP_200_OK,
-    summary="Admin panel sign-in validation"
-)
-def admin_login(req: schemas.AdminLoginRequest):
-    # Static secure mock credentials for the administrative portal
-    if req.username == "admin" and req.password == "ecovalcircular2026":
-        access_token = create_access_token(data={"sub": "admin", "role": "admin"})
-        return {"token": access_token, "username": "admin", "success": True}
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Tài khoản hoặc mật khẩu không chính xác / Invalid admin credentials"
-    )
-
-@app.get(
-    f"{settings.API_V1_STR}/admin/stats",
-    response_model=schemas.OverviewStatsResponse,
-    status_code=status.HTTP_200_OK,
-    summary="Get unified overview KPI stats"
-)
-def get_admin_stats(db: Session = Depends(get_db), admin_user: dict = Depends(get_current_admin)):
-    # EPR stats
-    epr_total = db.query(models.EPRPartner).count()
-    epr_starting = db.query(models.EPRPartner).filter(models.EPRPartner.status == "Starting").count()
-    epr_pending = db.query(models.EPRPartner).filter(models.EPRPartner.status == "Pending").count()
-    epr_success = db.query(models.EPRPartner).filter(models.EPRPartner.status == "Replied").count()
-
-    # Architecture stats
-    arch_total = db.query(models.GreenProject).count()
-    arch_starting = db.query(models.GreenProject).filter(models.GreenProject.status == "Starting").count()
-    arch_pending = db.query(models.GreenProject).filter(models.GreenProject.status == "Pending").count()
-    arch_success = db.query(models.GreenProject).filter(models.GreenProject.status == "Replied").count()
-
-    # Collection stats
-    coll_total = db.query(models.Collector).count()
-    coll_starting = db.query(models.Collector).filter(models.Collector.status == "Starting").count()
-    coll_pending = db.query(models.Collector).filter(models.Collector.status == "Pending").count()
-    coll_success = db.query(models.Collector).filter(models.Collector.status == "Replied").count()
-
-    total_records = epr_total + arch_total + coll_total
-    # Pending is Starting + Pending
-    total_pending = epr_starting + epr_pending + arch_starting + arch_pending + coll_starting + coll_pending
-    total_success = epr_success + arch_success + coll_success
-
-    return {
-        "total_records": total_records,
-        "total_pending": total_pending,
-        "total_success": total_success,
-        "epr_stats": {"total": epr_total, "starting": epr_starting, "pending": epr_pending, "success": epr_success},
-        "architecture_stats": {"total": arch_total, "starting": arch_starting, "pending": arch_pending, "success": arch_success},
-        "collection_stats": {"total": coll_total, "starting": coll_starting, "pending": coll_pending, "success": coll_success}
-    }
-
-@app.get(
-    f"{settings.API_V1_STR}/admin/activity",
-    response_model=List[schemas.GlobalActivityItem],
-    status_code=status.HTTP_200_OK,
-    summary="Get recent global activity feed across all tables"
-)
-def get_global_activity(db: Session = Depends(get_db), admin_user: dict = Depends(get_current_admin)):
-    # Fetch recent registrations across all three models
-    epr = db.query(models.EPRPartner).order_by(models.EPRPartner.created_at.desc()).limit(10).all()
-    arch = db.query(models.GreenProject).order_by(models.GreenProject.created_at.desc()).limit(10).all()
-    coll = db.query(models.Collector).order_by(models.Collector.created_at.desc()).limit(10).all()
-
-    feed = []
-    for item in epr:
-        feed.append({
-            "id": item.id,
-            "type": "epr",
-            "title": decrypt_field(item.company_name),
-            "subtitle": f"EPR Partner: {decrypt_field(item.contact_name)} ({item.annual_plastic_waste:.0f} kg/year)",
-            "email": decrypt_field(item.email),
-            "status": item.status,
-            "created_at": item.created_at
-        })
-    for item in arch:
-        feed.append({
-            "id": item.id,
-            "type": "architecture",
-            "title": f"Green Project: {decrypt_field(item.location)}",
-            "subtitle": f"Architecture Lead: {decrypt_field(item.contact_name)} ({item.surface_area:.0f} m²)",
-            "email": decrypt_field(item.email),
-            "status": item.status,
-            "created_at": item.created_at
-        })
-    for item in coll:
-        type_str = "Vựa ve chai / Scrap Yard" if item.collector_type == "scrap_yard" else "Cá nhân / Individual"
-        feed.append({
-            "id": item.id,
-            "type": "collection",
-            "title": decrypt_field(item.name),
-            "subtitle": f"Collection Registration ({type_str})",
-            "email": decrypt_field(item.email),
-            "status": item.status,
-            "created_at": item.created_at
-        })
-
-    # Sort all by created_at desc and return top 10
-    feed.sort(key=lambda x: x["created_at"], reverse=True)
-    return feed[:10]
-
-@app.get(
-    f"{settings.API_V1_STR}/admin/epr-partners",
-    response_model=List[schemas.EPRPartnerResponse],
-    status_code=status.HTTP_200_OK,
-    summary="List, search and filter EPR partners"
-)
-def list_epr_partners(
-    search: str = None, 
-    status: str = None, 
-    db: Session = Depends(get_db),
-    admin_user: dict = Depends(get_current_admin)
-):
-    query = db.query(models.EPRPartner)
-    if status:
-        query = query.filter(models.EPRPartner.status == status)
-    records = query.order_by(models.EPRPartner.created_at.desc()).all()
-    
-    decrypted = []
-    for item in records:
-        decrypted.append({
-            "id": item.id,
-            "company_name": decrypt_field(item.company_name),
-            "contact_name": decrypt_field(item.contact_name),
-            "email": decrypt_field(item.email),
-            "phone": decrypt_field(item.phone),
-            "annual_plastic_waste": item.annual_plastic_waste,
-            "needs_epr_cert": item.needs_epr_cert,
-            "status": item.status,
-            "created_at": item.created_at
-        })
-        
-    if search:
-        s = search.lower()
-        decrypted = [
-            r for r in decrypted
-            if s in r["company_name"].lower() or 
-               s in r["contact_name"].lower() or 
-               s in r["email"].lower()
-        ]
-    return decrypted
-
-@app.get(
-    f"{settings.API_V1_STR}/admin/green-projects",
-    response_model=List[schemas.GreenProjectResponse],
-    status_code=status.HTTP_200_OK,
-    summary="List, search and filter green construction projects"
-)
-def list_green_projects(
-    search: str = None, 
-    status: str = None, 
-    db: Session = Depends(get_db),
-    admin_user: dict = Depends(get_current_admin)
-):
-    query = db.query(models.GreenProject)
-    if status:
-        query = query.filter(models.GreenProject.status == status)
-    records = query.order_by(models.GreenProject.created_at.desc()).all()
-    
-    decrypted = []
-    for item in records:
-        decrypted.append({
-            "id": item.id,
-            "contact_name": decrypt_field(item.contact_name),
-            "email": decrypt_field(item.email),
-            "phone": decrypt_field(item.phone),
-            "surface_area": item.surface_area,
-            "location": decrypt_field(item.location),
-            "ventilation_consult": item.ventilation_consult,
-            "status": item.status,
-            "created_at": item.created_at
-        })
-        
-    if search:
-        s = search.lower()
-        decrypted = [
-            r for r in decrypted
-            if s in r["contact_name"].lower() or 
-               s in r["email"].lower() or 
-               s in r["location"].lower()
-        ]
-    return decrypted
-
-@app.get(
-    f"{settings.API_V1_STR}/admin/collectors",
-    response_model=List[schemas.CollectorResponse],
-    status_code=status.HTTP_200_OK,
-    summary="List, search and filter waste material collectors"
-)
-def list_collectors(
-    search: str = None, 
-    status: str = None, 
-    db: Session = Depends(get_db),
-    admin_user: dict = Depends(get_current_admin)
-):
-    query = db.query(models.Collector)
-    if status:
-        query = query.filter(models.Collector.status == status)
-    records = query.order_by(models.Collector.created_at.desc()).all()
-    
-    decrypted = []
-    for item in records:
-        decrypted.append({
-            "id": item.id,
-            "name": decrypt_field(item.name),
-            "email": decrypt_field(item.email),
-            "phone": decrypt_field(item.phone),
-            "collector_type": item.collector_type,
-            "address": decrypt_field(item.address) if item.address else None,
-            "status": item.status,
-            "created_at": item.created_at
-        })
-        
-    if search:
-        s = search.lower()
-        decrypted = [
-            r for r in decrypted
-            if s in r["name"].lower() or 
-               s in r["email"].lower() or 
-               (r["address"] and s in r["address"].lower())
-        ]
-    return decrypted
-
-@app.put(
-    f"{settings.API_V1_STR}/admin/bulk-status",
-    status_code=status.HTTP_200_OK,
-    summary="Bulk update statuses of selected pipeline records"
-)
-def bulk_update_status(
-    req: schemas.BulkStatusUpdateRequest, 
-    db: Session = Depends(get_db),
-    admin_user: dict = Depends(get_current_admin)
-):
-    if req.type == "epr":
-        model = models.EPRPartner
-    elif req.type == "architecture":
-        model = models.GreenProject
-    elif req.type == "collection":
-        model = models.Collector
-    else:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid pipeline type")
-
-    db.query(model).filter(model.id.in_(req.ids)).update(
-        {"status": req.status}, synchronize_session=False
-    )
-    db.commit()
-    return {"message": f"Successfully updated status to {req.status} for {len(req.ids)} records"}
-
-@app.post(
-    f"{settings.API_V1_STR}/admin/send-email",
-    status_code=status.HTTP_200_OK,
-    summary="Send a custom outbound email to a partner and update status to Replied"
-)
-def admin_send_email(
-    req: schemas.AdminSendEmailRequest, 
-    db: Session = Depends(get_db),
-    admin_user: dict = Depends(get_current_admin)
-):
-    if req.type == "epr":
-        item = db.query(models.EPRPartner).filter(models.EPRPartner.id == req.id).first()
-        name = item.contact_name if item else ""
-    elif req.type == "architecture":
-        item = db.query(models.GreenProject).filter(models.GreenProject.id == req.id).first()
-        name = item.contact_name if item else ""
-    elif req.type == "collection":
-        item = db.query(models.Collector).filter(models.Collector.id == req.id).first()
-        name = item.name if item else ""
-    else:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid pipeline type")
-
-    if not item:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
-
-    email_plain = decrypt_field(item.email)
-    name_plain = decrypt_field(name)
-
-    # Local Mock Email Log writing (matches existing confirmation email logger pattern)
-    os.makedirs("mock_emails", exist_ok=True)
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    file_path = f"mock_emails/admin_sent_{req.type}_{req.id}_{timestamp}.txt"
-    
-    full_text = f"""Subject: {req.subject}
-To: {email_plain}
-Sent Time: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-============================================================
-Dear {name_plain},
-
-{req.email_content}
-"""
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(full_text)
-        
-    # Transition status to Replied
-    item.status = "Replied"
-    db.commit()
-    
-    return {"message": f"Email successfully sent and status updated to Replied for {email_plain}"}
+def forward_to_google_sheet(form_type: str, data: dict):
+    """
+    Optionally forwards form submission data to a customer's Google Sheets Webhook.
+    Configure GOOGLE_SHEET_WEBHOOK_URL in environment to enable real-time sync.
+    """
+    if not settings.GOOGLE_SHEET_WEBHOOK_URL:
+        return
+    try:
+        import httpx
+        payload = {"form_type": form_type, **data}
+        httpx.post(settings.GOOGLE_SHEET_WEBHOOK_URL, json=payload, timeout=5.0)
+    except Exception as e:
+        print(f"[Google Sheet Webhook Notice] Could not forward data: {e}", flush=True)
 
 
 # --- AI CHAT ENDPOINTS ---

@@ -2,14 +2,11 @@
 ECOVAL AI RAG — Engine
 
 Core RAG pipeline: retrieve relevant context from ChromaDB,
-then generate a response using any LLM provider.
+then generate a response using DeepSeek or any OpenAI-compatible LLM.
 
 Supports two modes:
   - ask()         → Full response (backward compatible)
   - ask_stream()  → Generator yielding SSE-formatted chunks for streaming
-
-Fully instrumented with Langfuse v4 LLM Observability & Tracing.
-Includes production fallback safety (defaults to standard OpenAI SDK if Langfuse keys are absent).
 """
 
 import re
@@ -19,54 +16,13 @@ import urllib.request
 import urllib.error
 from typing import Generator
 
+from openai import OpenAI
 from ai.rag.config import get_config
-
-# Ensure config is initialized and env vars are synced to os.environ BEFORE importing Langfuse
-_init_config = get_config()
-
 from ai.rag.vector_store import search
 
-# Safe Langfuse v4 imports
-try:
-    from langfuse import observe, get_client
-    LANGFUSE_AVAILABLE = True
-except ImportError:
-    LANGFUSE_AVAILABLE = False
-    def observe(*args, **kwargs):
-        if len(args) == 1 and callable(args[0]):
-            return args[0]
-        def decorator(func):
-            return func
-        return decorator
-    def get_client():
-        return None
 
-
-def _get_openai_client(config):
-    """
-    Return a Langfuse-wrapped OpenAI client if Langfuse is installed and configured,
-    otherwise return a standard OpenAI client (guarantees zero-downtime production fallback).
-    """
-    pk = os.getenv("LANGFUSE_PUBLIC_KEY") or config.langfuse_public_key
-    sk = os.getenv("LANGFUSE_SECRET_KEY") or config.langfuse_secret_key
-    host = os.getenv("LANGFUSE_HOST") or os.getenv("LANGFUSE_BASE_URL") or config.langfuse_host
-
-
-    if pk and sk and LANGFUSE_AVAILABLE:
-        try:
-            os.environ["LANGFUSE_PUBLIC_KEY"] = pk
-            os.environ["LANGFUSE_SECRET_KEY"] = sk
-            os.environ["LANGFUSE_HOST"] = host
-
-            from langfuse.openai import OpenAI as LangfuseOpenAI
-            return LangfuseOpenAI(
-                base_url=config.llm_base_url,
-                api_key=config.llm_api_key,
-            )
-        except Exception as e:
-            print(f"[Langfuse Warning] Could not initialize Langfuse OpenAI wrapper: {e}. Falling back to standard OpenAI SDK.", flush=True)
-
-    from openai import OpenAI
+def _get_openai_client(config) -> OpenAI:
+    """Return an OpenAI client configured for DeepSeek or any OpenAI-compatible provider."""
     return OpenAI(
         base_url=config.llm_base_url,
         api_key=config.llm_api_key,
@@ -234,7 +190,6 @@ USER QUESTION:
 
 # ─── PUBLIC API ────────────────────────────────────────────────────
 
-@observe(name="ecoval_rag_ask")
 def ask(
     question: str,
     chat_history: list[dict] | None = None,
@@ -243,7 +198,6 @@ def ask(
     Answer a question using RAG (non-streaming, backward compatible).
 
     Returns Dict with keys: 'reply', 'sources'.
-    Instrumented with Langfuse tracing.
     """
     config = get_config()
     messages, sources = _prepare_messages(question, chat_history, config)
@@ -262,23 +216,12 @@ def ask(
     except (urllib.error.URLError, ConnectionError):
         reply = (
             "Cannot connect to the AI model. "
-            "Please ensure Ollama is running (ollama serve) or check your LLM provider configuration."
+            "Please ensure DeepSeek API key is configured or local LLM is running."
         )
         sources = []
     except Exception as e:
         reply = f"AI Error: {str(e)}"
         sources = []
-
-    if LANGFUSE_AVAILABLE:
-        try:
-            client = get_client()
-            if client:
-                trace_url = client.get_trace_url()
-                if trace_url:
-                    print(f"[Langfuse] Trace URL: {trace_url}", flush=True)
-                client.flush()
-        except Exception:
-            pass
 
     return {
         "reply": reply,
@@ -286,7 +229,6 @@ def ask(
     }
 
 
-@observe(name="ecoval_rag_ask_stream")
 def ask_stream(
     question: str,
     chat_history: list[dict] | None = None,
@@ -299,8 +241,6 @@ def ask_stream(
       data: {"type": "token", "token": "..."}
       data: {"type": "done"}
       data: {"type": "error", "message": "..."}
-
-    Instrumented with Langfuse tracing.
     """
     config = get_config()
 
@@ -336,17 +276,6 @@ def ask_stream(
             cleaned = _strip_thinking_tags(buffer)
             if cleaned:
                 yield f"data: {json.dumps({'type': 'token', 'token': cleaned})}\n\n"
-
-        if LANGFUSE_AVAILABLE:
-            try:
-                client = get_client()
-                if client:
-                    trace_url = client.get_trace_url()
-                    if trace_url:
-                        print(f"[Langfuse] Trace URL: {trace_url}", flush=True)
-                    client.flush()
-            except Exception:
-                pass
 
     except Exception as e:
         yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"

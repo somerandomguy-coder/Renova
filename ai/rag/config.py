@@ -1,8 +1,8 @@
 """
 ECOVAL AI RAG — Configuration
 
-Provider-agnostic LLM configuration using OpenAI-compatible API.
-Supports Ollama (local), OpenAI, DeepSeek, Groq, and Gemini by changing env vars.
+Simplified, Render-ready LLM configuration using OpenAI-compatible API.
+Defaults directly to DeepSeek (model: deepseek-chat) and local embeddings.
 """
 
 import os
@@ -18,42 +18,29 @@ if os.path.exists(_backend_env):
 
 
 def _get_default_provider() -> str:
-    if os.getenv("DEEPSEEK_API_KEY"):
-        return "deepseek"
-    return os.getenv("LLM_PROVIDER", "ollama")
+    return os.getenv("LLM_PROVIDER", "deepseek")
 
 def _get_default_base_url() -> str:
-    provider = _get_default_provider()
-    base_url = os.getenv("LLM_BASE_URL", "")
-    if provider == "deepseek" or "groq" in base_url.lower() or not base_url:
-        return "https://api.deepseek.com"
-    return base_url
+    return os.getenv("LLM_BASE_URL", "https://api.deepseek.com")
 
 def _get_default_api_key() -> str:
-    if os.getenv("DEEPSEEK_API_KEY"):
-        return os.getenv("DEEPSEEK_API_KEY")
-    return os.getenv("LLM_API_KEY", "ollama")
+    return os.getenv("DEEPSEEK_API_KEY") or os.getenv("LLM_API_KEY", "")
 
 def _get_default_model() -> str:
-    provider = _get_default_provider()
-    model = os.getenv("LLM_MODEL", "")
-    if provider == "deepseek" or "llama" in model.lower() or not model:
-        return "deepseek-chat"
-    return model
+    return os.getenv("LLM_MODEL", "deepseek-chat")
+
 
 @dataclass
 class RAGConfig:
     """Configuration for the RAG pipeline, loaded from environment variables."""
 
-    # LLM Provider settings
+    # LLM Provider settings (Defaults to DeepSeek)
     llm_provider: str = field(default_factory=_get_default_provider)
     llm_model: str = field(default_factory=_get_default_model)
     llm_base_url: str = field(default_factory=_get_default_base_url)
     llm_api_key: str = field(default_factory=_get_default_api_key)
 
-    # Embedding settings
-    # "local" = ChromaDB's built-in onnxruntime (fast on good CPU, slow on free tier)
-    # "huggingface" = Free HuggingFace Inference API (fast everywhere, no API key needed)
+    # Embedding settings (Built-in ChromaDB sentence-transformers/all-MiniLM-L6-v2)
     embedding_provider: str = field(
         default_factory=lambda: os.getenv("EMBEDDING_PROVIDER", "local")
     )
@@ -63,17 +50,10 @@ class RAGConfig:
         )
     )
 
-    # RAG settings
+    # RAG parameters
     chunk_size: int = field(default_factory=lambda: int(os.getenv("RAG_CHUNK_SIZE", "500")))
     chunk_overlap: int = field(default_factory=lambda: int(os.getenv("RAG_CHUNK_OVERLAP", "50")))
     top_k: int = field(default_factory=lambda: int(os.getenv("RAG_TOP_K", "5")))
-
-    # Langfuse Observability settings
-    langfuse_public_key: str | None = field(default_factory=lambda: os.getenv("LANGFUSE_PUBLIC_KEY"))
-    langfuse_secret_key: str | None = field(default_factory=lambda: os.getenv("LANGFUSE_SECRET_KEY"))
-    langfuse_host: str = field(
-        default_factory=lambda: os.getenv("LANGFUSE_HOST") or os.getenv("LANGFUSE_BASE_URL", "https://cloud.langfuse.com")
-    )
 
     # Paths
     knowledge_dir: str = field(
@@ -118,15 +98,4 @@ def get_config() -> RAGConfig:
     global _config
     if _config is None:
         _config = RAGConfig()
-
-    # Export Langfuse environment variables so Langfuse SDK decorators & clients auto-detect them
-    if _config.langfuse_public_key and not os.getenv("LANGFUSE_PUBLIC_KEY"):
-        os.environ["LANGFUSE_PUBLIC_KEY"] = _config.langfuse_public_key
-    if _config.langfuse_secret_key and not os.getenv("LANGFUSE_SECRET_KEY"):
-        os.environ["LANGFUSE_SECRET_KEY"] = _config.langfuse_secret_key
-    if _config.langfuse_host and not os.getenv("LANGFUSE_HOST"):
-        os.environ["LANGFUSE_HOST"] = _config.langfuse_host
-
-
-
     return _config

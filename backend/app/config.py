@@ -1,3 +1,9 @@
+"""
+RENOVA / ECOVAL Backend — Application Settings
+
+Zero-config settings with production-safe defaults for Render deployment.
+"""
+
 import os
 import json
 from pydantic_settings import BaseSettings
@@ -5,18 +11,23 @@ from typing import List, Union, Any, Optional
 from pydantic import field_validator
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "ECOVAL Circular Materials & ESG API"
+    PROJECT_NAME: str = "RENOVA / ECOVAL Circular Materials & ESG API"
     API_V1_STR: str = "/api/v1"
     
-    # Database configuration
-    # By default, use SQLite located in the backend folder
-    DATABASE_URL: str = "sqlite:///./ecoval.db"
-    TURSO_AUTH_TOKEN: Optional[str] = None
+    # Database configuration (Defaults to local SQLite)
+    DATABASE_URL: str = "sqlite:///./renova.db"
     
-    # CORS Origins
+    # Optional Webhook URL to push form registrations directly to Google Sheets
+    GOOGLE_SHEET_WEBHOOK_URL: Optional[str] = None
+
+    # DeepSeek API Key for AI Chatbot
+    DEEPSEEK_API_KEY: Optional[str] = None
+    
+    # CORS Origins (Permissive default to prevent CORS errors on new deploy URLs)
     CORS_ORIGINS: Any = [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "*"
     ]
     
     @field_validator("CORS_ORIGINS", mode="before")
@@ -33,19 +44,18 @@ class Settings(BaseSettings):
                 origins = [item.strip() for item in v.split(",") if item.strip()]
         else:
             origins = v
-        # Automatically strip trailing slashes and quotes to prevent browser CORS mismatches
         return [origin.strip("\"'").rstrip("/") for origin in origins]
     
-    # Email configurations (Mocked by default if not set)
+    # Email configurations (Mocked to log file by default, no SMTP account needed)
     SMTP_HOST: str = "smtp.gmail.com"
     SMTP_PORT: int = 587
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
-    EMAIL_FROM: str = "info@ecoval.vn"
-    USE_MOCK_EMAIL: bool = True  # True will log email to file instead of trying to send it
+    EMAIL_FROM: str = "info@renova.vn"
+    USE_MOCK_EMAIL: bool = True
 
-    # Security and Encryption Configurations
-    JWT_SECRET_KEY: str = "ecoval-admin-secret-key-2026-super-secure"
+    # Legacy encryption keys kept as safe dummy defaults
+    JWT_SECRET_KEY: str = "renova-safe-default-key-2026"
     ENCRYPTION_KEY: str = "ULgXQZxIRcrPGGC4gO8he5D8Vor8G08oiWzagVp2948="
 
     class Config:
